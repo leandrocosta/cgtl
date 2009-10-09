@@ -24,21 +24,29 @@ namespace cgt
   template<typename _TpVertice, typename _TpEdge>
     class _GraphNode;
 
+  template<typename _TpVertice, typename _TpEdge>
+    class _edge_iterator;
 
   template<typename _TpVertice, typename _TpEdge>
-    class _AdjMatrix : protected _List<_GraphNode<_TpVertice, _TpEdge> >
+    class graph;
+
+
+  template<typename _TpVertice, typename _TpEdge>
+    class _AdjMatrix : private _List<_GraphNode<_TpVertice, _TpEdge> >
   {
     private:
-      typedef _List<_GraphNode<_TpVertice, _TpEdge> > _Base;
+      friend class _edge_iterator<_TpVertice, _TpEdge>;
+      friend class graph<_TpVertice, _TpEdge>;
 
-    protected:
-      typedef _GraphNode<_TpVertice, _TpEdge> _Node;
+    private:
+      typedef _List<_GraphNode<_TpVertice, _TpEdge> > _Base;
+      typedef _GraphNode<_TpVertice, _TpEdge>         _Node;
 
     private:
       _Node* _get_node (const _TpVertice &_vertice);
       void _insert_node (const _TpVertice &_vertice);
 
-    public:
+    private:
       void _insert_vertice (const _TpVertice &_vertice);
       void _insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2);
   };
