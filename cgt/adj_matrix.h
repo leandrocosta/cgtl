@@ -32,44 +32,27 @@ class _AdjMatrix : protected _List<_GraphNode<_TpVertice, _TpEdge> >
     void _insert_node (const _TpVertice &_vertice);
 
   public:
-    void _insert_vertice (const _TpVertice &_vertice)
-    {
-      _Node *_ptr = _get_node (_vertice);
-
-      if (! _ptr)
-        _insert_node (_vertice);
-    }
-
-    void _insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2)
-    {
-      _Node *_ptr_n1 = _get_node (_v1);
-
-      if (_ptr_n1)
-      {
-        _Node *_ptr_n2 = _get_node (_v2);
-
-        if (_ptr_n2)
-        {
-          _Vertice<_TpVertice>& _vertice2 = _ptr_n2->vertice ();
-
-          _ptr_n1->insert (_e, _vertice2);
-        }
-      }
-    }
+    void _insert_vertice (const _TpVertice &_vertice);
+    void _insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2);
 };
+
 
 template<typename _TpVertice, typename _TpEdge>
 _GraphNode<_TpVertice, _TpEdge>* _AdjMatrix<_TpVertice, _TpEdge>::_get_node (const _TpVertice &_vertice)
 {
   _Node *_ptr_node = NULL;
 
-  _ListItem<_GraphNode<_TpVertice, _TpEdge> > *_ptr = _List<_GraphNode<_TpVertice, _TpEdge> >::_head;
+  typename _Base::iterator it;
+  typename _Base::iterator itEnd = _Base::end ();
 
-  while (_ptr != NULL && _ptr->_get_data ().vertice () != _vertice)
-    _ptr = static_cast<_ListItem<_GraphNode<_TpVertice, _TpEdge> > *> (_ptr->_get_next ());
-
-  if (_ptr)
-    _ptr_node = &(_ptr->_get_data ());
+  for (it = _Base::begin (); it != itEnd; ++it)
+  {
+    if (it->vertice () == _vertice)
+    {
+      _ptr_node = &(*it);
+      break;
+    }
+  }
 
   return _ptr_node;
 }
@@ -80,5 +63,31 @@ void _AdjMatrix<_TpVertice, _TpEdge>::_insert_node (const _TpVertice &_vertice)
   insert (_GraphNode<_TpVertice, _TpEdge> (_vertice));
 }
 
+template<typename _TpVertice, typename _TpEdge>
+void _AdjMatrix<_TpVertice, _TpEdge>::_insert_vertice (const _TpVertice &_vertice)
+{
+  _Node *_ptr = _get_node (_vertice);
+
+  if (! _ptr)
+    _insert_node (_vertice);
+}
+
+template<typename _TpVertice, typename _TpEdge>
+void _AdjMatrix<_TpVertice, _TpEdge>::_insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2)
+{
+  _Node *_ptr_n1 = _get_node (_v1);
+
+  if (_ptr_n1)
+  {
+    _Node *_ptr_n2 = _get_node (_v2);
+
+    if (_ptr_n2)
+    {
+      _Vertice<_TpVertice>& _vertice2 = _ptr_n2->vertice ();
+
+      _ptr_n1->insert (_e, _vertice2);
+    }
+  }
+}
 
 #endif
