@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "graph.h"
+using namespace cgt;
 
 
 int main ()

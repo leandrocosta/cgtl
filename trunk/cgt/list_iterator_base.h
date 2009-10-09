@@ -2,6 +2,9 @@
 #define _LIST_ITERATOR_BASE_H_
 
 template<typename _TpItem>
+class _ListIterator;
+
+template<typename _TpItem>
 class _ListItemBase;
 
 
@@ -9,20 +12,23 @@ template<typename _TpItem>
 class _ListIteratorBase
 {
   private:
+   friend class _ListIterator<_TpItem>;
+
+  private:
     typedef _ListIteratorBase<_TpItem>  _Self;
 
-  public:
+  private:
     _ListIteratorBase () : _ptr (NULL) { }
     _ListIteratorBase (_ListItemBase<_TpItem> *_p) : _ptr (_p) { }
 
-  protected:
+  private:
     void _incr ();
 
   public:
     const bool operator==(_Self &_other) const;
     const bool operator!=(_Self &_other) const;
 
-  protected:
+  private:
     _ListItemBase<_TpItem>* _ptr;
 };
 
