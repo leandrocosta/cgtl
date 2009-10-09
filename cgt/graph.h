@@ -12,6 +12,7 @@
 #include "graph_node.h"
 #include "adj_list.h"
 #include "adj_matrix.h"
+#include "edge_iterator.h"
 
 
 namespace cgt
@@ -29,6 +30,8 @@ namespace cgt
       typedef _AdjList<_TpVertice, _TpEdge>   adjlist;
 
       typedef typename _Base::iterator        iterator;
+
+      typedef _edge_iterator<_TpVertice, _TpEdge> edge_iterator;
 
     public:
       void insert_vertice (const _TpVertice &_vertice) { _insert_vertice (_vertice); }
