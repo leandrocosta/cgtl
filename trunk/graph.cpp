@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-#include "graph.h"
+#include "cgt/graph.h"
 using namespace cgt;
 
 
