@@ -4,7 +4,7 @@
 
 namespace cgt
 {
-  template<typename _TpVertice, typename _TpEdge>
+  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
     class _AdjMatrix;
 
 
