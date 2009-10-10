@@ -1,4 +1,6 @@
+* Implement const_iterators;
+* Check if an edge already exist before insert it;
 * Implement edge and vertice iterators: an easy way to get just the vertices, or just the edges's values, without take care about the links, the adjacency list, etc.;
 * Implement undirected graph: as a type or an attribute to the already existing types;
-* Implement multigraph and hypergraph (?): is it realy necessary for now?
-* Implement intelligent iterators: depth first search, breadth first search, dijkstra, etc.
+* Implement multigraph and hypergraph (?): is it realy necessary for now?;
+* Implement intelligent iterators: depth first search, breadth first search, dijkstra, etc..
