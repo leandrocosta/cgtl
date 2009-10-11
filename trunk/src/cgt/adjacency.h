@@ -12,7 +12,7 @@ namespace cgt
         _Adjacency (const _Edge<_TpVertice, _TpEdge>* _ptr_e, _Vertice<_TpVertice> &_v) : _ptr_edge (_ptr_e), _vertice (_v)  { }
 
       public:
-        const _Edge<_TpVertice, _TpEdge> &  get_edge () const;
+        const _Edge<_TpVertice, _TpEdge>&  get_edge () const;
         const _Vertice<_TpVertice>& get_vertice () const;
 
       private:

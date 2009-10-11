@@ -21,7 +21,9 @@ namespace cgt
 
       public:
         _Vertice<_TpVertice>&           vertice ()  { return _vertice; }
+        const _Vertice<_TpVertice>&     vertice () const  { return _vertice; }
         _AdjList<_TpVertice, _TpEdge>&  get_adj_list () { return _adjList; }
+        const _AdjList<_TpVertice, _TpEdge>&  get_adj_list () const { return _adjList; }
 
       public:
         const _Edge<_TpVertice, _TpEdge>* _get_edge (const _Vertice<_TpVertice> &_v) const;

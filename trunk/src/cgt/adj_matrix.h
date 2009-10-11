@@ -57,7 +57,8 @@ namespace cgt
       const bool _is_undirected () const;
 
     private:
-      _TpGraphType _type;
+      _TpGraphType                        _type;
+      _List<_Edge<_TpVertice, _TpEdge> >  _edge_list;
   };
 
 
@@ -109,17 +110,17 @@ namespace cgt
         {
           _Vertice<_TpVertice>& _vertice2 = _ptr_n2->vertice ();
 
-//          if (! _ptr_n1->_get_edge (_vertice2))
-//          {
+          if (! _ptr_n1->_get_edge (_vertice2))
+          {
             _Vertice<_TpVertice>& _vertice1 = _ptr_n1->vertice ();
 
-            _Edge<_TpVertice, _TpEdge> *_ptr_e = new _Edge<_TpVertice, _TpEdge> (_e, _vertice1, _vertice2);
+            _Edge<_TpVertice, _TpEdge> &_edge = _edge_list.insert (_Edge<_TpVertice, _TpEdge> (_e, _vertice1, _vertice2));
 
-            _ptr_n1->_insert (_ptr_e, _vertice2);
+            _ptr_n1->_insert (&_edge, _vertice2);
 
-            if (! _type._directed)
-              _ptr_n2->_insert (_ptr_e, _vertice1);
-//          }
+            if (! _type._directed && ! _ptr_n2->_get_edge (_vertice1))
+              _ptr_n2->_insert (&_edge, _vertice1);
+          }
         }
       }
     }
