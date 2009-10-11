@@ -1,3 +1,11 @@
+/*
+ * undirected graph
+ *
+ * inserting vertices and edges
+ */
+
+
+
 #include <assert.h>
 
 #include <string>
@@ -27,20 +35,20 @@ int main ()
   cout << "directed graph: " << (g.is_directed () ? "true":"false") << endl;
   cout << endl;
 
-  mygraph::iterator itn;
-  mygraph::iterator itnEnd = g.end ();
+  mygraph::const_iterator itn;
+  mygraph::const_iterator itnEnd = g.end ();
 
   for (itn = g.begin (); itn != itnEnd; ++itn)
   {
-    mygraph::node&     n = *itn;
-    mygraph::vertice&  v = n.vertice ();
+    const mygraph::node&     n = *itn;
+    const mygraph::vertice&  v = n.vertice ();
 
     cout << "vertice: " << v.value () << endl;
 
-    mygraph::adjlist &adjList = n.get_adj_list ();
+    const mygraph::adjlist &adjList = n.get_adj_list ();
 
-    mygraph::adjlist::iterator itadj;
-    mygraph::adjlist::iterator itadjEnd = adjList.end ();
+    mygraph::adjlist::const_iterator itadj;
+    mygraph::adjlist::const_iterator itadjEnd = adjList.end ();
 
     for (itadj = adjList.begin (); itadj != itadjEnd; ++itadj)
     {

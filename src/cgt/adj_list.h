@@ -36,16 +36,16 @@ namespace cgt
   template<typename _TpVertice, typename _TpEdge>
     const _Edge<_TpVertice, _TpEdge>* _AdjList<_TpVertice, _TpEdge>::_get_edge (const _Vertice<_TpVertice> &_v) const
     {
-      _Edge<_TpVertice, _TpEdge> *_ptr_edge = NULL;
+      const _Edge<_TpVertice, _TpEdge> *_ptr_edge = NULL;
 
-      typename _Base::iterator it;
-      typename _Base::iterator itEnd = _Base::end ();
+      typename _Base::const_iterator it;
+      typename _Base::const_iterator itEnd = _Base::end ();
 
       for (it = _Base::begin (); it != itEnd; ++it)
       {
-        if (it->vertice () == _v)
+        if (it->get_vertice () == _v)
         {
-          _ptr_edge = &(*it);
+          _ptr_edge = &(it->get_edge ());
           break;
         }
       }

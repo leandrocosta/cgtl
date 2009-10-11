@@ -1,11 +1,12 @@
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
 
-#include "list/list_item_base.h"
-#include "list/list_item.h"
+//#include "list/list_item_base.h"
+//#include "list/list_item.h"
 #include "list/list.h"
-#include "list/list_iterator_base.h"
-#include "list/list_iterator.h"
+//#include "list/list_iterator_base.h"
+//#include "list/list_iterator.h"
+//#include "list/list_const_iterator.h"
 #include "vertice.h"
 #include "edge.h"
 #include "adjacency.h"
@@ -31,6 +32,7 @@ namespace cgt
       typedef _AdjList<_TpVertice, _TpEdge>   adjlist;
 
       typedef typename _Base::iterator        iterator;
+      typedef typename _Base::const_iterator  const_iterator;
 
       typedef _edge_iterator<_TpVertice, _TpEdge> edge_iterator;
 
@@ -45,6 +47,8 @@ namespace cgt
     public:
       iterator begin () { return _Base::begin (); }
       iterator end () { return _Base::end (); }
+      const_iterator begin () const { return _Base::begin (); }
+      const_iterator end () const { return _Base::end (); }
   };
 }
 

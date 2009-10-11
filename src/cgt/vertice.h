@@ -11,6 +11,9 @@ namespace cgt
         _Vertice (const _TpVertice &_v) { _value = _v; }
 
       public:
+        const bool operator==(const _Vertice<_TpVertice> &_v) const { return _value == _v.value (); }
+        const bool operator!=(const _Vertice<_TpVertice> &_v) const { return ! (*this == _v.value ()); }
+
         const bool operator==(const _TpVertice &_v) const { return _value == _v; }
         const bool operator!=(const _TpVertice &_v) const { return ! (*this == _v); }
 

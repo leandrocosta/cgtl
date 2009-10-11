@@ -14,6 +14,9 @@ namespace cgt
     template<typename _TpItem>
       class _ListIterator;
 
+    template<typename _TpItem>
+      class _ListConstIterator;
+
 
     template<typename _TpItem>
       class _ListItem : public _ListItemBase<_TpItem>
@@ -21,6 +24,7 @@ namespace cgt
       private:
         friend class _List<_TpItem>;
         friend class _ListIterator<_TpItem>;
+        friend class _ListConstIterator<_TpItem>;
 
       private:
         _ListItem (const _TpItem &_d) : _data (_d) { }
