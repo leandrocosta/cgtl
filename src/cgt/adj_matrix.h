@@ -26,9 +26,6 @@ namespace cgt
   template<typename _TpVertice, typename _TpEdge>
     class _GraphNode;
 
-  template<typename _TpVertice, typename _TpEdge>
-    class _edge_iterator;
-
   template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
     class graph;
 
@@ -37,7 +34,6 @@ namespace cgt
     class _AdjMatrix : private _List<_GraphNode<_TpVertice, _TpEdge> >
   {
     private:
-      friend class _edge_iterator<_TpVertice, _TpEdge>;
       friend class graph<_TpVertice, _TpEdge, _TpGraphType>;
 
     private:
@@ -116,10 +112,10 @@ namespace cgt
 
             _Edge<_TpVertice, _TpEdge> &_edge = _edge_list.insert (_Edge<_TpVertice, _TpEdge> (_e, _vertice1, _vertice2));
 
-            _ptr_n1->_insert (&_edge, _vertice2);
+            _ptr_n1->_insert (_edge, _vertice2, _ptr_n2);
 
             if (! _type._directed && ! _ptr_n2->_get_edge (_vertice1))
-              _ptr_n2->_insert (&_edge, _vertice1);
+              _ptr_n2->_insert (_edge, _vertice1, _ptr_n1);
           }
         }
       }

@@ -16,9 +16,9 @@ namespace cgt
       class _ListConstIterator : public _ListIteratorBase<_TpItem>
     {
       public:
-        _ListConstIterator () : _ListIteratorBase<_TpItem> (NULL) { }
+        _ListConstIterator () { }
         _ListConstIterator (_ListItem<_TpItem> *_p) : _ListIteratorBase<_TpItem> (_p) { }
-        _ListConstIterator(const _ListIterator<_TpItem> &_iterator) : _ListIteratorBase<_TpItem> (_iterator._ptr) { }
+        _ListConstIterator (const _ListIterator<_TpItem> &_iterator) : _ListIteratorBase<_TpItem> (_iterator._ptr) { }
 
       private:
         typedef _ListConstIterator<_TpItem>  _Self;

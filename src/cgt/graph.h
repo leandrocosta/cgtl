@@ -13,7 +13,8 @@
 #include "graph_node.h"
 #include "adj_list.h"
 #include "adj_matrix.h"
-#include "edge_iterator.h"
+#include "vertice_iterator.h"
+#include "depth_iterator.h"
 #include "graph_type.h"
 
 
@@ -34,11 +35,17 @@ namespace cgt
       typedef typename _Base::iterator        iterator;
       typedef typename _Base::const_iterator  const_iterator;
 
-      typedef _edge_iterator<_TpVertice, _TpEdge> edge_iterator;
+      typedef _vertice_iterator<_TpVertice, _TpEdge>     vertice_iterator;
+      typedef _ListIterator<_Edge<_TpVertice, _TpEdge> > edge_iterator;
+
+      typedef _depth_iterator<_TpVertice, _TpEdge>     depth_iterator;
 
     public:
       void insert_vertice (const _TpVertice &_vertice) { _insert_vertice (_vertice); }
       void insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2) { _insert_edge (_e, _v1, _v2); }
+
+    public:
+      const node* get_node (const _TpVertice &_vertice) { return _Base::_get_node (_vertice); }
 
     public:
       const bool is_directed () const { return _Base::_is_directed (); }
@@ -49,6 +56,12 @@ namespace cgt
       iterator end () { return _Base::end (); }
       const_iterator begin () const { return _Base::begin (); }
       const_iterator end () const { return _Base::end (); }
+      edge_iterator edge_begin () { return edge_iterator (_Base::_edge_list.begin ()); }
+      edge_iterator edge_end () { return edge_iterator (_Base::_edge_list.end ()); }
+      vertice_iterator vertice_begin () { return vertice_iterator (_Base::begin ()); }
+      vertice_iterator vertice_end () { return vertice_iterator (_Base::end ()); }
+      depth_iterator depth_begin () { return depth_iterator (_Base::begin ()); }
+      depth_iterator depth_end () { return depth_iterator (_Base::end ()); }
   };
 }
 
