@@ -4,11 +4,18 @@
 * Check if an edge already exist before insert it;
 	- OK, seems to be working.
 
-* Implement edge and vertice iterators: an easy way to get just the vertices's, or just the edges's values, without take care about the links, the adjacency list, etc.;
+* Implement edge and vertex iterators: an easy way to get just the vertex's, or just the edges's values, without take care about the links, the adjacency list, etc.;
 	- OK, seems to be working.
 
 * Implement undirected graph: as a type or an attribute to the already existing types;
 	- OK.
+
+* Implement depth-first iterator:
+ - We need a queue with the state of the algorithm. This state has two information: the node and it's adj_list::iterator.
+   When a new node is discovered, it is queued (with the iterator to its first adjacency struct).
+   When the user does operator++, we check if the last queued node still has some adjacent node that was not discovered yet.
+    If so, we queue this node;
+    If not, we dequeue the node and do the same with the antecessor.
 
 * Implement multigraph and hypergraph (?): is it realy necessary for now?;
 * Implement intelligent iterators: depth first search, breadth first search, dijkstra, etc..
