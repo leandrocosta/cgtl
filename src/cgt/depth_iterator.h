@@ -32,7 +32,7 @@ namespace cgt
           private:
             const _Node*   _ptr_node;
             const _Node*   _ptr_prenode;
-            _color_t _color;
+            _color_t       _color;
         };
 
       public:
