@@ -2,47 +2,36 @@
 #define _VERTICE_ITERATOR_H_
 
 
-/*
- * _vertice_iterator
- */
-
-template<typename _TpVertice, typename _TpEdge>
-class _vertice_iterator
+namespace cgt
 {
-  private:
-    typedef _vertice_iterator<_TpVertice, _TpEdge> _Self;
+  namespace list
+  {
+    template<typename _TpItem>
+      class _ListIterator;
+  }
 
-  public:
-    _vertice_iterator () : _ptr (NULL) { }
-    _vertice_iterator (_AdjMatrixItem<_TpVertice, _TpEdge> *_p) : _ptr (_p) { }
 
-  public:
-    const _TpVertice& operator*();
-    _Self& operator++();
-    const bool operator!=(_Self &_other) const;
+  template<typename _TpVertice, typename _TpEdge>
+    class _vertice_iterator : public _ListIterator<_GraphNode<_TpVertice, _TpEdge> >
+    {
+      private:
+        typedef _ListIterator<_GraphNode<_TpVertice, _TpEdge> > _Base;
+        typedef _vertice_iterator<_TpVertice, _TpEdge>          _Self;
 
-  private:
-    _AdjMatrixItem<_TpVertice, _TpEdge>*  _ptr;
-};
+      public:
+        _vertice_iterator () { }
+        _vertice_iterator (const _ListIterator<_GraphNode<_TpVertice, _TpEdge> > &_iterator) : _ListIterator<_GraphNode<_TpVertice, _TpEdge> > (_iterator) { }
 
-template<typename _TpVertice, typename _TpEdge>
-const _TpVertice& _vertice_iterator<_TpVertice, _TpEdge>::operator*()
-{
-  return _ptr->get_vertice ().get_value ();
-}
+      public:
+        _Vertice<_TpVertice>& operator*() const;
+    };
 
-template<typename _TpVertice, typename _TpEdge>
-_vertice_iterator<_TpVertice, _TpEdge>& _vertice_iterator<_TpVertice, _TpEdge>::operator++()
-{
-  assert (_ptr != NULL);
-  _ptr = _ptr->get_next ();
-  return *this;
-}
 
-template<typename _TpVertice, typename _TpEdge>
-const bool _vertice_iterator<_TpVertice, _TpEdge>::operator!=(_vertice_iterator<_TpVertice, _TpEdge> &_other) const
-{
-  return _ptr != _other._ptr;
+  template<typename _TpVertice, typename _TpEdge>
+    _Vertice<_TpVertice>& _vertice_iterator<_TpVertice, _TpEdge>::operator*() const
+    {
+      return _Base::operator*().vertice ();
+    }
 }
 
 #endif

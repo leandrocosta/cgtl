@@ -4,23 +4,31 @@
 
 namespace cgt
 {
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    class _AdjMatrix;
+  namespace list
+  {
+    template<typename _TpItem>
+      class _ListIterator;
+  }
+
+//  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
+//    class _AdjMatrix;
 
 
   template<typename _TpVertice, typename _TpEdge>
-    class _edge_iterator
+    class _edge_iterator : public _ListIterator<_Edge<_TpVertice, _TpEdge> >
     {
-/*
-      public:
-        _edge_iterator () : _ptr (NULL) { }
-        _edge_iterator (_AdjMatrixItem<_TpVertice, _TpEdge> *_p_adj) : _ptr_adj (_p_adj)
-      {
-        _ptr = (_ptr_adj ? _ptr_adj->get_list ().get_head ():NULL);
-      }
+      private:
+        typedef _ListIterator<_Edge<_TpVertice, _TpEdge> > _Base;
+        typedef _edge_iterator<_TpVertice, _TpEdge>        _Self;
 
       public:
-        _Edge<_TpVertice, _TpEdge>& operator*();
+        _edge_iterator () { }
+        _edge_iterator (const _ListIterator<_Edge<_TpVertice, _TpEdge> > &_iterator) : _ListIterator<_Edge<_TpVertice, _TpEdge> > (_iterator) { }
+
+      public:
+        _Edge<_TpVertice, _TpEdge>& operator*() const;
+        _Edge<_TpVertice, _TpEdge>* operator->() const;
+/*
         _edge_iterator<_TpVertice, _TpEdge>& operator++();
         const bool operator!=(_edge_iterator<_TpVertice, _TpEdge> &_other) const;
 
@@ -32,13 +40,19 @@ namespace cgt
 //        _AdjMatrix<_TpVertice, _TpEdge>::iterator _it_adj_matrix;
     };
 
-  /*
      template<typename _TpVertice, typename _TpEdge>
-     _Edge<_TpVertice, _TpEdge>& _edge_iterator<_TpVertice, _TpEdge>::operator*()
+     _Edge<_TpVertice, _TpEdge>& _edge_iterator<_TpVertice, _TpEdge>::operator*() const
      {
-     return _ptr->get_edge ();
+       return _Base::operator*().value ();
      }
 
+//     template<typename _TpVertice, typename _TpEdge>
+//     _Edge<_TpVertice, _TpEdge>* _edge_iterator<_TpVertice, _TpEdge>::operator->() const
+//     {
+//       return &(operator*());
+//     }
+
+  /*
      template<typename _TpVertice, typename _TpEdge>
      _edge_iterator<_TpVertice, _TpEdge>& _edge_iterator<_TpVertice, _TpEdge>::operator++()
      {
