@@ -3,11 +3,10 @@
 
 #include "graph_type.h"
 
+using namespace cgt::list;
 
 namespace cgt
 {
-  using namespace list;
-
   namespace list
   {
     template<typename _TpItem>

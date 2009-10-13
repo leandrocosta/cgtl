@@ -1,6 +1,9 @@
 #ifndef _LIST_ITERATOR_H_
 #define _LIST_ITERATOR_H_
 
+#include <assert.h>
+
+
 namespace cgt
 {
   namespace list

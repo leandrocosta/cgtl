@@ -1,0 +1,36 @@
+#include <iostream>
+using namespace std;
+
+#include "../cgt/stack/stack.h"
+using namespace cgt::stack;
+
+int main ()
+{
+  stack<int> s;
+
+  cout << "push 2" << endl;
+  s.push (2);
+  cout << "push 3" << endl;
+  s.push (3);
+  cout << "push 1" << endl;
+  s.push (1);
+
+  stack<int>::const_iterator it = s.begin ();
+  stack<int>::const_iterator itEnd = s.end ();
+
+  cout << "stack: " << *it;
+
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+
+  cout << "." << endl;
+
+  while (! s.empty ())
+  {
+    int *_ptr = s.pop ();
+    cout << "pop: " << *_ptr << endl;
+    delete _ptr;
+  }
+
+  return 0;
+}
