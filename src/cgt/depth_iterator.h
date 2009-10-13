@@ -11,13 +11,13 @@ namespace cgt
   }
 
 
-  template<typename _TpVertice, typename _TpEdge>
-    class _depth_iterator : public _ListIterator<_GraphNode<_TpVertice, _TpEdge> >
+  template<typename _TpVertex, typename _TpEdge>
+    class _depth_iterator : public _ListIterator<_GraphNode<_TpVertex, _TpEdge> >
     {
       private:
-        typedef _ListIterator<_GraphNode<_TpVertice, _TpEdge> > _Base;
-        typedef _depth_iterator<_TpVertice, _TpEdge>            _Self;
-        typedef _GraphNode<_TpVertice, _TpEdge>                 _Node;
+        typedef _ListIterator<_GraphNode<_TpVertex, _TpEdge> > _Base;
+        typedef _depth_iterator<_TpVertex, _TpEdge>            _Self;
+        typedef _GraphNode<_TpVertex, _TpEdge>                 _Node;
 
       private:
         class _DepthReg
@@ -50,13 +50,13 @@ namespace cgt
         _List<_DepthReg>                                      _reg_list;
 
         const _Node*                                          _ptr_n;
-        const _AdjList<_TpVertice, _TpEdge>&                  _adj_list;
-        _ListConstIterator<_Adjacency<_TpVertice, _TpEdge> >  _adj_iterator;
+        const _AdjList<_TpVertex, _TpEdge>&                  _adj_list;
+        _ListConstIterator<_Adjacency<_TpVertex, _TpEdge> >  _adj_iterator;
     };
 
 
-    template<typename _TpVertice, typename _TpEdge>
-      _depth_iterator<_TpVertice, _TpEdge>& _depth_iterator<_TpVertice, _TpEdge>::operator++()
+    template<typename _TpVertex, typename _TpEdge>
+      _depth_iterator<_TpVertex, _TpEdge>& _depth_iterator<_TpVertex, _TpEdge>::operator++()
       {
         assert (_Base::_ptr != NULL);
 
