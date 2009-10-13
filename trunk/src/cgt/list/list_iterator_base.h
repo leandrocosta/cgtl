@@ -43,7 +43,7 @@ namespace cgt
     template<typename _TpItem>
       void _ListIteratorBase<_TpItem>::_incr ()
       {
-        _ptr = _ptr->_get_next ();
+        _ptr = _ptr->_next;
       }
 
     template<typename _TpItem>

@@ -37,13 +37,23 @@ namespace cgt
             while (_head)
             {
               _ptr = _head;
-              _head = static_cast<_ListItem<_TpItem> *>(_ptr->_get_next ());
+              _head = static_cast<_ListItem<_TpItem> *>(_ptr->_next);
               delete _ptr;
             }
           }
 
+        private:
+          _TpItem& _push_front (_ListItem<_TpItem> *_ptr);
+          _TpItem& _push_back (_ListItem<_TpItem> *_ptr);
+
         public:
           _TpItem& insert (const _TpItem &_item);
+          _TpItem& push_front (const _TpItem &_item);
+          _TpItem& push_back (const _TpItem &_item);
+
+          _TpItem* pop_front ();
+
+          const bool empty () const;
 
         public:
           iterator begin () { return iterator (_head); }
@@ -61,18 +71,64 @@ namespace cgt
       };
 
     template<typename _TpItem>
-      _TpItem& _List<_TpItem>::insert (const _TpItem &_item)
+      _TpItem& _List<_TpItem>::_push_front (_ListItem<_TpItem> *_ptr)
       {
-        _ListItem<_TpItem> *_ptr = new _ListItem<_TpItem> (_item);
+        _ptr->_next = _head;
+        _head = _ptr;
 
+        return _ptr->_data;
+      }
+
+    template<typename _TpItem>
+      _TpItem& _List<_TpItem>::_push_back (_ListItem<_TpItem> *_ptr)
+      {
         if (! _head)
           _head = _ptr;
         else
-          _tail->_set_next (_ptr);
+          _tail->_next = _ptr;
 
         _tail = _ptr;
 
-        return _ptr->_get_data ();
+        return _ptr->_data;
+      }
+
+    template<typename _TpItem>
+      _TpItem& _List<_TpItem>::insert (const _TpItem &_item)
+      {
+        return _push_back (new _ListItem<_TpItem> (_item));
+      }
+
+    template<typename _TpItem>
+      _TpItem& _List<_TpItem>::push_front (const _TpItem &_item)
+      {
+        return _push_front (new _ListItem<_TpItem> (_item));
+      }
+
+    template<typename _TpItem>
+      _TpItem& _List<_TpItem>::push_back (const _TpItem &_item)
+      {
+        return _push_back (new _ListItem<_TpItem> (_item));
+      }
+
+    template<typename _TpItem>
+      _TpItem* _List<_TpItem>::pop_front ()
+      {
+        _TpItem *_ptr = NULL;
+
+        if (_head)
+        {
+          _ListItem<_TpItem> *_ptr_item = _head;
+          _head = static_cast<_ListItem<_TpItem> *> (_head->_next);
+          _ptr = new _TpItem (_ptr_item->_data);
+        }
+        
+        return _ptr;
+      }
+
+    template<typename _TpItem>
+      const bool _List<_TpItem>::empty () const
+      {
+        return (! _head);
       }
 
     template<typename _TpItem>
@@ -98,6 +154,11 @@ namespace cgt
 
         return it;
       }
+
+    template<typename _TpItem>
+      class list : public _List<_TpItem>
+      {
+      };
   }
 }
 
