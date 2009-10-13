@@ -26,6 +26,7 @@ namespace cgt
         public:
           void push (const _TpItem &_item);
           _TpItem* pop ();
+          _TpItem* top ();
       };
 
     template<typename _TpItem>
@@ -38,6 +39,12 @@ namespace cgt
       _TpItem* _Stack<_TpItem>::pop ()
       {
         return _Base::pop_front ();
+      }
+
+    template<typename _TpItem>
+      _TpItem* _Stack<_TpItem>::top ()
+      {
+        return _Base::front ();
       }
 
     template<typename _TpItem>

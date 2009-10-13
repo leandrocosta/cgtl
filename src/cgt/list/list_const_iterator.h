@@ -34,7 +34,7 @@ namespace cgt
     template<typename _TpItem>
       const _TpItem& _ListConstIterator<_TpItem>::operator*() const
       {
-        return static_cast<_Item *>(_ListIteratorBase<_TpItem>::_ptr)->_get_data ();
+        return static_cast<_Item *>(_ListIteratorBase<_TpItem>::_ptr)->_data;
       }
 
     template<typename _TpItem>

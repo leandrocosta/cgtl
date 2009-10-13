@@ -15,7 +15,7 @@
    When a new node is discovered, it is queued (with the iterator to its first adjacency struct).
    When the user does operator++, we check if the last queued node still has some adjacent node that was not discovered yet.
     If so, we queue this node;
-    If not, we dequeue the node and do the same with the antecessor.
+    If not, we dequeue the node and do the same with the antecessor (check about its adjacent nodes).
 
 * Implement multigraph and hypergraph (?): is it realy necessary for now?;
 * Implement intelligent iterators: depth first search, breadth first search, dijkstra, etc..

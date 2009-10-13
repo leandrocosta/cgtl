@@ -30,9 +30,6 @@ namespace cgt
         _ListItem (const _TpItem &_d) : _data (_d) { }
 
       private:
-        _TpItem& _get_data () { return _data; }
-
-      private:
         _TpItem _data;
     };
   }

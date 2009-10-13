@@ -23,8 +23,8 @@ namespace cgt
         const _Node* node () const;
 
       private:
-        const _Edge<_TpVertex, _TpEdge>& _edge;
-        _Vertex<_TpVertex>&             _vertex;
+        const _Edge<_TpVertex, _TpEdge>&  _edge;
+        _Vertex<_TpVertex>&               _vertex;
         const _Node*                      _ptr_node;
     };
 
