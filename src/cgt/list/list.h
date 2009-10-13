@@ -76,6 +76,9 @@ namespace cgt
         _ptr->_next = _head;
         _head = _ptr;
 
+        if (! _tail)
+          _tail = _ptr;
+
         return _ptr->_data;
       }
 
@@ -121,6 +124,9 @@ namespace cgt
           _head = static_cast<_ListItem<_TpItem> *> (_head->_next);
           _ptr = new _TpItem (_ptr_item->_data);
         }
+
+        if (! _head)
+          _tail = NULL;
         
         return _ptr;
       }

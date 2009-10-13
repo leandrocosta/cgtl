@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.61)
+AC_PREREQ(2.60)
 AC_INIT(cgtl, 0.01, leandro.costa@gmail.com)
 AC_CONFIG_SRCDIR([src/cgt/adjacency.h])
 AC_CONFIG_HEADER([config.h])
@@ -20,7 +20,7 @@ AC_PROG_LIBTOOL
 AC_HEADER_STDBOOL
 AC_C_CONST
 
-CPPFLAGS="-Wall"
+CPPFLAGS="-g -Wall"
 INCLUDES='-I$(top_srcdir)/src'
 AC_SUBST(INCLUDES)
 
