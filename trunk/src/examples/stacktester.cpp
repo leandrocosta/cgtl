@@ -25,6 +25,7 @@ int main ()
 
   while (! s.empty ())
   {
+    cout << "top: " << *(s.top ()) << endl;
     int *_ptr = s.pop ();
     cout << "pop: " << *_ptr << endl;
     delete _ptr;

@@ -59,7 +59,5 @@ int main ()
   const mygraph::node *n = g.get_node ("B");
   cout << "n.vertex ().value (): " << n->vertex ().value () << endl;
 
-  mygraph::depth_iterator itd = g.depth_begin ();
-
   return 0;
 }

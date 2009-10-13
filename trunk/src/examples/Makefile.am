@@ -5,11 +5,13 @@ EX3_SRCS		= example3.cpp
 EX4_SRCS		= example4.cpp
 LISTTESTER_SRCS		= listtester.cpp
 STACKTESTER_SRCS	= stacktester.cpp
+DEPTHTESTER_SRCS	= depthtester.cpp
 
-bin_PROGRAMS		= example1 example2 example3 example4 listtester stacktester
+bin_PROGRAMS		= example1 example2 example3 example4 listtester stacktester depthtester
 example1_SOURCES	= $(EX1_SRCS)
 example2_SOURCES	= $(EX2_SRCS)
 example3_SOURCES	= $(EX3_SRCS)
 example4_SOURCES	= $(EX4_SRCS)
 listtester_SOURCES	= $(LISTTESTER_SRCS)
 stacktester_SOURCES	= $(STACKTESTER_SRCS)
+depthtester_SOURCES	= $(DEPTHTESTER_SRCS)

@@ -60,8 +60,10 @@ namespace cgt
       edge_iterator edge_end () { return edge_iterator (_Base::_edge_list.end ()); }
       vertex_iterator vertex_begin () { return vertex_iterator (_Base::begin ()); }
       vertex_iterator vertex_end () { return vertex_iterator (_Base::end ()); }
-      depth_iterator depth_begin () { return depth_iterator (_Base::begin ()); }
-      depth_iterator depth_end () { return depth_iterator (_Base::end ()); }
+      depth_iterator depth_begin () { return depth_iterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+//      depth_iterator depth_begin (const iterator _it = _Base::begin ()) { return depth_iterator (_Base::begin ()); }
+//      depth_iterator depth_begin (const iterator _it = _Base::begin ()) { return depth_iterator (_it); }
+      depth_iterator depth_end () { return depth_iterator (_Base::end (), _Base::begin (), _Base::end ()); }
   };
 }
 

@@ -53,6 +53,8 @@ namespace cgt
 
           _TpItem* pop_front ();
 
+          _TpItem* front ();
+
           const bool empty () const;
 
         public:
@@ -127,6 +129,17 @@ namespace cgt
 
         if (! _head)
           _tail = NULL;
+        
+        return _ptr;
+      }
+
+    template<typename _TpItem>
+      _TpItem* _List<_TpItem>::front ()
+      {
+        _TpItem *_ptr = NULL;
+
+        if (_head)
+          _ptr = &(_head->_data);
         
         return _ptr;
       }

@@ -24,20 +24,21 @@ namespace cgt
 
         private:
           typedef _ListIteratorBase<_TpItem>  _Self;
+          typedef _ListItemBase<_TpItem>      _Item;
 
         private:
           _ListIteratorBase () : _ptr (NULL) { }
-          _ListIteratorBase (_ListItemBase<_TpItem> *_p) : _ptr (_p) { }
+          _ListIteratorBase (_Item *_p) : _ptr (_p) { }
 
         private:
           void _incr ();
 
         public:
-          const bool operator==(_Self &_other) const;
-          const bool operator!=(_Self &_other) const;
+          const bool operator==(const _Self &_other) const;
+          const bool operator!=(const _Self &_other) const;
 
         private:
-          _ListItemBase<_TpItem>* _ptr;
+          _Item* _ptr;
       };
 
     template<typename _TpItem>
@@ -47,13 +48,13 @@ namespace cgt
       }
 
     template<typename _TpItem>
-      const bool _ListIteratorBase<_TpItem>::operator==(_ListIteratorBase<_TpItem> &_other) const
+      const bool _ListIteratorBase<_TpItem>::operator==(const _Self &_other) const
       {
         return _ptr == _other._ptr;
       }
 
     template<typename _TpItem>
-      const bool _ListIteratorBase<_TpItem>::operator!=(_ListIteratorBase<_TpItem> &_other) const
+      const bool _ListIteratorBase<_TpItem>::operator!=(const _Self &_other) const
       {
         return ! (*this == _other);
       }

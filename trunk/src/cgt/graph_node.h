@@ -22,8 +22,8 @@ namespace cgt
       public:
         _Vertex<_TpVertex>&           vertex ()  { return _vertex; }
         const _Vertex<_TpVertex>&     vertex () const  { return _vertex; }
-        _AdjList<_TpVertex, _TpEdge>&  get_adj_list () { return _adjList; }
-        const _AdjList<_TpVertex, _TpEdge>&  get_adj_list () const { return _adjList; }
+        _AdjList<_TpVertex, _TpEdge>&  adj_list () { return _adjList; }
+        const _AdjList<_TpVertex, _TpEdge>&  adj_list () const { return _adjList; }
 
       public:
         const _Edge<_TpVertex, _TpEdge>* _get_edge (const _Vertex<_TpVertex> &_v) const;
@@ -32,8 +32,8 @@ namespace cgt
         void _insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _Self *_ptr_n);
 
       private:
-        _Vertex<_TpVertex>          _vertex;
-        _AdjList<_TpVertex, _TpEdge> _adjList;
+        _Vertex<_TpVertex>            _vertex;
+        _AdjList<_TpVertex, _TpEdge>  _adjList;
     };
 
   template<typename _TpVertex, typename _TpEdge>

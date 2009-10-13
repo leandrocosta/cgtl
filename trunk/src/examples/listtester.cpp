@@ -25,6 +25,7 @@ int main ()
 
   while (! s.empty ())
   {
+    cout << "front: " << *(s.front ()) << endl;
     int *_ptr = s.pop_front ();
     cout << "pop_front: " << *_ptr << endl;
     delete _ptr;
