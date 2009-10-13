@@ -20,33 +20,33 @@ namespace cgt
       class _ListIterator;
   }
 
-  template<typename _TpVertice>
-    class _Vertice;
+  template<typename _TpVertex>
+    class _Vertex;
 
-  template<typename _TpVertice, typename _TpEdge>
+  template<typename _TpVertex, typename _TpEdge>
     class _GraphNode;
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
     class graph;
 
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    class _AdjMatrix : private _List<_GraphNode<_TpVertice, _TpEdge> >
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    class _AdjMatrix : private _List<_GraphNode<_TpVertex, _TpEdge> >
   {
     private:
-      friend class graph<_TpVertice, _TpEdge, _TpGraphType>;
+      friend class graph<_TpVertex, _TpEdge, _TpGraphType>;
 
     private:
-      typedef _List<_GraphNode<_TpVertice, _TpEdge> > _Base;
-      typedef _GraphNode<_TpVertice, _TpEdge>         _Node;
+      typedef _List<_GraphNode<_TpVertex, _TpEdge> > _Base;
+      typedef _GraphNode<_TpVertex, _TpEdge>         _Node;
 
     private:
-      _Node* _get_node (const _TpVertice &_vertice);
+      _Node* _get_node (const _TpVertex &_vertex);
 
     private:
-      void _insert_node (const _TpVertice &_vertice);
-      void _insert_vertice (const _TpVertice &_vertice);
-      void _insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2);
+      void _insert_node (const _TpVertex &_vertex);
+      void _insert_vertex (const _TpVertex &_vertex);
+      void _insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2);
 
     private:
       const bool _is_directed () const;
@@ -54,12 +54,12 @@ namespace cgt
 
     private:
       _TpGraphType                        _type;
-      _List<_Edge<_TpVertice, _TpEdge> >  _edge_list;
+      _List<_Edge<_TpVertex, _TpEdge> >  _edge_list;
   };
 
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    _GraphNode<_TpVertice, _TpEdge>* _AdjMatrix<_TpVertice, _TpEdge, _TpGraphType>::_get_node (const _TpVertice &_vertice)
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    _GraphNode<_TpVertex, _TpEdge>* _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_get_node (const _TpVertex &_vertex)
     {
       _Node *_ptr_node = NULL;
 
@@ -68,7 +68,7 @@ namespace cgt
 
       for (it = _Base::begin (); it != itEnd; ++it)
       {
-        if (it->vertice () == _vertice)
+        if (it->vertex () == _vertex)
         {
           _ptr_node = &(*it);
           break;
@@ -78,23 +78,23 @@ namespace cgt
       return _ptr_node;
     }
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    void _AdjMatrix<_TpVertice, _TpEdge, _TpGraphType>::_insert_node (const _TpVertice &_vertice)
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    void _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_node (const _TpVertex &_vertex)
     {
-      insert (_GraphNode<_TpVertice, _TpEdge> (_vertice));
+      insert (_GraphNode<_TpVertex, _TpEdge> (_vertex));
     }
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    void _AdjMatrix<_TpVertice, _TpEdge, _TpGraphType>::_insert_vertice (const _TpVertice &_vertice)
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    void _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_vertex (const _TpVertex &_vertex)
     {
-      _Node *_ptr = _get_node (_vertice);
+      _Node *_ptr = _get_node (_vertex);
 
       if (! _ptr)
-        _insert_node (_vertice);
+        _insert_node (_vertex);
     }
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    void _AdjMatrix<_TpVertice, _TpEdge, _TpGraphType>::_insert_edge (const _TpEdge &_e, const _TpVertice &_v1, const _TpVertice &_v2)
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    void _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2)
     {
       _Node *_ptr_n1 = _get_node (_v1);
 
@@ -104,31 +104,31 @@ namespace cgt
 
         if (_ptr_n2)
         {
-          _Vertice<_TpVertice>& _vertice2 = _ptr_n2->vertice ();
+          _Vertex<_TpVertex>& _vertex2 = _ptr_n2->vertex ();
 
-          if (! _ptr_n1->_get_edge (_vertice2))
+          if (! _ptr_n1->_get_edge (_vertex2))
           {
-            _Vertice<_TpVertice>& _vertice1 = _ptr_n1->vertice ();
+            _Vertex<_TpVertex>& _vertex1 = _ptr_n1->vertex ();
 
-            _Edge<_TpVertice, _TpEdge> &_edge = _edge_list.insert (_Edge<_TpVertice, _TpEdge> (_e, _vertice1, _vertice2));
+            _Edge<_TpVertex, _TpEdge> &_edge = _edge_list.insert (_Edge<_TpVertex, _TpEdge> (_e, _vertex1, _vertex2));
 
-            _ptr_n1->_insert (_edge, _vertice2, _ptr_n2);
+            _ptr_n1->_insert (_edge, _vertex2, _ptr_n2);
 
-            if (! _type._directed && ! _ptr_n2->_get_edge (_vertice1))
-              _ptr_n2->_insert (_edge, _vertice1, _ptr_n1);
+            if (! _type._directed && ! _ptr_n2->_get_edge (_vertex1))
+              _ptr_n2->_insert (_edge, _vertex1, _ptr_n1);
           }
         }
       }
     }
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    const bool _AdjMatrix<_TpVertice, _TpEdge, _TpGraphType>::_is_directed () const
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    const bool _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_is_directed () const
     {
       return _type._directed;
     }
 
-  template<typename _TpVertice, typename _TpEdge, typename _TpGraphType>
-    const bool _AdjMatrix<_TpVertice, _TpEdge, _TpGraphType>::_is_undirected () const
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    const bool _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_is_undirected () const
     {
       return (! _is_directed ());
     }

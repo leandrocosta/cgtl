@@ -12,37 +12,37 @@ namespace cgt
       class _List;
   }
 
-  template<typename _TpVertice>
-    class _Vertice;
+  template<typename _TpVertex>
+    class _Vertex;
 
-  template<typename _TpVertice, typename _TpEdge>
+  template<typename _TpVertex, typename _TpEdge>
     class _Adjacency;
 
 
-  template<typename _TpVertice, typename _TpEdge>
-    class _AdjList : public _List<_Adjacency<_TpVertice, _TpEdge> >
+  template<typename _TpVertex, typename _TpEdge>
+    class _AdjList : public _List<_Adjacency<_TpVertex, _TpEdge> >
   {
     private:
-      typedef _List<_Adjacency<_TpVertice, _TpEdge> > _Base;
+      typedef _List<_Adjacency<_TpVertex, _TpEdge> > _Base;
 
     public:
-      const _Edge<_TpVertice, _TpEdge>* _get_edge (const _Vertice<_TpVertice> &_v) const;
+      const _Edge<_TpVertex, _TpEdge>* _get_edge (const _Vertex<_TpVertex> &_v) const;
 
     public:
-      void _insert (const _Edge<_TpVertice, _TpEdge>& _e, _Vertice<_TpVertice> &_v, const _GraphNode<_TpVertice, _TpEdge> *_ptr_n);
+      void _insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _GraphNode<_TpVertex, _TpEdge> *_ptr_n);
   };
 
-  template<typename _TpVertice, typename _TpEdge>
-    const _Edge<_TpVertice, _TpEdge>* _AdjList<_TpVertice, _TpEdge>::_get_edge (const _Vertice<_TpVertice> &_v) const
+  template<typename _TpVertex, typename _TpEdge>
+    const _Edge<_TpVertex, _TpEdge>* _AdjList<_TpVertex, _TpEdge>::_get_edge (const _Vertex<_TpVertex> &_v) const
     {
-      const _Edge<_TpVertice, _TpEdge> *_ptr_edge = NULL;
+      const _Edge<_TpVertex, _TpEdge> *_ptr_edge = NULL;
 
       typename _Base::const_iterator it;
       typename _Base::const_iterator itEnd = _Base::end ();
 
       for (it = _Base::begin (); it != itEnd; ++it)
       {
-        if (it->get_vertice () == _v)
+        if (it->get_vertex () == _v)
         {
           _ptr_edge = &(it->get_edge ());
           break;
@@ -52,10 +52,10 @@ namespace cgt
       return _ptr_edge;
     }
 
-  template<typename _TpVertice, typename _TpEdge>
-    void _AdjList<_TpVertice, _TpEdge>::_insert (const _Edge<_TpVertice, _TpEdge>& _e, _Vertice<_TpVertice> &_v, const _GraphNode<_TpVertice, _TpEdge> *_ptr_n)
+  template<typename _TpVertex, typename _TpEdge>
+    void _AdjList<_TpVertex, _TpEdge>::_insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _GraphNode<_TpVertex, _TpEdge> *_ptr_n)
     {
-      _List<_Adjacency<_TpVertice, _TpEdge> >::insert (_Adjacency<_TpVertice, _TpEdge> (_e, _v, _ptr_n));
+      _List<_Adjacency<_TpVertex, _TpEdge> >::insert (_Adjacency<_TpVertex, _TpEdge> (_e, _v, _ptr_n));
     }
 }
 

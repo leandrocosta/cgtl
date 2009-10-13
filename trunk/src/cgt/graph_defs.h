@@ -2,16 +2,16 @@
 #define _GRAPH_DEFS_H_
 
 
-template<typename _TpVertice, typename _TpEdge>
+template<typename _TpVertex, typename _TpEdge>
 class _Edge;
 
-template<typename _TpVertice, typename _TpEdge>
+template<typename _TpVertex, typename _TpEdge>
 class _AdjListItem;
 
-template<typename _TpVertice, typename _TpEdge>
+template<typename _TpVertex, typename _TpEdge>
 class _AdjMatrixItem;
 
-template<typename _TpVertice, typename _TpEdge>
+template<typename _TpVertex, typename _TpEdge>
 class _AdjMatrix;
 
 #endif
