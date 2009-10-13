@@ -18,12 +18,10 @@ int main ()
   stack<int>::const_iterator it = s.begin ();
   stack<int>::const_iterator itEnd = s.end ();
 
-  cout << "stack: " << *it;
-
+  cout << "stack (" << *it;
   for (++it; it != itEnd; ++it)
     cout << ", " << *it;
-
-  cout << "." << endl;
+  cout << ")" << endl;
 
   while (! s.empty ())
   {
@@ -31,6 +29,12 @@ int main ()
     cout << "pop: " << *_ptr << endl;
     delete _ptr;
   }
+
+  itEnd = s.end ();
+  cout << "stack: (";
+  for (it = s.begin (); it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
 
   return 0;
 }
