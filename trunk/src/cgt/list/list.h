@@ -29,9 +29,11 @@ namespace cgt
           typedef _ListConstIterator<_TpItem>  const_iterator;
 
         public:
-          _List () : _head (NULL), _tail (NULL) { }
+          _List () : _head (NULL), _tail (NULL), _size (0) { }
           virtual ~_List ()
           {
+            cout << "~_List () - _head: " << _head << endl;
+
             _ListItem<_TpItem> *_ptr = NULL;
 
             while (_head)
@@ -55,6 +57,7 @@ namespace cgt
 
           _TpItem* front ();
 
+          const unsigned long size () const;
           const bool empty () const;
 
         public:
@@ -70,6 +73,7 @@ namespace cgt
         protected:
           _ListItem<_TpItem>*  _head;
           _ListItem<_TpItem>*  _tail;
+          unsigned long        _size;
       };
 
     template<typename _TpItem>
@@ -78,8 +82,12 @@ namespace cgt
         _ptr->_next = _head;
         _head = _ptr;
 
+	cout << "_push_front (_ptr: " << _ptr << ") - _head: " << _head << ", _head->_next: " << _head->_next << endl;
+
         if (! _tail)
           _tail = _ptr;
+
+        _size++;
 
         return _ptr->_data;
       }
@@ -93,6 +101,8 @@ namespace cgt
           _tail->_next = _ptr;
 
         _tail = _ptr;
+
+        _size++;
 
         return _ptr->_data;
       }
@@ -122,13 +132,19 @@ namespace cgt
 
         if (_head)
         {
+          cout << "_head: " << _head << ", _head->_next: " << _head->_next << endl;
           _ListItem<_TpItem> *_ptr_item = _head;
           _head = static_cast<_ListItem<_TpItem> *> (_head->_next);
+          cout << "pop: " << _ptr_item << ", head: " << _head << endl;
           _ptr = new _TpItem (_ptr_item->_data);
+
+//          delete _ptr_item;
         }
 
         if (! _head)
           _tail = NULL;
+
+       _size--;
         
         return _ptr;
       }
@@ -142,6 +158,12 @@ namespace cgt
           _ptr = &(_head->_data);
         
         return _ptr;
+      }
+
+    template<typename _TpItem>
+      const unsigned long _List<_TpItem>::size () const
+      {
+        return _size;
       }
 
     template<typename _TpItem>

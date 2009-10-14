@@ -32,10 +32,9 @@ namespace cgt
    */
 
   template<typename _TpVertex, typename _TpEdge>
-    class _depth_iterator : public _ListIterator<_GraphNode<_TpVertex, _TpEdge> >
+    class _depth_iterator
     {
       private:
-        typedef _ListIterator<_GraphNode<_TpVertex, _TpEdge> >      _Base;
         typedef _depth_iterator<_TpVertex, _TpEdge>                 _Self;
         typedef _GraphNode<_TpVertex, _TpEdge>                      _Node;
         typedef _ListIterator<_GraphNode<_TpVertex, _TpEdge> >      _NodeIterator;
@@ -48,11 +47,6 @@ namespace cgt
             _DepthState (const _Node *_ptr_n, const _AdjIterator &_it_a, const _AdjIterator &_it_adj_e) : _ptr_node (_ptr_n), _it_adj (_it_a), _it_adj_end (_it_adj_e) { };
 
           public:
-            _AdjIterator& it_adj () { return _it_adj; }
-            const _AdjIterator& it_adj_end () const { return _it_adj_end; }
-            const _Node* ptr_node () const { return _ptr_node; }
-
-          private:
             const _Node*        _ptr_node;
             _AdjIterator        _it_adj;
             const _AdjIterator  _it_adj_end;
@@ -69,7 +63,7 @@ namespace cgt
             _DepthInfo (const _Node *_ptr_n, const _color_t &_c, const unsigned long &_d) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (_c), _discovery (_d), _finish (0) { }
             _DepthInfo (const _Node *_ptr_n, const _Node *_ptr_p, const _color_t &_c) : _ptr_node (_ptr_n), _ptr_parent (_ptr_p), _color (_c), _discovery (0), _finish (0) { }
 
-          private:
+          public:
             const _Node*  _ptr_node;
             const _Node*  _ptr_parent;
             _color_t      _color;
@@ -78,7 +72,7 @@ namespace cgt
         };
 
       public:
-        _depth_iterator () : _it_begin (NULL), _it_end (NULL), _global_time (0) { }
+        _depth_iterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
         /*
         _depth_iterator (const _ListIterator<_Node> &_iterator) : _ListIterator<_Node> (_iterator), _ptr_n (_Base::operator->()), _adj_list (_ptr_n->get_adj_list ())
         {
@@ -86,7 +80,7 @@ namespace cgt
           _adj_iterator = _adj_list.begin ();
         }
         */
-        _depth_iterator (const _NodeIterator &_it, const _NodeIterator &_it_b, const _NodeIterator &_it_e) : _Base (_it), _it_begin (_it_b), _it_end (_it_e), _global_time (0)
+        _depth_iterator (const _NodeIterator &_it, const _NodeIterator &_it_begin, const _NodeIterator &_it_end) : _ptr_node (&(*_it)), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
         {
           /*
            * paint all nodes with WHITE, and initialize parent, discovery, finish.
@@ -96,14 +90,15 @@ namespace cgt
            *    - an _AdjIterator pointing to the adjacency list's first element of the node right pushed.
            */
 
-          _NodeIterator it = _it_begin;
-          _NodeIterator itEnd = _it_end;
+          _NodeIterator it     = _it_begin;
+          _NodeIterator itEnd  = _it_end;
 
           for (; it != itEnd; ++it)
           {
             if (&(*it) == &(*_it))
             {
               _DepthInfoList.insert (_DepthInfo (&(*it), _DepthInfo::GRAY, +_global_time));
+	      cout << "push node: " << it->vertex ().value () << endl;
               _DepthStateStack.push (_DepthState (&(*it), it->adj_list ().begin (), it->adj_list ().end ()));
             }
             else
@@ -112,17 +107,34 @@ namespace cgt
         }
 
       public:
+        _Node& operator*() const;
+        _Node* operator->() const;
         _Self& operator++();
+        const bool operator==(const _Self &_other) const;
+        const bool operator!=(const _Self &_other) const;
 
       private:
-        _NodeIterator       _it_begin;
-        _NodeIterator       _it_end;
+        _Node*              _ptr_node;
+        _NodeIterator       _it_node;
+        _NodeIterator       _it_node_end;
         _Stack<_DepthState> _DepthStateStack;
         _List<_DepthInfo>   _DepthInfoList;
 
         unsigned long       _global_time;
     };
 
+
+    template<typename _TpVertex, typename _TpEdge>
+      _GraphNode<_TpVertex, _TpEdge>& _depth_iterator<_TpVertex, _TpEdge>::operator*() const
+      {
+        return *_ptr_node;
+      }
+
+    template<typename _TpVertex, typename _TpEdge>
+      _GraphNode<_TpVertex, _TpEdge>* _depth_iterator<_TpVertex, _TpEdge>::operator->() const
+      {
+        return _ptr_node;
+      }
 
     template<typename _TpVertex, typename _TpEdge>
       _depth_iterator<_TpVertex, _TpEdge>& _depth_iterator<_TpVertex, _TpEdge>::operator++()
@@ -136,7 +148,7 @@ namespace cgt
          *    - increment the _AdjIterator on the top of the stack;
          *    - put in the stack the WHITE node right found;
          *    - put in the stack an _AdjIterator pointing to the adjacency list's first element of the node right pushed.
-         *  - point this iterator (_Base::_ptr) to the node right pushed
+         *  - point this iterator (_ptr_node) to the node right pushed
          * else
          *  - increment the base_iterator until get a WHITE node or get the end;
          *  - if a WHITE node is found:
@@ -144,21 +156,54 @@ namespace cgt
          *      - put this node in the stack;
          *      - increment the _AdjIterator on the top of the stack;
          *  - else
-         *      - the end: point _ptr to end (NULL);
+         *      - the end: point _ptr_node to end (NULL);
          */
 
         while (! _DepthStateStack.empty ())
         {
           _DepthState *_ptr_state  = _DepthStateStack.top ();
+          cout << "checking current node adjacency: " << _ptr_state->_ptr_node->vertex ().value () << endl;
 
-          if (_ptr_state->it_adj () != _ptr_state->it_adj_end ())
+          //TODO: check if this is a WHITE node
+          if (_ptr_state->_it_adj != _ptr_state->_it_adj_end)
           {
-//            _Base::_ptr = _ptr_state->it_adj ()->node ();
+            cout << "visiting adjacent node of: " << _ptr_state->_ptr_node->vertex ().value () << endl;
+            _ptr_node = _ptr_state->_it_adj->node ();
+            ++_ptr_state->_it_adj;
+            cout << "push node: " << _ptr_node->vertex ().value () << endl;
+           _DepthStateStack.push (_DepthState (_ptr_node, _ptr_node->adj_list ().begin (), _ptr_node->adj_list ().end ()));
+            break;
           }
           else
           {
+            cout << "stack size: " << _DepthStateStack.size () << endl;
             _DepthState *_ptr = _DepthStateStack.pop ();
-            cout << "node already visited: " << _ptr->ptr_node ()->vertex ().value () << endl;
+            cout << "pop node: " << _ptr->_ptr_node->vertex ().value () << endl;
+            cout << "top node: " << _DepthStateStack.top ()->_ptr_node->vertex ().value () << endl;
+            cout << "stack size: " << _DepthStateStack.size () << endl;
+            delete _ptr;
+          }
+        }
+
+        cout << "end of while" << endl;
+
+        if (_DepthStateStack.empty ())
+        {
+          cout << "stack empty" << endl;
+
+          while (_it_node != _it_node_end)
+          {
+            ++_it_node;
+            //TODO: check if this is a WHITE node
+            break;
+          }
+
+          if (_it_node != _it_node_end)
+          {
+            _ptr_node = &(*_it_node);
+	    _DepthInfoList.insert (_DepthInfo (&(*_it_node), _DepthInfo::GRAY, +_global_time));
+            cout << "push node: " << _it_node->vertex ().value () << endl;
+	    _DepthStateStack.push (_DepthState (&(*_it_node), _it_node->adj_list ().begin (), _it_node->adj_list ().end ()));
           }
         }
 /*
@@ -173,6 +218,18 @@ namespace cgt
 */
 
         return *this;
+      }
+
+    template<typename _TpVertex, typename _TpEdge>
+      const bool _depth_iterator<_TpVertex, _TpEdge>::operator==(const _Self &_other) const
+      {
+        return _ptr_node == _other._ptr_node;
+      }
+
+    template<typename _TpVertex, typename _TpEdge>
+      const bool _depth_iterator<_TpVertex, _TpEdge>::operator!=(const _Self &_other) const
+      {
+        return ! (*this == _other);
       }
 }
 
