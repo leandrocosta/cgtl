@@ -40,7 +40,7 @@ int main ()
 
   for (ite = g.edge_begin (); ite != iteEnd; ++ite)
   {
-    _Edge<string, int> &r_edge = *ite;
+    _GraphEdge<string, int> &r_edge = *ite;
     cout << "edge: " << r_edge.to_string () << endl;
   }
   */

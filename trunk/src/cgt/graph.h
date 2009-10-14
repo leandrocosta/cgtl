@@ -7,8 +7,8 @@
 //#include "list/list_iterator_base.h"
 //#include "list/list_iterator.h"
 //#include "list/list_const_iterator.h"
-#include "vertex.h"
-#include "edge.h"
+#include "graph_vertex.h"
+#include "graph_edge.h"
 #include "adjacency.h"
 #include "graph_node.h"
 #include "adj_list.h"
@@ -27,18 +27,18 @@ namespace cgt
       typedef _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType> _Base;
 
     public:
-      typedef _Vertex<_TpVertex>            vertex;
-      typedef _Edge<_TpVertex, _TpEdge>      edge;
-      typedef _GraphNode<_TpVertex, _TpEdge> node;
-      typedef _AdjList<_TpVertex, _TpEdge>   adjlist;
+      typedef _GraphVertex<_TpVertex>         vertex;
+      typedef _GraphEdge<_TpVertex, _TpEdge>  edge;
+      typedef _GraphNode<_TpVertex, _TpEdge>  node;
+      typedef _AdjList<_TpVertex, _TpEdge>    adjlist;
 
-      typedef typename _Base::iterator        iterator;
-      typedef typename _Base::const_iterator  const_iterator;
+      typedef typename _Base::iterator                        iterator;
+      typedef typename _Base::const_iterator                  const_iterator;
 
-      typedef _vertex_iterator<_TpVertex, _TpEdge>     vertex_iterator;
-      typedef _ListIterator<_Edge<_TpVertex, _TpEdge> > edge_iterator;
+      typedef _VertexIterator<_TpVertex, _TpEdge>             vertex_iterator;
+      typedef _ListIterator<_GraphEdge<_TpVertex, _TpEdge> >  edge_iterator;
 
-      typedef _depth_iterator<_TpVertex, _TpEdge>     depth_iterator;
+      typedef _DepthIterator<_TpVertex, _TpEdge>              depth_iterator;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
@@ -60,10 +60,10 @@ namespace cgt
       edge_iterator edge_end () { return edge_iterator (_Base::_edge_list.end ()); }
       vertex_iterator vertex_begin () { return vertex_iterator (_Base::begin ()); }
       vertex_iterator vertex_end () { return vertex_iterator (_Base::end ()); }
-      depth_iterator depth_begin () { return depth_iterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      depth_iterator depth_begin () { return depth_iterator (&(*_Base::begin ()), _Base::begin (), _Base::end ()); }
 //      depth_iterator depth_begin (const iterator _it = _Base::begin ()) { return depth_iterator (_Base::begin ()); }
 //      depth_iterator depth_begin (const iterator _it = _Base::begin ()) { return depth_iterator (_it); }
-      depth_iterator depth_end () { return depth_iterator (_Base::end (), _Base::begin (), _Base::end ()); }
+      depth_iterator depth_end () { return depth_iterator (NULL, _Base::begin (), _Base::end ()); }
   };
 }
 

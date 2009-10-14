@@ -1,18 +1,18 @@
-#ifndef _VERTEX_H_
-#define _VERTEX_H_
+#ifndef _GRAPH_VERTEX_H_
+#define _GRAPH_VERTEX_H_
 
 
 namespace cgt
 {
   template<typename _TpVertex>
-    class _Vertex
+    class _GraphVertex
     {
       public:
-        _Vertex (const _TpVertex &_v) { _value = _v; }
+        _GraphVertex (const _TpVertex &_v) { _value = _v; }
 
       public:
-        const bool operator==(const _Vertex<_TpVertex> &_v) const { return _value == _v.value (); }
-        const bool operator!=(const _Vertex<_TpVertex> &_v) const { return ! (*this == _v.value ()); }
+        const bool operator==(const _GraphVertex<_TpVertex> &_v) const { return _value == _v.value (); }
+        const bool operator!=(const _GraphVertex<_TpVertex> &_v) const { return ! (*this == _v.value ()); }
 
         const bool operator==(const _TpVertex &_v) const { return _value == _v; }
         const bool operator!=(const _TpVertex &_v) const { return ! (*this == _v); }

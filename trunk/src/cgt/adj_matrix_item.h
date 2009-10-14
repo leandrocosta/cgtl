@@ -9,20 +9,20 @@ class _AdjMatrixItem : protected _ListItem<_GraphNode<_TpVertex, _TpEdge> >
     _AdjMatrixItem (const _TpVertex &_v) : _ListItem<_GraphNode<_TpVertex, _TpEdge> > (_GraphNode<_TpVertex, _TpEdge> (_v)) { }
 
   public:
-    _Vertex<_TpVertex>&      get_vertex () { return _get_data ()._vertex; }
+    _GraphVertex<_TpVertex>&      get_vertex () { return _get_data ()._vertex; }
     _AdjMatrixItem<_TpVertex, _TpEdge>*  get_next () const { return static_cast<_AdjMatrixItem<_TpVertex, _TpEdge> *> (_get_next ()); }
 
     _AdjList<_TpVertex, _TpEdge>&  get_list () { return _get_data ()._adjList; }
 
-    _Vertex<_TpVertex>* get_vertex_ptr ()
+    _GraphVertex<_TpVertex>* get_vertex_ptr ()
     {
       return &_get_data ()._vertex;
     }
 
     /*
-    _Edge<_TpVertex, _TpEdge>* get_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2) const
+    _GraphEdge<_TpVertex, _TpEdge>* get_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2) const
     {
-      _Edge<_TpVertex, _TpEdge> *_ptr = NULL;
+      _GraphEdge<_TpVertex, _TpEdge> *_ptr = NULL;
 
       if (_get_data ()._vertex == _v1)
         _ptr = _get_data ()._adjList.get_edge (_e, _v2);
@@ -33,7 +33,7 @@ class _AdjMatrixItem : protected _ListItem<_GraphNode<_TpVertex, _TpEdge> >
 
     void set_next (_AdjMatrixItem<_TpVertex, _TpEdge> *_n) { _set_next (_n); };
 
-    void insert_edge (const _TpEdge &_e, _Vertex<_TpVertex> &_v1, _Vertex<_TpVertex> &_v2)
+    void insert_edge (const _TpEdge &_e, _GraphVertex<_TpVertex> &_v1, _GraphVertex<_TpVertex> &_v2)
     {
       _get_data ()._adjList.insert_edge (_e, _v1, _v2);
     }
