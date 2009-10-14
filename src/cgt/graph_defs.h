@@ -3,7 +3,7 @@
 
 
 template<typename _TpVertex, typename _TpEdge>
-class _Edge;
+class _GraphEdge;
 
 template<typename _TpVertex, typename _TpEdge>
 class _AdjListItem;

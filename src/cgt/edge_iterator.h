@@ -15,19 +15,19 @@ namespace cgt
 
 
   template<typename _TpVertex, typename _TpEdge>
-    class _edge_iterator : public _ListIterator<_Edge<_TpVertex, _TpEdge> >
+    class _edge_iterator : public _ListIterator<_GraphEdge<_TpVertex, _TpEdge> >
     {
       private:
-        typedef _ListIterator<_Edge<_TpVertex, _TpEdge> > _Base;
+        typedef _ListIterator<_GraphEdge<_TpVertex, _TpEdge> > _Base;
         typedef _edge_iterator<_TpVertex, _TpEdge>        _Self;
 
       public:
         _edge_iterator () { }
-        _edge_iterator (const _ListIterator<_Edge<_TpVertex, _TpEdge> > &_iterator) : _ListIterator<_Edge<_TpVertex, _TpEdge> > (_iterator) { }
+        _edge_iterator (const _ListIterator<_GraphEdge<_TpVertex, _TpEdge> > &_iterator) : _ListIterator<_GraphEdge<_TpVertex, _TpEdge> > (_iterator) { }
 
       public:
-        _Edge<_TpVertex, _TpEdge>& operator*() const;
-        _Edge<_TpVertex, _TpEdge>* operator->() const;
+        _GraphEdge<_TpVertex, _TpEdge>& operator*() const;
+        _GraphEdge<_TpVertex, _TpEdge>* operator->() const;
 /*
         _edge_iterator<_TpVertex, _TpEdge>& operator++();
         const bool operator!=(_edge_iterator<_TpVertex, _TpEdge> &_other) const;
@@ -41,13 +41,13 @@ namespace cgt
     };
 
      template<typename _TpVertex, typename _TpEdge>
-     _Edge<_TpVertex, _TpEdge>& _edge_iterator<_TpVertex, _TpEdge>::operator*() const
+     _GraphEdge<_TpVertex, _TpEdge>& _edge_iterator<_TpVertex, _TpEdge>::operator*() const
      {
        return _Base::operator*().value ();
      }
 
 //     template<typename _TpVertex, typename _TpEdge>
-//     _Edge<_TpVertex, _TpEdge>* _edge_iterator<_TpVertex, _TpEdge>::operator->() const
+//     _GraphEdge<_TpVertex, _TpEdge>* _edge_iterator<_TpVertex, _TpEdge>::operator->() const
 //     {
 //       return &(operator*());
 //     }

@@ -20,7 +20,7 @@ namespace cgt
   }
 
   template<typename _TpVertex>
-    class _Vertex;
+    class _GraphVertex;
 
   template<typename _TpVertex, typename _TpEdge>
     class _GraphNode;
@@ -53,7 +53,7 @@ namespace cgt
 
     private:
       _TpGraphType                        _type;
-      _List<_Edge<_TpVertex, _TpEdge> >  _edge_list;
+      _List<_GraphEdge<_TpVertex, _TpEdge> >  _edge_list;
   };
 
 
@@ -103,13 +103,13 @@ namespace cgt
 
         if (_ptr_n2)
         {
-          _Vertex<_TpVertex>& _vertex2 = _ptr_n2->vertex ();
+          _GraphVertex<_TpVertex>& _vertex2 = _ptr_n2->vertex ();
 
           if (! _ptr_n1->_get_edge (_vertex2))
           {
-            _Vertex<_TpVertex>& _vertex1 = _ptr_n1->vertex ();
+            _GraphVertex<_TpVertex>& _vertex1 = _ptr_n1->vertex ();
 
-            _Edge<_TpVertex, _TpEdge> &_edge = _edge_list.insert (_Edge<_TpVertex, _TpEdge> (_e, _vertex1, _vertex2));
+            _GraphEdge<_TpVertex, _TpEdge> &_edge = _edge_list.insert (_GraphEdge<_TpVertex, _TpEdge> (_e, _vertex1, _vertex2));
 
             _ptr_n1->_insert (_edge, _vertex2, _ptr_n2);
 

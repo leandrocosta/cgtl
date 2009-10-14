@@ -16,7 +16,24 @@ int main ()
 
   g.insert_vertex ("A");
   g.insert_vertex ("B");
+  g.insert_vertex ("C");
+  g.insert_vertex ("D");
+  g.insert_vertex ("E");
+  g.insert_vertex ("F");
+  g.insert_vertex ("G");
+  g.insert_vertex ("H");
+  g.insert_vertex ("I");
+  g.insert_vertex ("J");
   g.insert_edge (0, "A", "B");
+  g.insert_edge (1, "A", "C");
+  g.insert_edge (2, "C", "E");
+  g.insert_edge (3, "D", "E");
+  g.insert_edge (4, "D", "F");
+
+  g.insert_edge (5, "C", "G");
+  g.insert_edge (6, "E", "H");
+  g.insert_edge (7, "D", "I");
+  g.insert_edge (8, "C", "J");
 
   mygraph::depth_iterator itd;
   mygraph::depth_iterator itdEnd = g.depth_end ();
