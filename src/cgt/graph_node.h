@@ -29,7 +29,7 @@ namespace cgt
         const _Edge<_TpVertex, _TpEdge>* _get_edge (const _Vertex<_TpVertex> &_v) const;
 
       public:
-        void _insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _Self *_ptr_n);
+        void _insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, _Self* const _ptr_n);
 
       private:
         _Vertex<_TpVertex>            _vertex;
@@ -43,7 +43,7 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge>
-    void _GraphNode<_TpVertex, _TpEdge>::_insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _Self *_ptr_n)
+    void _GraphNode<_TpVertex, _TpEdge>::_insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, _Self* const _ptr_n)
     {
       _adjList._insert (_e, _v, _ptr_n);
     }

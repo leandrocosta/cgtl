@@ -29,7 +29,7 @@ namespace cgt
       const _Edge<_TpVertex, _TpEdge>* _get_edge (const _Vertex<_TpVertex> &_v) const;
 
     public:
-      void _insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _GraphNode<_TpVertex, _TpEdge> *_ptr_n);
+      void _insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, _GraphNode<_TpVertex, _TpEdge>* const _ptr_n);
   };
 
   template<typename _TpVertex, typename _TpEdge>
@@ -53,7 +53,7 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge>
-    void _AdjList<_TpVertex, _TpEdge>::_insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, const _GraphNode<_TpVertex, _TpEdge> *_ptr_n)
+    void _AdjList<_TpVertex, _TpEdge>::_insert (const _Edge<_TpVertex, _TpEdge>& _e, _Vertex<_TpVertex> &_v, _GraphNode<_TpVertex, _TpEdge>* const _ptr_n)
     {
       _List<_Adjacency<_TpVertex, _TpEdge> >::insert (_Adjacency<_TpVertex, _TpEdge> (_e, _v, _ptr_n));
     }

@@ -21,6 +21,7 @@ namespace cgt
           using _Base::const_iterator;
           using _Base::begin;
           using _Base::end;
+          using _Base::size;
           using _Base::empty;
 
         public:
