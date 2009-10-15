@@ -38,12 +38,16 @@ int main ()
   mygraph::depth_iterator itd;
   mygraph::depth_iterator itdEnd = g.depth_end ();
 
-  for (itd = g.depth_begin (); itd != itdEnd; ++itd)
+  for (itd = g.depth_begin (g.find ("E")); itd != itdEnd; ++itd)
   {
-    mygraph::node&    n = *itd;
-    mygraph::vertex&  v = n.vertex ();
-    cout << "itd: " << v.value () <<  ", discovery: " << itd.info (&n)->discovery () << endl;
+    const mygraph::node&       n = *itd;
+    const mygraph::vertex&     v = n.vertex ();
+    const mygraph::depth_info* i = itd.info (n);
+
+    cout << "itd: " << v.value () <<  ", discovery: " << i->discovery () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << endl;
   }
+
+  cout << endl;
 
   mygraph::const_iterator itn;
   mygraph::const_iterator itnEnd = g.end ();
@@ -52,8 +56,9 @@ int main ()
   {
     const mygraph::node&   n = *itn;
     const mygraph::vertex& v = n.vertex ();
+    const mygraph::depth_info* i = itd.info (n);
 
-    cout << "node: " << v.value () << ", discovery: " << itd.info (&n)->discovery () << ", finish: " << itd.info (&n)->finish () << endl;
+    cout << "node: " << v.value () << ", discovery: " << i->discovery () << ", finish: " << i->finish () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << endl;
   }
 
 /*

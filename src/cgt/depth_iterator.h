@@ -69,6 +69,8 @@ namespace cgt
             _DepthInfo (const _Node *_ptr_n, const _color_t &_c, const unsigned long &_d) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (_c), _discovery (_d), _finish (0) { }
 
           public:
+            const _Node* const parent () const { return _ptr_parent; }
+            const _color_t& color () const { return _color; }
             const unsigned long& discovery () const { return _discovery; }
             const unsigned long& finish () const { return _finish; }
 
@@ -138,10 +140,8 @@ namespace cgt
         const bool operator!=(const _Self &_other) const;
 
       public:
-        const _DepthInfo* const info (const _Node* const _ptr_node)
-        {
-          return _get_depth_info_by_node (_ptr_node);
-        }
+        const _DepthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (_ptr_node); }
+        const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (&_node); }
 
       private:
         _Node*              _ptr_node;
