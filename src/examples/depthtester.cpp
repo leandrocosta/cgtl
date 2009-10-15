@@ -42,7 +42,18 @@ int main ()
   {
     mygraph::node&    n = *itd;
     mygraph::vertex&  v = n.vertex ();
-    cout << "itd: " << v.value () << endl;
+    cout << "itd: " << v.value () <<  ", discovery: " << itd.info (&n)->discovery () << endl;
+  }
+
+  mygraph::const_iterator itn;
+  mygraph::const_iterator itnEnd = g.end ();
+
+  for (itn = g.begin (); itn != itnEnd; ++itn)
+  {
+    const mygraph::node&   n = *itn;
+    const mygraph::vertex& v = n.vertex ();
+
+    cout << "node: " << v.value () << ", discovery: " << itd.info (&n)->discovery () << ", finish: " << itd.info (&n)->finish () << endl;
   }
 
 /*

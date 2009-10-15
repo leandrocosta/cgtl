@@ -1,12 +1,7 @@
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
 
-//#include "list/list_item_base.h"
-//#include "list/list_item.h"
 #include "list/list.h"
-//#include "list/list_iterator_base.h"
-//#include "list/list_iterator.h"
-//#include "list/list_const_iterator.h"
 #include "graph_vertex.h"
 #include "graph_edge.h"
 #include "adjacency.h"
