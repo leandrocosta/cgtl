@@ -13,19 +13,21 @@ namespace cgt
     {
       private:
         typedef _GraphNode<_TpVertex, _TpEdge> _Node;
+        typedef _GraphEdge<_TpVertex, _TpEdge> _Edge;
+        typedef _GraphVertex<_TpVertex>        _Vertex;
 
       public:
-        _Adjacency (const _GraphEdge<_TpVertex, _TpEdge>& _e, _GraphVertex<_TpVertex> &_v, _GraphNode<_TpVertex, _TpEdge>* const _ptr_n) : _edge (_e), _vertex (_v), _ptr_node (_ptr_n)  { }
+        _Adjacency (const _Edge& _e, const _Vertex& _v, _Node* const _ptr_n) : _edge (_e), _vertex (_v), _ptr_node (_ptr_n)  { }
 
       public:
-        const _GraphEdge<_TpVertex, _TpEdge>&  get_edge () const;
-        const _GraphVertex<_TpVertex>& get_vertex () const;
+        const _Edge&  get_edge () const;
+        const _Vertex& get_vertex () const;
         _Node* node () const;
 
       private:
-        const _GraphEdge<_TpVertex, _TpEdge>&  _edge;
-        _GraphVertex<_TpVertex>&               _vertex;
-        _Node* const                      _ptr_node;
+        const _Edge&   _edge;
+        const _Vertex& _vertex;
+        _Node* const   _ptr_node;
     };
 
   template<typename _TpVertex, typename _TpEdge>

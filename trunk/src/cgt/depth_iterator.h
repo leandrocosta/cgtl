@@ -52,7 +52,7 @@ namespace cgt
         typedef _ListIterator<_GraphNode<_TpVertex, _TpEdge> >      _NodeIterator;
         typedef _ListConstIterator<_Adjacency<_TpVertex, _TpEdge> > _AdjIterator;
 
-      private:
+      public:
 
         /*
          * keep informations about each visited node like
@@ -67,6 +67,10 @@ namespace cgt
           public:
             _DepthInfo (const _Node *_ptr_n) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (WHITE), _discovery (0), _finish (0) { }
             _DepthInfo (const _Node *_ptr_n, const _color_t &_c, const unsigned long &_d) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (_c), _discovery (_d), _finish (0) { }
+
+          public:
+            const unsigned long& discovery () const { return _discovery; }
+            const unsigned long& finish () const { return _finish; }
 
           public:
             const _Node*  _ptr_node;
@@ -85,10 +89,10 @@ namespace cgt
         class _DepthState
         {
           public:
-            _DepthState (const _Node* const _ptr_n, const _AdjIterator &_it_a, const _AdjIterator &_it_adj_e) : _ptr_node (_ptr_n), _it_adj (_it_a), _it_adj_end (_it_adj_e) { };
+            _DepthState (const _Node& _n, const _AdjIterator &_it_a, const _AdjIterator &_it_adj_e) : _node (_n), _it_adj (_it_a), _it_adj_end (_it_adj_e) { };
 
           public:
-            const _Node* const  _ptr_node;
+            const _Node&        _node;
             _AdjIterator        _it_adj;
             const _AdjIterator  _it_adj_end;
         };
@@ -102,16 +106,42 @@ namespace cgt
 
       private:
         void _init ();
-        void _update_depth_info (const _Node* _ptr_node, const _Node *_ptr_parent, const typename _DepthInfo::_color_t &_color);
-        void _update_depth_info (const _Node* _ptr_node, const typename _DepthInfo::_color_t &_color);
-        const bool _has_color (const _Node* _ptr_node, const typename _DepthInfo::_color_t &_color) const;
+        _DepthInfo* _get_depth_info_by_node (const _Node* const _ptr_node)
+        {
+          _DepthInfo *_ptr = NULL;
+
+          _ListIterator<_DepthInfo> it;
+          _ListIterator<_DepthInfo> itEnd = _DepthInfoList.end ();
+
+          for (it = _DepthInfoList.begin (); it != itEnd; ++it)
+          {
+            if (it->_ptr_node == _ptr_node)
+            {
+              _ptr = &(*it);
+              break;
+            }
+          }
+
+          return _ptr;
+        }
+
+        void _discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d);
+        void _finish_node (const _Node* const _ptr_node, const unsigned long& _f);
+        const bool _has_color (const _Node* const _ptr_node, const typename _DepthInfo::_color_t &_color) const;
 
       public:
         _Node& operator*() const;
         _Node* operator->() const;
         _Self& operator++();
+        const _Self operator++(int);
         const bool operator==(const _Self &_other) const;
         const bool operator!=(const _Self &_other) const;
+
+      public:
+        const _DepthInfo* const info (const _Node* const _ptr_node)
+        {
+          return _get_depth_info_by_node (_ptr_node);
+        }
 
       private:
         _Node*              _ptr_node;
@@ -136,14 +166,13 @@ namespace cgt
        */
 
       _NodeIterator it;
-      _NodeIterator itEnd = _it_node_end;
 
-      for (it = _it_node; it != itEnd; ++it)
+      for (it = _it_node; it != _it_node_end; ++it)
       {
         if (&(*it) == _ptr_node)
         {
           _DepthInfoList.insert (_DepthInfo (&(*it), _DepthInfo::GRAY, ++_global_time));
-          _DepthStateStack.push (_DepthState (&(*it), it->adj_list ().begin (), it->adj_list ().end ()));
+          _DepthStateStack.push (_DepthState (*it, it->adj_list ().begin (), it->adj_list ().end ()));
         }
         else
           _DepthInfoList.insert (_DepthInfo (&(*it)));
@@ -151,35 +180,27 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge>
-    void _DepthIterator<_TpVertex, _TpEdge>::_update_depth_info (const _Node* _ptr_node, const _Node *_ptr_parent, const typename _DepthInfo::_color_t &_color)
+    void _DepthIterator<_TpVertex, _TpEdge>::_discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d)
     {
-      _ListIterator<_DepthInfo> it;
-      _ListIterator<_DepthInfo> itEnd = _DepthInfoList.end ();
+      _DepthInfo *_ptr = _get_depth_info_by_node (_ptr_node);
 
-      for (it = _DepthInfoList.begin (); it != itEnd; ++it)
+      if (_ptr)
       {
-        if (it->_ptr_node == _ptr_node)
-        {
-          it->_ptr_parent = _ptr_parent;
-          it->_color      = _color;
-          break;
-        }
+        _ptr->_ptr_parent = _ptr_parent;
+        _ptr->_color      = _DepthInfo::GRAY;
+        _ptr->_discovery  = _d;
       }
     }
 
   template<typename _TpVertex, typename _TpEdge>
-    void _DepthIterator<_TpVertex, _TpEdge>::_update_depth_info (const _Node* _ptr_node, const typename _DepthInfo::_color_t &_color)
+    void _DepthIterator<_TpVertex, _TpEdge>::_finish_node (const _Node* const _ptr_node, const unsigned long& _f)
     {
-      _ListIterator<_DepthInfo> it;
-      _ListIterator<_DepthInfo> itEnd = _DepthInfoList.end ();
+      _DepthInfo *_ptr = _get_depth_info_by_node (_ptr_node);
 
-      for (it = _DepthInfoList.begin (); it != itEnd; ++it)
+      if (_ptr)
       {
-        if (it->_ptr_node == _ptr_node)
-        {
-          it->_color = _color;
-          break;
-        }
+        _ptr->_color      = _DepthInfo::BLACK;
+        _ptr->_finish     = _f;
       }
     }
 
@@ -237,18 +258,23 @@ namespace cgt
       {
         _DepthState *_ptr_state  = _DepthStateStack.top ();
 
-        if (_ptr_state->_it_adj != _ptr_state->_it_adj_end && _has_color (_ptr_state->_it_adj->node (), _DepthInfo::WHITE))
+        if (_ptr_state->_it_adj != _ptr_state->_it_adj_end)
         {
-          _ptr_node = _ptr_state->_it_adj->node ();
-          ++_ptr_state->_it_adj;
-          _DepthStateStack.push (_DepthState (_ptr_node, _ptr_node->adj_list ().begin (), _ptr_node->adj_list ().end ()));
-          _update_depth_info (_ptr_node, _ptr_state->_ptr_node, _DepthInfo::GRAY);
-          break;
+          if (_has_color (_ptr_state->_it_adj->node (), _DepthInfo::WHITE))
+          {
+            _ptr_node = _ptr_state->_it_adj->node ();
+            ++_ptr_state->_it_adj;
+            _DepthStateStack.push (_DepthState (*_ptr_node, _ptr_node->adj_list ().begin (), _ptr_node->adj_list ().end ()));
+            _discover_node (_ptr_node, &(_ptr_state->_node), ++_global_time);
+            break;
+          }
+          else
+            ++_ptr_state->_it_adj;
         }
         else
         {
           _DepthState *_ptr = _DepthStateStack.pop ();
-          _update_depth_info (_ptr->_ptr_node, _DepthInfo::BLACK);
+          _finish_node (&(_ptr->_node), ++_global_time);
           delete _ptr;
         }
       }
@@ -265,12 +291,21 @@ namespace cgt
         else
         {
           _ptr_node = &(*_it_node);
-          _DepthInfoList.insert (_DepthInfo (&(*_it_node), _DepthInfo::GRAY, ++_global_time));
-          _DepthStateStack.push (_DepthState (&(*_it_node), _it_node->adj_list ().begin (), _it_node->adj_list ().end ()));
+//          _DepthInfoList.insert (_DepthInfo (&(*_it_node), _DepthInfo::GRAY, ++_global_time));
+          _DepthStateStack.push (_DepthState (*_it_node, _it_node->adj_list ().begin (), _it_node->adj_list ().end ()));
+          _discover_node (&(*_it_node), NULL, ++_global_time);
         }
       }
 
       return *this;
+    }
+
+  template<typename _TpVertex, typename _TpEdge>
+    const _DepthIterator<_TpVertex, _TpEdge> _DepthIterator<_TpVertex, _TpEdge>::operator++(int)
+    {
+      _Self _it = *this;
+      operator++();
+      return _it;
     }
 
   template<typename _TpVertex, typename _TpEdge>
@@ -282,7 +317,7 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     const bool _DepthIterator<_TpVertex, _TpEdge>::operator!=(const _Self &_other) const
     {
-      return ! (*this == _other);
+      return !(*this == _other);
     }
 }
 
