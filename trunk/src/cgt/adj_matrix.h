@@ -41,6 +41,7 @@ namespace cgt
 
     private:
       _Node* _get_node (const _TpVertex &_vertex);
+      typename _Base::iterator _find (const _TpVertex &_vertex);
 
     private:
       void _insert_node (const _TpVertex &_vertex);
@@ -75,6 +76,18 @@ namespace cgt
       }
 
       return _ptr_node;
+    }
+
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    typename _List<_GraphNode<_TpVertex, _TpEdge> >::iterator _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_find (const _TpVertex &_vertex)
+    {
+      typename _Base::iterator it    = _Base::begin ();
+      typename _Base::iterator itEnd = _Base::end ();
+
+      while (it != itEnd && it->vertex () != _vertex)
+        it++;
+     
+      return it;
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
