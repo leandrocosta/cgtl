@@ -1,6 +1,7 @@
 #ifndef _LIST_ITERATOR_BASE_H_
 #define _LIST_ITERATOR_BASE_H_
 
+
 namespace cgt
 {
   namespace list

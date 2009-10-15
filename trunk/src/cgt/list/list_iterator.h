@@ -1,17 +1,13 @@
 #ifndef _LIST_ITERATOR_H_
 #define _LIST_ITERATOR_H_
 
-#include <assert.h>
+#include "list_iterator_base.h"
 
 
 namespace cgt
 {
   namespace list
   {
-    template<typename _TpItem>
-      class _ListIteratorBase;
-
-
     template<typename _TpItem>
       class _ListIterator : public _ListIteratorBase<_TpItem>
     {
@@ -22,13 +18,14 @@ namespace cgt
 
       public:
         _ListIterator () { }
-        _ListIterator (_ListItem<_TpItem> *_p) : _ListIteratorBase<_TpItem> (_p) { }
+        _ListIterator (_Item *_p) : _Base (_p) { }
 
       public:
         _TpItem& operator*() const;
         _TpItem* operator->() const;
 
         _Self& operator++();
+        const _Self operator++(int);
     };
 
     template<typename _TpItem>
@@ -46,9 +43,16 @@ namespace cgt
     template<typename _TpItem>
       _ListIterator<_TpItem>& _ListIterator<_TpItem>::operator++()
       {
-        assert (_Base::_ptr != NULL);
         _Base::_incr ();
         return *this;
+      }
+
+    template<typename _TpItem>
+      const _ListIterator<_TpItem> _ListIterator<_TpItem>::operator++(int)
+      {
+        _Self _it = *this;
+        _Base::_incr ();
+        return _it;
       }
   }
 }
