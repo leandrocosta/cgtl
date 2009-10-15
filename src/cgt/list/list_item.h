@@ -1,13 +1,13 @@
 #ifndef _LIST_ITEM_H_
 #define _LIST_ITEM_H_
 
+#include "list_item_base.h"
+
+
 namespace cgt
 {
   namespace list
   {
-    template<typename _TpItem>
-      class _ListItemBase;
-
     template<typename _TpItem>
       class _List;
 

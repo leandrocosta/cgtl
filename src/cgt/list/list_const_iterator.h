@@ -1,13 +1,13 @@
 #ifndef _LIST_CONST_ITERATOR_H_
 #define _LIST_CONST_ITERATOR_H_
 
+#include "list_iterator_base.h"
+
+
 namespace cgt
 {
   namespace list
   {
-    template<typename _TpItem>
-      class _ListIteratorBase;
-
     template<typename _TpItem>
       class _ListIterator;
 
@@ -15,26 +15,29 @@ namespace cgt
     template<typename _TpItem>
       class _ListConstIterator : public _ListIteratorBase<_TpItem>
     {
+      private:
+        typedef _ListIteratorBase<_TpItem>  _Base;
+        typedef _ListConstIterator<_TpItem> _Self;
+        typedef _ListItem<_TpItem>          _Item;
+        typedef _ListIterator<_TpItem>      _Iterator;
+
       public:
         _ListConstIterator () { }
-        _ListConstIterator (_ListItem<_TpItem> *_p) : _ListIteratorBase<_TpItem> (_p) { }
-        _ListConstIterator (const _ListIterator<_TpItem> &_iterator) : _ListIteratorBase<_TpItem> (_iterator._ptr) { }
-
-      private:
-        typedef _ListConstIterator<_TpItem>  _Self;
-        typedef _ListItem<_TpItem>           _Item;
+        _ListConstIterator (_Item *_p) : _Base (_p) { }
+        _ListConstIterator (const _Iterator &_iterator) : _Base (_iterator._ptr) { }
 
       public:
         const _TpItem& operator*() const;
         const _TpItem* operator->() const;
 
         _Self& operator++();
+        const _Self operator++(int);
     };
 
     template<typename _TpItem>
       const _TpItem& _ListConstIterator<_TpItem>::operator*() const
       {
-        return static_cast<_Item *>(_ListIteratorBase<_TpItem>::_ptr)->_data;
+        return static_cast<_Item *>(_Base::_ptr)->_data;
       }
 
     template<typename _TpItem>
@@ -46,9 +49,16 @@ namespace cgt
     template<typename _TpItem>
       _ListConstIterator<_TpItem>& _ListConstIterator<_TpItem>::operator++()
       {
-        assert (_ListIteratorBase<_TpItem>::_ptr != NULL);
-        _ListIteratorBase<_TpItem>::_incr ();
+        _Base::_incr ();
         return *this;
+      }
+
+    template<typename _TpItem>
+      const _ListConstIterator<_TpItem> _ListConstIterator<_TpItem>::operator++(int)
+      {
+        _Self _it = *this;
+        _Base::_incr ();
+        return _it;
       }
   }
 }

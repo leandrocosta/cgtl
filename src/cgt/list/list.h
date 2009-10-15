@@ -7,23 +7,18 @@
 #include "list_iterator.h"
 #include "list_const_iterator.h"
 
+
 namespace cgt
 {
   namespace list
   {
     template<typename _TpItem>
-      class _ListItem;
-
-    template<typename _TpItem>
-      class _ListIterator;
-
-    template<typename _TpItem>
-      class _ListConstIterator;
-
-
-    template<typename _TpItem>
       class _List
       {
+        private:
+          typedef _List<_TpItem>     _Self;
+          typedef _ListItem<_TpItem> _Item;
+
         public:
           typedef _ListIterator<_TpItem>       iterator;
           typedef _ListConstIterator<_TpItem>  const_iterator;
@@ -32,40 +27,26 @@ namespace cgt
           _List () : _head (NULL), _tail (NULL), _size (0) { }
           _List (const _List& _l) : _head (NULL), _tail (NULL), _size (0)
           {
-//            cout << "_List (const _List& _l)" << endl;
             *this = _l;
           }
           virtual ~_List ()
           {
-//            cout << "~_List () - _head: " << _head << endl;
-
-            _ListItem<_TpItem> *_ptr = NULL;
+            _Item *_ptr = NULL;
 
             while (_head)
             {
               _ptr = _head;
-              _head = static_cast<_ListItem<_TpItem> *>(_ptr->_next);
+              _head = static_cast<_Item *>(_ptr->_next);
               delete _ptr;
             }
           }
 
         public:
-          _List& operator=(const _List& _l)
-          {
-//            cout << "_List& operator=(const _List& _l)" << endl;
-
-            const_iterator it;
-            const_iterator itEnd = _l.end ();
-
-            for (it = _l.begin (); it != itEnd; ++it)
-              insert (*it);
-
-            return *this;
-          }
+          _Self& operator=(const _Self& _l);
 
         private:
-          _TpItem& _push_front (_ListItem<_TpItem> *_ptr);
-          _TpItem& _push_back (_ListItem<_TpItem> *_ptr);
+          _TpItem& _push_front (_Item *_ptr);
+          _TpItem& _push_back (_Item *_ptr);
 
         public:
           _TpItem& insert (const _TpItem &_item);
@@ -89,21 +70,29 @@ namespace cgt
           iterator find (const _TpItem &_item);
           const_iterator find (const _TpItem &_item) const;
 
-        protected:
-          _ListItem<_TpItem>*  _head;
-          _ListItem<_TpItem>*  _tail;
-          unsigned long        _size;
+        private:
+          _Item*        _head;
+          _Item*        _tail;
+          unsigned long _size;
       };
 
     template<typename _TpItem>
-      _TpItem& _List<_TpItem>::_push_front (_ListItem<_TpItem> *_ptr)
+      _List<_TpItem>& _List<_TpItem>::operator=(const _Self& _l)
       {
-//        cout << "_push_front (_ptr: " << _ptr << ") - _head: " << _head << endl;
+        const_iterator it;
+        const_iterator itEnd = _l.end ();
 
+        for (it = _l.begin (); it != itEnd; ++it)
+          insert (*it);
+
+        return *this;
+      }
+
+    template<typename _TpItem>
+      _TpItem& _List<_TpItem>::_push_front (_Item *_ptr)
+      {
         _ptr->_next = _head;
         _head = _ptr;
-
-//        cout << "_push_front (_ptr: " << _ptr << ") - _head: " << _head << ", _head->_next: " << _head->_next << endl;
 
         if (! _tail)
           _tail = _ptr;
@@ -114,7 +103,7 @@ namespace cgt
       }
 
     template<typename _TpItem>
-      _TpItem& _List<_TpItem>::_push_back (_ListItem<_TpItem> *_ptr)
+      _TpItem& _List<_TpItem>::_push_back (_Item *_ptr)
       {
         if (! _head)
           _head = _ptr;
@@ -131,19 +120,19 @@ namespace cgt
     template<typename _TpItem>
       _TpItem& _List<_TpItem>::insert (const _TpItem &_item)
       {
-        return _push_back (new _ListItem<_TpItem> (_item));
+        return _push_back (new _Item (_item));
       }
 
     template<typename _TpItem>
       _TpItem& _List<_TpItem>::push_front (const _TpItem &_item)
       {
-        return _push_front (new _ListItem<_TpItem> (_item));
+        return _push_front (new _Item (_item));
       }
 
     template<typename _TpItem>
       _TpItem& _List<_TpItem>::push_back (const _TpItem &_item)
       {
-        return _push_back (new _ListItem<_TpItem> (_item));
+        return _push_back (new _Item (_item));
       }
 
     template<typename _TpItem>
@@ -153,8 +142,8 @@ namespace cgt
 
         if (_head)
         {
-          _ListItem<_TpItem> *_ptr_item = _head;
-          _head = static_cast<_ListItem<_TpItem> *> (_head->_next);
+          _Item *_ptr_item = _head;
+          _head = static_cast<_Item *> (_head->_next);
           _ptr = new _TpItem (_ptr_item->_data);
 
           delete _ptr_item;
@@ -194,8 +183,8 @@ namespace cgt
     template<typename _TpItem>
       _ListIterator<_TpItem> _List<_TpItem>::find (const _TpItem &_item)
       {
-        _ListIterator<_TpItem> it    = begin ();
-        _ListIterator<_TpItem> itEnd = end ();
+        iterator it    = begin ();
+        iterator itEnd = end ();
 
         while (it != end () && *it != _item)
           ++it;
