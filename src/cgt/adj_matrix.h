@@ -3,7 +3,9 @@
 
 #include "graph_type.h"
 
+#include "list/list_iterator.h"
 using namespace cgt::list;
+
 
 namespace cgt
 {
@@ -14,9 +16,6 @@ namespace cgt
 
     template<typename _TpItem>
       class _ListItem;
-
-    template<typename _TpItem>
-      class _ListIterator;
   }
 
   template<typename _TpVertex>

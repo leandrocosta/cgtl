@@ -6,7 +6,7 @@ namespace cgt
 {
   namespace list
   {
-    template<typename _TpItem>
+    template<typename _TpItem, typename _TpIterator>
       class _ListIterator;
   }
 

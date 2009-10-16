@@ -2,6 +2,7 @@
 #define _LIST_ITEM_H_
 
 #include "list_item_base.h"
+#include "iterator_type.h"
 
 
 namespace cgt
@@ -11,11 +12,8 @@ namespace cgt
     template<typename _TpItem>
       class _List;
 
-    template<typename _TpItem>
+    template<typename _TpItem, typename _TpIterator>
       class _ListIterator;
-
-    template<typename _TpItem>
-      class _ListConstIterator;
 
 
     template<typename _TpItem>
@@ -23,8 +21,8 @@ namespace cgt
     {
       private:
         friend class _List<_TpItem>;
-        friend class _ListIterator<_TpItem>;
-        friend class _ListConstIterator<_TpItem>;
+        friend class _ListIterator<_TpItem, _TpCommon<_TpItem> >;
+        friend class _ListIterator<_TpItem, _TpConst<_TpItem> >;
 
       private:
         _ListItem (const _TpItem &_d) : _data (_d) { }

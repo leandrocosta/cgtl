@@ -4,7 +4,7 @@
 #include "list/list.h"
 #include "graph_vertex.h"
 #include "graph_edge.h"
-#include "adjacency.h"
+#include "graph_adjacency.h"
 #include "graph_node.h"
 #include "adj_list.h"
 #include "adj_matrix.h"
