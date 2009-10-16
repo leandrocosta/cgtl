@@ -29,8 +29,8 @@ int main ()
   cout << "directed graph: " << (g.is_directed () ? "true":"false") << endl;
   cout << endl;
 
-  mygraph::vertex_iterator itv;
-  mygraph::vertex_iterator itvEnd = g.vertex_end ();
+  mygraph::viterator itv;
+  mygraph::viterator itvEnd = g.vertex_end ();
 
   for (itv = g.vertex_begin (); itv != itvEnd; ++itv)
   {
@@ -41,8 +41,8 @@ int main ()
 
   cout << endl;
 
-  mygraph::edge_iterator ite;
-  mygraph::edge_iterator iteEnd = g.edge_end ();
+  mygraph::const_eiterator ite;
+  mygraph::const_eiterator iteEnd = g.edge_end ();
 
   for (ite = g.edge_begin (); ite != iteEnd; ++ite)
   {

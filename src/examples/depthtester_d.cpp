@@ -46,8 +46,8 @@ int main ()
   cout << endl;
   cout << "=== depth-first search from vertex E ===" << endl << endl;
 
-  mygraph::depth_iterator itd;
-  mygraph::depth_iterator itdEnd = g.depth_end ();
+  mygraph::diterator itd;
+  mygraph::diterator itdEnd = g.depth_end ();
 
   for (itd = g.depth_begin (g.find ("E")); itd != itdEnd; ++itd)
   {
