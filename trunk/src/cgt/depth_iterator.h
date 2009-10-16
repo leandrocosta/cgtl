@@ -1,20 +1,17 @@
 #ifndef _DEPTH_ITERATOR_H_
 #define _DEPTH_ITERATOR_H_
 
+#include "list/list_iterator.h"
+using namespace cgt::list;
+
 #include "stack/stack.h"
 using namespace cgt::stack;
 
 
 namespace cgt
 {
-  namespace list
-  {
-    template<typename _TpItem>
-      class _ListIterator;
-  }
-
   template<typename _TpVertex, typename _TpEdge>
-    class _Adjacency;
+    class _GraphAdjacency;
 
 
   /*
@@ -47,10 +44,11 @@ namespace cgt
     class _DepthIterator
     {
       private:
-        typedef _DepthIterator<_TpVertex, _TpEdge>                  _Self;
-        typedef _GraphNode<_TpVertex, _TpEdge>                      _Node;
-        typedef _ListIterator<_GraphNode<_TpVertex, _TpEdge> >      _NodeIterator;
-        typedef _ListConstIterator<_Adjacency<_TpVertex, _TpEdge> > _AdjIterator;
+        typedef _DepthIterator<_TpVertex, _TpEdge>         _Self;
+        typedef _GraphNode<_TpVertex, _TpEdge>             _Node;
+        typedef _GraphAdjacency<_TpVertex, _TpEdge>        _Adjacency;
+        typedef typename _List<_Node>::iterator            _NodeIterator;
+        typedef typename _List<_Adjacency>::const_iterator _AdjIterator;
 
       public:
 
@@ -112,8 +110,8 @@ namespace cgt
         {
           _DepthInfo *_ptr = NULL;
 
-          _ListIterator<_DepthInfo> it;
-          _ListIterator<_DepthInfo> itEnd = _DepthInfoList.end ();
+          typename _List<_DepthInfo>::iterator it;
+          typename _List<_DepthInfo>::iterator itEnd = _DepthInfoList.end ();
 
           for (it = _DepthInfoList.begin (); it != itEnd; ++it)
           {
@@ -209,8 +207,8 @@ namespace cgt
     {
       bool bRet = false;
 
-      _ListConstIterator<_DepthInfo> it;
-      _ListConstIterator<_DepthInfo> itEnd = _DepthInfoList.end ();
+      _ListIterator<_DepthInfo, _TpConst<_DepthInfo> > it;
+      _ListIterator<_DepthInfo, _TpConst<_DepthInfo> > itEnd = _DepthInfoList.end ();
 
       for (it = _DepthInfoList.begin (); it != itEnd; ++it)
       {

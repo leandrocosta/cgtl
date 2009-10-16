@@ -16,14 +16,14 @@ namespace cgt
     class _GraphVertex;
 
   template<typename _TpVertex, typename _TpEdge>
-    class _Adjacency;
+    class _GraphAdjacency;
 
 
   template<typename _TpVertex, typename _TpEdge>
-    class _AdjList : public _List<_Adjacency<_TpVertex, _TpEdge> >
+    class _AdjList : public _List<_GraphAdjacency<_TpVertex, _TpEdge> >
   {
     private:
-      typedef _List<_Adjacency<_TpVertex, _TpEdge> > _Base;
+      typedef _List<_GraphAdjacency<_TpVertex, _TpEdge> > _Base;
 
     public:
       const _GraphEdge<_TpVertex, _TpEdge>* _get_edge (const _GraphVertex<_TpVertex> &_v) const;
@@ -55,7 +55,7 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     void _AdjList<_TpVertex, _TpEdge>::_insert (const _GraphEdge<_TpVertex, _TpEdge>& _e, _GraphVertex<_TpVertex> &_v, _GraphNode<_TpVertex, _TpEdge>* const _ptr_n)
     {
-      _List<_Adjacency<_TpVertex, _TpEdge> >::insert (_Adjacency<_TpVertex, _TpEdge> (_e, _v, _ptr_n));
+      _List<_GraphAdjacency<_TpVertex, _TpEdge> >::insert (_GraphAdjacency<_TpVertex, _TpEdge> (_e, _v, _ptr_n));
     }
 }
 
