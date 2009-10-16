@@ -19,8 +19,8 @@ namespace cgt
           typedef _ListItem<_TpItem> _Item;
 
         public:
-          typedef _ListIterator<_TpItem>                      iterator;
-          typedef _ListIterator<_TpItem, _TpConst<_TpItem> >  const_iterator;
+          typedef _ListIterator<_TpItem>            iterator;
+          typedef _ListIterator<_TpItem, _TpConst>  const_iterator;
 
         public:
           _List () : _head (NULL), _tail (NULL), _size (0) { }
@@ -192,7 +192,7 @@ namespace cgt
       }
 
     template<typename _TpItem>
-      _ListIterator<_TpItem, _TpConst <_TpItem> > _List<_TpItem>::find (const _TpItem &_item) const
+      _ListIterator<_TpItem, _TpConst> _List<_TpItem>::find (const _TpItem &_item) const
       {
         const_iterator it    = begin ();
         const_iterator itEnd = end ();

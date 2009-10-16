@@ -30,11 +30,16 @@ namespace cgt
       typedef typename _Base::iterator                        iterator;
       typedef typename _Base::const_iterator                  const_iterator;
 
-      typedef _VertexIterator<_TpVertex, _TpEdge>             vertex_iterator;
-      typedef _ListIterator<_GraphEdge<_TpVertex, _TpEdge> >  edge_iterator;
+      typedef _VertexIterator<_TpVertex, _TpEdge>             viterator;
+      typedef _VertexIterator<_TpVertex, _TpEdge, _TpConst>   const_viterator;
 
-      typedef _DepthIterator<_TpVertex, _TpEdge>              depth_iterator;
-      typedef typename depth_iterator::_DepthInfo             depth_info;
+      typedef typename _List<edge>::iterator                  eiterator;
+      typedef typename _List<edge>::const_iterator            const_eiterator;
+
+      typedef _DepthIterator<_TpVertex, _TpEdge>              diterator;
+      typedef _DepthIterator<_TpVertex, _TpEdge, _TpConst>    const_diterator;
+
+      typedef typename diterator::_DepthInfo             depth_info;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
@@ -54,15 +59,15 @@ namespace cgt
       const_iterator begin () const { return _Base::begin (); }
       const_iterator end () const { return _Base::end (); }
 
-      edge_iterator edge_begin () { return edge_iterator (_Base::_edge_list.begin ()); }
-      edge_iterator edge_end () { return edge_iterator (_Base::_edge_list.end ()); }
+      eiterator edge_begin () { return eiterator (_Base::_edge_list.begin ()); }
+      eiterator edge_end () { return eiterator (_Base::_edge_list.end ()); }
 
-      vertex_iterator vertex_begin () { return vertex_iterator (_Base::begin ()); }
-      vertex_iterator vertex_end () { return vertex_iterator (_Base::end ()); }
+      viterator vertex_begin () { return viterator (_Base::begin ()); }
+      viterator vertex_end () { return viterator (_Base::end ()); }
 
-      depth_iterator depth_begin () { return depth_iterator (&(*_Base::begin ()), _Base::begin (), _Base::end ()); }
-      depth_iterator depth_begin (const iterator _it) { return depth_iterator (&(*_it), _Base::begin (), _Base::end ()); }
-      depth_iterator depth_end () { return depth_iterator (NULL, _Base::begin (), _Base::end ()); }
+      diterator depth_begin () { return diterator (&(*_Base::begin ()), _Base::begin (), _Base::end ()); }
+      diterator depth_begin (const iterator _it) { return diterator (&(*_it), _Base::begin (), _Base::end ()); }
+      diterator depth_end () { return diterator (NULL, _Base::begin (), _Base::end ()); }
   };
 }
 

@@ -8,7 +8,7 @@ namespace cgt
 {
   namespace list
   {
-    template<typename _TpItem, typename _TpIterator>
+    template<typename _TpItem, template<typename> class _TpIterator>
       class _ListIterator;
 
     template<typename _TpItem>
@@ -19,8 +19,8 @@ namespace cgt
       class _ListIteratorBase
       {
         private:
-          friend class _ListIterator<_TpItem, _TpCommon<_TpItem> >;
-          friend class _ListIterator<_TpItem, _TpConst<_TpItem> >;
+          friend class _ListIterator<_TpItem, _TpCommon>;
+          friend class _ListIterator<_TpItem, _TpConst>;
 
         private:
           typedef _ListIteratorBase<_TpItem>  _Self;

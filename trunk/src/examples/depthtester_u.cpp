@@ -46,8 +46,8 @@ int main ()
   cout << endl;
   cout << "=== depth-first search from vertex E ===" << endl << endl;
 
-  mygraph::depth_iterator itd;
-  mygraph::depth_iterator itdEnd = g.depth_end ();
+  mygraph::diterator itd;
+  mygraph::diterator itdEnd = g.depth_end ();
 
   for (itd = g.depth_begin (g.find ("E")); itd != itdEnd; ++itd)
   {
@@ -66,8 +66,8 @@ int main ()
 
   for (itn = g.begin (); itn != itnEnd; ++itn)
   {
-    const mygraph::node&   n = *itn;
-    const mygraph::vertex& v = n.vertex ();
+    const mygraph::node&       n = *itn;
+    const mygraph::vertex&     v = n.vertex ();
     const mygraph::depth_info* i = itd.info (n);
 
     cout << "node: " << v.value () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i->discovery () << ", finish: " << setw (2) << i->finish () << endl;
