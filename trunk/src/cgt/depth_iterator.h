@@ -8,6 +8,7 @@ using namespace cgt::list;
 using namespace cgt::stack;
 
 #include "search_state.h"
+#include "search_info.h"
 #include "graph_adjacency.h"
 
 
@@ -43,7 +44,7 @@ namespace cgt
     class _DepthIterator
     {
       public:
-        class _DepthInfo;
+        typedef _SearchInfo<_TpVertex, _TpEdge>                 _DepthInfo;
 
       private:
         typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
@@ -54,37 +55,6 @@ namespace cgt
         typedef typename _List<_Adjacency>::const_iterator      _AdjIterator;
         typedef typename _List<_DepthInfo>::iterator            _DIIterator;
         typedef _SearchState<_TpVertex, _TpEdge>                _DepthState;
-
-      public:
-
-        /*
-         * keep informations about each visited node like
-         * color, parent, discovery time, finish time, etc.
-         */
-
-        class _DepthInfo
-        {
-          public:
-            typedef enum { WHITE, GRAY, BLACK } _color_t;
-
-          public:
-            _DepthInfo (const _Node *_ptr_n) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (WHITE), _discovery (0), _finish (0) { }
-            _DepthInfo (const _Node *_ptr_n, const _color_t &_c, const unsigned long &_d) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (_c), _discovery (_d), _finish (0) { }
-
-          public:
-            const _Node* const node () const { return _ptr_node; }
-            const _Node* const parent () const { return _ptr_parent; }
-            const _color_t& color () const { return _color; }
-            const unsigned long& discovery () const { return _discovery; }
-            const unsigned long& finish () const { return _finish; }
-
-          public:
-            const _Node*  _ptr_node;
-            const _Node*  _ptr_parent;
-            _color_t      _color;
-            unsigned long _discovery;
-            unsigned long _finish;
-        };
 
       public:
         _DepthIterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
@@ -152,11 +122,11 @@ namespace cgt
       {
         if (&(*it) == _ptr_node)
         {
-          _DepthInfoList.insert (_DepthInfo (&(*it), _DepthInfo::GRAY, ++_global_time));
+          _DepthInfoList.insert (_DepthInfo (*it, _DepthInfo::GRAY, ++_global_time));
           _DepthStateStack.push (_DepthState (*it));
         }
         else
-          _DepthInfoList.insert (_DepthInfo (&(*it)));
+          _DepthInfoList.insert (_DepthInfo (*it));
       }
     }
 
@@ -170,7 +140,7 @@ namespace cgt
 
       for (it = _DepthInfoList.begin (); it != itEnd; ++it)
       {
-        if (it->_ptr_node == _ptr_node)
+        if (it->node ().vertex () == _ptr_node->vertex ())
         {
           _ptr = &(*it);
           break;
@@ -187,9 +157,9 @@ namespace cgt
 
       if (_ptr)
       {
-        _ptr->_ptr_parent = _ptr_parent;
-        _ptr->_color      = _DepthInfo::GRAY;
-        _ptr->_discovery  = _d;
+        _ptr->set_parent (_ptr_parent);
+        _ptr->set_color (_DepthInfo::GRAY);
+        _ptr->set_discovery (_d);
       }
     }
 
@@ -200,8 +170,8 @@ namespace cgt
 
       if (_ptr)
       {
-        _ptr->_color      = _DepthInfo::BLACK;
-        _ptr->_finish     = _f;
+        _ptr->set_color (_DepthInfo::BLACK);
+        _ptr->set_finish (_f);
       }
     }
 
@@ -215,9 +185,9 @@ namespace cgt
 
       for (it = _DepthInfoList.begin (); it != itEnd; ++it)
       {
-        if (it->_ptr_node == _ptr_node)
+        if (it->node ().vertex () == _ptr_node->vertex ())
         {
-          bRet = (it->_color == _color);
+          bRet = (it->color () == _color);
           break;
         }
       }
