@@ -13,6 +13,8 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     class _GraphAdjacency;
 
+//  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+//    class _DepthInfoIterator;
 
   /*
    * depth-first search algorithm
@@ -43,6 +45,9 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
     class _DepthIterator
     {
+//      private:
+//        friend class _DepthInfoIterator<_TpVertex, _TpEdge, _TpIterator>;
+
       public:
         class _DepthInfo;
 
@@ -53,7 +58,7 @@ namespace cgt
         typedef _GraphAdjacency<_TpVertex, _TpEdge>             _Adjacency;
         typedef typename _List<_Node>::iterator                 _NodeIterator;
         typedef typename _List<_Adjacency>::const_iterator      _AdjIterator;
-        typedef typename _List<_DepthInfo>::iterator            _DepthInfoIterator;
+        typedef typename _List<_DepthInfo>::iterator            _DIIterator;
 
       public:
 
@@ -72,6 +77,7 @@ namespace cgt
             _DepthInfo (const _Node *_ptr_n, const _color_t &_c, const unsigned long &_d) : _ptr_node (_ptr_n), _ptr_parent (NULL), _color (_c), _discovery (_d), _finish (0) { }
 
           public:
+            const _Node* const node () const { return _ptr_node; }
             const _Node* const parent () const { return _ptr_parent; }
             const _color_t& color () const { return _color; }
             const unsigned long& discovery () const { return _discovery; }
@@ -108,10 +114,14 @@ namespace cgt
         {
           _init ();
         }
+        _DepthIterator (const _NodeIterator& _it, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (&(*_it)), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
+        {
+          _init ();
+        }
         _DepthIterator (const _SelfCommon& _it) : _ptr_node (_it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _global_time (_it._global_time)
-      {
-        _DepthInfoList = _it._DepthInfoList;
-      }
+        {
+          _DepthInfoList = _it._DepthInfoList;
+        }
 
       private:
         void _init ();
@@ -119,8 +129,8 @@ namespace cgt
         {
           _DepthInfo *_ptr = NULL;
 
-          _DepthInfoIterator it;
-          _DepthInfoIterator itEnd = _DepthInfoList.end ();
+          _DIIterator it;
+          _DIIterator itEnd = _DepthInfoList.end ();
 
           for (it = _DepthInfoList.begin (); it != itEnd; ++it)
           {
@@ -149,6 +159,9 @@ namespace cgt
       public:
         const _DepthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (_ptr_node); }
         const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (&_node); }
+
+        typename _List<_DepthInfo>::iterator info_begin () { return _DepthInfoList.begin (); }
+        typename _List<_DepthInfo>::iterator info_end () { return _DepthInfoList.end (); }
 
       private:
         _Node*              _ptr_node;

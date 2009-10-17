@@ -29,8 +29,8 @@ int main ()
   cout << "directed graph: " << (g.is_directed () ? "true":"false") << endl;
   cout << endl;
 
-  mygraph::viterator itv;
-  mygraph::viterator itvEnd = g.vertex_end ();
+  mygraph::const_viterator itv;
+  mygraph::const_viterator itvEnd = g.vertex_end ();
 
   for (itv = g.vertex_begin (); itv != itvEnd; ++itv)
   {

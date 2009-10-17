@@ -182,13 +182,16 @@ namespace cgt
     template<typename _TpItem>
       _ListIterator<_TpItem> _List<_TpItem>::find (const _TpItem &_item)
       {
-        iterator it    = begin ();
-        iterator itEnd = end ();
+        return static_cast<const _Self *>(this)->find (_item);
+/*
+        const_iterator it    = begin ();
+        const_iterator itEnd = end ();
 
         while (it != end () && *it != _item)
           ++it;
 
         return it;
+*/
       }
 
     template<typename _TpItem>

@@ -74,6 +74,17 @@ int main ()
   }
 
   cout << endl;
+  cout << "=== show the same using depth info iterator ===" << endl << endl;
+
+  mygraph::const_diiterator it;
+  mygraph::const_diiterator itEnd = g.depth_info_end (itd);
+
+  for (it = g.depth_info_begin (itd); it != itEnd; ++it)
+  {
+    const mygraph::depth_info& i = *it;
+
+    cout << "node: " << i.node ()->vertex ().value () << ", parent: " << (i.parent () ? i.parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i.discovery () << ", finish: " << setw (2) << i.finish () << endl;
+  }
 
   return 0;
 }
