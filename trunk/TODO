@@ -11,13 +11,19 @@
 	- OK.
 
 * Implement depth-first iterator:
- - We need a queue with the state of the algorithm. This state has two information: the node and it's adj_list::iterator.
-   When a new node is discovered, it is queued (with the iterator to its first adjacency struct).
-   When the user does operator++, we check if the last queued node still has some adjacent node that was not discovered yet.
-    If so, we queue this node;
-    If not, we dequeue the node and do the same with the antecessor (check about its adjacent nodes).
+	- OK.
+
+* Implement allocator and hash;
+
+* Implement breadth-first iterator;
+
+* Implement dijkstra (single-source shortest path);
+
+* Implement kruskal, prim (minimum spanning tree);
+
+* Implement topological sort;
+
+* Implement strongly connected components;
 
 * Implement multigraph and hypergraph (?): is it realy necessary for now?;
-* Implement intelligent iterators: depth first search, breadth first search, dijkstra, etc..
-
-* What should I do when the user tries to insert duplicated vertices or edges? What does STL do?
+* What should I do when the user tries to insert duplicated vertices or edges? What would STL do?

@@ -14,25 +14,33 @@ using namespace std;
 #include "cgt/graph.h"
 using namespace cgt;
 
+#include "util.h"
+
 typedef graph<string, int> mygraph;
 
 int main ()
 {
   mygraph g;
 
-  g.insert_vertex ("A");
-  g.insert_vertex ("B");
-  g.insert_vertex ("C");
+  cout << "=== creating graph ===" << endl << endl;
 
-  g.insert_edge (0, "A", "B");
-  g.insert_edge (1, "A", "C");
+  add_vertex<string, int, _Directed>(g, "A");
+  add_vertex<string, int, _Directed>(g, "B");
+  add_vertex<string, int, _Directed>(g, "C");
 
-  g.insert_edge (2, "B", "C");
-  g.insert_edge (3, "C", "C");
+  cout << endl;
+
+  add_edge<string, int, _Directed>(g, 0, "A", "B");
+  add_edge<string, int, _Directed>(g, 1, "A", "C");
+
+  add_edge<string, int, _Directed>(g, 2, "B", "C");
+  add_edge<string, int, _Directed>(g, 3, "C", "C");
 
   cout << endl;
   cout << "directed graph: " << (g.is_directed () ? "true":"false") << endl;
   cout << endl;
+
+  cout << "=== printing graph ===" << endl << endl;
 
   mygraph::const_iterator itn;
   mygraph::const_iterator itnEnd = g.end ();
