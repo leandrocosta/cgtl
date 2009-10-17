@@ -20,10 +20,10 @@ namespace cgt
         _GraphNode (const _TpVertex &_v) : _vertex (_v) { };
 
       public:
-        _GraphVertex<_TpVertex>&           vertex ()  { return _vertex; }
-        const _GraphVertex<_TpVertex>&     vertex () const  { return _vertex; }
-        _AdjList<_TpVertex, _TpEdge>&  adj_list () { return _adjList; }
-        const _AdjList<_TpVertex, _TpEdge>&  adj_list () const { return _adjList; }
+        _GraphVertex<_TpVertex>& vertex ()  { return _vertex; }
+        const _GraphVertex<_TpVertex>& vertex () const  { return _vertex; }
+        _AdjList<_TpVertex, _TpEdge>&  adjlist () { return _adjList; }
+        const _AdjList<_TpVertex, _TpEdge>&  adjlist () const { return _adjList; }
 
       public:
         const _GraphEdge<_TpVertex, _TpEdge>* _get_edge (const _GraphVertex<_TpVertex> &_v) const;
