@@ -51,7 +51,7 @@ int main ()
 
     cout << "vertex: " << v.value () << endl;
 
-    const mygraph::adjlist &adjList = n.adj_list ();
+    const mygraph::adjlist &adjList = n.adjlist ();
 
     mygraph::adjlist::const_iterator itadj;
     mygraph::adjlist::const_iterator itadjEnd = adjList.end ();

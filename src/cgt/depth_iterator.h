@@ -7,15 +7,12 @@ using namespace cgt::list;
 #include "stack/stack.h"
 using namespace cgt::stack;
 
+#include "search_state.h"
+#include "graph_adjacency.h"
+
 
 namespace cgt
 {
-  template<typename _TpVertex, typename _TpEdge>
-    class _GraphAdjacency;
-
-//  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-//    class _DepthInfoIterator;
-
   /*
    * depth-first search algorithm
    *  - _it_node: iterator pointing to the begining of the node list;
@@ -45,9 +42,6 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
     class _DepthIterator
     {
-//      private:
-//        friend class _DepthInfoIterator<_TpVertex, _TpEdge, _TpIterator>;
-
       public:
         class _DepthInfo;
 
@@ -59,6 +53,7 @@ namespace cgt
         typedef typename _List<_Node>::iterator                 _NodeIterator;
         typedef typename _List<_Adjacency>::const_iterator      _AdjIterator;
         typedef typename _List<_DepthInfo>::iterator            _DIIterator;
+        typedef _SearchState<_TpVertex, _TpEdge>                _DepthState;
 
       public:
 
@@ -91,23 +86,6 @@ namespace cgt
             unsigned long _finish;
         };
 
-      private:
-        /*
-         * keep informations about the algorithm's cycles
-         * stored in a stack, one object for each tree's level
-         */
-
-        class _DepthState
-        {
-          public:
-            _DepthState (const _Node& _n, const _AdjIterator &_it_a, const _AdjIterator &_it_adj_e) : _node (_n), _it_adj (_it_a), _it_adj_end (_it_adj_e) { };
-
-          public:
-            const _Node&        _node;
-            _AdjIterator        _it_adj;
-            const _AdjIterator  _it_adj_end;
-        };
-        
       public:
         _DepthIterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
         _DepthIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
@@ -125,24 +103,7 @@ namespace cgt
 
       private:
         void _init ();
-        _DepthInfo* _get_depth_info_by_node (const _Node* const _ptr_node)
-        {
-          _DepthInfo *_ptr = NULL;
-
-          _DIIterator it;
-          _DIIterator itEnd = _DepthInfoList.end ();
-
-          for (it = _DepthInfoList.begin (); it != itEnd; ++it)
-          {
-            if (it->_ptr_node == _ptr_node)
-            {
-              _ptr = &(*it);
-              break;
-            }
-          }
-
-          return _ptr;
-        }
+        _DepthInfo* _get_depth_info_by_node (const _Node* const _ptr_node);
 
         void _discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d);
         void _finish_node (const _Node* const _ptr_node, const unsigned long& _f);
@@ -192,11 +153,31 @@ namespace cgt
         if (&(*it) == _ptr_node)
         {
           _DepthInfoList.insert (_DepthInfo (&(*it), _DepthInfo::GRAY, ++_global_time));
-          _DepthStateStack.push (_DepthState (*it, it->adj_list ().begin (), it->adj_list ().end ()));
+          _DepthStateStack.push (_DepthState (*it));
         }
         else
           _DepthInfoList.insert (_DepthInfo (&(*it)));
       }
+    }
+
+  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+    typename _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_DepthInfo* _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_get_depth_info_by_node (const _Node* const _ptr_node)
+    {
+      _DepthInfo *_ptr = NULL;
+
+      _DIIterator it;
+      _DIIterator itEnd = _DepthInfoList.end ();
+
+      for (it = _DepthInfoList.begin (); it != itEnd; ++it)
+      {
+        if (it->_ptr_node == _ptr_node)
+        {
+          _ptr = &(*it);
+          break;
+        }
+      }
+
+      return _ptr;
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -278,23 +259,23 @@ namespace cgt
       {
         _DepthState *_ptr_state  = _DepthStateStack.top ();
 
-        if (_ptr_state->_it_adj != _ptr_state->_it_adj_end)
+        while (! _ptr_state->adj_finished ())
         {
-          if (_has_color (_ptr_state->_it_adj->node (), _DepthInfo::WHITE))
+          if (_has_color (_ptr_state->adj_node (), _DepthInfo::WHITE))
           {
-            _ptr_node = _ptr_state->_it_adj->node ();
-            ++_ptr_state->_it_adj;
-            _DepthStateStack.push (_DepthState (*_ptr_node, _ptr_node->adj_list ().begin (), _ptr_node->adj_list ().end ()));
-            _discover_node (_ptr_node, &(_ptr_state->_node), ++_global_time);
+            _ptr_node = _ptr_state->adj_node ();
+            _ptr_state->adj_incr ();
+            _DepthStateStack.push (_DepthState (*_ptr_node));
+            _discover_node (_ptr_node, &(_ptr_state->node ()), ++_global_time);
             break;
           }
           else
-            ++_ptr_state->_it_adj;
+            _ptr_state->adj_incr ();
         }
-        else
+        if (_ptr_state->adj_finished ())
         {
           _DepthState *_ptr = _DepthStateStack.pop ();
-          _finish_node (&(_ptr->_node), ++_global_time);
+          _finish_node (&(_ptr->node ()), ++_global_time);
           delete _ptr;
         }
       }
@@ -304,17 +285,14 @@ namespace cgt
         while (_it_node != _it_node_end && ! _has_color (&(*_it_node), _DepthInfo::WHITE))
           ++_it_node;
 
-        if (_it_node == _it_node_end)
-        {
-          _ptr_node = NULL;
-        }
-        else
+        if (_it_node != _it_node_end)
         {
           _ptr_node = &(*_it_node);
-//          _DepthInfoList.insert (_DepthInfo (&(*_it_node), _DepthInfo::GRAY, ++_global_time));
-          _DepthStateStack.push (_DepthState (*_it_node, _it_node->adj_list ().begin (), _it_node->adj_list ().end ()));
+          _DepthStateStack.push (_DepthState (*_it_node));
           _discover_node (&(*_it_node), NULL, ++_global_time);
         }
+        else
+          _ptr_node = NULL;
       }
 
       return *this;
