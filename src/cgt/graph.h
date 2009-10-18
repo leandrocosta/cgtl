@@ -10,6 +10,7 @@
 #include "adj_matrix.h"
 #include "vertex_iterator.h"
 #include "depth_iterator.h"
+#include "breadth_iterator.h"
 //#include "depth_info_iterator.h"
 #include "graph_type.h"
 
@@ -42,6 +43,9 @@ namespace cgt
 
       typedef typename _List<typename diterator::_DepthInfo>::iterator       diiterator;
       typedef typename _List<typename diterator::_DepthInfo>::const_iterator const_diiterator;
+
+      typedef _BreadthIterator<_TpVertex, _TpEdge>            biterator;
+      typedef _BreadthIterator<_TpVertex, _TpEdge, _TpConst>  const_biterator;
 
       typedef typename diterator::_DepthInfo                depth_info;
 
