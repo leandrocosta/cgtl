@@ -11,7 +11,6 @@
 #include "vertex_iterator.h"
 #include "depth_iterator.h"
 #include "breadth_iterator.h"
-//#include "depth_info_iterator.h"
 #include "graph_type.h"
 
 
@@ -47,7 +46,11 @@ namespace cgt
       typedef _BreadthIterator<_TpVertex, _TpEdge>            biterator;
       typedef _BreadthIterator<_TpVertex, _TpEdge, _TpConst>  const_biterator;
 
+      typedef typename _List<typename biterator::_BreadthInfo>::iterator       biiterator;
+      typedef typename _List<typename biterator::_BreadthInfo>::const_iterator const_biiterator;
+
       typedef typename diterator::_DepthInfo                depth_info;
+      typedef typename biterator::_BreadthInfo                breadth_info;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
@@ -88,6 +91,18 @@ namespace cgt
       diiterator depth_info_end (diterator &_it) { return diiterator (_it.info_end ()); }
       const_diiterator depth_info_begin (diterator &_it) const { return const_diiterator (_it.info_begin ()); }
       const_diiterator depth_info_end (diterator &_it) const { return const_diiterator (_it.info_end ()); }
+
+      biterator breadth_begin () { return biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      biterator breadth_begin (const iterator& _it) { return biterator (_it, _Base::begin (), _Base::end ()); }
+      biterator breadth_end () { return biterator (NULL, _Base::begin (), _Base::end ()); }
+      const_biterator breadth_begin () const { return const_biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      const_biterator breadth_begin (const iterator& _it) const { return const_biterator (_it, _Base::begin (), _Base::end ()); }
+      const_biterator breadth_end () const { return const_biterator (NULL, _Base::begin (), _Base::end ()); }
+
+      biiterator breadth_info_begin (biterator &_it) { return biiterator (_it.info_begin ()); }
+      biiterator breadth_info_end (biterator &_it) { return biiterator (_it.info_end ()); }
+      const_biiterator breadth_info_begin (biterator &_it) const { return const_biiterator (_it.info_begin ()); }
+      const_biiterator breadth_info_end (biterator &_it) const { return const_biiterator (_it.info_end ()); }
   };
 }
 

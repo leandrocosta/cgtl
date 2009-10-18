@@ -53,11 +53,11 @@ namespace cgt
 
       private:
         using _Base::_ptr_node;
-        using _Base::_global_time;
         using _Base::_it_node;
         using _Base::_it_node_end;
         using _Base::_InfoList;
         using _Base::_StateContainer;
+        using _Base::_global_time;
 
       public:
         _DepthIterator () { }
@@ -79,6 +79,8 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     _DepthIterator<_TpVertex, _TpEdge, _TpIterator>& _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
     {
+//      cout << "diterator::operator++()" << endl;
+
       /*
        * visit the adjacency list of the stack's top node:
        *  - if a WHITE node is found:
@@ -94,12 +96,16 @@ namespace cgt
        *    - point the current node to NULL.
        */
 
+      _ptr_node = NULL;
+
       while (! _StateContainer.empty ())
       {
+//        cout << " ! _StateContainer.empty ()" << endl;
         _DepthState *_ptr_state  = _StateContainer.top ();
 
         while (! _ptr_state->adj_finished ())
         {
+//          cout << "   ! _ptr_state->adj_finished ()" << endl;
           if (_has_color (_ptr_state->adj_node (), _DepthInfo::WHITE))
           {
             _ptr_node = _ptr_state->adj_node ();
@@ -111,16 +117,22 @@ namespace cgt
           else
             _ptr_state->adj_incr ();
         }
-        if (_ptr_state->adj_finished ())
+
+        if (! _ptr_node)
         {
+//          cout << "   _ptr_state->adj_finished ()" << endl;
           _DepthState *_ptr = _StateContainer.pop ();
           _finish_node (&(_ptr->node ()), ++_global_time);
           delete _ptr;
         }
+        else
+          break;
       }
 
-      if (_StateContainer.empty ())
+
+      if (! _ptr_node)
       {
+//        cout << " _StateContainer.empty ()" << endl;
         while (_it_node != _it_node_end && ! _has_color (&(*_it_node), _DepthInfo::WHITE))
           ++_it_node;
 
@@ -130,8 +142,6 @@ namespace cgt
           _StateContainer.push (_DepthState (*_it_node));
           _discover_node (&(*_it_node), NULL, ++_global_time);
         }
-        else
-          _ptr_node = NULL;
       }
 
       return *this;

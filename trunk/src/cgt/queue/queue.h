@@ -27,6 +27,8 @@ namespace cgt
           void enqueue (const _TpItem &_item);
           _TpItem* dequeue ();
           _TpItem* first ();
+
+          void insert (const _TpItem &_item);
       };
 
     template<typename _TpItem>
@@ -45,6 +47,12 @@ namespace cgt
       _TpItem* _Queue<_TpItem>::first ()
       {
         return _Base::front ();
+      }
+
+    template<typename _TpItem>
+      void _Queue<_TpItem>::insert (const _TpItem &_item)
+      {
+        enqueue (_item);
       }
 
     template<typename _TpItem>

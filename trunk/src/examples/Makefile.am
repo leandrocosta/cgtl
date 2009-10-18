@@ -7,8 +7,10 @@ LISTTESTER_SRCS		= listtester.cpp
 STACKTESTER_SRCS	= stacktester.cpp
 DEPTHTESTER_D_SRCS	= depthtester_d.cpp
 DEPTHTESTER_U_SRCS	= depthtester_u.cpp
+BREADTHTESTER_D_SRCS	= breadthtester_d.cpp
+BREADTHTESTER_U_SRCS	= breadthtester_u.cpp
 
-bin_PROGRAMS		= example1 example2 example3 example4 listtester stacktester depthtester_d depthtester_u
+bin_PROGRAMS		= example1 example2 example3 example4 listtester stacktester depthtester_d depthtester_u breadthtester_d breadthtester_u
 example1_SOURCES	= $(EX1_SRCS)
 example2_SOURCES	= $(EX2_SRCS)
 example3_SOURCES	= $(EX3_SRCS)
@@ -17,3 +19,5 @@ listtester_SOURCES	= $(LISTTESTER_SRCS)
 stacktester_SOURCES	= $(STACKTESTER_SRCS)
 depthtester_d_SOURCES	= $(DEPTHTESTER_D_SRCS)
 depthtester_u_SOURCES	= $(DEPTHTESTER_U_SRCS)
+breadthtester_d_SOURCES	= $(BREADTHTESTER_D_SRCS)
+breadthtester_u_SOURCES	= $(BREADTHTESTER_U_SRCS)
