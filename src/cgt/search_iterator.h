@@ -83,7 +83,7 @@ namespace cgt
         if (&(*it) == _ptr_node)
         {
           _InfoList.insert (_Info (*it, _Info::GRAY, ++_global_time));
-          _StateContainer.push (_State (*it));
+          _StateContainer.insert (_State (*it));
         }
         else
           _InfoList.insert (_Info (*it));
@@ -158,6 +158,7 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
     _GraphNode<_TpVertex, _TpEdge>& _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::operator*() const
     {
+//      cout << "search_iterator::operator*()" << endl;
       return *_ptr_node;
     }
 
