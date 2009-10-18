@@ -1,15 +1,10 @@
 #ifndef _DEPTH_ITERATOR_H_
 #define _DEPTH_ITERATOR_H_
 
-#include "list/list_iterator.h"
-using namespace cgt::list;
+#include "search_iterator.h"
 
 #include "stack/stack.h"
 using namespace cgt::stack;
-
-#include "search_state.h"
-#include "search_info.h"
-#include "graph_adjacency.h"
 
 
 namespace cgt
@@ -41,171 +36,45 @@ namespace cgt
    */
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
-    class _DepthIterator
+    class _DepthIterator : public _SearchIterator<_TpVertex, _TpEdge, _Stack, _TpIterator>
     {
       public:
-        typedef _SearchInfo<_TpVertex, _TpEdge>                 _DepthInfo;
+        typedef _SearchInfo<_TpVertex, _TpEdge> _DepthInfo;
 
       private:
         typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
         typedef _DepthIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
         typedef _GraphNode<_TpVertex, _TpEdge>                  _Node;
-        typedef _GraphAdjacency<_TpVertex, _TpEdge>             _Adjacency;
         typedef typename _List<_Node>::iterator                 _NodeIterator;
-        typedef typename _List<_Adjacency>::const_iterator      _AdjIterator;
-        typedef typename _List<_DepthInfo>::iterator            _DIIterator;
         typedef _SearchState<_TpVertex, _TpEdge>                _DepthState;
 
-      public:
-        _DepthIterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
-        _DepthIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
-        {
-          _init ();
-        }
-        _DepthIterator (const _NodeIterator& _it, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (&(*_it)), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
-        {
-          _init ();
-        }
-        _DepthIterator (const _SelfCommon& _it) : _ptr_node (_it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _global_time (_it._global_time)
-        {
-          _DepthInfoList = _it._DepthInfoList;
-        }
+      private:
+        typedef _SearchIterator<_TpVertex, _TpEdge, _Stack, _TpIterator> _Base;
 
       private:
-        void _init ();
-        _DepthInfo* _get_depth_info_by_node (const _Node* const _ptr_node);
-
-        void _discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d);
-        void _finish_node (const _Node* const _ptr_node, const unsigned long& _f);
-        const bool _has_color (const _Node* const _ptr_node, const typename _DepthInfo::_color_t &_color) const;
+        using _Base::_ptr_node;
+        using _Base::_global_time;
+        using _Base::_it_node;
+        using _Base::_it_node_end;
+        using _Base::_InfoList;
+        using _Base::_StateContainer;
 
       public:
-        _Node& operator*() const;
-        _Node* operator->() const;
+        _DepthIterator () { }
+        _DepthIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (_ptr_n, _it_begin, _it_end) { }
+        _DepthIterator (const _NodeIterator& _it, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (&(*_it), _it_begin, _it_end) { }
+        _DepthIterator (const _SelfCommon& _it) { }
+
+      public:
         _Self& operator++();
-        const _Self operator++(int);
-        const bool operator==(const _Self &_other) const;
-        const bool operator!=(const _Self &_other) const;
 
       public:
         const _DepthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (_ptr_node); }
         const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (&_node); }
 
-        typename _List<_DepthInfo>::iterator info_begin () { return _DepthInfoList.begin (); }
-        typename _List<_DepthInfo>::iterator info_end () { return _DepthInfoList.end (); }
-
-      private:
-        _Node*              _ptr_node;
-        _NodeIterator       _it_node;
-        _NodeIterator       _it_node_end;
-        _Stack<_DepthState> _DepthStateStack;
-        _List<_DepthInfo>   _DepthInfoList;
-
-        unsigned long       _global_time;
+        typename _List<_DepthInfo>::iterator info_begin () { return _InfoList.begin (); }
+        typename _List<_DepthInfo>::iterator info_end () { return _InfoList.end (); }
     };
-
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    void _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_init ()
-    {
-
-      /*
-       * paint the first node (_ptr_node) with GRAY;
-       * put it on the stack;
-       * turn it the current node (actualy, it already is the current node);
-       * paint all the others with WHITE.
-       */
-
-      _NodeIterator it;
-
-      for (it = _it_node; it != _it_node_end; ++it)
-      {
-        if (&(*it) == _ptr_node)
-        {
-          _DepthInfoList.insert (_DepthInfo (*it, _DepthInfo::GRAY, ++_global_time));
-          _DepthStateStack.push (_DepthState (*it));
-        }
-        else
-          _DepthInfoList.insert (_DepthInfo (*it));
-      }
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    typename _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_DepthInfo* _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_get_depth_info_by_node (const _Node* const _ptr_node)
-    {
-      _DepthInfo *_ptr = NULL;
-
-      _DIIterator it;
-      _DIIterator itEnd = _DepthInfoList.end ();
-
-      for (it = _DepthInfoList.begin (); it != itEnd; ++it)
-      {
-        if (it->node ().vertex () == _ptr_node->vertex ())
-        {
-          _ptr = &(*it);
-          break;
-        }
-      }
-
-      return _ptr;
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    void _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d)
-    {
-      _DepthInfo *_ptr = _get_depth_info_by_node (_ptr_node);
-
-      if (_ptr)
-      {
-        _ptr->set_parent (_ptr_parent);
-        _ptr->set_color (_DepthInfo::GRAY);
-        _ptr->set_discovery (_d);
-      }
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    void _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_finish_node (const _Node* const _ptr_node, const unsigned long& _f)
-    {
-      _DepthInfo *_ptr = _get_depth_info_by_node (_ptr_node);
-
-      if (_ptr)
-      {
-        _ptr->set_color (_DepthInfo::BLACK);
-        _ptr->set_finish (_f);
-      }
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    const bool _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::_has_color (const _Node* _ptr_node, const typename _DepthInfo::_color_t &_color) const
-    {
-      bool bRet = false;
-
-      _ListIterator<_DepthInfo, _TpConst> it;
-      _ListIterator<_DepthInfo, _TpConst> itEnd = _DepthInfoList.end ();
-
-      for (it = _DepthInfoList.begin (); it != itEnd; ++it)
-      {
-        if (it->node ().vertex () == _ptr_node->vertex ())
-        {
-          bRet = (it->color () == _color);
-          break;
-        }
-      }
-
-      return bRet;
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    _GraphNode<_TpVertex, _TpEdge>& _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator*() const
-    {
-      return *_ptr_node;
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    _GraphNode<_TpVertex, _TpEdge>* _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator->() const
-    {
-      return _ptr_node;
-    }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     _DepthIterator<_TpVertex, _TpEdge, _TpIterator>& _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
@@ -225,9 +94,9 @@ namespace cgt
        *    - point the current node to NULL.
        */
 
-      while (! _DepthStateStack.empty ())
+      while (! _StateContainer.empty ())
       {
-        _DepthState *_ptr_state  = _DepthStateStack.top ();
+        _DepthState *_ptr_state  = _StateContainer.top ();
 
         while (! _ptr_state->adj_finished ())
         {
@@ -235,7 +104,7 @@ namespace cgt
           {
             _ptr_node = _ptr_state->adj_node ();
             _ptr_state->adj_incr ();
-            _DepthStateStack.push (_DepthState (*_ptr_node));
+            _StateContainer.push (_DepthState (*_ptr_node));
             _discover_node (_ptr_node, &(_ptr_state->node ()), ++_global_time);
             break;
           }
@@ -244,13 +113,13 @@ namespace cgt
         }
         if (_ptr_state->adj_finished ())
         {
-          _DepthState *_ptr = _DepthStateStack.pop ();
+          _DepthState *_ptr = _StateContainer.pop ();
           _finish_node (&(_ptr->node ()), ++_global_time);
           delete _ptr;
         }
       }
 
-      if (_DepthStateStack.empty ())
+      if (_StateContainer.empty ())
       {
         while (_it_node != _it_node_end && ! _has_color (&(*_it_node), _DepthInfo::WHITE))
           ++_it_node;
@@ -258,7 +127,7 @@ namespace cgt
         if (_it_node != _it_node_end)
         {
           _ptr_node = &(*_it_node);
-          _DepthStateStack.push (_DepthState (*_it_node));
+          _StateContainer.push (_DepthState (*_it_node));
           _discover_node (&(*_it_node), NULL, ++_global_time);
         }
         else
@@ -266,26 +135,6 @@ namespace cgt
       }
 
       return *this;
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    const _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator++(int)
-    {
-      _Self _it = *this;
-      operator++();
-      return _it;
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    const bool _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator==(const _Self &_other) const
-    {
-      return _ptr_node == _other._ptr_node;
-    }
-
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    const bool _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator!=(const _Self &_other) const
-    {
-      return !(*this == _other);
     }
 }
 
