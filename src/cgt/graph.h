@@ -1,7 +1,7 @@
 #ifndef _GRAPH_H_
 #define _GRAPH_H_
 
-#include "list/list.h"
+#include "graph_type.h"
 #include "graph_vertex.h"
 #include "graph_edge.h"
 #include "graph_adjacency.h"
@@ -9,9 +9,8 @@
 #include "adj_list.h"
 #include "adj_matrix.h"
 #include "vertex_iterator.h"
-#include "depth_iterator.h"
-#include "breadth_iterator.h"
-#include "graph_type.h"
+#include "search/depth_iterator.h"
+#include "search/breadth_iterator.h"
 
 
 namespace cgt
@@ -49,8 +48,8 @@ namespace cgt
       typedef typename _List<typename biterator::_BreadthInfo>::iterator       biiterator;
       typedef typename _List<typename biterator::_BreadthInfo>::const_iterator const_biiterator;
 
-      typedef typename diterator::_DepthInfo                depth_info;
-      typedef typename biterator::_BreadthInfo                breadth_info;
+      typedef typename diterator::_DepthInfo    depth_info;
+      typedef typename biterator::_BreadthInfo  breadth_info;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }

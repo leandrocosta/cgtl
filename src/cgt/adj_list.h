@@ -1,17 +1,12 @@
 #ifndef _ADJ_LIST_H_
 #define _ADJ_LIST_H_
 
+#include "list/list.h"
+using namespace cgt::list;
+
 
 namespace cgt
 {
-  using namespace list;
-
-  namespace list
-  {
-    template<typename _TpItem>
-      class _List;
-  }
-
   template<typename _TpVertex>
     class _GraphVertex;
 
