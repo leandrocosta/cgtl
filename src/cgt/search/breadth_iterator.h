@@ -3,7 +3,7 @@
 
 #include "search_iterator.h"
 
-#include "queue/queue.h"
+#include "../queue/queue.h"
 using namespace cgt::queue;
 
 
@@ -123,7 +123,6 @@ namespace cgt
         else
           break;
       }
-
 
       if (! _ptr_node)
       {

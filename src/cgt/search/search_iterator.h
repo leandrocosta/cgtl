@@ -1,12 +1,12 @@
 #ifndef _SEARCH_ITERATOR_H_
 #define _SEARCH_ITERATOR_H_
 
-#include "graph_node.h"
+#include "../graph_node.h"
 #include "search_state.h"
 #include "search_info.h"
 
-#include "list/list_iterator.h"
-using namespace cgt::list;
+#include "../stack/stack.h"
+using namespace cgt::stack;
 
 
 namespace cgt
@@ -37,6 +37,7 @@ namespace cgt
         {
           _InfoList = _it._InfoList;
         }
+        virtual ~_SearchIterator () { }
 
       private:
         void _init ();
@@ -158,7 +159,6 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
     _GraphNode<_TpVertex, _TpEdge>& _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::operator*() const
     {
-//      cout << "search_iterator::operator*()" << endl;
       return *_ptr_node;
     }
 
