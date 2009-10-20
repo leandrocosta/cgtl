@@ -3,7 +3,7 @@
 
 #include "search_iterator.h"
 
-#include "stack/stack.h"
+#include "../stack/stack.h"
 using namespace cgt::stack;
 
 
@@ -79,8 +79,6 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     _DepthIterator<_TpVertex, _TpEdge, _TpIterator>& _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
     {
-//      cout << "diterator::operator++()" << endl;
-
       /*
        * visit the adjacency list of the stack's top node:
        *  - if a WHITE node is found:
@@ -100,12 +98,10 @@ namespace cgt
 
       while (! _StateContainer.empty ())
       {
-//        cout << " ! _StateContainer.empty ()" << endl;
         _DepthState *_ptr_state  = _StateContainer.top ();
 
         while (! _ptr_state->adj_finished ())
         {
-//          cout << "   ! _ptr_state->adj_finished ()" << endl;
           if (_has_color (_ptr_state->adj_node (), _DepthInfo::WHITE))
           {
             _ptr_node = _ptr_state->adj_node ();
@@ -120,7 +116,6 @@ namespace cgt
 
         if (! _ptr_node)
         {
-//          cout << "   _ptr_state->adj_finished ()" << endl;
           _DepthState *_ptr = _StateContainer.pop ();
           _finish_node (&(_ptr->node ()), ++_global_time);
           delete _ptr;
@@ -129,10 +124,8 @@ namespace cgt
           break;
       }
 
-
       if (! _ptr_node)
       {
-//        cout << " _StateContainer.empty ()" << endl;
         while (_it_node != _it_node_end && ! _has_color (&(*_it_node), _DepthInfo::WHITE))
           ++_it_node;
 

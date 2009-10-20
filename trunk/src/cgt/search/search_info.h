@@ -1,7 +1,7 @@
 #ifndef _SEARCH_INFO__H_
 #define _SEARCH_INFO__H_
 
-#include "graph_node.h"
+#include "../graph_node.h"
 
 
 namespace cgt

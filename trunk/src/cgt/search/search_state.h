@@ -1,11 +1,11 @@
 #ifndef _SEARCH_STATE_H_
 #define _SEARCH_STATE_H_
 
-#include "list/list_iterator.h"
+#include "../list/list_iterator.h"
 using namespace cgt::list;
 
-#include "graph_node.h"
-#include "graph_adjacency.h"
+#include "../graph_node.h"
+#include "../graph_adjacency.h"
 
 
 namespace cgt
