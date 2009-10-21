@@ -37,9 +37,9 @@ namespace cgt
 
       for (it = _Base::begin (); it != itEnd; ++it)
       {
-        if (it->get_vertex () == _v)
+        if (it->vertex () == _v)
         {
-          _ptr_edge = &(it->get_edge ());
+          _ptr_edge = &(it->edge ());
           break;
         }
       }

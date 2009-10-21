@@ -58,7 +58,7 @@ int main ()
 
     for (itadj = adjList.begin (); itadj != itadjEnd; ++itadj)
     {
-      const mygraph::edge&     e   = itadj->get_edge ();
+      const mygraph::edge&     e   = itadj->edge ();
       const mygraph::vertex&  v1  = e.v1 ();
       const mygraph::vertex&  v2  = e.v2 ();
 
