@@ -11,6 +11,7 @@
 #include "vertex_iterator.h"
 #include "search/depth_iterator.h"
 #include "search/breadth_iterator.h"
+#include "dijkstra_iterator.h"
 
 
 namespace cgt
@@ -50,6 +51,14 @@ namespace cgt
 
       typedef typename diterator::_DepthInfo    depth_info;
       typedef typename biterator::_BreadthInfo  breadth_info;
+
+      typedef _DijkstraIterator<_TpVertex, _TpEdge>           djiterator;
+      typedef _DijkstraIterator<_TpVertex, _TpEdge, _TpConst> const_djiterator;
+
+      typedef typename _List<typename djiterator::_DijkstraInfo>::iterator       djiiterator;
+      typedef typename _List<typename djiterator::_DijkstraInfo>::const_iterator const_djiiterator;
+
+      typedef typename djiterator::_DijkstraInfo  dijkstra_info;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
@@ -102,6 +111,18 @@ namespace cgt
       biiterator breadth_info_end (biterator &_it) { return biiterator (_it.info_end ()); }
       const_biiterator breadth_info_begin (biterator &_it) const { return const_biiterator (_it.info_begin ()); }
       const_biiterator breadth_info_end (biterator &_it) const { return const_biiterator (_it.info_end ()); }
+
+      djiterator dijkstra_begin () { return djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      djiterator dijkstra_begin (const iterator& _it) { return djiterator (_it, _Base::begin (), _Base::end ()); }
+      djiterator dijkstra_end () { return djiterator (NULL, _Base::begin (), _Base::end ()); }
+      const_djiterator dijkstra_begin () const { return const_djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      const_djiterator dijkstra_begin (const iterator& _it) const { return const_djiterator (_it, _Base::begin (), _Base::end ()); }
+      const_djiterator dijkstra_end () const { return const_djiterator (NULL, _Base::begin (), _Base::end ()); }
+
+      djiiterator dijkstra_info_begin (djiterator &_it) { return djiiterator (_it.info_begin ()); }
+      djiiterator dijkstra_info_end (djiterator &_it) { return djiiterator (_it.info_end ()); }
+      const_djiiterator dijkstra_info_begin (djiterator &_it) const { return const_djiiterator (_it.info_begin ()); }
+      const_djiiterator dijkstra_info_end (djiterator &_it) const { return const_djiiterator (_it.info_end ()); }
   };
 }
 
