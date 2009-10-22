@@ -6,8 +6,8 @@
 #include "graph_edge.h"
 #include "graph_adjacency.h"
 #include "graph_node.h"
-#include "adj_list.h"
-#include "adj_matrix.h"
+#include "graph_adjlist.h"
+#include "graph_adjmatrix.h"
 #include "vertex_iterator.h"
 #include "search/depth_iterator.h"
 #include "search/breadth_iterator.h"
@@ -17,16 +17,16 @@
 namespace cgt
 {
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType = _Directed>
-    class graph : private _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType>
+    class graph : private _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>
   {
     private:
-      typedef _AdjMatrix<_TpVertex, _TpEdge, _TpGraphType> _Base;
+      typedef _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType> _Base;
 
     public:
-      typedef _GraphVertex<_TpVertex>         vertex;
-      typedef _GraphEdge<_TpVertex, _TpEdge>  edge;
-      typedef _GraphNode<_TpVertex, _TpEdge>  node;
-      typedef _AdjList<_TpVertex, _TpEdge>    adjlist;
+      typedef _GraphVertex<_TpVertex>           vertex;
+      typedef _GraphEdge<_TpVertex, _TpEdge>    edge;
+      typedef _GraphNode<_TpVertex, _TpEdge>    node;
+      typedef _GraphAdjList<_TpVertex, _TpEdge> adjlist;
 
       typedef typename _Base::iterator                      iterator;
       typedef typename _Base::const_iterator                const_iterator;

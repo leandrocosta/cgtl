@@ -54,6 +54,7 @@ namespace cgt
           _TpItem& push_back (const _TpItem& _item);
           _TpItem* pop_front ();
           _TpItem* front ();
+          _TpItem* back ();
 
           const unsigned long size () const;
           const bool empty () const;
@@ -204,6 +205,17 @@ namespace cgt
       }
 
     template<typename _TpItem>
+      _TpItem* _List<_TpItem>::back ()
+      {
+        _TpItem *_ptr = NULL;
+
+        if (_tail)
+          _ptr = &(_tail->_data);
+        
+        return _ptr;
+      }
+
+    template<typename _TpItem>
       const unsigned long _List<_TpItem>::size () const
       {
         return _size;
@@ -219,15 +231,6 @@ namespace cgt
       _ListIterator<_TpItem> _List<_TpItem>::find (const _TpItem& _item)
       {
         return static_cast<const _Self *>(this)->find (_item);
-/*
-        const_iterator it    = begin ();
-        const_iterator itEnd = end ();
-
-        while (it != end () && *it != _item)
-          ++it;
-
-        return it;
-*/
       }
 
     template<typename _TpItem>
@@ -243,9 +246,7 @@ namespace cgt
       }
 
     template<typename _TpItem>
-      class list : public _List<_TpItem>
-      {
-      };
+      class list : public _List<_TpItem> { };
   }
 }
 

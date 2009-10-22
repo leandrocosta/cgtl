@@ -16,7 +16,10 @@ namespace cgt
       private:
         typedef _DijkstraInfo<_TpVertex, _TpEdge> _Info;
         typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
+        typedef _GraphAdjList<_TpVertex, _TpEdge> _AdjList;
         typedef typename _List<_Node>::iterator   _NodeIterator;
+        typedef typename _List<_Info>::iterator   _InfoIterator;
+        typedef typename _AdjList::const_iterator _AdjListIterator;
 
       public:
         typedef _DijkstraInfo<_TpVertex, _TpEdge> _DijkstraInfo;
@@ -48,23 +51,23 @@ namespace cgt
       public:
         _Node& operator*() const;
         _Node* operator->() const;
-        const bool operator==(const _Self &_other) const;
-        const bool operator!=(const _Self &_other) const;
+        const bool operator==(const _Self& _other) const;
+        const bool operator!=(const _Self& _other) const;
         _Self& operator++();
 
       public:
         const _Info* const info (const _Node* const _ptr_node) { return _get_info_by_node (_ptr_node); }
         const _Info* const info (const _Node& _node) { return _get_info_by_node (&_node); }
 
-        typename _List<_Info>::iterator info_begin () { return _InfoList.begin (); }
-        typename _List<_Info>::iterator info_end () { return _InfoList.end (); }
+        _InfoIterator info_begin () { return _InfoList.begin (); }
+        _InfoIterator info_end () { return _InfoList.end (); }
 
       private:
-        _Node*               _ptr_node;
-        _NodeIterator        _it_node;
-        _NodeIterator        _it_node_end;
-        _List<_Info> _InfoList;
-        _List<_Info> _NotVisitedInfoList;
+        _Node*        _ptr_node;
+        _NodeIterator _it_node;
+        _NodeIterator _it_node_end;
+        _List<_Info>  _InfoList;
+        _List<_Info>  _NotVisitedInfoList;
     };
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -80,16 +83,14 @@ namespace cgt
       for (it = _it_node; it != _it_node_end; ++it)
       {
         if (&(*it) == _ptr_node)
-        {
           _InfoList.insert (_Info (*it));
-        }
         else
           _NotVisitedInfoList.insert (_Info (*it));
       }
 
-      const _AdjList<_TpVertex, _TpEdge> &adjList = _ptr_node->adjlist ();
-      typename _AdjList<_TpVertex, _TpEdge>::const_iterator itA = adjList.begin ();
-      typename _AdjList<_TpVertex, _TpEdge>::const_iterator itAEnd = adjList.end ();
+      const _AdjList &adjList = _ptr_node->adjlist ();
+      _AdjListIterator itA = adjList.begin ();
+      _AdjListIterator itAEnd = adjList.end ();
 
       for (itA = adjList.begin (); itA != itAEnd; ++itA)
       {
@@ -97,7 +98,10 @@ namespace cgt
         _Info *_ptr_i = _get_info_by_not_visited_node (_ptr_n);
 
         if (_ptr_i)
+        {
           _ptr_i->_set_distance (itA->edge ().value ());
+          _ptr_i->_set_previous (&(_InfoList.back ()->node ()));
+        }
       }
     }
 
@@ -117,8 +121,8 @@ namespace cgt
     {
       _Info *_ptr = NULL;
 
-      typename _List<_Info>::iterator it;
-      typename _List<_Info>::iterator itEnd = _InfoList.end ();
+      _InfoIterator it;
+      _InfoIterator itEnd = _InfoList.end ();
 
         for (it = _InfoList.begin (); it != itEnd; ++it)
       {
@@ -138,8 +142,8 @@ namespace cgt
     {
       _Info *_ptr = NULL;
 
-      typename _List<_Info>::iterator it;
-      typename _List<_Info>::iterator itEnd = _NotVisitedInfoList.end ();
+      _InfoIterator it;
+      _InfoIterator itEnd = _NotVisitedInfoList.end ();
 
       for (it = _NotVisitedInfoList.begin (); it != itEnd; ++it)
       {
@@ -170,15 +174,15 @@ namespace cgt
     {
       /*
        * The operator++() needs to remove the node with lowest distance from _NotVisitedInfoList
-       * and recalculate distances for the adjacency list of the choosed node.
+       * and recalculate distances for the adjacency list of the chosen node.
        */
 
       _ptr_node = NULL;
 
       if (! _NotVisitedInfoList.empty ())
       {
-        typename _List<_Info>::iterator it = _NotVisitedInfoList.begin ();
-        typename _List<_Info>::iterator itEnd = _NotVisitedInfoList.end ();
+        _InfoIterator it    = _NotVisitedInfoList.begin ();
+        _InfoIterator itEnd = _NotVisitedInfoList.end ();
 
         _Info* pInfo = &(*it);
 
@@ -197,9 +201,9 @@ namespace cgt
           _InfoList.insert (*pInfo);
           _NotVisitedInfoList.remove (*pInfo);
 
-          const _AdjList<_TpVertex, _TpEdge> &adjList = pInfo->node ().adjlist ();
-          typename _AdjList<_TpVertex, _TpEdge>::const_iterator itA = adjList.begin ();
-          typename _AdjList<_TpVertex, _TpEdge>::const_iterator itAEnd = adjList.end ();
+          const _AdjList &adjList = pInfo->node ().adjlist ();
+          _AdjListIterator itA = adjList.begin ();
+          _AdjListIterator itAEnd = adjList.end ();
 
           for (itA = adjList.begin (); itA != itAEnd; ++itA)
           {
@@ -211,8 +215,10 @@ namespace cgt
               _TpEdge new_distance = pInfo->distance () + itA->edge ().value ();
 
               if (_ptr_i->inf_distance () || _ptr_i->distance () > new_distance)
+              {
                 _ptr_i->_set_distance (new_distance);
-
+                _ptr_i->_set_previous (&(_InfoList.back ()->node ()));
+              }
             }
           }
         }
@@ -222,13 +228,13 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    const bool _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator==(const _Self &_other) const
+    const bool _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator==(const _Self& _other) const
     {
       return _ptr_node == _other._ptr_node;
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    const bool _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator!=(const _Self &_other) const
+    const bool _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator!=(const _Self& _other) const
     {
       return !(*this == _other);
     }
