@@ -32,11 +32,8 @@ int main ()
 
     const mygraph::dijkstra_info* i = itd.info (n);
 
-    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
-  /*
-
-    cout << "itd: " << v.value () <<  ", discovery: " << setw (2) << i->discovery () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << endl;
-    */
+//    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
+    cout << "vertex: " << v.value () << ", distance: " << i->distance () << ", previous: " << (i->previous () ? i->previous ()->vertex ().value ():"-") << endl;
   }
 
   cout << endl;
@@ -51,8 +48,8 @@ int main ()
     const mygraph::vertex& v = n.vertex ();
     const mygraph::dijkstra_info* i = itd.info (n);
 
-    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
-//    cout << "node: " << v.value () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i->discovery () << ", finish: " << setw (2) << i->finish () << endl;
+//    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
+    cout << "vertex: " << v.value () << ", distance: " << i->distance () << ", previous: " << (i->previous () ? i->previous ()->vertex ().value ():"-") << endl;
   }
 
   cout << endl;
@@ -65,8 +62,8 @@ int main ()
   {
     const mygraph::dijkstra_info& i = *it;
 
-    cout << "vertex: " << i.node ().vertex ().value () << ", distance: " << i.distance () << endl;
-//    cout << "node: " << i.node ().vertex ().value () << ", parent: " << (i.parent () ? i.parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i.discovery () << ", finish: " << setw (2) << i.finish () << endl;
+//    cout << "vertex: " << i.node ().vertex ().value () << ", distance: " << i.distance () << endl;
+    cout << "vertex: " << i.node ().vertex ().value () << ", distance: " << i.distance () << ", previous: " << (i.previous () ? i.previous ()->vertex ().value ():"-") << endl;
   }
 
   cout << endl;

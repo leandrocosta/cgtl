@@ -31,7 +31,7 @@ namespace cgt
   template<> _DijkstraDistance<unsigned int>::_DijkstraDistance ()    : _distance (0), _inf (true) { }
   template<> _DijkstraDistance<long>::_DijkstraDistance ()            : _distance (0), _inf (true) { }
   template<> _DijkstraDistance<unsigned long>::_DijkstraDistance ()   : _distance (0), _inf (true) { }
-  template<> _DijkstraDistance<string>::_DijkstraDistance ()          : _distance (""), _inf (true) { }
+  template<> _DijkstraDistance<string>::_DijkstraDistance ()          : _distance (""),_inf (true) { }
 
   // TODO: define constructors for all primitive types
 }

@@ -22,7 +22,7 @@ namespace cgt
         friend class _ListIterator<_TpItem, _TpConst>;
 
       private:
-        _ListItem (const _TpItem &_d) : _data (_d) { }
+        _ListItem (const _TpItem& _d) : _data (_d) { }
 
       private:
         _TpItem _data;
