@@ -11,7 +11,7 @@
 #include "vertex_iterator.h"
 #include "search/depth_iterator.h"
 #include "search/breadth_iterator.h"
-#include "dijkstra_iterator.h"
+#include "dijkstra/dijkstra_iterator.h"
 
 
 namespace cgt

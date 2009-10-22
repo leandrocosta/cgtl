@@ -1,6 +1,8 @@
 #ifndef _DIJKSTRA_ITERATOR_H_
 #define _DIJKSTRA_ITERATOR_H_
 
+#include "dijkstra_info.h"
+
 
 namespace cgt
 {
@@ -12,34 +14,17 @@ namespace cgt
         typedef _DijkstraIterator<_TpVertex, _TpEdge, _TpCommon>    _SelfCommon;
 
       private:
-        typedef _GraphNode<_TpVertex, _TpEdge>  _Node;
-        typedef typename _List<_Node>::iterator _NodeIterator;
+        typedef _DijkstraInfo<_TpVertex, _TpEdge> _Info;
+        typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
+        typedef typename _List<_Node>::iterator   _NodeIterator;
 
       public:
-        class _DijkstraInfo
-        {
-          public:
-            _DijkstraInfo (_Node& _n) : _node (_n), _distance (-1) { }
-            _DijkstraInfo (_Node& _n, const long &_d) : _node (_n), _distance (_d) { }
-
-          public:
-            const bool operator==(const _DijkstraInfo& _other) { return (_node.vertex () == _other._node.vertex ()); }
-
-          public:
-            void _set_distance (const long &_d) { _distance = _d; }
-            void _incr_distance (const long &_d) { _distance += _d; }
-            const long& distance () const { return _distance; }
-            _Node& node () const { return _node; }
-
-          private:
-            _Node&  _node;
-            long    _distance;
-        };
+        typedef _DijkstraInfo<_TpVertex, _TpEdge> _DijkstraInfo;
 
       public:
         _DijkstraIterator () { }
         /*
-         * The constructors need to insert all nodes (except _ptr_n) in _NotVisitedInfoList with distance == -1,
+         * The constructors need to insert all nodes (except _ptr_n) in _NotVisitedInfoList with distance == infinite,
          * and after that, calculate distance for the nodes from adjacency list of _ptr_n.
          */
         _DijkstraIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end)
@@ -56,9 +41,9 @@ namespace cgt
 
       private:
         void _init ();
-        _DijkstraInfo* _get_info_by_node (const _Node* const _ptr_node);
-        _DijkstraInfo* _get_info_by_visited_node (const _Node* const _ptr_node);
-        _DijkstraInfo* _get_info_by_not_visited_node (const _Node* const _ptr_node);
+        _Info* _get_info_by_node (const _Node* const _ptr_node);
+        _Info* _get_info_by_visited_node (const _Node* const _ptr_node);
+        _Info* _get_info_by_not_visited_node (const _Node* const _ptr_node);
 
       public:
         _Node& operator*() const;
@@ -68,25 +53,25 @@ namespace cgt
         _Self& operator++();
 
       public:
-        const _DijkstraInfo* const info (const _Node* const _ptr_node) { return _get_info_by_node (_ptr_node); }
-        const _DijkstraInfo* const info (const _Node& _node) { return _get_info_by_node (&_node); }
+        const _Info* const info (const _Node* const _ptr_node) { return _get_info_by_node (_ptr_node); }
+        const _Info* const info (const _Node& _node) { return _get_info_by_node (&_node); }
 
-        typename _List<_DijkstraInfo>::iterator info_begin () { return _InfoList.begin (); }
-        typename _List<_DijkstraInfo>::iterator info_end () { return _InfoList.end (); }
+        typename _List<_Info>::iterator info_begin () { return _InfoList.begin (); }
+        typename _List<_Info>::iterator info_end () { return _InfoList.end (); }
 
       private:
         _Node*               _ptr_node;
         _NodeIterator        _it_node;
         _NodeIterator        _it_node_end;
-        _List<_DijkstraInfo> _InfoList;
-        _List<_DijkstraInfo> _NotVisitedInfoList;
+        _List<_Info> _InfoList;
+        _List<_Info> _NotVisitedInfoList;
     };
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     void _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_init ()
     {
       /*
-       * Insert all nodes (except _ptr_node) in _NotVisitedInfoList with distance == -1,
+       * Insert all nodes (except _ptr_node) in _NotVisitedInfoList with distance == infinite,
        * calculate distance for the nodes from adjacency list of _ptr_n.
        */
 
@@ -96,10 +81,10 @@ namespace cgt
       {
         if (&(*it) == _ptr_node)
         {
-          _InfoList.insert (_DijkstraInfo (*it, 0));
+          _InfoList.insert (_Info (*it));
         }
         else
-          _NotVisitedInfoList.insert (_DijkstraInfo (*it));
+          _NotVisitedInfoList.insert (_Info (*it));
       }
 
       const _AdjList<_TpVertex, _TpEdge> &adjList = _ptr_node->adjlist ();
@@ -109,7 +94,7 @@ namespace cgt
       for (itA = adjList.begin (); itA != itAEnd; ++itA)
       {
         const _Node* const _ptr_n = itA->node ();
-        _DijkstraInfo *_ptr_i = _get_info_by_not_visited_node (_ptr_n);
+        _Info *_ptr_i = _get_info_by_not_visited_node (_ptr_n);
 
         if (_ptr_i)
           _ptr_i->_set_distance (itA->edge ().value ());
@@ -117,9 +102,9 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    typename _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_DijkstraInfo* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_node (const _Node* const _ptr_node)
+    _DijkstraInfo<_TpVertex, _TpEdge>* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_node (const _Node* const _ptr_node)
     {
-      _DijkstraInfo *_ptr = _get_info_by_visited_node (_ptr_node);
+      _Info *_ptr = _get_info_by_visited_node (_ptr_node);
 
       if (! _ptr)
         _ptr = _get_info_by_not_visited_node (_ptr_node);
@@ -128,12 +113,12 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    typename _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_DijkstraInfo* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_visited_node (const _Node* const _ptr_node)
+    _DijkstraInfo<_TpVertex, _TpEdge>* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_visited_node (const _Node* const _ptr_node)
     {
-      _DijkstraInfo *_ptr = NULL;
+      _Info *_ptr = NULL;
 
-      typename _List<_DijkstraInfo>::iterator it;
-      typename _List<_DijkstraInfo>::iterator itEnd = _InfoList.end ();
+      typename _List<_Info>::iterator it;
+      typename _List<_Info>::iterator itEnd = _InfoList.end ();
 
         for (it = _InfoList.begin (); it != itEnd; ++it)
       {
@@ -149,12 +134,12 @@ namespace cgt
 
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-    typename _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_DijkstraInfo* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_not_visited_node (const _Node* const _ptr_node)
+    _DijkstraInfo<_TpVertex, _TpEdge>* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_not_visited_node (const _Node* const _ptr_node)
     {
-      _DijkstraInfo *_ptr = NULL;
+      _Info *_ptr = NULL;
 
-      typename _List<_DijkstraInfo>::iterator it;
-      typename _List<_DijkstraInfo>::iterator itEnd = _NotVisitedInfoList.end ();
+      typename _List<_Info>::iterator it;
+      typename _List<_Info>::iterator itEnd = _NotVisitedInfoList.end ();
 
       for (it = _NotVisitedInfoList.begin (); it != itEnd; ++it)
       {
@@ -192,21 +177,21 @@ namespace cgt
 
       if (! _NotVisitedInfoList.empty ())
       {
-        typename _List<_DijkstraInfo>::iterator it = _NotVisitedInfoList.begin ();
-        typename _List<_DijkstraInfo>::iterator itEnd = _NotVisitedInfoList.end ();
+        typename _List<_Info>::iterator it = _NotVisitedInfoList.begin ();
+        typename _List<_Info>::iterator itEnd = _NotVisitedInfoList.end ();
 
-        _DijkstraInfo* pInfo = &(*it);
+        _Info* pInfo = &(*it);
 
         for (++it; it != itEnd; ++it)
         {
-          if (it->distance () != -1)
+          if (! it->inf_distance ())
           {
-            if (pInfo->distance () == -1 || it->distance () < pInfo->distance ())
+            if (pInfo->inf_distance () || it->distance () < pInfo->distance ())
               pInfo = &(*it);
           }
         }
 
-        if (pInfo->distance () != -1)
+        if (! pInfo->inf_distance ())
         {
           _ptr_node = &(pInfo->node ());
           _InfoList.insert (*pInfo);
@@ -219,13 +204,13 @@ namespace cgt
           for (itA = adjList.begin (); itA != itAEnd; ++itA)
           {
             const _Node* const _ptr_n = itA->node ();
-            _DijkstraInfo *_ptr_i = _get_info_by_not_visited_node (_ptr_n);
+            _Info *_ptr_i = _get_info_by_not_visited_node (_ptr_n);
 
             if (_ptr_i)
             {
-              long new_distance = pInfo->distance () + itA->edge ().value ();
+              _TpEdge new_distance = pInfo->distance () + itA->edge ().value ();
 
-              if (_ptr_i->distance () == -1 || _ptr_i->distance () > new_distance)
+              if (_ptr_i->inf_distance () || _ptr_i->distance () > new_distance)
                 _ptr_i->_set_distance (new_distance);
 
             }
