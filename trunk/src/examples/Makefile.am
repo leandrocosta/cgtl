@@ -11,8 +11,9 @@ BREADTHTESTER_D_SRCS	= breadthtester_d.cpp
 BREADTHTESTER_U_SRCS	= breadthtester_u.cpp
 DIJKSTRATESTER_D_SRCS	= dijkstratester_d.cpp
 DIJKSTRATESTER_U_SRCS	= dijkstratester_u.cpp
+COMPLEXGRAPH_SRCS = complexgraph.cpp
 
-bin_PROGRAMS		= example1 example2 example3 example4 listtester stacktester depthtester_d depthtester_u breadthtester_d breadthtester_u dijkstratester_d dijkstratester_u
+bin_PROGRAMS		= example1 example2 example3 example4 listtester stacktester depthtester_d depthtester_u breadthtester_d breadthtester_u dijkstratester_d dijkstratester_u complexgraph
 example1_SOURCES	= $(EX1_SRCS)
 example2_SOURCES	= $(EX2_SRCS)
 example3_SOURCES	= $(EX3_SRCS)
@@ -25,3 +26,4 @@ breadthtester_d_SOURCES	= $(BREADTHTESTER_D_SRCS)
 breadthtester_u_SOURCES	= $(BREADTHTESTER_U_SRCS)
 dijkstratester_d_SOURCES	= $(DIJKSTRATESTER_D_SRCS)
 dijkstratester_u_SOURCES	= $(DIJKSTRATESTER_U_SRCS)
+complexgraph_SOURCES = $(COMPLEXGRAPH_SRCS)

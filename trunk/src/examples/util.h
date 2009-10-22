@@ -4,6 +4,9 @@
 #include "../cgt/graph_type.h"
 using namespace cgt;
 
+#include <string>
+using namespace std;
+
 
 namespace cgt
 {
@@ -14,16 +17,39 @@ namespace cgt
 template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
   void add_vertex (graph<_TpVertex, _TpEdge, _TpGraphType> &_g, const _TpVertex &_v)
   {
-    cout << "insert vertex " << _v << endl;
+    cout << "insert vertex " << _v () << endl;
     _g.insert_vertex (_v);
   }
 
 template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+  void add_vertex (graph<string, _TpEdge, _TpGraphType> &_g, const string &_v)
+  {
+    cout << "insert vertex " << _v << endl;
+    _g.insert_vertex (_v);
+  }
+
+
+template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
   void add_edge (graph<_TpVertex, _TpEdge, _TpGraphType> &_g, const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2)
+  {
+    cout << "insert edge (" << _e () << ", " << _v1 () << ", " << _v2 () << ")" << endl;
+    _g.insert_edge (_e, _v1, _v2);
+  }
+
+template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+  void add_edge (graph<string, int, _TpGraphType> &_g, const int &_e, const string &_v1, const string &_v2)
   {
     cout << "insert edge (" << _e << ", " << _v1 << ", " << _v2 << ")" << endl;
     _g.insert_edge (_e, _v1, _v2);
   }
+
+template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+  void add_edge (graph<string, string, _TpGraphType> &_g, const string &_e, const string &_v1, const string &_v2)
+  {
+    cout << "insert edge (" << _e << ", " << _v1 << ", " << _v2 << ")" << endl;
+    _g.insert_edge (_e, _v1, _v2);
+  }
+
 
 template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
   void create_graph_1 (graph<_TpVertex, _TpEdge, _TpGraphType> &_g)

@@ -16,7 +16,7 @@ using namespace cgt;
 
 #include "util.h"
 
-typedef graph<string, int> mygraph;
+typedef graph<string, string> mygraph;
 
 int main ()
 {
@@ -24,17 +24,17 @@ int main ()
 
   cout << "=== creating graph ===" << endl << endl;
 
-  add_vertex<string, int, _Directed>(g, "A");
-  add_vertex<string, int, _Directed>(g, "B");
-  add_vertex<string, int, _Directed>(g, "C");
+  add_vertex<string, string, _Directed>(g, "A");
+  add_vertex<string, string, _Directed>(g, "B");
+  add_vertex<string, string, _Directed>(g, "C");
 
   cout << endl;
 
-  add_edge<string, int, _Directed>(g, 0, "A", "B");
-  add_edge<string, int, _Directed>(g, 1, "A", "C");
+  add_edge<string, string, _Directed>(g, "0", "A", "B");
+  add_edge<string, string, _Directed>(g, "1", "A", "C");
 
-  add_edge<string, int, _Directed>(g, 2, "B", "C");
-  add_edge<string, int, _Directed>(g, 3, "C", "C");
+  add_edge<string, string, _Directed>(g, "2", "B", "C");
+  add_edge<string, string, _Directed>(g, "3", "C", "C");
 
   cout << endl;
   cout << "directed graph: " << (g.is_directed () ? "true":"false") << endl;
@@ -65,6 +65,20 @@ int main ()
 
       cout << "  edge (" << e.value () << ", " << v1.value () << ", " << v2.value () << ")" << endl;
     }
+  }
+
+  mygraph::djiterator itdj;
+  mygraph::djiterator itdjEnd = g.dijkstra_end ();
+
+  itdj = g.dijkstra_begin ();
+
+  for (itdj = g.dijkstra_begin (); itdj != itdjEnd; ++itdj)
+  {
+    const mygraph::node&          n = *itdj;
+    const mygraph::vertex&        v = n.vertex ();
+    const mygraph::dijkstra_info* i = itdj.info (n);
+
+    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
   }
 
   return 0;
