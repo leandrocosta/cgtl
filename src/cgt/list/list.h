@@ -5,6 +5,7 @@
 #include "list_item.h"
 #include "list_iterator_base.h"
 #include "list_iterator.h"
+#include "../alloc/allocator.h"
 
 
 namespace cgt
@@ -30,14 +31,7 @@ namespace cgt
           }
           virtual ~_List ()
           {
-            _Item *_ptr = NULL;
-
-            while (_head)
-            {
-              _ptr = _head;
-              _head = static_cast<_Item *>(_ptr->_next);
-              delete _ptr;
-            }
+            _remove_all ();
           }
 
         public:
@@ -46,15 +40,23 @@ namespace cgt
         private:
           _TpItem& _push_front (_Item *_ptr);
           _TpItem& _push_back (_Item *_ptr);
+          _Item* _find (const _TpItem& _item) const;
+          _TpItem* _get (_Item* _ptr_item) const;
+          _TpItem* _pop (_Item* _ptr_item);
+          void _unlink (const _Item* const _ptr);
+          void _remove (_Item* _ptr);
+          void _remove_all ();
 
         public:
           _TpItem& insert (const _TpItem& _item);
-          void remove (const _TpItem& _item);
           _TpItem& push_front (const _TpItem& _item);
           _TpItem& push_back (const _TpItem& _item);
           _TpItem* pop_front ();
+          _TpItem* pop_back ();
           _TpItem* front ();
-          _TpItem* back ();
+            _TpItem* back ();
+          void remove (const _TpItem& _item);
+          void clear ();
 
           const unsigned long size () const;
           const bool empty () const;
@@ -90,12 +92,15 @@ namespace cgt
     template<typename _TpItem>
       _TpItem& _List<_TpItem>::_push_front (_Item *_ptr)
       {
-        _ptr->_next = _head;
-        _head = _ptr;
-
         if (! _tail)
           _tail = _ptr;
+        else
+        {
+          _ptr->_next = _head;
+          _head->_prev = _ptr;
+        }
 
+        _head = _ptr;
         _size++;
 
         return _ptr->_data;
@@ -107,56 +112,91 @@ namespace cgt
         if (! _head)
           _head = _ptr;
         else
+        {
+          _ptr->_prev = _tail;
           _tail->_next = _ptr;
+        }
 
         _tail = _ptr;
-
         _size++;
 
         return _ptr->_data;
       }
 
     template<typename _TpItem>
-      _TpItem& _List<_TpItem>::insert (const _TpItem& _item)
+      _ListItem<_TpItem>* _List<_TpItem>::_find (const _TpItem& _item) const
       {
-        return _push_back (new _Item (_item));
+        _Item* _ptr = _head;
+
+        while (_ptr != NULL && _ptr->_data != _item)
+          _ptr = static_cast<_Item *>(_ptr->_next);
+
+        return _ptr;
       }
 
     template<typename _TpItem>
-      void _List<_TpItem>::remove (const _TpItem& _item)
+      _TpItem* _List<_TpItem>::_get (_Item* _ptr_item) const
       {
-        _Item* _ptr = NULL;
+        _TpItem* _ptr = NULL;
 
-        if (_head->_data == _item)
+        if (_ptr_item)
+          _ptr = &(_ptr_item->_data);
+
+        return _ptr;
+      }
+
+    template<typename _TpItem>
+      _TpItem* _List<_TpItem>::_pop (_Item* _ptr_item)
+      {
+        _TpItem* _ptr = NULL;
+
+        if (_ptr_item)
         {
-          _ptr = _head;
-          _head = static_cast<_Item *> (_head->_next);
+          _unlink (_ptr_item);
+          _ptr = new _TpItem (_ptr_item->_data);
+          delete _ptr_item;
+        }
+
+        return _ptr;
+      }
+
+    template<typename _TpItem>
+      void _List<_TpItem>::_unlink (const _ListItem<_TpItem>* const _ptr)
+      {
+        if (_ptr->_prev)
+          _ptr->_prev->_next = _ptr->_next;
+        else
+          _head = static_cast<_Item *>(_ptr->_next);
+
+        if (_ptr->_next)
+          _ptr->_next->_prev = _ptr->_prev;
+        else
+          _tail = static_cast<_Item *>(_ptr->_prev);
+
+        _size--;
+      }
+
+    template<typename _TpItem>
+      void _List<_TpItem>::_remove (_Item* _ptr)
+      {
+        if (_ptr)
+        {
+          _unlink (_ptr);
           delete _ptr;
         }
-        else
-        {
-          _Item* _ptr_prv = _head;
-          _ptr = static_cast<_Item *> (_ptr_prv->_next);
+      }
 
-          while (_ptr)
-          {
-            if (_ptr->_data == _item)
-            {
-              if (_tail == _ptr)
-                _tail = _ptr_prv;
+    template<typename _TpItem>
+      void _List<_TpItem>::_remove_all ()
+      {
+        while (_head)
+          _remove (_head);
+      }
 
-              _ptr_prv->_next = _ptr->_next;
-              delete _ptr;
-
-              break;
-            }
-            else
-            {
-              _ptr_prv = _ptr;
-              _ptr = static_cast<_Item *> (_ptr->_next);
-            }
-          }
-        }
+    template<typename _TpItem>
+      _TpItem& _List<_TpItem>::insert (const _TpItem& _item)
+      {
+        return _push_back (new _Item (_item));
       }
 
     template<typename _TpItem>
@@ -174,45 +214,25 @@ namespace cgt
     template<typename _TpItem>
       _TpItem* _List<_TpItem>::pop_front ()
       {
-        _TpItem *_ptr = NULL;
+        return _pop (_head);
+      }
 
-        if (_head)
-        {
-          _Item *_ptr_item = _head;
-          _head = static_cast<_Item *> (_head->_next);
-          _ptr = new _TpItem (_ptr_item->_data);
-
-          delete _ptr_item;
-        }
-
-        if (! _head)
-          _tail = NULL;
-
-       _size--;
-        
-        return _ptr;
+    template<typename _TpItem>
+      _TpItem* _List<_TpItem>::pop_back ()
+      {
+        return _pop (_tail);
       }
 
     template<typename _TpItem>
       _TpItem* _List<_TpItem>::front ()
       {
-        _TpItem *_ptr = NULL;
-
-        if (_head)
-          _ptr = &(_head->_data);
-        
-        return _ptr;
+        return _get (_head);
       }
 
     template<typename _TpItem>
       _TpItem* _List<_TpItem>::back ()
       {
-        _TpItem *_ptr = NULL;
-
-        if (_tail)
-          _ptr = &(_tail->_data);
-        
-        return _ptr;
+        return _get (_tail);
       }
 
     template<typename _TpItem>
@@ -236,13 +256,19 @@ namespace cgt
     template<typename _TpItem>
       _ListIterator<_TpItem, _TpConst> _List<_TpItem>::find (const _TpItem& _item) const
       {
-        const_iterator it    = begin ();
-        const_iterator itEnd = end ();
+        return const_iterator (_find (_item));
+      }
 
-        while (it != end () && *it != _item)
-          ++it;
+    template<typename _TpItem>
+      void _List<_TpItem>::remove (const _TpItem& _item)
+      {
+        _remove (_find (_item));
+      }
 
-        return it;
+    template<typename _TpItem>
+      void _List<_TpItem>::clear ()
+      {
+        _remove_all ();
       }
 
     template<typename _TpItem>
