@@ -29,7 +29,6 @@ namespace cgt
 
         private:
           _ListItemBase () : _next (NULL) { }
-          _ListItemBase (_Self *_n) : _next (_n) { }
 
         private:
           _Self* _next;
