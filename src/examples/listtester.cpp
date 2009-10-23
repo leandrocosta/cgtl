@@ -15,6 +15,11 @@ int main ()
   cout << "insert 1" << endl;
   s.insert (1);
 
+  cout << "---" << endl;
+  list<int>::const_iterator itfind = s.find (2);
+  cout << "itfind (2): " << *itfind << endl;
+  cout << "---" << endl;
+
   list<int>::const_iterator it = s.begin ();
   list<int>::const_iterator itEnd = s.end ();
 
