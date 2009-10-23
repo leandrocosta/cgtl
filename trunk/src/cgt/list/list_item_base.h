@@ -28,10 +28,11 @@ namespace cgt
           typedef _ListItemBase<_TpItem> _Self;
 
         private:
-          _ListItemBase () : _next (NULL) { }
+          _ListItemBase () : _next (NULL), _prev (NULL) { }
 
         private:
           _Self* _next;
+          _Self* _prev;
       };
   }
 }

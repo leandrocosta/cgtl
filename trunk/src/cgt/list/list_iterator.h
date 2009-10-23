@@ -16,6 +16,7 @@ namespace cgt
         typedef _ListIteratorBase<_TpItem>                _Base;
         typedef _ListIterator<_TpItem, _TpIterator>       _Self;
         typedef _ListIterator<_TpItem, _TpCommon>         _SelfCommon;
+        typedef _ListIterator<_TpItem, _TpConst>          _SelfConst;
         typedef _ListItem<_TpItem>                        _Item;
         typedef typename _TpIterator<_TpItem>::pointer    pointer;
         typedef typename _TpIterator<_TpItem>::reference  reference;
@@ -24,6 +25,7 @@ namespace cgt
         _ListIterator () { }
         _ListIterator (_Item *_p) : _Base (_p) { }
         _ListIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
+        _ListIterator (const _SelfConst& _it) : _Base (_it._ptr) { }
 
       public:
         reference operator*() const;
