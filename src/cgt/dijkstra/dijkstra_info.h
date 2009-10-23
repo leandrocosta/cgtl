@@ -25,7 +25,8 @@ namespace cgt
         _DijkstraInfo (_Node& _n) : _node (_n), _ptr_previous (NULL) { }
 
       public:
-        const bool operator==(const _DijkstraInfo& _other) { return (_node.vertex () == _other._node.vertex ()); }
+        const bool operator==(const _DijkstraInfo& _d) { return (_node.vertex () == _d._node.vertex ()); }
+        const bool operator!=(const _DijkstraInfo& _d) { return ! (*this == _d); }
 
       public:
         _Node& node () const { return _node; }

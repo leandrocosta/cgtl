@@ -12,7 +12,7 @@ namespace cgt
 
       public:
         const bool operator==(const _GraphVertex<_TpVertex> &_v) const { return _value == _v.value (); }
-        const bool operator!=(const _GraphVertex<_TpVertex> &_v) const { return ! (*this == _v.value ()); }
+        const bool operator!=(const _GraphVertex<_TpVertex> &_v) const { return ! (*this == _v); }
 
         const bool operator==(const _TpVertex &_v) const { return _value == _v; }
         const bool operator!=(const _TpVertex &_v) const { return ! (*this == _v); }
