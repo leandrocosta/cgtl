@@ -69,7 +69,7 @@ namespace cgt
       {
         if (! _head)
         {
-          cout << "_init ()" << endl;
+//          cout << "_init ()" << endl;
           _head = new _Chunk ();
           _free = reinterpret_cast<_Block *>(_head->_block);
           _tail = _head;

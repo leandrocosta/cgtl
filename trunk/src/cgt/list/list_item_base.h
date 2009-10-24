@@ -7,9 +7,6 @@ namespace cgt
   namespace list
   {
     template<typename _TpItem>
-      class _List;
-
-    template<typename _TpItem>
       class _ListItem;
 
     template<typename _TpItem>
@@ -20,7 +17,6 @@ namespace cgt
       class _ListItemBase
       {
         private:
-          friend class _List<_TpItem>;
           friend class _ListItem<_TpItem>;
           friend class _ListIteratorBase<_TpItem>;
 
@@ -30,7 +26,7 @@ namespace cgt
         private:
           _ListItemBase () : _next (NULL), _prev (NULL) { }
 
-        private:
+        public:
           _Self* _next;
           _Self* _prev;
       };
