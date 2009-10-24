@@ -6,22 +6,26 @@
 #include "list_iterator_base.h"
 #include "list_iterator.h"
 #include "../alloc/allocator.h"
+using namespace cgt::alloc;
 
 
 namespace cgt
 {
   namespace list
   {
-    template<typename _TpItem>
+    template<typename _TpItem, typename _Alloc = _Allocator<_ListItem<_TpItem> > >
       class _List
       {
         private:
-          typedef _List<_TpItem>     _Self;
+          typedef _List<_TpItem, _Alloc>     _Self;
           typedef _ListItem<_TpItem> _Item;
 
         public:
           typedef _ListIterator<_TpItem>            iterator;
           typedef _ListIterator<_TpItem, _TpConst>  const_iterator;
+
+        private:
+          typedef typename _Alloc::template rebind<_ListItem<_TpItem> >::other allocator_type;
 
         public:
           _List () : _head (NULL), _tail (NULL), _size (0) { }
@@ -75,10 +79,12 @@ namespace cgt
           _Item*        _head;
           _Item*        _tail;
           unsigned long _size;
+
+          allocator_type  _alloc;
       };
 
-    template<typename _TpItem>
-      _List<_TpItem>& _List<_TpItem>::operator=(const _Self& _l)
+    template<typename _TpItem, typename _Alloc>
+      _List<_TpItem, _Alloc>& _List<_TpItem, _Alloc>::operator=(const _Self& _l)
       {
         const_iterator it;
         const_iterator itEnd = _l.end ();
@@ -89,8 +95,8 @@ namespace cgt
         return *this;
       }
 
-    template<typename _TpItem>
-      _TpItem& _List<_TpItem>::_push_front (_Item *_ptr)
+    template<typename _TpItem, typename _Alloc>
+      _TpItem& _List<_TpItem, _Alloc>::_push_front (_Item *_ptr)
       {
         if (! _tail)
           _tail = _ptr;
@@ -106,8 +112,8 @@ namespace cgt
         return _ptr->_data;
       }
 
-    template<typename _TpItem>
-      _TpItem& _List<_TpItem>::_push_back (_Item *_ptr)
+    template<typename _TpItem, typename _Alloc>
+      _TpItem& _List<_TpItem, _Alloc>::_push_back (_Item *_ptr)
       {
         if (! _head)
           _head = _ptr;
@@ -123,8 +129,8 @@ namespace cgt
         return _ptr->_data;
       }
 
-    template<typename _TpItem>
-      _ListItem<_TpItem>* _List<_TpItem>::_find (const _TpItem& _item) const
+    template<typename _TpItem, typename _Alloc>
+      _ListItem<_TpItem>* _List<_TpItem, _Alloc>::_find (const _TpItem& _item) const
       {
         _Item* _ptr = _head;
 
@@ -134,8 +140,8 @@ namespace cgt
         return _ptr;
       }
 
-    template<typename _TpItem>
-      _TpItem* _List<_TpItem>::_get (_Item* _ptr_item) const
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::_get (_Item* _ptr_item) const
       {
         _TpItem* _ptr = NULL;
 
@@ -145,8 +151,8 @@ namespace cgt
         return _ptr;
       }
 
-    template<typename _TpItem>
-      _TpItem* _List<_TpItem>::_pop (_Item* _ptr_item)
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::_pop (_Item* _ptr_item)
       {
         _TpItem* _ptr = NULL;
 
@@ -154,14 +160,16 @@ namespace cgt
         {
           _unlink (_ptr_item);
           _ptr = new _TpItem (_ptr_item->_data);
-          delete _ptr_item;
+//          delete _ptr_item;
+          _alloc.destroy (_ptr_item);
+          _alloc.deallocate (_ptr_item, 1);
         }
 
         return _ptr;
       }
 
-    template<typename _TpItem>
-      void _List<_TpItem>::_unlink (const _ListItem<_TpItem>* const _ptr)
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::_unlink (const _ListItem<_TpItem>* const _ptr)
       {
         if (_ptr->_prev)
           _ptr->_prev->_next = _ptr->_next;
@@ -176,97 +184,108 @@ namespace cgt
         _size--;
       }
 
-    template<typename _TpItem>
-      void _List<_TpItem>::_remove (_Item* _ptr)
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::_remove (_Item* _ptr)
       {
         if (_ptr)
         {
           _unlink (_ptr);
-          delete _ptr;
+//          delete _ptr;
+          _alloc.destroy (_ptr);
+          _alloc.deallocate (_ptr, 1);
         }
       }
 
-    template<typename _TpItem>
-      void _List<_TpItem>::_remove_all ()
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::_remove_all ()
       {
         while (_head)
           _remove (_head);
       }
 
-    template<typename _TpItem>
-      _TpItem& _List<_TpItem>::insert (const _TpItem& _item)
+    template<typename _TpItem, typename _Alloc>
+      _TpItem& _List<_TpItem, _Alloc>::insert (const _TpItem& _item)
       {
-        return _push_back (new _Item (_item));
+//        return _push_back (new _Item (_item));
+        _Item* _ptr = _alloc.allocate (1);
+        _alloc.construct (_ptr, _Item (_item));
+        return _push_back (_ptr);
       }
 
-    template<typename _TpItem>
-      _TpItem& _List<_TpItem>::push_front (const _TpItem& _item)
+    template<typename _TpItem, typename _Alloc>
+      _TpItem& _List<_TpItem, _Alloc>::push_front (const _TpItem& _item)
       {
-        return _push_front (new _Item (_item));
+//        return _push_front (new _Item (_item));
+        _Item* _ptr = _alloc.allocate (1);
+        _alloc.construct (_ptr, _Item (_item));
+        return _push_front (_ptr);
       }
 
-    template<typename _TpItem>
-      _TpItem& _List<_TpItem>::push_back (const _TpItem& _item)
+    template<typename _TpItem, typename _Alloc>
+      _TpItem& _List<_TpItem, _Alloc>::push_back (const _TpItem& _item)
       {
-        return _push_back (new _Item (_item));
+//        return _push_back (new _Item (_item));
+        _Item* _ptr = _alloc.allocate (1);
+        _alloc.construct (_ptr, _Item (_item));
+        return _push_back (_ptr);
       }
 
-    template<typename _TpItem>
-      _TpItem* _List<_TpItem>::pop_front ()
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::pop_front ()
       {
         return _pop (_head);
       }
 
-    template<typename _TpItem>
-      _TpItem* _List<_TpItem>::pop_back ()
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::pop_back ()
       {
         return _pop (_tail);
       }
 
-    template<typename _TpItem>
-      _TpItem* _List<_TpItem>::front ()
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::front ()
       {
         return _get (_head);
       }
 
-    template<typename _TpItem>
-      _TpItem* _List<_TpItem>::back ()
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::back ()
       {
         return _get (_tail);
       }
 
-    template<typename _TpItem>
-      const unsigned long _List<_TpItem>::size () const
+    template<typename _TpItem, typename _Alloc>
+      const unsigned long _List<_TpItem, _Alloc>::size () const
       {
         return _size;
       }
 
-    template<typename _TpItem>
-      const bool _List<_TpItem>::empty () const
+    template<typename _TpItem, typename _Alloc>
+      const bool _List<_TpItem, _Alloc>::empty () const
       {
         return (! _head);
       }
 
-    template<typename _TpItem>
-      _ListIterator<_TpItem> _List<_TpItem>::find (const _TpItem& _item)
+    template<typename _TpItem, typename _Alloc>
+      _ListIterator<_TpItem> _List<_TpItem, _Alloc>::find (const _TpItem& _item)
       {
         return static_cast<const _Self *>(this)->find (_item);
       }
 
-    template<typename _TpItem>
-      _ListIterator<_TpItem, _TpConst> _List<_TpItem>::find (const _TpItem& _item) const
+    template<typename _TpItem, typename _Alloc>
+      _ListIterator<_TpItem, _TpConst> _List<_TpItem, _Alloc>::find (const _TpItem& _item) const
       {
         return const_iterator (_find (_item));
       }
 
-    template<typename _TpItem>
-      void _List<_TpItem>::remove (const _TpItem& _item)
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::remove (const _TpItem& _item)
       {
         _remove (_find (_item));
       }
 
-    template<typename _TpItem>
-      void _List<_TpItem>::clear ()
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::clear ()
       {
         _remove_all ();
       }
