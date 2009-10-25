@@ -10,17 +10,22 @@ namespace cgt
 {
   namespace alloc
   {
+    /*
+     * Based on the example presented in The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570
+     */
+
     template<typename _TpItem>
       class _Allocator
       {
         public:
-          typedef size_t    size_type;
-          typedef ptrdiff_t difference_type;
+          typedef size_t          size_type;
+          typedef ptrdiff_t       difference_type;
           typedef _TpItem*        pointer;
           typedef const _TpItem*  const_pointer;
           typedef _TpItem&        reference;
           typedef const _TpItem&  const_reference;
           typedef _TpItem         value_type;
+
           template <class _U> struct rebind { typedef _Allocator<_U> other; };
 
           _Allocator() { };

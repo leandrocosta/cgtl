@@ -71,23 +71,27 @@ class list
 
 int main (int argc, char *argv[])
 {
-  std::list<int, _Allocator<int> > vec;
-//  std::list<int> vec;
+//  std::list<int, _Allocator<int> > vec;
+  std::list<int> vec;
 
   cout << "num: " << atol (argv [1]) << endl;
 
   int i;
   for (i = 1; i <= atol (argv [1]); i++)
   {
-//    cout << "push_back: " << i << endl;
     vec.push_back (i);
+//    cout << "push_back: " << i << ", size: " << vec.size () << endl;
   }
 
+  /*
   std::list<int, _Allocator<int> >::const_iterator it;
   std::list<int, _Allocator<int> >::const_iterator itEnd = vec.end ();
 
   for (it = vec.begin (); it != itEnd; ++it)
+  {
     cout << *it << endl;
+  }
+  */
 
 
 //  list<int> l(1);

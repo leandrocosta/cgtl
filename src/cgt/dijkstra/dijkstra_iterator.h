@@ -173,7 +173,7 @@ namespace cgt
     _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>& _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
     {
       /*
-       * The operator++() needs to remove the node with lowest distance from _NotVisitedInfoList
+       * Remove the node with lowest distance from _NotVisitedInfoList
        * and recalculate distances for the adjacency list of the chosen node.
        */
 
