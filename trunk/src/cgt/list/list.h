@@ -17,8 +17,8 @@ namespace cgt
       class _List
       {
         private:
-          typedef _List<_TpItem, _Alloc>     _Self;
-          typedef _ListItem<_TpItem> _Item;
+          typedef _List<_TpItem, _Alloc>  _Self;
+          typedef _ListItem<_TpItem>      _Item;
 
         public:
           typedef _ListIterator<_TpItem>            iterator;
@@ -29,14 +29,8 @@ namespace cgt
 
         public:
           _List () : _head (NULL), _tail (NULL), _size (0) { }
-          _List (const _List& _l) : _head (NULL), _tail (NULL), _size (0)
-          {
-            *this = _l;
-          }
-          virtual ~_List ()
-          {
-            _remove_all ();
-          }
+          _List (const _List& _l) : _head (NULL), _tail (NULL), _size (0) { *this = _l; }
+          virtual ~_List () { _remove_all (); }
 
         public:
           _Self& operator=(const _Self& _l);
@@ -64,6 +58,10 @@ namespace cgt
 
           const unsigned long size () const;
           const bool empty () const;
+
+          void make_heap ();
+          void _rebuild_heap (unsigned int i, _TpItem* _arrayItem[]);
+          _TpItem* pop_heap ();
 
         public:
           iterator begin () { return iterator (_head); }
@@ -160,7 +158,6 @@ namespace cgt
         {
           _unlink (_ptr_item);
           _ptr = new _TpItem (_ptr_item->_data);
-//          delete _ptr_item;
           _alloc.destroy (_ptr_item);
           _alloc.deallocate (_ptr_item, 1);
         }
@@ -190,7 +187,6 @@ namespace cgt
         if (_ptr)
         {
           _unlink (_ptr);
-//          delete _ptr;
           _alloc.destroy (_ptr);
           _alloc.deallocate (_ptr, 1);
         }
@@ -206,7 +202,6 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::insert (const _TpItem& _item)
       {
-//        return _push_back (new _Item (_item));
         _Item* _ptr = _alloc.allocate (1);
         _alloc.construct (_ptr, _Item (_item));
         return _push_back (_ptr);
@@ -215,7 +210,6 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::push_front (const _TpItem& _item)
       {
-//        return _push_front (new _Item (_item));
         _Item* _ptr = _alloc.allocate (1);
         _alloc.construct (_ptr, _Item (_item));
         return _push_front (_ptr);
@@ -224,7 +218,6 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::push_back (const _TpItem& _item)
       {
-//        return _push_back (new _Item (_item));
         _Item* _ptr = _alloc.allocate (1);
         _alloc.construct (_ptr, _Item (_item));
         return _push_back (_ptr);
@@ -264,6 +257,88 @@ namespace cgt
       const bool _List<_TpItem, _Alloc>::empty () const
       {
         return (! _head);
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::make_heap ()
+      {
+        size_t s = size ();
+
+        _TpItem* _arrayItem [s];
+
+        iterator it;
+        iterator itEnd = end ();
+        int i = 0;
+
+        for (it = begin (); it != itEnd; ++it)
+          _arrayItem [i++] = &(*it);
+
+        i = s/2 - 1;
+
+        while (i >= 0)
+          _rebuild_heap (i--, _arrayItem);
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      void _List<_TpItem, _Alloc>::_rebuild_heap (unsigned int i, _TpItem* _arrayItem[])
+      {
+        size_t s = size ();
+
+        unsigned int j = i;
+        _TpItem item = *(_arrayItem [i]);
+
+        unsigned int k = 2*j+1;
+
+        while (k < s)
+        {
+
+          if (k+1 < s && *(_arrayItem[k+1]) < *(_arrayItem[k]))
+            k++;
+
+          if (*(_arrayItem [k]) < item)
+          {
+            *(_arrayItem [j]) = *(_arrayItem [k]);
+            j = k;
+            k = 2*j+1;
+          }
+          else
+            break;
+        }
+
+        *(_arrayItem [j]) = item;
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      _TpItem* _List<_TpItem, _Alloc>::pop_heap ()
+      {
+        _TpItem* _ptr = NULL;
+        
+        if (_head)
+        {
+          if (_head == _tail)
+            _ptr = _pop (_head);
+          else
+          {
+            _ptr = new _TpItem (_head->_data);
+
+            _TpItem* _arrayItem [size ()];
+
+            iterator it;
+            iterator itEnd = end ();
+            int i = 0;
+
+            for (it = begin (); it != itEnd; ++it)
+              _arrayItem [i++] = &(*it);
+
+            _TpItem* _p = _pop (_tail);
+            _head->_data = *_p;
+            delete _p;
+
+            _rebuild_heap (0, _arrayItem);
+          }
+        }
+
+        return _ptr;
       }
 
     template<typename _TpItem, typename _Alloc>

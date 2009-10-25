@@ -5,6 +5,10 @@ namespace cgt
 {
   namespace alloc
   {
+    /*
+     * Based on the example presented in The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570
+     */
+
     template<typename _TpItem, size_t _ChunkSize = 0xFFFF /* 64k-1 */>
       class _Storage
       {
@@ -12,14 +16,9 @@ namespace cgt
           class _Chunk
           {
             public:
-              class _Block
+              struct _Block
               {
-                public:
-                  _Block () : _next (NULL) { }
-
-                public:
-                  unsigned char _data [sizeof (_TpItem)];
-                  _Block* _next;
+                _Block* _next;
               };
 
             public:
@@ -28,16 +27,17 @@ namespace cgt
             private:
               void _init ()
               {
-                unsigned int i = 0;
+                size_t size = sizeof (_TpItem);
+                char* _ptr_last = &(_block [(_ChunkSize-1) * size]);
 
-                for (i = 0; i < _ChunkSize-1; i++)
-                  reinterpret_cast<_Block *>(_block)[i]._next = &(reinterpret_cast<_Block *>(_block)[i+1]);
+                for (char* _ptr = _block; _ptr < _ptr_last; _ptr += size)
+                  reinterpret_cast<_Block *>(_ptr)->_next = reinterpret_cast<_Block *>(_ptr + size);
 
-                reinterpret_cast<_Block *>(_block)[_ChunkSize-1]._next = NULL;
+                reinterpret_cast<_Block *>(_ptr_last)->_next = NULL;
               }
 
             public:
-              char _block [_ChunkSize * sizeof (_Block)];
+              char _block [_ChunkSize * sizeof (_TpItem)];
               _Chunk* _next;
           };
 
@@ -45,11 +45,10 @@ namespace cgt
           typedef typename _Chunk::_Block _Block;
 
         public:
-          _Storage () : _tail (NULL), _free (NULL) { _init (); }
+          _Storage () : _head (NULL), _free (NULL) { }
           virtual ~_Storage () { _destroy (); }
 
         private:
-          void _init ();
           void _add_chunk ();
           void _destroy ();
 
@@ -59,29 +58,17 @@ namespace cgt
 
         private:
           _Chunk* _head;
-          _Chunk* _tail;
           _Block* _free;
       };
 
 
     template<typename _TpItem, size_t _ChunkSize>
-      void _Storage<_TpItem, _ChunkSize>::_init ()
-      {
-        if (! _head)
-        {
-//          cout << "_init ()" << endl;
-          _head = new _Chunk ();
-          _free = reinterpret_cast<_Block *>(_head->_block);
-          _tail = _head;
-        }
-      }
-
-    template<typename _TpItem, size_t _ChunkSize>
       void _Storage<_TpItem, _ChunkSize>::_add_chunk ()
       {
-        _tail->_next = new _Chunk ();
-        _free = reinterpret_cast<_Block *>(_tail->_block);
-        _tail = _tail->_next;
+        _Chunk* _ptr = new _Chunk ();
+        _ptr->_next = _head;
+        _head = _ptr;
+        _free = reinterpret_cast<_Block *>(_ptr->_block);
       }
 
     template<typename _TpItem, size_t _ChunkSize>
