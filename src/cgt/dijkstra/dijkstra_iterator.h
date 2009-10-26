@@ -190,10 +190,15 @@ namespace cgt
         {
           if (! it->inf_distance ())
           {
-            if (pInfo->inf_distance () || it->distance () < pInfo->distance ())
+            if (*it < *pInfo)
               pInfo = &(*it);
           }
         }
+
+        /*
+        _NotVisitedInfoList.make_heap ();
+        _Info* pInfo = _NotVisitedInfoList.pop_heap ();
+        */
 
         if (! pInfo->inf_distance ())
         {
