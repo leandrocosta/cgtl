@@ -262,9 +262,7 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::make_heap ()
       {
-        size_t s = size ();
-
-        _TpItem* _arrayItem [s];
+        _TpItem* _arrayItem [_size];
 
         iterator it;
         iterator itEnd = end ();
@@ -273,7 +271,7 @@ namespace cgt
         for (it = begin (); it != itEnd; ++it)
           _arrayItem [i++] = &(*it);
 
-        i = s/2 - 1;
+        i = _size/2 - 1;
 
         while (i >= 0)
           _rebuild_heap (i--, _arrayItem);
@@ -282,30 +280,26 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::_rebuild_heap (unsigned int i, _TpItem* _arrayItem[])
       {
-        size_t s = size ();
-
-        unsigned int j = i;
         _TpItem item = *(_arrayItem [i]);
 
-        unsigned int k = 2*j+1;
+        unsigned int k = 2*i+1;
 
-        while (k < s)
+        while (k < _size)
         {
-
-          if (k+1 < s && *(_arrayItem[k+1]) < *(_arrayItem[k]))
+          if (k+1 < _size && *(_arrayItem[k+1]) < *(_arrayItem[k]))
             k++;
 
           if (*(_arrayItem [k]) < item)
           {
-            *(_arrayItem [j]) = *(_arrayItem [k]);
-            j = k;
-            k = 2*j+1;
+            *(_arrayItem [i]) = *(_arrayItem [k]);
+            i = k;
+            k = 2*i+1;
           }
           else
             break;
         }
 
-        *(_arrayItem [j]) = item;
+        *(_arrayItem [i]) = item;
       }
 
     template<typename _TpItem, typename _Alloc>
@@ -321,7 +315,7 @@ namespace cgt
           {
             _ptr = new _TpItem (_head->_data);
 
-            _TpItem* _arrayItem [size ()];
+            _TpItem* _arrayItem [_size];
 
             iterator it;
             iterator itEnd = end ();
