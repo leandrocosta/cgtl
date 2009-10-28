@@ -53,7 +53,7 @@ namespace cgt
           void _destroy ();
 
         public:
-          _TpItem* allocate (size_t size);
+          _TpItem* allocate ();
           void deallocate (_TpItem* _ptr);
 
         private:
@@ -69,7 +69,6 @@ namespace cgt
         _ptr->_next = _head;
         _head = _ptr;
         _free = reinterpret_cast<_Block *>(_ptr->_block);
-//        cout << "_add_chunk, _free: " << _free << endl;
       }
 
     template<typename _TpItem, size_t _ChunkSize>
@@ -86,17 +85,13 @@ namespace cgt
       }
 
     template<typename _TpItem, size_t _ChunkSize>
-      _TpItem* _Storage<_TpItem, _ChunkSize>::allocate (size_t size)
+      _TpItem* _Storage<_TpItem, _ChunkSize>::allocate ()
       {
-//        cout << "this: " << this << ", allocate, _free: " << _free << ", _free->_next: " << (_free ? _free->_next:0) << endl;
-
         if (! _free)
           _add_chunk ();
 
         _TpItem* _ptr = reinterpret_cast<_TpItem *>(_free);
         _free = _free->_next;
-
-//        cout << "this: " << this << ", allocate, _free: " << _free << ", _free->_next: " << _free->_next << endl;
 
         return _ptr;
       }
@@ -104,10 +99,8 @@ namespace cgt
     template<typename _TpItem, size_t _ChunkSize>
       void _Storage<_TpItem, _ChunkSize>::deallocate (_TpItem* _ptr)
       {
-//        cout << "this: " << this << ", deallocate, _free: " << _free << ", _free->_next: " << _free->_next << endl;
         reinterpret_cast<_Block *>(_ptr)->_next = _free;
         _free = reinterpret_cast<_Block *>(_ptr);
-//        cout << "this: " << this << ", deallocate, _free: " << _free << ", _free->_next: " << _free->_next << endl;
       }
   }
 }

@@ -38,7 +38,7 @@ namespace cgt
 
           pointer allocate(size_type size, _Allocator<_TpItem>::const_pointer hint = 0)
           {
-            return static_cast<pointer>(_storage.allocate (size));
+            return static_cast<pointer>(_storage.allocate ());
           }
 
           void deallocate(pointer p, size_type n)
@@ -58,7 +58,6 @@ namespace cgt
 
           void destroy(pointer p)
           {
-//            cout << "destroy, p: " << p << endl;
             p->~_TpItem ();
           }
 
