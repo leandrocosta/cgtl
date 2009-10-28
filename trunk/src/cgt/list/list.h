@@ -59,8 +59,11 @@ namespace cgt
           const unsigned long size () const;
           const bool empty () const;
 
-          void make_heap ();
+        private:
           void _rebuild_heap (unsigned int i, _TpItem* _arrayItem[]);
+
+        public:
+          void make_heap ();
           _TpItem* pop_heap ();
 
         public:
