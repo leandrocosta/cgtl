@@ -38,6 +38,7 @@ namespace cgt
       void _insert_node (const _TpVertex &_vertex);
       void _insert_vertex (const _TpVertex &_vertex);
       void _insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2);
+      void _insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex _v2, _Edge& _e);
 
     private:
       const bool _is_directed () const;
@@ -112,16 +113,20 @@ namespace cgt
           if (! _ptr_n1->_get_edge (_vertex2))
           {
             _Vertex& _vertex1 = _ptr_n1->vertex ();
-
             _Edge &_edge = _edge_list.insert (_Edge (_e, _vertex1, _vertex2));
-
-            _ptr_n1->_insert (_edge, _vertex2, _ptr_n2);
-
-            if (! _type._directed && ! _ptr_n2->_get_edge (_vertex1))
-              _ptr_n2->_insert (_edge, _vertex1, _ptr_n1);
+            _insert_edge (_ptr_n1, _ptr_n2, _vertex1, _vertex2, _edge);
           }
         }
       }
+    }
+
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex _v2, _Edge& _e)
+    {
+      _ptr_n1->_insert (_e, _v2, _ptr_n2);
+
+      if (! _type._directed && ! _ptr_n2->_get_edge (_v1))
+        _ptr_n2->_insert (_e, _v1, _ptr_n1);
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>

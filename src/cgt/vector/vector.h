@@ -84,10 +84,10 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       void _Vector<_TpItem, _Alloc>::_increase ()
       {
-        _array = (_TpItem **) realloc (_array, 2 * _bufsize * sizeof (_TpItem **));
+        _bufsize *= 2;
+        _array = (_TpItem **) realloc (_array, _bufsize * sizeof (_TpItem **));
         _head = _array;
         _tail = &(_array [_size]);
-        _bufsize *= 2;
       }
 
     template<typename _TpItem, typename _Alloc>
