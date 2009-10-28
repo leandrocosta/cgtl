@@ -7,57 +7,108 @@ using namespace cgt::vector;
 int main ()
 {
   vector<int> s;
-  s.push_back (1);
-  s.push_back (2);
-  s.push_back (3);
-  s.push_back (4);
-  s.push_back (5);
-  s.push_back (6);
-  s.push_back (7);
 
+//  s.push_heap (1);
+//  s.pop_heap ();
+//  s.push_heap (1);
+
+  int *p;
   vector<int>::const_iterator it;
-  vector<int>::const_iterator itEnd = s.end ();
+  vector<int>::const_iterator itEnd;
 
+
+  s.push_back (2);
+  s.push_back (1);
+  s.make_heap ();
+  delete s.pop_back ();
+  delete s.pop_back ();
+  s.push_heap (1);
+
+  s.push_back (7);
+  s.push_back (5);
+
+  while (! s.empty ())
+    delete s.pop_back ();
+
+  s.push_heap (2);
+
+  it = s.begin ();
+  itEnd = s.end ();
+  cout << "heap: (" << *it;
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  s.push_heap (3);
+
+  it = s.begin ();
+  itEnd = s.end ();
+  cout << "heap: (" << *it;
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  s.push_back (3);
+  s.push_back (1);
+  s.push_back (6);
+  s.push_back (4);
+  s.push_back (2);
+
+  itEnd = s.end ();
   it = s.begin ();
   cout << "vector: (" << *it;
   for (++it; it != itEnd; ++it)
     cout << ", " << *it;
   cout << ")" << endl;
 
-  /*
-  cout << "push_back 3" << endl;
-  cout << "push_front 2" << endl;
-  s.push_front (2);
-  cout << "insert 1" << endl;
-  s.insert (1);
+  p = s.pop_back ();
+  cout << "pop: " << *p << endl;
+  delete p;
 
-  cout << "---" << endl;
-  vector<int>::const_iterator itfind = s.find (2);
-  cout << "itfind (2): " << *itfind << endl;
-  cout << "---" << endl;
+  itEnd = s.end ();
+  it = s.begin ();
+  cout << "vector: (" << *it;
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
 
-  vector<int>::const_iterator it = s.begin ();
-  vector<int>::const_iterator itEnd = s.end ();
 
-  cout << "vector (" << *it;
+  itEnd = s.end ();
+  it = s.begin ();
+  cout << "vector: (" << *it;
   for (++it; it != itEnd; ++it)
     cout << ", " << *it;
   cout << ")" << endl;
 
   while (! s.empty ())
   {
-    cout << "front: " << *(s.front ()) << endl;
-    int *_ptr = s.pop_front ();
-    cout << "pop_front: " << *_ptr << endl;
-    delete _ptr;
+    int *p = s.pop_heap ();
+    cout << "pop_heap: " << *p << endl;
+    delete p;
+
+    if (! s.empty ())
+    {
+      itEnd = s.end ();
+      it = s.begin ();
+      cout << "vector: (" << *it;
+      for (++it; it != itEnd; ++it)
+        cout << ", " << *it;
+      cout << ")" << endl;
+    }
+  }
+
+  for (size_t i = 10; i > 0; i--)
+  {
+    cout << "push_heap: " << i << endl;
+    s.push_heap (i);
   }
 
   itEnd = s.end ();
-  cout << "vector: (";
-  for (it = s.begin (); it != itEnd; ++it)
+  it = s.begin ();
+  cout << "heap: (" << *it;
+  for (++it; it != itEnd; ++it)
     cout << ", " << *it;
   cout << ")" << endl;
-  */
 
   return 0;
 }

@@ -58,6 +58,7 @@ namespace cgt
 
           void destroy(pointer p)
           {
+//            cout << "destroy, p: " << p << endl;
             p->~_TpItem ();
           }
 
