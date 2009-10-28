@@ -1,59 +1,63 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/list/list.h"
-using namespace cgt::list;
+#include "../cgt/heap/heap.h"
+using namespace cgt::heap;
 
 int main ()
 {
-  list<int> s;
+  heap<int> s;
 
-  cout << "insert 12" << endl;
-  s.insert (12);
-  cout << "insert 11" << endl;
-  s.insert (11);
-  cout << "insert 10" << endl;
-  s.insert (10);
-  cout << "insert 9" << endl;
-  s.insert (9);
-  cout << "insert 7" << endl;
-  s.insert (7);
-  cout << "insert 4" << endl;
-  s.insert (4);
-  cout << "insert 8" << endl;
-  s.insert (8);
-  cout << "insert 1" << endl;
-  s.insert (1);
-  cout << "insert 2" << endl;
-  s.insert (2);
-  cout << "insert 6" << endl;
-  s.insert (6);
-  cout << "insert 5" << endl;
-  s.insert (5);
-  cout << "insert 3" << endl;
-  s.insert (3);
+  cout << "push 12" << endl;
+  s.push (12);
+  cout << "push 11" << endl;
+  s.push (11);
+  cout << "push 10" << endl;
+  s.push (10);
+  cout << "push 9" << endl;
+  s.push (9);
+  cout << "push 7" << endl;
+  s.push (7);
+  cout << "push 4" << endl;
+  s.push (4);
+  cout << "push 8" << endl;
+  s.push (8);
+  cout << "push 1" << endl;
+  s.push (1);
+  cout << "push 2" << endl;
+  s.push (2);
+  cout << "push 6" << endl;
+  s.push (6);
+  cout << "push 5" << endl;
+  s.push (5);
+  cout << "push 3" << endl;
+  s.push (3);
 
-  s.make_heap ();
+  heap<int>::const_iterator it = s.begin ();
+  heap<int>::const_iterator itEnd = s.end ();
 
-  list<int>::const_iterator it = s.begin ();
-  list<int>::const_iterator itEnd = s.end ();
-
-  cout << "list (" << *it;
+  cout << "heap (" << *it;
   for (++it; it != itEnd; ++it)
     cout << ", " << *it;
   cout << ")" << endl;
 
-  int* pInt = s.pop_heap ();
-  cout << "pop_heap: " << *pInt << endl;
-  delete pInt;
+  while (! s.empty ())
+  {
+    int* pInt = s.pop ();
+    cout << "pop: " << *pInt << endl;
+    delete pInt;
 
-  it = s.begin ();
-  itEnd = s.end ();
+    if (! s.empty ())
+    {
+      it = s.begin ();
+      itEnd = s.end ();
 
-  cout << "list (" << *it;
-  for (++it; it != itEnd; ++it)
-    cout << ", " << *it;
-  cout << ")" << endl;
+      cout << "heap (" << *it;
+      for (++it; it != itEnd; ++it)
+        cout << ", " << *it;
+      cout << ")" << endl;
+    }
+  }
 
   return 0;
 }
