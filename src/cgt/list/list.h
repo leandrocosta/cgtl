@@ -341,7 +341,7 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _ListIterator<_TpItem> _List<_TpItem, _Alloc>::find (const _TpItem& _item)
       {
-        return static_cast<const _Self *>(this)->find (_item);
+        return iterator (_find (_item));
       }
 
     template<typename _TpItem, typename _Alloc>

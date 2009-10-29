@@ -25,7 +25,6 @@ namespace cgt
         _ListIterator () { }
         _ListIterator (_Item* _p) : _Base (_p) { }
         _ListIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
-        _ListIterator (const _SelfConst& _it) : _Base (_it._ptr) { }
 
       public:
         reference operator*() const;

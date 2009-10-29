@@ -27,7 +27,6 @@ namespace cgt
         _VectorIterator () { }
         _VectorIterator (_TpItem** _p) : _ptr (_p) { }
         _VectorIterator (const _SelfCommon& _it) : _ptr (_it._ptr) { }
-        _VectorIterator (const _SelfConst& _it) : _ptr (_it._ptr) { }
 
       public:
         const bool operator==(const _Self& _other) const { return (_ptr == _other._ptr); }
