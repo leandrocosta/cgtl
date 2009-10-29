@@ -38,7 +38,7 @@ namespace cgt
       void _insert_node (const _TpVertex &_vertex);
       void _insert_vertex (const _TpVertex &_vertex);
       void _insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2);
-      void _insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex _v2, _Edge& _e);
+      void _insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e);
 
     private:
       const bool _is_directed () const;
@@ -121,7 +121,7 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
-    void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex _v2, _Edge& _e)
+    void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e)
     {
       _ptr_n1->_insert (_e, _v2, _ptr_n2);
 

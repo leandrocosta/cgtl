@@ -41,6 +41,16 @@ int main ()
     cout << ", " << *it;
   cout << ")" << endl;
 
+  it = s.find (3);
+  s.modify (it, 20);
+
+  it = s.begin ();
+  itEnd = s.end ();
+  cout << "heap (" << *it;
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
   while (! s.empty ())
   {
     int* pInt = s.pop ();
@@ -51,7 +61,6 @@ int main ()
     {
       it = s.begin ();
       itEnd = s.end ();
-
       cout << "heap (" << *it;
       for (++it; it != itEnd; ++it)
         cout << ", " << *it;
