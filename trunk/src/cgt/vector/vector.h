@@ -33,15 +33,17 @@ namespace cgt
         public:
           void push_back (const _TpItem& _item);
           _TpItem* pop_back ();
+          iterator find (const _TpItem& _item);
           const bool empty () const;
 
         private:
-          void _rebuild_heap (size_t i);
+          void _rebuild_heap (size_t _pos);
 
         public:
           void make_heap ();
           _TpItem* pop_heap ();
           void push_heap (const _TpItem& _item);
+          void rebuild_heap (size_t _pos);
 
         public:
           iterator begin () { return iterator (_head); }
@@ -129,6 +131,19 @@ namespace cgt
       }
 
     template<typename _TpItem, typename _Alloc>
+      _VectorIterator<_TpItem> _Vector<_TpItem, _Alloc>::find (const _TpItem& _item)
+      {
+        iterator it;
+        iterator itEnd = end ();
+
+        for (it = begin (); it != itEnd; ++it)
+          if (*it == _item)
+            break;
+
+        return it;
+      }
+
+    template<typename _TpItem, typename _Alloc>
       const bool _Vector<_TpItem, _Alloc>::empty () const
       {
         return (! _size);
@@ -137,17 +152,17 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       void _Vector<_TpItem, _Alloc>::make_heap ()
       {
-        size_t i = _size/2;
+        size_t _pos = _size/2;
 
-        while ( i > 0)
-          _rebuild_heap (--i);
+        while ( _pos > 0)
+          _rebuild_heap (--_pos);
       }
 
     template<typename _TpItem, typename _Alloc>
-      void _Vector<_TpItem, _Alloc>::_rebuild_heap (size_t i)
+      void _Vector<_TpItem, _Alloc>::_rebuild_heap (size_t _pos)
       {
-        _TpItem* _ptr = _array [i];
-        size_t k = 2*i+1;
+        _TpItem* _ptr = _array [_pos];
+        size_t k = 2*_pos+1;
 
         while (k < _size)
         {
@@ -156,15 +171,21 @@ namespace cgt
 
           if (*(_array[k]) < *_ptr)
           {
-            _array[i] = _array[k];
-            i = k;
-            k = 2*i+1;
+            _array[_pos] = _array[k];
+            _pos = k;
+            k = 2*_pos+1;
           }
           else
             break;
         }
 
-        _array[i] = _ptr;
+        _array[_pos] = _ptr;
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      void _Vector<_TpItem, _Alloc>::rebuild_heap (size_t _pos)
+      {
+        _rebuild_heap (_pos);
       }
 
     template<typename _TpItem, typename _Alloc>

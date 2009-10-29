@@ -14,6 +14,7 @@ namespace cgt
     {
       private:
         friend class _VectorIterator<_TpItem, _TpConst>;
+        friend class _VectorIterator<_TpItem, _TpCommon>;
 
       private:
         typedef _VectorIterator<_TpItem, _TpIterator>     _Self;
@@ -29,13 +30,17 @@ namespace cgt
         _VectorIterator (const _SelfConst& _it) : _ptr (_it._ptr) { }
 
       public:
-        const bool operator==(const _Self &_other) const { return (_ptr == _other._ptr); }
-        const bool operator!=(const _Self &_other) const { return ! (*this == _other); }
+        const bool operator==(const _Self& _other) const { return (_ptr == _other._ptr); }
+        const bool operator!=(const _Self& _other) const { return ! (*this == _other); }
+        const bool operator<(const _Self& _other) const { return (_ptr < _other._ptr); }
+        const bool operator>(const _Self& _other) const { return (_ptr > _other._ptr); }
+        const bool operator>=(const _Self& _other) const { return (_ptr >= _other._ptr); }
         reference operator*() const { return **_ptr; }
         pointer operator->() const { return *_ptr; }
 
         _Self& operator++() { _ptr++; return *this; }
         const _Self operator++(int) { return _Self (_ptr++); }
+        size_t operator-(const _Self &_other) { return _ptr - _other._ptr; }
 
       private:
         _TpItem** _ptr;
