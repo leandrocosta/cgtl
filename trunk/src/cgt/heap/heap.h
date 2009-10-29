@@ -36,7 +36,7 @@ namespace cgt
       {
         if (_it >= begin () && _it < end ())
         {
-          *(_Iterator (_it)) = _i;
+          *(find (*_it)) = _i;
 
           size_t _pos = _it - begin () + 1;
 
