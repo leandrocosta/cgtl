@@ -77,9 +77,7 @@ namespace cgt
        * calculate distance for the nodes from adjacency list of _ptr_n.
        */
 
-      _NodeIterator it;
-
-      for (it = _it_node; it != _it_node_end; ++it)
+      for (_NodeIterator it = _it_node; it != _it_node_end; ++it)
       {
         if (&(*it) == _ptr_node)
           _infoList.insert (_Info (*it));
@@ -94,12 +92,12 @@ namespace cgt
       for (itA = adjList.begin (); itA != itAEnd; ++itA)
       {
         const _Node* const _ptr_n = itA->node ();
-        _Info *_ptr_i = _notVisitedInfoList.get_by_node (_ptr_n);
+        typename _InfoList::iterator it = _notVisitedInfoList.get_by_node (_ptr_n);
 
-        if (_ptr_i)
+        if (it != _notVisitedInfoList.end ())
         {
-          _ptr_i->_set_distance (itA->edge ().value ());
-          _ptr_i->_set_previous (&(_infoList.back ()->node ()));
+          it->_set_distance (itA->edge ().value ());
+          it->_set_previous (&(_infoList.back ()->node ()));
         }
       }
     }
@@ -107,12 +105,12 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     _DijkstraInfo<_TpVertex, _TpEdge>* _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_get_info_by_node (const _Node* const _ptr_node)
     {
-      _Info *_ptr = _infoList.get_by_node (_ptr_node);
+      typename _InfoList::iterator it = _infoList.get_by_node (_ptr_node);
 
-      if (! _ptr)
-        _ptr = _notVisitedInfoList.get_by_node (_ptr_node);
+      if (it == _infoList.end ())
+        it = _notVisitedInfoList.get_by_node (_ptr_node);
 
-      return _ptr;
+      return &(*it);
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -139,20 +137,20 @@ namespace cgt
 
       if (! _notVisitedInfoList.empty ())
       {
-        _Info* _ptr_info = _notVisitedInfoList.get_closest ();
+        typename _InfoList::iterator it = _notVisitedInfoList.get_closest ();
 
-        if (! _ptr_info->inf_distance ())
+        if (! it->inf_distance ())
         {
-          _ptr_node = &(_ptr_info->node ());
-          _infoList.insert (*_ptr_info);
-          _notVisitedInfoList.remove (*_ptr_info);
+          _ptr_node = &(it->node ());
+          _infoList.insert (*it);
+          _notVisitedInfoList.remove (*it);
 
-          const _AdjList &adjList = _ptr_info->node ().adjlist ();
+          const _AdjList &adjList = it->node ().adjlist ();
           _AdjListIterator itA = adjList.begin ();
           _AdjListIterator itAEnd = adjList.end ();
 
           for (itA = adjList.begin (); itA != itAEnd; ++itA)
-            _notVisitedInfoList.relax (itA->node (), _ptr_info->distance (), itA->edge(), &(_infoList.back ()->node ()));
+            _notVisitedInfoList.relax (itA->node (), it->distance (), itA->edge(), &(_infoList.back ()->node ()));
         }
       }
 

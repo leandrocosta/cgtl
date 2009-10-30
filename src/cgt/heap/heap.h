@@ -24,10 +24,23 @@ namespace cgt
           using _Base::begin;
           using _Base::end;
 
+        private:
+          void _rebuild (size_t _pos);
+
         public:
           void push (const _TpItem& _i) { _Base::push_heap (_i); }
           _TpItem* pop () { return _Base::pop_heap (); }
           void modify (_ConstIterator& _it, const _TpItem& _i);
+
+          template<typename _Modifier, typename _Parm>
+            void modify_by (_ConstIterator _it, _Modifier _modify, const _Parm _parm)
+            {
+              if (_it >= begin () && _it < end ())
+              {
+                _modify (*(find (*_it)), _parm);
+                _rebuild (_it - begin () + 1);
+              }
+            }
       };
 
 
@@ -37,12 +50,15 @@ namespace cgt
         if (_it >= begin () && _it < end ())
         {
           *(find (*_it)) = _i;
-
-          size_t _pos = _it - begin () + 1;
-
-          while (_pos > 0)
-            _Base::rebuild_heap (--_pos);
+          _rebuild (_it - begin () + 1);
         }
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      void _Heap<_TpItem, _Alloc>::_rebuild (size_t _pos)
+      {
+        while (_pos > 0)
+          _Base::rebuild_heap (--_pos);
       }
 
     template<typename _TpItem>

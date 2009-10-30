@@ -4,6 +4,11 @@ using namespace std;
 #include "../cgt/list/list.h"
 using namespace cgt::list;
 
+const bool is_even (const int& i) { return ! (i % 2); }
+const bool is_odd (const int& i) { return (i % 2); }
+const bool is_less_then (const int& i, const int& parm) { return (i < parm); }
+const bool is_greater_then (const int& i, const int& parm) { return (i > parm); }
+
 int main ()
 {
   list<int> s;
@@ -27,6 +32,19 @@ int main ()
   for (++it; it != itEnd; ++it)
     cout << ", " << *it;
   cout << ")" << endl;
+
+  it = cgt::list::find_if (s.begin (), s.end (), is_even);
+  if (it != s.end ())
+    cout << "is_even: " << *it << endl;
+  it = cgt::list::find_if (s.begin (), s.end (), is_odd);
+  if (it != s.end ())
+    cout << "is_odd: " << *it << endl;
+  it = cgt::list::find_if (s.begin (), s.end (), is_less_then, 2);
+  if (it != s.end ())
+    cout << "is_less_then 2: " << *it << endl;
+  it = cgt::list::find_if (s.begin (), s.end (), is_greater_then, 2);
+  if (it != s.end ())
+    cout << "is_greater_then 2: " << *it << endl;
 
   while (! s.empty ())
   {

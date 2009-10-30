@@ -4,6 +4,11 @@ using namespace std;
 #include "../cgt/heap/heap.h"
 using namespace cgt::heap;
 
+void _modify (int& i, const int& value)
+{
+  i = value;
+}
+
 int main ()
 {
   heap<int> s;
@@ -43,6 +48,16 @@ int main ()
 
   it = s.find (3);
   s.modify (it, 20);
+
+  it = s.begin ();
+  itEnd = s.end ();
+  cout << "heap (" << *it;
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  it = s.find (4);
+  s.modify_by (it, _modify, 40);;
 
   it = s.begin ();
   itEnd = s.end ();
