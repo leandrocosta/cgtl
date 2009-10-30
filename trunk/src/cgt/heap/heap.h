@@ -33,7 +33,7 @@ namespace cgt
           void modify (_ConstIterator& _it, const _TpItem& _i);
 
           template<typename _Modifier, typename _Parm>
-            void modify_by (_ConstIterator _it, _Modifier _modify, const _Parm _parm)
+            void modify_by (const _ConstIterator& _it, _Modifier _modify, const _Parm& _parm)
             {
               if (_it >= begin () && _it < end ())
               {

@@ -71,7 +71,7 @@ namespace cgt
       }
 
     template<typename _TpItem, typename _Predicate, typename _Parm>
-      _ListIterator<_TpItem> find_if (_ListIterator<_TpItem> _it, _ListIterator<_TpItem> _end, _Predicate _pred, const _Parm _parm)
+      _ListIterator<_TpItem> find_if (_ListIterator<_TpItem> _it, _ListIterator<_TpItem> _end, _Predicate _pred, const _Parm& _parm)
       {
         while (_it != _end && ! _pred (*_it, _parm))
           ++_it;

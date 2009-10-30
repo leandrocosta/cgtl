@@ -67,18 +67,20 @@ int main ()
     }
   }
 
+  cout << "--- running dijkstra ---" << endl << endl;
+
   mygraph::djiterator itdj;
   mygraph::djiterator itdjEnd = g.dijkstra_end ();
 
-  itdj = g.dijkstra_begin ();
-
   for (itdj = g.dijkstra_begin (); itdj != itdjEnd; ++itdj)
   {
+    cout << "for..." << endl;
     const mygraph::node&          n = *itdj;
     const mygraph::vertex&        v = n.vertex ();
     const mygraph::dijkstra_info* i = itdj.info (n);
 
-    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
+    if (i)
+      cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
   }
 
   return 0;

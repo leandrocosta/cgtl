@@ -13,6 +13,9 @@ namespace cgt
     template<typename _TpItem, typename _Alloc = _Allocator<_TpItem> >
       class _Vector
       {
+        private:
+          typedef _Vector<_TpItem, _Alloc>  _Self;
+
         public:
           typedef _VectorIterator<_TpItem>            iterator;
           typedef _VectorIterator<_TpItem, _TpConst>  const_iterator;
@@ -22,7 +25,11 @@ namespace cgt
 
         public:
           _Vector () : _size (0), _bufsize (1) { _init (); }
+          _Vector (const _Self& _v) : _size (0), _bufsize (1) { _init (); *this = _v; }
           virtual ~_Vector () { _remove_all (); free (_array); }
+
+        public:
+          _Self& operator=(const _Self& _v);
 
         private:
           void _init ();
@@ -68,6 +75,18 @@ namespace cgt
         _array = (_TpItem **) malloc (_bufsize * sizeof (_TpItem **));
         _head = _array;
         _tail = _array;
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      _Vector<_TpItem, _Alloc>& _Vector<_TpItem, _Alloc>::operator=(const _Self& _l)
+      {
+        const_iterator it;
+        const_iterator itEnd = _l.end ();
+
+        for (it = _l.begin (); it != itEnd; ++it)
+          push_back (*it);
+
+        return *this;
       }
 
     template<typename _TpItem, typename _Alloc>
