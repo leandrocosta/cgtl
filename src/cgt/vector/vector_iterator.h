@@ -39,11 +39,29 @@ namespace cgt
 
         _Self& operator++() { _ptr++; return *this; }
         const _Self operator++(int) { return _Self (_ptr++); }
-        size_t operator-(const _Self &_other) { return _ptr - _other._ptr; }
+        const size_t operator-(const _Self &_other) const { return _ptr - _other._ptr; }
 
       private:
         _TpItem** _ptr;
     };
+
+    template<typename _TpItem, typename _Predicate>
+      _VectorIterator<_TpItem> find_if (_VectorIterator<_TpItem> _it, _VectorIterator<_TpItem> _end, _Predicate _pred)
+      {
+        while (_it != _end && ! _pred (*_it))
+          ++_it;
+
+        return _it;
+      }
+
+    template<typename _TpItem, typename _Predicate, typename _Parm>
+      _VectorIterator<_TpItem> find_if (_VectorIterator<_TpItem> _it, _VectorIterator<_TpItem> _end, _Predicate _pred, const _Parm _parm)
+      {
+        while (_it != _end && ! _pred (*_it, _parm))
+          ++_it;
+
+        return _it;
+      }
   }
 }
 

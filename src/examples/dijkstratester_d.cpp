@@ -51,7 +51,8 @@ int main ()
     const mygraph::vertex& v = n.vertex ();
     const mygraph::dijkstra_info* i = itd.info (n);
 
-    cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
+    if (i)
+      cout << "vertex: " << v.value () << ", distance: " << i->distance () << endl;
 //    cout << "node: " << v.value () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i->discovery () << ", finish: " << setw (2) << i->finish () << endl;
   }
 
