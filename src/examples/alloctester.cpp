@@ -3,8 +3,8 @@
 #include <iostream>
 using namespace std;
 
-#include "allocator.h"
-using namespace cgt::alloc;
+#include "../cgt/base/alloc/allocator.h"
+using namespace cgt::base::alloc;
 
 const unsigned long KBYTE = 1024;
 const unsigned long MBYTE = 1024*KBYTE;
