@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/heap/heap.h"
-using namespace cgt::heap;
+#include "../cgt/base/heap/heap.h"
+using namespace cgt::base::heap;
 
 void _modify (int& i, const int& value)
 {

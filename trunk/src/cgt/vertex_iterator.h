@@ -1,8 +1,8 @@
 #ifndef _VERTEX_ITERATOR_H_
 #define _VERTEX_ITERATOR_H_
 
-#include "list/list_iterator.h"
-using namespace cgt::list;
+#include "base/list/list_iterator.h"
+using namespace cgt::base::list;
 
 
 namespace cgt

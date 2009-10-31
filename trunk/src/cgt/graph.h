@@ -9,9 +9,15 @@
 #include "graph_adjlist.h"
 #include "graph_adjmatrix.h"
 #include "vertex_iterator.h"
-#include "search/depth_iterator.h"
-#include "search/breadth_iterator.h"
-#include "dijkstra/dijkstra_iterator.h"
+
+#include "search/depth/depth_iterator.h"
+using namespace cgt::search::depth;
+
+#include "search/breadth/breadth_iterator.h"
+using namespace cgt::search::breadth;
+
+#include "shortpath/single/dijkstra/dijkstra_iterator.h"
+using namespace cgt::shortpath::single::dijkstra;
 
 
 namespace cgt

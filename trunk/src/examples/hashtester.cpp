@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/hash/hash.h"
-using namespace cgt::hash;
+#include "../cgt/base/hash/hash.h"
+using namespace cgt::base::hash;
 
 int main ()
 {

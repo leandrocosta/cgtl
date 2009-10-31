@@ -1,8 +1,8 @@
 #ifndef _GRAPH_ADJLIST_H_
 #define _GRAPH_ADJLIST_H_
 
-#include "list/list.h"
-using namespace cgt::list;
+#include "base/list/list.h"
+using namespace cgt::base::list;
 
 
 namespace cgt

@@ -5,8 +5,8 @@
 #include "graph_node.h"
 #include "graph_vertex.h"
 
-#include "list/list.h"
-using namespace cgt::list;
+#include "base/list/list.h"
+using namespace cgt::base::list;
 
 
 namespace cgt

@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/list/list.h"
-using namespace cgt::list;
+#include "../cgt/base/list/list.h"
+using namespace cgt::base::list;
 
 const bool is_even (const int& i) { return ! (i % 2); }
 const bool is_odd (const int& i) { return (i % 2); }
@@ -33,16 +33,16 @@ int main ()
     cout << ", " << *it;
   cout << ")" << endl;
 
-  it = cgt::list::find_if (s.begin (), s.end (), is_even);
+  it = cgt::base::list::find_if (s.begin (), s.end (), is_even);
   if (it != s.end ())
     cout << "is_even: " << *it << endl;
-  it = cgt::list::find_if (s.begin (), s.end (), is_odd);
+  it = cgt::base::list::find_if (s.begin (), s.end (), is_odd);
   if (it != s.end ())
     cout << "is_odd: " << *it << endl;
-  it = cgt::list::find_if (s.begin (), s.end (), is_less_then, 2);
+  it = cgt::base::list::find_if (s.begin (), s.end (), is_less_then, 2);
   if (it != s.end ())
     cout << "is_less_then 2: " << *it << endl;
-  it = cgt::list::find_if (s.begin (), s.end (), is_greater_then, 2);
+  it = cgt::base::list::find_if (s.begin (), s.end (), is_greater_then, 2);
   if (it != s.end ())
     cout << "is_greater_then 2: " << *it << endl;
 
