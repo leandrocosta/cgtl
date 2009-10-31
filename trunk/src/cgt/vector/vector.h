@@ -42,6 +42,7 @@ namespace cgt
           _TpItem* pop_back ();
           iterator find (const _TpItem& _item);
           const bool empty () const;
+          const size_t size () const;
 
         private:
           void _rebuild_heap (size_t _pos);
@@ -166,6 +167,12 @@ namespace cgt
       const bool _Vector<_TpItem, _Alloc>::empty () const
       {
         return (! _size);
+      }
+
+    template<typename _TpItem, typename _Alloc>
+      const size_t _Vector<_TpItem, _Alloc>::size () const
+      {
+        return _size;
       }
 
     template<typename _TpItem, typename _Alloc>

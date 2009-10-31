@@ -50,23 +50,6 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     typename _DijkstraInfoHeap<_TpVertex, _TpEdge>::_ConstIterator _DijkstraInfoHeap<_TpVertex, _TpEdge>::get_closest ()
     {
-      /*
-      _ConstIterator it_ret = begin ();
-
-      if (! empty ())
-      {
-        _ConstIterator it = it_ret;
-        _ConstIterator itEnd = end ();
-
-        for (++it; it != itEnd; ++it)
-        {
-          if (! it->inf_distance () && *it < *it_ret)
-            it_ret = it;
-        }
-      }
-
-      return it_ret;
-      */
       return begin ();
     }
 
@@ -77,11 +60,11 @@ namespace cgt
 
       if (it != end ())
       {
-        _TpEdge new_distance = _distance + _edge.value ();
+        _TpEdge _new_distance = _distance + _edge.value ();
 
-        if (it->inf_distance () || it->distance () > new_distance)
+        if (it->inf_distance () || it->distance () > _new_distance)
         {
-          modify_by (it, _set_distance, new_distance);
+          modify_by (it, _set_distance, _new_distance);
           modify_by (it, _set_previous, _ptr_prev);
         }
       }

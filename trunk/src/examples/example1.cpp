@@ -74,7 +74,6 @@ int main ()
 
   for (itdj = g.dijkstra_begin (); itdj != itdjEnd; ++itdj)
   {
-    cout << "for..." << endl;
     const mygraph::node&          n = *itdj;
     const mygraph::vertex&        v = n.vertex ();
     const mygraph::dijkstra_info* i = itdj.info (n);

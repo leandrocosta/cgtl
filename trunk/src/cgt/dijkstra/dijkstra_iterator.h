@@ -30,7 +30,7 @@ namespace cgt
       public:
         _DijkstraIterator () { }
         /*
-         * The constructors need to insert all nodes (except _ptr_n) in _notVisitedInfoList with distance == infinite,
+         * The constructors need to insert all nodes (except _ptr_n) in _notVisitedInfoHeap with distance == infinite,
          * and after that, calculate distance for the nodes from adjacency list of _ptr_n.
          */
         _DijkstraIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end)
@@ -43,7 +43,7 @@ namespace cgt
           if (_ptr_node)
             _init ();
         }
-        _DijkstraIterator (const _SelfCommon& _it) : _ptr_node ( _it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _infoList (_it._infoList), _notVisitedInfoList (_it._notVisitedInfoList) { }
+        _DijkstraIterator (const _SelfCommon& _it) : _ptr_node ( _it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _infoList (_it._infoList), _notVisitedInfoHeap (_it._notVisitedInfoHeap) { }
 
       private:
         void _init ();
@@ -68,14 +68,14 @@ namespace cgt
         _NodeIterator _it_node;
         _NodeIterator _it_node_end;
         _InfoList     _infoList;
-        _InfoHeap     _notVisitedInfoList;
+        _InfoHeap     _notVisitedInfoHeap;
     };
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     void _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::_init ()
     {
       /*
-       * Insert all nodes (except _ptr_node) in _notVisitedInfoList with distance == infinite,
+       * Insert all nodes (except _ptr_node) in _notVisitedInfoHeap with distance == infinite,
        * calculate distance for the nodes from adjacency list of _ptr_n.
        */
 
@@ -84,7 +84,7 @@ namespace cgt
         if (&(*it) == _ptr_node)
           _infoList.insert (_Info (*it));
         else
-          _notVisitedInfoList.push (_Info (*it));
+          _notVisitedInfoHeap.push (_Info (*it));
       }
 
       const _AdjList &adjList = _ptr_node->adjlist ();
@@ -92,19 +92,7 @@ namespace cgt
       _AdjListIterator itAEnd = adjList.end ();
 
       for (itA = adjList.begin (); itA != itAEnd; ++itA)
-      {
-        _notVisitedInfoList.relax (itA->node (), _TpEdge (), itA->edge (), &(_infoList.back ()->node ()));
-
-        /*
-        typename _InfoHeap::const_iterator it = _notVisitedInfoList.get_by_node (itA->node ());
-
-        if (it != _notVisitedInfoList.end ())
-        {
-          _notVisitedInfoList.modify_by (it, _InfoHeap::_set_distance, itA->edge ().value ());
-          _notVisitedInfoList.modify_by (it, _InfoHeap::_set_previous, &(_infoList.back ()->node ()));
-        }
-        */
-      }
+        _notVisitedInfoHeap.relax (itA->node (), _TpEdge (), itA->edge (), &(_infoList.back ()->node ()));
     }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -118,9 +106,9 @@ namespace cgt
         _ptr = &(*it);
       else
       {
-        typename _InfoHeap::const_iterator it = _notVisitedInfoList.get_by_node (_ptr_node);
+        typename _InfoHeap::const_iterator it = _notVisitedInfoHeap.get_by_node (_ptr_node);
 
-        if (it != _notVisitedInfoList.end ())
+        if (it != _notVisitedInfoHeap.end ())
           _ptr = &(*it);
       }
 
@@ -143,28 +131,25 @@ namespace cgt
     _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>& _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
     {
       /*
-       * Remove the node with lowest distance from _notVisitedInfoList
+       * Remove the node with lowest distance from _notVisitedInfoHeap
        * and recalculate distances for the adjacency list of the chosen node.
        */
 
       _ptr_node = NULL;
 
-      if (! _notVisitedInfoList.empty ())
+      if (! _notVisitedInfoHeap.empty () && ! _notVisitedInfoHeap.get_closest ()->inf_distance ())
       {
-        _Info* _ptr = _notVisitedInfoList.pop ();
+        _Info* _ptr = _notVisitedInfoHeap.pop ();
 
-        if (! _ptr->inf_distance ())
-        {
-          _ptr_node = &(_ptr->node ());
-          _infoList.insert (*_ptr);
+        _ptr_node = &(_ptr->node ());
+        _infoList.insert (*_ptr);
 
-          const _AdjList &adjList = _ptr_node->adjlist ();
-          _AdjListIterator itA = adjList.begin ();
-          _AdjListIterator itAEnd = adjList.end ();
+        const _AdjList &adjList = _ptr_node->adjlist ();
+        _AdjListIterator itA = adjList.begin ();
+        _AdjListIterator itAEnd = adjList.end ();
 
-          for (itA = adjList.begin (); itA != itAEnd; ++itA)
-            _notVisitedInfoList.relax (itA->node (), _ptr->distance (), itA->edge(), &(_infoList.back ()->node ()));
-        }
+        for (itA = adjList.begin (); itA != itAEnd; ++itA)
+          _notVisitedInfoHeap.relax (itA->node (), _ptr->distance (), itA->edge(), &(_infoList.back ()->node ()));
       }
 
       return *this;
