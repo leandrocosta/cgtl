@@ -52,7 +52,7 @@ namespace cgt
           _TpItem* pop_front ();
           _TpItem* pop_back ();
           _TpItem* front ();
-            _TpItem* back ();
+          _TpItem* back ();
           void remove (const _TpItem& _item);
           void clear ();
 

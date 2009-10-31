@@ -20,6 +20,7 @@ namespace cgt
         public:
           using _Base::find;
           using _Base::empty;
+          using _Base::size;
           using _Base::const_iterator;
           using _Base::begin;
           using _Base::end;
@@ -33,12 +34,14 @@ namespace cgt
           void modify (_ConstIterator& _it, const _TpItem& _i);
 
           template<typename _Modifier, typename _Parm>
-            void modify_by (const _ConstIterator& _it, _Modifier _modify, const _Parm& _parm)
+            void modify_by (_ConstIterator& _it, _Modifier _modify, const _Parm& _parm)
             {
               if (_it >= begin () && _it < end ())
               {
-                _modify (*(find (*_it)), _parm);
+                _TpItem* _ptr = &(*(find (*_it)));
+                _modify (*_ptr, _parm);
                 _rebuild (_it - begin () + 1);
+                _it = find (*_ptr);
               }
             }
       };
