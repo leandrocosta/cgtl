@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/vector/vector.h"
-using namespace cgt::vector;
+#include "../cgt/base/vector/vector.h"
+using namespace cgt::base::vector;
 
 int main ()
 {
