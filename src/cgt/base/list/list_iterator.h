@@ -1,9 +1,7 @@
 #ifndef _LIST_ITERATOR_H_
 #define _LIST_ITERATOR_H_
 
-#include "list_iterator_base.h"
-#include "../iterator/iterator_type.h"
-using namespace cgt::base::iterator;
+#include "../iterator/iterator_ptr.h"
 
 
 namespace cgt
@@ -12,11 +10,13 @@ namespace cgt
   {
     namespace list
     {
+      using namespace cgt::base::iterator;
+
       template<typename _TpItem, template<typename> class _TpIterator = _TpCommon>
-        class _ListIterator : public _ListIteratorBase<_TpItem>
+        class _ListIterator : public _IteratorPtr<_ListItemBase<_TpItem>, _TpIterator>
       {
         private:
-          typedef _ListIteratorBase<_TpItem>                _Base;
+          typedef _IteratorPtr<_ListItemBase<_TpItem>, _TpIterator> _Base;
           typedef _ListIterator<_TpItem, _TpIterator>       _Self;
           typedef _ListIterator<_TpItem, _TpCommon>         _SelfCommon;
           typedef _ListIterator<_TpItem, _TpConst>          _SelfConst;
@@ -24,10 +24,17 @@ namespace cgt
           typedef typename _TpIterator<_TpItem>::pointer    pointer;
           typedef typename _TpIterator<_TpItem>::reference  reference;
 
+        private:
+          using _Base::_ptr;
+          using _Base::_incr;
+
         public:
           _ListIterator () { }
           _ListIterator (_Item* _p) : _Base (_p) { }
           _ListIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
+
+        private:
+          void _incr ();
 
         public:
           reference operator*() const;
@@ -37,10 +44,17 @@ namespace cgt
           const _Self operator++(int);
       };
 
+
+      template<typename _TpItem, template<typename> class _TpIterator>
+        void _ListIterator<_TpItem, _TpIterator>::_incr ()
+        {
+          _ptr = _ptr->_next;
+        }
+
       template<typename _TpItem, template<typename> class _TpIterator>
         typename _TpIterator<_TpItem>::reference _ListIterator<_TpItem, _TpIterator>::operator*() const
         {
-          return static_cast<_Item *>(_Base::_ptr)->_data;
+          return static_cast<_Item *>(_ptr)->_data;
         }
 
       template<typename _TpItem, template<typename> class _TpIterator>
@@ -52,7 +66,7 @@ namespace cgt
       template<typename _TpItem, template<typename> class _TpIterator>
         _ListIterator<_TpItem, _TpIterator>& _ListIterator<_TpItem, _TpIterator>::operator++()
         {
-          _Base::_incr ();
+          _incr ();
           return *this;
         }
 
@@ -60,7 +74,7 @@ namespace cgt
         const _ListIterator<_TpItem, _TpIterator> _ListIterator<_TpItem, _TpIterator>::operator++(int)
         {
           _Self _it = *this;
-          _Base::_incr ();
+          _incr ();
           return _it;
         }
 

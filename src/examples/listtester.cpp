@@ -11,7 +11,7 @@ const bool is_greater_then (const int& i, const int& parm) { return (i > parm); 
 
 int main ()
 {
-  list<int> s;
+  cgt::base::list::list<int> s;
 
   cout << "push_back 3" << endl;
   s.push_back (3);
@@ -52,15 +52,6 @@ int main ()
     int *_ptr = s.pop_front ();
     cout << "pop_front: " << *_ptr << endl;
     delete _ptr;
-
-    /*
-    if (! s.empty ())
-    {
-      int *_ptr = s.pop_back ();
-      cout << "pop_back: " << *_ptr << endl;
-      delete _ptr;
-    }
-    */
   }
 
   itEnd = s.end ();
