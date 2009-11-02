@@ -1,6 +1,9 @@
 #ifndef _STORAGE_H_
 #define _STORAGE_H_
 
+#include "../exception/mem_except.h"
+
+
 namespace cgt
 {
   namespace base
@@ -68,6 +71,10 @@ namespace cgt
         void _Storage<_TpItem, _ChunkSize>::_add_chunk ()
         {
           _Chunk* _ptr = new _Chunk ();
+
+          if (! _ptr)
+            throw cgt::base::exception::mem_except ("Not available memory");
+
           _ptr->_next = _head;
           _head = _ptr;
           _free = reinterpret_cast<_Block *>(_ptr->_block);

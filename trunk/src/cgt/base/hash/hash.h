@@ -2,13 +2,8 @@
 #define _HASH_H_
 
 #include <string.h>
-
+#include "hash_iterator.h"
 #include "../alloc/allocator.h"
-using namespace cgt::base::alloc;
-
-#include "../vector/vector.h"
-using namespace cgt::base::vector;
-
 #include "hash_func.h"
 
 
@@ -30,7 +25,7 @@ namespace cgt
             _HashItem*  _next;
         };
 
-      template<typename _TpKey, typename _TpItem, typename _Alloc = _Allocator<_HashItem<_TpKey, _TpItem> > >
+      template<typename _TpKey, typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_HashItem<_TpKey, _TpItem> > >
         class _Hash
         {
           private:
@@ -39,6 +34,10 @@ namespace cgt
 
           private:
             typedef typename _Alloc::template rebind<_Item>::other allocator_type;
+
+          public:
+            typedef _HashIterator<_TpItem>            iterator;
+            typedef _HashIterator<_TpItem, _TpConst>  const_iterator;
 
           public:
             _Hash () : _size (0), _tabsize (2) { _init (); }
@@ -51,6 +50,8 @@ namespace cgt
             _Item* _pop (_Item** const _p);
             void _remove_all ();
             const size_t _get_position (const _TpKey& _key) const;
+            _TpItem** _get_head ();
+            _TpItem** _get_tail ();
 
           public:
             void insert (const _TpKey& _key, const _TpItem& _item);
@@ -60,6 +61,11 @@ namespace cgt
 
           public:
             void dump () const;
+
+//            iterator begin () { return iterator (_get_head ()); }
+//            iterator end () { return iterator (_get_tail ()); }
+//            const_iterator begin () const { return const_iterator (_get_head ()); }
+//            const_iterator end () const { return const_iterator (_get_tail ()); }
 
           private:
             _Item** _table;
@@ -130,7 +136,6 @@ namespace cgt
             {
               _Item* _ptr = _table [i];
               _table [i] = _table [i]->_next;
-              //            delete _ptr;
               _alloc.destroy (_ptr);
               _alloc.deallocate (_ptr, 1);
             }
@@ -144,12 +149,33 @@ namespace cgt
         }
 
       template<typename _TpKey, typename _TpItem, typename _Alloc>
+        _TpItem** _Hash<_TpKey, _TpItem, _Alloc>::_get_head ()
+        {
+          _TpItem** _ptr = &(_table [0]);
+
+          while (! *_ptr)
+            _ptr++;
+
+          return _ptr;
+        }
+
+      template<typename _TpKey, typename _TpItem, typename _Alloc>
+        _TpItem** _Hash<_TpKey, _TpItem, _Alloc>::_get_tail ()
+        {
+          _TpItem** _ptr = &(_table [0]);
+
+          while (! *_ptr)
+            _ptr++;
+
+          return _ptr;
+        }
+
+      template<typename _TpKey, typename _TpItem, typename _Alloc>
         void _Hash<_TpKey, _TpItem, _Alloc>::insert (const _TpKey& _key, const _TpItem& _item)
         {
           if (_size == _tabsize)
             _increase ();
 
-          //        _insert (new _Item (_key, _item));
           _Item* _ptr = _alloc.allocate (1);
           _alloc.construct (_ptr, _Item (_key, _item));
           _insert (_ptr);
