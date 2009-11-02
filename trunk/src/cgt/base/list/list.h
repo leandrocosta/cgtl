@@ -6,7 +6,6 @@
 #include "list_iterator_base.h"
 #include "list_iterator.h"
 #include "../alloc/allocator.h"
-using namespace cgt::base::alloc;
 
 
 namespace cgt
@@ -15,7 +14,7 @@ namespace cgt
   {
     namespace list
     {
-      template<typename _TpItem, typename _Alloc = _Allocator<_ListItem<_TpItem> > >
+      template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >
         class _List
         {
           private:

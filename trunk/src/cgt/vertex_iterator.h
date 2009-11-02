@@ -13,10 +13,8 @@ namespace cgt
       private:
         typedef _GraphNode<_TpVertex, _TpEdge>                   _Node;
         typedef _ListIterator<_Node, _TpIterator>                _Base;
-        typedef _VertexIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
         typedef _VertexIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
         typedef _GraphVertex<_TpVertex>                          _Vertex;
-        typedef typename _TpIterator<_Vertex>::pointer           pointer;
         typedef typename _TpIterator<_Vertex>::reference         reference;
 
       public:

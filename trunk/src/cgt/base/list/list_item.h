@@ -15,8 +15,8 @@ namespace cgt
         class _ListItem : public _ListItemBase<_TpItem>
       {
         private:
-          friend class _ListIterator<_TpItem, _TpCommon>;
-          friend class _ListIterator<_TpItem, _TpConst>;
+          friend class _ListIterator<_TpItem, cgt::base::iterator::_TpCommon>;
+          friend class _ListIterator<_TpItem, cgt::base::iterator::_TpConst>;
 
         private:
           typedef _ListItemBase<_TpItem> _Base;
