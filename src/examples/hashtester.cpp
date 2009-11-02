@@ -23,5 +23,9 @@ int main ()
 
   s.dump ();
 
+//  hash<int, string>::const_iterator it;
+//  hash<int, string>::const_iterator itEnd = s.end ();
+
+
   return 0;
 }

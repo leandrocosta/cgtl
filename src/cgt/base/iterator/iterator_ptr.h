@@ -19,7 +19,6 @@ namespace cgt
           friend class _IteratorPtr<_TpItem, _TpConst>;
 
         private:
-          typedef _IteratorPtr<_TpItem, _TpIterator>  _Self;
           typedef _IteratorPtr<_TpItem, _TpCommon>    _SelfCommon;
           typedef _IteratorPtr<_TpItem, _TpConst>     _SelfConst;
 
