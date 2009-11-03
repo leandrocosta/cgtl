@@ -14,6 +14,9 @@ namespace cgt
           private:
             typedef _IteratorBase<_TpItem, _TpIterator>  _Self;
 
+          public:
+            virtual ~_IteratorBase () { }
+
           protected:
             virtual void _incr () = 0;
 

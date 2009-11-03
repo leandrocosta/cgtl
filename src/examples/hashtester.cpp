@@ -23,9 +23,14 @@ int main ()
 
   s.dump ();
 
-//  hash<int, string>::const_iterator it;
-//  hash<int, string>::const_iterator itEnd = s.end ();
+  hash<int, string>::const_iterator it;
+  hash<int, string>::const_iterator itEnd = s.end ();
 
+  for (it = s.begin (); it != itEnd; ++it)
+  {
+    cout << "hash [" << it->key () << "]: " << it->value () << endl;
+//    cout << "hash []: " << *it << endl;
+  }
 
   return 0;
 }

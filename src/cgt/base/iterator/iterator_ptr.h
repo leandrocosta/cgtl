@@ -25,6 +25,7 @@ namespace cgt
         protected:
           _IteratorPtr () : _ptr (NULL) { }
           _IteratorPtr (_TpItem* _p) : _ptr (_p) { }
+          virtual ~_IteratorPtr () { }
 
         public:
             const bool operator==(const _SelfCommon& _other) const { return (_ptr == _other._ptr); }

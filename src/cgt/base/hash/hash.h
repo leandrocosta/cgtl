@@ -2,6 +2,7 @@
 #define _HASH_H_
 
 #include <string.h>
+#include "hash_item.h"
 #include "hash_iterator.h"
 #include "../alloc/allocator.h"
 #include "hash_func.h"
@@ -13,21 +14,13 @@ namespace cgt
   {
     namespace hash
     {
-      template<typename _TpKey, typename _TpItem>
-        class _HashItem
-        {
-          public:
-            _HashItem (const _TpKey& _k, const _TpItem& _i) : _key (_k), _item (_i), _next (NULL) { }
-
-          public:
-            _TpKey      _key;
-            _TpItem     _item;
-            _HashItem*  _next;
-        };
-
       template<typename _TpKey, typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_HashItem<_TpKey, _TpItem> > >
         class _Hash
         {
+          private:
+            friend class _HashIterator<_TpKey, _TpItem, _Alloc, _TpCommon>;
+            friend class _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst>;
+
           private:
             typedef _HashItem<_TpKey, _TpItem>  _Item;
             typedef _HashFunc<_TpKey>           _Func;
@@ -36,8 +29,8 @@ namespace cgt
             typedef typename _Alloc::template rebind<_Item>::other allocator_type;
 
           public:
-            typedef _HashIterator<_TpItem>            iterator;
-            typedef _HashIterator<_TpItem, _TpConst>  const_iterator;
+            typedef _HashIterator<_TpKey, _TpItem, _Alloc>            iterator;
+            typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst>  const_iterator;
 
           public:
             _Hash () : _size (0), _tabsize (2) { _init (); }
@@ -51,7 +44,6 @@ namespace cgt
             void _remove_all ();
             const size_t _get_position (const _TpKey& _key) const;
             _TpItem** _get_head ();
-            _TpItem** _get_tail ();
 
           public:
             void insert (const _TpKey& _key, const _TpItem& _item);
@@ -62,10 +54,32 @@ namespace cgt
           public:
             void dump () const;
 
-//            iterator begin () { return iterator (_get_head ()); }
-//            iterator end () { return iterator (_get_tail ()); }
-//            const_iterator begin () const { return const_iterator (_get_head ()); }
-//            const_iterator end () const { return const_iterator (_get_tail ()); }
+            iterator begin ()
+            {
+              size_t _pos = 0;
+
+              while (_pos < _tabsize && ! _table [_pos])
+                _pos++;
+
+              if (_pos < _tabsize)
+                return iterator (_table [_pos], this);
+              else
+                return end ();
+            }
+            iterator end (){ return iterator (NULL, this); }
+            const_iterator begin () const
+            {
+              size_t _pos = 0;
+
+              while (! _table [_pos] && _pos < _tabsize)
+                _pos++;
+
+              if (_pos < _tabsize)
+                return iterator (_table [_pos], this);
+              else
+                return end ();
+            }
+            const_iterator end () const { return const_iterator (NULL, this); }
 
           private:
             _Item** _table;
@@ -160,17 +174,6 @@ namespace cgt
         }
 
       template<typename _TpKey, typename _TpItem, typename _Alloc>
-        _TpItem** _Hash<_TpKey, _TpItem, _Alloc>::_get_tail ()
-        {
-          _TpItem** _ptr = &(_table [0]);
-
-          while (! *_ptr)
-            _ptr++;
-
-          return _ptr;
-        }
-
-      template<typename _TpKey, typename _TpItem, typename _Alloc>
         void _Hash<_TpKey, _TpItem, _Alloc>::insert (const _TpKey& _key, const _TpItem& _item)
         {
           if (_size == _tabsize)
@@ -192,7 +195,7 @@ namespace cgt
             _p = _p->_next;
 
           if (_p)
-            _ptr = &(_p->_item);
+            _ptr = &(_p->_value);
 
           return _ptr;
         }
@@ -208,7 +211,7 @@ namespace cgt
 
             while (_ptr)
             {
-              cout << "dump - pos: " << i << ", key: " << _ptr->_key << ", value: " << _ptr->_item << ", _get_position (): " << _get_position (_ptr->_key) << endl;
+              cout << "dump - pos: " << i << ", key: " << _ptr->_key << ", value: " << _ptr->_value << ", _get_position (): " << _get_position (_ptr->_key) << endl;
               _ptr = _ptr->_next;
             }
           }
