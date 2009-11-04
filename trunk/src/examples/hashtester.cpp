@@ -2,11 +2,11 @@
 using namespace std;
 
 #include "../cgt/base/hash/hash.h"
-using namespace cgt::base::hash;
+using namespace cgt::base;
 
 int main ()
 {
-  hash<int, string> s;
+  cgt::base::hash<int, string> s;
   s.insert (1, "A");
   s.insert (2, "B");
   s.insert (3, "C");
@@ -28,8 +28,10 @@ int main ()
 
   for (it = s.begin (); it != itEnd; ++it)
   {
-    cout << "hash [" << it->key () << "]: " << it->value () << endl;
+//    cout << "hash [" << it->key () << "]: " << it->value () << endl;
 //    cout << "hash []: " << *it << endl;
+    cout << "hash [" << it->first << "]: " << it->second << endl;
+//    it->second = "a";
   }
 
   return 0;
