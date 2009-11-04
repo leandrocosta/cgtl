@@ -1,7 +1,7 @@
 #ifndef _STORAGE_H_
 #define _STORAGE_H_
 
-//#include "../exception/mem_except.h"
+#include "../exception/mem_except.h"
 
 
 namespace cgt
@@ -72,8 +72,8 @@ namespace cgt
         {
           _Chunk* _ptr = new _Chunk ();
 
-//          if (! _ptr)
-//            throw cgt::base::exception::mem_except ("Not available memory");
+          if (! _ptr)
+            throw cgt::base::exception::mem_except ("Not available memory");
 
           _ptr->_next = _head;
           _head = _ptr;
