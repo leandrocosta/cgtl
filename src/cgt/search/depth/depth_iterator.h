@@ -75,7 +75,7 @@ namespace cgt
 
         public:
           const _DepthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (_ptr_node); }
-          const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (&_node); }
+          const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
           typename _List<_DepthInfo>::iterator info_begin () { return _InfoList.begin (); }
           typename _List<_DepthInfo>::iterator info_end () { return _InfoList.end (); }
@@ -107,12 +107,12 @@ namespace cgt
 
             while (! _ptr_state->adj_finished ())
             {
-              if (_has_color (_ptr_state->adj_node (), _DepthInfo::WHITE))
+              if (_has_color (_ptr_state->_adj_node (), _DepthInfo::WHITE))
               {
-                _ptr_node = _ptr_state->adj_node ();
+                _ptr_node = &(_ptr_state->_adj_node ());
                 _ptr_state->adj_incr ();
                 _StateContainer.push (_DepthState (*_ptr_node));
-                _discover_node (_ptr_node, &(_ptr_state->node ()), ++_global_time);
+                _discover_node (*_ptr_node, &(_ptr_state->node ()), ++_global_time);
                 break;
               }
               else
@@ -122,7 +122,7 @@ namespace cgt
             if (! _ptr_node)
             {
               _DepthState *_ptr = _StateContainer.pop ();
-              _finish_node (&(_ptr->node ()), ++_global_time);
+              _finish_node (_ptr->node (), ++_global_time);
               delete _ptr;
             }
             else
@@ -131,14 +131,14 @@ namespace cgt
 
           if (! _ptr_node)
           {
-            while (_it_node != _it_node_end && ! _has_color (&(*_it_node), _DepthInfo::WHITE))
+            while (_it_node != _it_node_end && ! _has_color (*_it_node, _DepthInfo::WHITE))
               ++_it_node;
 
             if (_it_node != _it_node_end)
             {
               _ptr_node = &(*_it_node);
               _StateContainer.push (_DepthState (*_it_node));
-              _discover_node (&(*_it_node), NULL, ++_global_time);
+              _discover_node (*_it_node, NULL, ++_global_time);
             }
           }
 
