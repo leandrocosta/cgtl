@@ -43,12 +43,12 @@ namespace cgt
           void _init ();
 
         protected:
-          _Info* _get_depth_info_by_node (const _Node* const _ptr_node);
+          _Info* _get_depth_info_by_node (const _Node& _node);
 
         protected:
-          void _discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d);
-          void _finish_node (const _Node* const _ptr_node, const unsigned long& _f);
-          const bool _has_color (const _Node* const _ptr_node, const typename _Info::_color_t &_color) const;
+          void _discover_node (const _Node& _node, const _Node* const _ptr_parent, const unsigned long& _d);
+          void _finish_node (const _Node& _node, const unsigned long& _f);
+          const bool _has_color (const _Node& _node, const typename _Info::_color_t &_color) const;
 
         public:
           _Node& operator*() const;
@@ -92,7 +92,7 @@ namespace cgt
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      typename _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_Info* _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_get_depth_info_by_node (const _Node* const _ptr_node)
+      typename _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_Info* _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_get_depth_info_by_node (const _Node& _node)
       {
         _Info *_ptr = NULL;
 
@@ -101,7 +101,7 @@ namespace cgt
 
         for (it = _InfoList.begin (); it != itEnd; ++it)
         {
-          if (it->node ().vertex () == _ptr_node->vertex ())
+          if (it->node ().vertex () == _node.vertex ())
           {
             _ptr = &(*it);
             break;
@@ -112,9 +112,9 @@ namespace cgt
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      void _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_discover_node (const _Node* const _ptr_node, const _Node* const _ptr_parent, const unsigned long& _d)
+      void _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_discover_node (const _Node& _node, const _Node* const _ptr_parent, const unsigned long& _d)
       {
-        _Info *_ptr = _get_depth_info_by_node (_ptr_node);
+        _Info *_ptr = _get_depth_info_by_node (_node);
 
         if (_ptr)
         {
@@ -125,9 +125,9 @@ namespace cgt
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      void _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_finish_node (const _Node* const _ptr_node, const unsigned long& _f)
+      void _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_finish_node (const _Node& _node, const unsigned long& _f)
       {
-        _Info *_ptr = _get_depth_info_by_node (_ptr_node);
+        _Info *_ptr = _get_depth_info_by_node (_node);
 
         if (_ptr)
         {
@@ -137,7 +137,7 @@ namespace cgt
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      const bool _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_has_color (const _Node* _ptr_node, const typename _Info::_color_t &_color) const
+      const bool _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_has_color (const _Node& _node, const typename _Info::_color_t &_color) const
       {
         bool bRet = false;
 
@@ -146,7 +146,7 @@ namespace cgt
 
         for (it = _InfoList.begin (); it != itEnd; ++it)
         {
-          if (it->node ().vertex () == _ptr_node->vertex ())
+          if (it->node ().vertex () == _node.vertex ())
           {
             bRet = (it->color () == _color);
             break;

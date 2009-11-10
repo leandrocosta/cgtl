@@ -123,10 +123,10 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
     void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e)
     {
-      _ptr_n1->_insert (_e, _v2, _ptr_n2);
+      _ptr_n1->_insert (_e, *_ptr_n2);
 
       if (! _type._directed && ! _ptr_n2->_get_edge (_v1))
-        _ptr_n2->_insert (_e, _v1, _ptr_n1);
+        _ptr_n2->_insert (_e, *_ptr_n1);
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>

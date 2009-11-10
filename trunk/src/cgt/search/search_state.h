@@ -32,7 +32,7 @@ namespace cgt
           const _Node& node () { return _node; }
           const bool adj_finished () const { return (_it_adj == _it_adj_end); }
           void adj_incr () { ++_it_adj; }
-          _Node* const adj_node () { return _it_adj->node (); }
+          _Node& _adj_node () { return _it_adj->node (); }
 
         private:
           const _Node&       _node;
