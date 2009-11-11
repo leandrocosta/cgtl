@@ -38,7 +38,10 @@ namespace cgt
       void _insert_node (const _TpVertex &_vertex);
       void _insert_vertex (const _TpVertex &_vertex);
       void _insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2);
-      void _insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e);
+      void _insert_edge (_Node& _n1, _Node& _n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e);
+
+    private:
+      void _invert ();
 
     private:
       const bool _is_directed () const;
@@ -46,6 +49,16 @@ namespace cgt
 
     private:
       _TpGraphType  _type;
+
+      /*
+       * We need a list of edges for two reasons:
+       *  - first, that's an easy way to create the edge_iterator,
+       *    since we only need to export a list iterator to users;
+       *  - second, we use a reference to these edges in the 
+       *    adjacency matrix. This way we can create only one
+       *    edge and use it twice in undirected graphs.
+       */
+
       _List<_Edge>  _edge_list;
   };
 
@@ -114,19 +127,33 @@ namespace cgt
           {
             _Vertex& _vertex1 = _ptr_n1->vertex ();
             _Edge &_edge = _edge_list.insert (_Edge (_e, _vertex1, _vertex2));
-            _insert_edge (_ptr_n1, _ptr_n2, _vertex1, _vertex2, _edge);
+            _insert_edge (*_ptr_n1, *_ptr_n2, _vertex1, _vertex2, _edge);
           }
         }
       }
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
-    void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (_Node* const _ptr_n1, _Node* const _ptr_n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e)
+    void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_edge (_Node& _n1, _Node& _n2, _Vertex& _v1, _Vertex& _v2, const _Edge& _e)
     {
-      _ptr_n1->_insert (_e, *_ptr_n2);
+      _n1._insert (_e, _n2);
 
-      if (! _type._directed && ! _ptr_n2->_get_edge (_v1))
-        _ptr_n2->_insert (_e, *_ptr_n1);
+      if (! _type._directed && ! _n2._get_edge (_v1))
+        _n2._insert (_e, _n1);
+    }
+
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_invert ()
+    {
+      /*
+       * for each node, call _invert_edges ()
+       */
+
+      typename _Base::iterator it;
+      typename _Base::iterator itEnd = _Base::end ();
+
+      for (it = _Base::begin (); it != itEnd; ++it)
+        it->_invert_edges ();
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>

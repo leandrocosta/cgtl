@@ -19,6 +19,9 @@ using namespace cgt::search::breadth;
 #include "shortpath/single/dijkstra/dijkstra_iterator.h"
 using namespace cgt::shortpath::single::dijkstra;
 
+#include "stconncomp/scc_iterator.h"
+using namespace cgt::stconncomp;
+
 
 namespace cgt
 {
@@ -66,6 +69,12 @@ namespace cgt
 
       typedef typename djiterator::_DijkstraInfo  dijkstra_info;
 
+      typedef _SCCIterator<_TpVertex, _TpEdge>           scciterator;
+      typedef _SCCIterator<_TpVertex, _TpEdge, _TpConst> const_scciterator;
+
+//      typedef typename _List<typename scciterator::_SCCInfo>::iterator       scciiterator;
+//      typedef typename _List<typename scciterator::_SCCInfo>::const_iterator const_scciiterator;
+
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
       void insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2) { _insert_edge (_e, _v1, _v2); }
@@ -73,6 +82,9 @@ namespace cgt
     public:
       const node* get_node (const _TpVertex &_vertex) { return _Base::_get_node (_vertex); }
       iterator find (const _TpVertex &_vertex) { return _Base::_find (_vertex); }
+
+    public:
+      void invert () { _Base::_invert (); }
 
     public:
       const bool is_directed () const { return _Base::_is_directed (); }
@@ -129,6 +141,11 @@ namespace cgt
       djiiterator dijkstra_info_end (djiterator &_it) { return djiiterator (_it.info_end ()); }
       const_djiiterator dijkstra_info_begin (djiterator &_it) const { return const_djiiterator (_it.info_begin ()); }
       const_djiiterator dijkstra_info_end (djiterator &_it) const { return const_djiiterator (_it.info_end ()); }
+
+      scciterator stconncomp_begin () { return scciterator (_Base::begin (), _Base::end ()); }
+      scciterator stconncomp_end () { return scciterator (); }
+      const_scciterator stconncomp_begin () const { return const_scciterator (_Base::begin (), _Base::end ()); }
+      const_scciterator stconncomp_end () const { return const_scciterator (); }
   };
 }
 
