@@ -77,6 +77,9 @@ namespace cgt
             iterator find (const _TpItem& _item);
             const_iterator find (const _TpItem& _item) const;
 
+          public:
+            static void swap (_Self& _list1, _Self& _list2);
+
           private:
             _Item*        _head;
             _Item*        _tail;
@@ -170,7 +173,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _List<_TpItem, _Alloc>::_unlink (const _ListItem<_TpItem>* const _ptr)
+        void _List<_TpItem, _Alloc>::_unlink (const _Item* const _ptr)
         {
           if (_ptr->_prev)
             _ptr->_prev->_next = _ptr->_next;
@@ -361,6 +364,19 @@ namespace cgt
         void _List<_TpItem, _Alloc>::clear ()
         {
           _remove_all ();
+        }
+
+
+      template<typename _TpItem, typename _Alloc>
+        void _List<_TpItem, _Alloc>::swap (_Self& _list1, _Self& _list2)
+        {
+          _Item* _p = _list1._head;
+          _list1._head = _list2._head;
+          _list2._head = _p;
+
+          _p = _list1._tail;
+          _list1._tail = _list2._tail;
+          _list2._tail = _p;
         }
 
       template<typename _TpItem>

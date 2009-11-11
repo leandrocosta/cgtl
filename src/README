@@ -1,0 +1,108 @@
+
+cgt/
+    base/
+        alloc/
+    search/
+        breadth/
+        depth/
+    shortpath/
+        single/
+            dijkstra/
+            bellmanford/
+        allpairs/
+    minspantree/
+        kruskal/
+        prim/
+    stconncomp/
+    toposort/
+    strongconn/
+    misc/
+        (is_cyclic ?)
+
+
+=====
+
+cgt/:
+    graph_adjacency.h
+    graph_adjlist.h
+    graph_adjmatrix.h
+    graph_edge.h
+    graph.h
+    graph_node.h
+    graph_type.h
+    graph_vertex.h
+    vertex_iterator.h
+
+    cgt/alloc/:
+        allocator.h
+        storage.h
+    
+    cgt/dijkstra/:
+        dijkstra_distance.h
+        dijkstra_info.h
+        dijkstra_info_heap.h
+        dijkstra_info_list.h
+        dijkstra_iterator.h
+    
+    cgt/hash/:
+        hash_func.h
+        hash.h
+    
+    cgt/heap/:
+        heap.h
+    
+    cgt/list/:
+        iterator_type.h
+        list.h
+        list_item_base.h
+        list_item.h
+        list_item_iterator.h
+        list_iterator_base.h
+        list_iterator.h
+    
+    cgt/queue/:
+        queue.h
+    
+    cgt/search/:
+        breadth_iterator.h
+        depth_iterator.h
+        search_info.h
+        search_iterator.h
+        search_state.h
+    
+    cgt/stack/:
+        stack.h
+    
+    cgt/vector/:
+        vector.h
+        vector_iterator.h
+
+
+
+_GraphAdjMatrix is_a _List<_GraphNode>
+_GraphAdjList   is_a _List<_GraphAdjacency>
+
+
+------------------------------
+| _GraphAdjMatrix            |
+------------------------------
+|                            |
+| _TpGraphType, _List<_Edge> |
+|                            |
+------------------------------
+
+--------------------------
+| _GraphNode             |
+--------------------------
+|                        |
+| _Vertex, _GraphAdjList |
+|                        |
+--------------------------
+
+-------------------
+| _GraphAdjacency |
+-------------------
+|                 |
+| _Edge&, _Node&  |
+|                 |
+-------------------
