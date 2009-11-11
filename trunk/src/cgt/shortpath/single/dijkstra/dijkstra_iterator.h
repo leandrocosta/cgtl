@@ -164,7 +164,7 @@ namespace cgt
         template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
           const bool _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>::operator==(const _Self& _other) const
           {
-            return _ptr_node == _other._ptr_node;
+            return (_ptr_node == _other._ptr_node);
           }
 
         template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>

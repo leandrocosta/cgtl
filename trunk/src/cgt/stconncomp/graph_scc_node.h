@@ -10,7 +10,7 @@ namespace cgt
   namespace stconncomp
   {
     template<typename _TpVertex, typename _TpEdge>
-      class _GraphSCNode
+      class _GraphSCCNode
       {
         private:
           typedef _GraphVertex<_TpVertex>           _Vertex;
@@ -19,7 +19,7 @@ namespace cgt
         private:
           _Vertex& _vertex;
           _AdjList _adjList;
-      }
+      };
   }
 }
 
