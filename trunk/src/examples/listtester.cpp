@@ -60,5 +60,41 @@ int main ()
     cout << ", " << *it;
   cout << ")" << endl;
 
+  cgt::base::list::list<int> s1;
+  cgt::base::list::list<int> s2;
+
+  s1.insert (1);
+  s1.insert (3);
+  s1.insert (5);
+
+  s2.insert (2);
+  s2.insert (4);
+
+  itEnd = s1.end ();
+  cout << "list1: (";
+  for (it = s1.begin (); it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  itEnd = s2.end ();
+  cout << "list2: (";
+  for (it = s2.begin (); it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  cgt::base::list::list<int>::swap (s1, s2);
+
+  itEnd = s1.end ();
+  cout << "list1: (";
+  for (it = s1.begin (); it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  itEnd = s2.end ();
+  cout << "list2: (";
+  for (it = s2.begin (); it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
   return 0;
 }
