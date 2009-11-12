@@ -15,6 +15,9 @@ namespace cgt
     class _SearchInfo
     {
       private:
+        typedef _SearchInfo<_TpVertex, _TpEdge> _Self;
+
+      private:
         typedef _GraphNode<_TpVertex, _TpEdge> _Node;
 
       public:
@@ -23,6 +26,10 @@ namespace cgt
       public:
         _SearchInfo (const _Node& _n) : _node (_n), _ptr_parent (NULL), _color (WHITE), _discovery (0), _finish (0) { }
         _SearchInfo (const _Node& _n, const _color_t &_c, const unsigned long &_d) : _node (_n), _ptr_parent (NULL), _color (_c), _discovery (_d), _finish (0) { }
+        _SearchInfo (const _Self& _s) : _node (_s._node), _ptr_parent (_s._ptr_parent), _color (_s._color), _discovery (_s._discovery), _finish (_s._finish) { cout << "_SearchInfo(_Self&) - _s._color: " << _s._color << ", _color: " << _color << endl; }
+
+      public:
+        _SearchInfo& operator=(const _Self& _s) { cout << "_SearchInfo::operator=()" << endl; }
 
       public:
         void set_parent (const _Node* const _ptr) { _ptr_parent = _ptr; }

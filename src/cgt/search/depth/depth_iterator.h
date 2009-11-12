@@ -44,14 +44,14 @@ namespace cgt
         class _DepthIterator : public _SearchIterator<_TpVertex, _TpEdge, _Stack, _TpIterator>
       {
         public:
-          typedef _SearchInfo<_TpVertex, _TpEdge> _DepthInfo;
+          typedef _SearchInfo<_TpVertex, _TpEdge>   _DepthInfo;
+          typedef _SearchState<_TpVertex, _TpEdge>  _DepthState;
 
         private:
           typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
           typedef _DepthIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
           typedef _GraphNode<_TpVertex, _TpEdge>                  _Node;
           typedef typename _List<_Node>::iterator                 _NodeIterator;
-          typedef _SearchState<_TpVertex, _TpEdge>                _DepthState;
 
         private:
           typedef _SearchIterator<_TpVertex, _TpEdge, _Stack, _TpIterator> _Base;
@@ -84,6 +84,12 @@ namespace cgt
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
         _DepthIterator<_TpVertex, _TpEdge, _TpIterator>& _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
         {
+          _NodeIterator _it = _it_node;
+          while (_it != _it_node_end)
+          {
+            cout << "operator++() - node color is white: " << (_has_color (*_it, _DepthInfo::WHITE) ? "true":"false") << endl;
+            ++_it;
+          }
           /*
            * visit the adjacency list of the stack's top node:
            *  - if a WHITE node is found:
@@ -103,10 +109,12 @@ namespace cgt
 
           while (! _StateContainer.empty ())
           {
+            cout << "container not empty" << endl;
             _DepthState *_ptr_state  = _StateContainer.top ();
 
             while (! _ptr_state->adj_finished ())
             {
+              cout << "ajdacency yes" << endl;
               if (_has_color (_ptr_state->_adj_node (), _DepthInfo::WHITE))
               {
                 _ptr_node = &(_ptr_state->_adj_node ());
@@ -121,6 +129,7 @@ namespace cgt
 
             if (! _ptr_node)
             {
+              cout << "finish node" << endl;
               _DepthState *_ptr = _StateContainer.pop ();
               _finish_node (_ptr->node (), ++_global_time);
               delete _ptr;
@@ -131,11 +140,20 @@ namespace cgt
 
           if (! _ptr_node)
           {
+            cout << "trying another start" << endl;
             while (_it_node != _it_node_end && ! _has_color (*_it_node, _DepthInfo::WHITE))
+            {
+              if (_it_node == _it_node_end)
+                cout << "the end" << endl;
+              else
+                cout << "color not WHITE" << endl;
+
               ++_it_node;
+            }
 
             if (_it_node != _it_node_end)
             {
+              cout << "another start yes" << endl;
               _ptr_node = &(*_it_node);
               _StateContainer.push (_DepthState (*_it_node));
               _discover_node (*_it_node, NULL, ++_global_time);

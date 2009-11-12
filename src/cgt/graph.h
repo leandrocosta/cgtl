@@ -20,6 +20,8 @@ using namespace cgt::search::breadth;
 using namespace cgt::shortpath::single::dijkstra;
 
 #include "stconncomp/scc_iterator.h"
+#include "stconncomp/graph_scc_component.h"
+#include "stconncomp/graph_scc_node.h"
 using namespace cgt::stconncomp;
 
 
@@ -74,6 +76,9 @@ namespace cgt
 
 //      typedef typename _List<typename scciterator::_SCCInfo>::iterator       scciiterator;
 //      typedef typename _List<typename scciterator::_SCCInfo>::const_iterator const_scciiterator;
+
+      typedef _GraphSCCComponent<_TpVertex, _TpEdge>  scc;
+      typedef _GraphSCCNode<_TpVertex, _TpEdge>       sccnode;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }

@@ -16,8 +16,14 @@ namespace cgt
           typedef _GraphVertex<_TpVertex>           _Vertex;
           typedef _GraphAdjList<_TpVertex, _TpEdge> _AdjList;
 
+        public:
+          _GraphSCCNode (const _Vertex& _v) : _vertex (_v) { }
+
+        public:
+          const _Vertex& vertex () const { return _vertex; }
+
         private:
-          _Vertex& _vertex;
+          const _Vertex& _vertex;
           _AdjList _adjList;
       };
   }

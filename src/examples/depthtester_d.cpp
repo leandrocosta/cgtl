@@ -64,5 +64,40 @@ int main ()
 
   cout << endl;
 
+  cout << "=== make inverse graph ===" << endl << endl;
+
+  g.invert ();
+
+  cout << "=== depth-first search from begin ===" << endl << endl;
+
+//  mygraph::diterator itd2;
+  itdEnd = g.depth_end ();
+
+  for (itd = g.depth_begin (); itd != itdEnd; ++itd)
+  {
+    const mygraph::node&       n = *itd;
+    const mygraph::vertex&     v = n.vertex ();
+    const mygraph::depth_info* i = itd.info (n);
+
+    cout << "itd: " << v.value () <<  ", discovery: " << setw (2) << i->discovery () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << endl;
+  }
+
+  cout << endl;
+  cout << "=== show depth-first search info for all vertices ===" << endl << endl;
+
+  mygraph::const_iterator itn2;
+  mygraph::const_iterator itn2End = g.end ();
+
+  for (itn2 = g.begin (); itn2 != itn2End; ++itn2)
+  {
+    const mygraph::node&   n = *itn2;
+    const mygraph::vertex& v = n.vertex ();
+    const mygraph::depth_info* i = itd.info (n);
+
+    cout << "node: " << v.value () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i->discovery () << ", finish: " << setw (2) << i->finish () << endl;
+  }
+
+  cout << endl;
+
   return 0;
 }

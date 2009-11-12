@@ -53,7 +53,9 @@ namespace cgt
             _TpItem* pop_front ();
             _TpItem* pop_back ();
             _TpItem* front ();
+            const _TpItem* const front () const;
             _TpItem* back ();
+            const _TpItem* const back () const;
             void remove (const _TpItem& _item);
             void clear ();
 
@@ -243,6 +245,12 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
+        const _TpItem* const _List<_TpItem, _Alloc>::front () const
+        {
+          return _get (_head);
+        }
+
+      template<typename _TpItem, typename _Alloc>
         _TpItem* _List<_TpItem, _Alloc>::front ()
         {
           return _get (_head);
@@ -250,6 +258,12 @@ namespace cgt
 
       template<typename _TpItem, typename _Alloc>
         _TpItem* _List<_TpItem, _Alloc>::back ()
+        {
+          return _get (_tail);
+        }
+
+      template<typename _TpItem, typename _Alloc>
+        const _TpItem* const _List<_TpItem, _Alloc>::back () const
         {
           return _get (_tail);
         }

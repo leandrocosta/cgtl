@@ -39,6 +39,38 @@ namespace cgt
           _SearchIterator (const _SelfCommon& _it) : _ptr_node (_it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _global_time (_it._global_time), _InfoList (_it._InfoList) { }
           virtual ~_SearchIterator () { }
 
+        public:
+          _Self& operator=(const _Self& _s)
+          {
+            _NodeIterator _it = _s._it_node;
+            while (_it != _s._it_node_end)
+            {
+              cout << "operator=() - node " << _it->vertex ().value () << " has color is white: " << (_s._has_color (*_it, _Info::WHITE) ? "true":"false") << endl;
+              ++_it;
+            }
+
+            _ptr_node       = _s._ptr_node;
+            _it_node        = _s._it_node;
+            _it_node_end    = _s._it_node_end;
+            _InfoList       = _s._InfoList;
+            _StateContainer = _s._StateContainer;
+            _global_time    = _s._global_time;
+
+            _it = _it_node;
+            while (_it != _it_node_end)
+            {
+              cout << "operator=() - node " << _it->vertex ().value () << " has color is white: " << (_has_color (*_it, _Info::WHITE) ? "true":"false") << endl;
+              ++_it;
+            }
+
+            if (! _s._InfoList.empty ())
+              cout << "first _s._infoList color: " << _s._InfoList.front ()->color () << endl;
+            if (! _InfoList.empty ())
+            cout << "first _infoList color: " << _InfoList.front ()->color () << endl;
+
+            return *this;
+          }
+
         private:
           void _init ();
 
@@ -77,17 +109,19 @@ namespace cgt
          * paint all the others with WHITE.
          */
 
-        _NodeIterator it;
+        _NodeIterator _it;
 
-        for (it = _it_node; it != _it_node_end; ++it)
+        for (_it = _it_node; _it != _it_node_end; ++_it)
         {
-          if (&(*it) == _ptr_node)
+          cout << "_init node " << _it->vertex ().value () << endl;
+          if (&(*_it) == _ptr_node)
           {
-            _InfoList.insert (_Info (*it, _Info::GRAY, ++_global_time));
-            _StateContainer.insert (_State (*it));
+            cout << "_init start " << endl;
+            _InfoList.insert (_Info (*_it, _Info::GRAY, ++_global_time));
+            _StateContainer.insert (_State (*_it));
           }
           else
-            _InfoList.insert (_Info (*it));
+            _InfoList.insert (_Info (*_it));
         }
       }
 
