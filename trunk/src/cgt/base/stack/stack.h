@@ -25,6 +25,7 @@ namespace cgt
           using _Base::end;
           using _Base::size;
           using _Base::empty;
+          using _Base::clear;
 
         public:
           void push (const _TpItem &_item);

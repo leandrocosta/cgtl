@@ -93,11 +93,19 @@ namespace cgt
       template<typename _TpItem, typename _Alloc>
         _List<_TpItem, _Alloc>& _List<_TpItem, _Alloc>::operator=(const _Self& _l)
         {
+          clear ();
+//          cout << "_List::operator=(_Self&) - begin" << endl;
+
           const_iterator it;
           const_iterator itEnd = _l.end ();
 
           for (it = _l.begin (); it != itEnd; ++it)
+          {
             insert (*it);
+//            cout << "_List::operator=(_Self&): item: " << it->value () << ", inserted: " << back ()->value () << endl;
+          }
+
+//          cout << "_List::operator=(_Self&) - end" << endl;
 
           return *this;
         }
@@ -391,6 +399,10 @@ namespace cgt
           _p = _list1._tail;
           _list1._tail = _list2._tail;
           _list2._tail = _p;
+
+          size_t _s = _list1._size;
+          _list1._size = _list2._size;
+          _list2._size = _s;
         }
 
       template<typename _TpItem>

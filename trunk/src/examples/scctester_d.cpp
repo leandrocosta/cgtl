@@ -19,6 +19,12 @@ int main ()
 
   cout << "=== creating graph ===" << endl << endl;
   create_graph_1<string, int> (g);
+  add_edge<string, int> (g, 9, "B", "C");
+  add_edge<string, int> (g, 10, "C", "A");
+  add_edge<string, int> (g, 11, "H", "E");
+  add_edge<string, int> (g, 12, "H", "J");
+  add_edge<string, int> (g, 13, "J", "G");
+  add_edge<string, int> (g, 14, "G", "E");
 
   mygraph::scciterator it;
   mygraph::scciterator itEnd = g.stconncomp_end ();

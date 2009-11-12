@@ -23,6 +23,7 @@ namespace cgt
         const _Edge&  edge () const;
         const _Vertex& vertex () const;
         _Node& node () const;
+        const _TpEdge& value () const { return _edge.value (); }
 
       private:
         // Reference to the edge object (stored in _GraphAdjMatrix._edge_list)
