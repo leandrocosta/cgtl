@@ -45,6 +45,7 @@ namespace cgt
             iterator find (const _TpItem& _item);
             const bool empty () const;
             const size_t size () const;
+            void clear ();
 
           private:
             void _rebuild_heap (size_t _pos);
@@ -83,6 +84,8 @@ namespace cgt
       template<typename _TpItem, typename _Alloc>
         _Vector<_TpItem, _Alloc>& _Vector<_TpItem, _Alloc>::operator=(const _Self& _l)
         {
+          clear ();
+
           const_iterator it;
           const_iterator itEnd = _l.end ();
 
@@ -175,6 +178,12 @@ namespace cgt
         const size_t _Vector<_TpItem, _Alloc>::size () const
         {
           return _size;
+        }
+
+      template<typename _TpItem, typename _Alloc>
+        void _Vector<_TpItem, _Alloc>::clear ()
+        {
+          _remove_all ();
         }
 
       template<typename _TpItem, typename _Alloc>

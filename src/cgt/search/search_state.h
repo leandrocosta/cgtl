@@ -33,6 +33,7 @@ namespace cgt
           const bool adj_finished () const { return (_it_adj == _it_adj_end); }
           void adj_incr () { ++_it_adj; }
           _Node& _adj_node () { return _it_adj->node (); }
+          const _TpVertex& value () const { return _node.vertex ().value (); }
 
         private:
           const _Node&       _node;

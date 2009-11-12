@@ -33,43 +33,13 @@ namespace cgt
           _SearchIterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
           _SearchIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
         {
+//          cout << "_SearchIterator::_SearchIterator(_Node*, _NodeIterator&, _NodeIterator&) - begin" << endl;
           if (_ptr_node)
             _init ();
+//          cout << "_SearchIterator::_SearchIterator(_Node*, _NodeIterator&, _NodeIterator&) - end" << endl;
         }
           _SearchIterator (const _SelfCommon& _it) : _ptr_node (_it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _global_time (_it._global_time), _InfoList (_it._InfoList) { }
           virtual ~_SearchIterator () { }
-
-        public:
-          _Self& operator=(const _Self& _s)
-          {
-            _NodeIterator _it = _s._it_node;
-            while (_it != _s._it_node_end)
-            {
-              cout << "operator=() - node " << _it->vertex ().value () << " has color is white: " << (_s._has_color (*_it, _Info::WHITE) ? "true":"false") << endl;
-              ++_it;
-            }
-
-            _ptr_node       = _s._ptr_node;
-            _it_node        = _s._it_node;
-            _it_node_end    = _s._it_node_end;
-            _InfoList       = _s._InfoList;
-            _StateContainer = _s._StateContainer;
-            _global_time    = _s._global_time;
-
-            _it = _it_node;
-            while (_it != _it_node_end)
-            {
-              cout << "operator=() - node " << _it->vertex ().value () << " has color is white: " << (_has_color (*_it, _Info::WHITE) ? "true":"false") << endl;
-              ++_it;
-            }
-
-            if (! _s._InfoList.empty ())
-              cout << "first _s._infoList color: " << _s._InfoList.front ()->color () << endl;
-            if (! _InfoList.empty ())
-            cout << "first _infoList color: " << _InfoList.front ()->color () << endl;
-
-            return *this;
-          }
 
         private:
           void _init ();
@@ -113,10 +83,10 @@ namespace cgt
 
         for (_it = _it_node; _it != _it_node_end; ++_it)
         {
-          cout << "_init node " << _it->vertex ().value () << endl;
+//          cout << "_init node " << _it->vertex ().value () << endl;
           if (&(*_it) == _ptr_node)
           {
-            cout << "_init start " << endl;
+//            cout << "_init start " << endl;
             _InfoList.insert (_Info (*_it, _Info::GRAY, ++_global_time));
             _StateContainer.insert (_State (*_it));
           }
@@ -182,6 +152,7 @@ namespace cgt
         {
           if (it->node ().vertex () == _node.vertex ())
           {
+//            cout << "_SearchIterator::_has_color (): found node " << it->node ().vertex ().value () << ", color: " << it->color () << endl;
             bRet = (it->color () == _color);
             break;
           }
