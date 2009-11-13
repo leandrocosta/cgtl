@@ -29,7 +29,7 @@ namespace cgt
         // Reference to the edge object (stored in _GraphAdjMatrix._edge_list)
         const _Edge&   _edge;
 
-        // Pointer to the node at the right
+        // Reference to the node at the right
         _Node& _node;
     };
 

@@ -152,7 +152,6 @@ namespace cgt
         {
           if (it->node ().vertex () == _node.vertex ())
           {
-//            cout << "_SearchIterator::_has_color (): found node " << it->node ().vertex ().value () << ", color: " << it->color () << endl;
             bRet = (it->color () == _color);
             break;
           }

@@ -23,6 +23,7 @@ namespace cgt
           using _Base::find;
           using _Base::empty;
           using _Base::size;
+          using _Base::iterator;
           using _Base::const_iterator;
           using _Base::begin;
           using _Base::end;

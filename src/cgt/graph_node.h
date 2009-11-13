@@ -24,6 +24,8 @@ namespace cgt
         const _AdjList&  adjlist () const { return _adjList; }
         _AdjList&  iadjlist () { return _invAdjList; }
         const _AdjList&  iadjlist () const { return _invAdjList; }
+        _TpVertex& value () { return _vertex.value (); }
+        const _TpVertex& value () const { return _vertex.value (); }
 
       public:
         const _GraphEdge<_TpVertex, _TpEdge>* _get_edge (const _Vertex &_v) const;
@@ -31,7 +33,7 @@ namespace cgt
       public:
         void _insert (const _GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
         void _insert_inverse (const _GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
-        void _invert_edges () { _AdjList::swap (_adjList, _invAdjList); }
+        void _invert_edges ();
 
       private:
         _Vertex   _vertex;
@@ -64,6 +66,15 @@ namespace cgt
     void _GraphNode<_TpVertex, _TpEdge>::_insert_inverse (const _GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n)
     {
       _invAdjList._insert (_e, _n);
+    }
+
+  /*
+   * time complexity: O(1)
+   */
+  template<typename _TpVertex, typename _TpEdge>
+    void _GraphNode<_TpVertex, _TpEdge>::_invert_edges ()
+    {
+      _AdjList::swap (_adjList, _invAdjList);
     }
 }
 
