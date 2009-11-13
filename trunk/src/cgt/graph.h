@@ -74,9 +74,6 @@ namespace cgt
       typedef _SCCIterator<_TpVertex, _TpEdge>           scciterator;
       typedef _SCCIterator<_TpVertex, _TpEdge, _TpConst> const_scciterator;
 
-//      typedef typename _List<typename scciterator::_SCCInfo>::iterator       scciiterator;
-//      typedef typename _List<typename scciterator::_SCCInfo>::const_iterator const_scciiterator;
-
       typedef _GraphSCCComponent<_TpVertex, _TpEdge>  scc;
       typedef _GraphSCCNode<_TpVertex, _TpEdge>       sccnode;
 
@@ -89,6 +86,9 @@ namespace cgt
       iterator find (const _TpVertex &_vertex) { return _Base::_find (_vertex); }
 
     public:
+      /*
+       * time complexity: O(V)
+       */
       void invert () { _Base::_invert (); }
 
     public:

@@ -12,13 +12,13 @@ using namespace cgt::search::depth;
 
 
 /*
- * invert graph
- * run DFS (1)
- * invert graph again
- * create heap with DFS (1)
+ * invert graph;
+ * run DFS (1);
+ * invert graph again;
+ * create heap with DFS (1);
  * while (! end)
- *  - pop n1 from heap and push in the stack
- *  - run DFS (2) with n1 until finish the SCC
+ *  - pop N from heap, paint with GRAY and push in the stack;
+ *  - run DFS (2) until N is poped from stack.
  */
 
 namespace cgt
@@ -32,11 +32,13 @@ namespace cgt
           class _SCC_DFSInfo;
 
         private:
-          typedef _SCCIterator<_TpVertex, _TpEdge>              _Self;
+          typedef _SCCIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
           typedef _SCCIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
 
         private:
           typedef _GraphSCCComponent<_TpVertex, _TpEdge>  _Component;
+          typedef _List<_Component>                       _ComponentList;
+          typedef typename _ComponentList::const_iterator _ComponentIterator;
           typedef _GraphNode<_TpVertex, _TpEdge>          _Node;
           typedef typename _List<_Node>::iterator         _NodeIterator;
           typedef _GraphSCCNode<_TpVertex, _TpEdge>       _SCCNode;
@@ -50,23 +52,23 @@ namespace cgt
           typedef typename _DFSIterator::_DepthState            _DFSState;
           typedef _Stack<_DFSState>                             _DFSStateStack;
 
-          typedef cgt::base::heap::_Heap<_SCC_DFSInfo>      _SCC_DFSInfoHeap;
-          typedef typename _SCC_DFSInfoHeap::const_iterator _SCC_DFSInfoHeapIterator;
+          typedef cgt::base::heap::_Heap<_SCC_DFSInfo>  _SCC_DFSInfoHeap;
+          typedef typename _SCC_DFSInfoHeap::iterator   _SCC_DFSInfoHeapIterator;
 
           class _SCC_DFSInfo
           {
             public:
-              _SCC_DFSInfo (const _DFSInfo& _i) : _info (_i) { }
+              _SCC_DFSInfo (_DFSInfo& _i) : _info (_i) { }
 
             public:
               const _DFSInfo& info () const { return _info; }
-              const _Node& node () const { return _info.node (); }
+              _Node& node () { return _info.node (); }
 
             public:
-              const bool operator<(const _SCC_DFSInfo& _b){ return _info.finish () >= _b._info.finish (); }
+              const bool operator<(const _SCC_DFSInfo& _b) { return _info.finish () >= _b._info.finish (); }
 
             private:
-              const _DFSInfo& _info;
+              _DFSInfo& _info;
           };
 
         public:
@@ -74,223 +76,136 @@ namespace cgt
           _SCCIterator (const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_component (NULL), _it_node_begin (_it_begin), _it_node_end (_it_end) { _init (); }
           _SCCIterator (const _SelfCommon& _it) { *this = _it; }
 
-        _Self& operator=(const _Self& _it)
+        _Self& operator=(const _Self& _s)
         {
-          _it_node_begin  = _it._it_node_begin;
-          _it_node_end    = _it._it_node_end;
-          _it_dfs         = _it._it_dfs;
-          _component_list = _it._component_list;
-          _dfsHeap        = _it._dfsHeap;
-          _dfsInfoList    = _it._dfsInfoList;
-          _dfsStateStack  = _it._dfsStateStack;
+          _it_node_begin    = _s._it_node_begin;
+          _it_node_end      = _s._it_node_end;
+          _it_rdfs          = _s._it_rdfs;
+          _component_list   = _s._component_list;
+          _rdfs_heap        = _s._rdfs_heap;
+          _dfs_list         = _s._dfs_list;
+          _dfs_state_stack  = _s._dfs_state_stack;
 
-          if (_it._ptr_component)
+          /*
+           * TODO: we need a better way to initialize _ptr_component.
+           * It should point to the component pointed by _s._ptr_component:
+           * 
+           *   _ptr_component = NULL;
+           *
+           *   if (_s._ptr_component)
+           *   {
+           *     _ComponentIterator _it = _component_list.find (*_s._ptr_component);
+           *
+           *     if (_it != _component_list.end ())
+           *      _ptr_component  = &(*_it);
+           *   }
+           */
+
+          if (_s._ptr_component)
             _ptr_component  = _component_list.back ();
 
           return *this;
         }
 
         private:
-          void _init ()
-          {
-            for (_NodeIterator _it = _it_node_begin; _it != _it_node_end; ++_it)
-              _it->_invert_edges ();
-
-            _it_dfs = _DFSIterator (_it_node_begin, _it_node_begin, _it_node_end);
-            _DFSIterator  _it_dfs_end (NULL, _it_node_begin, _it_node_end);
-
-            while (_it_dfs != _it_dfs_end)
-              ++_it_dfs;
-
-            for (_NodeIterator _it = _it_node_begin; _it != _it_node_end; ++_it)
-              _it->_invert_edges ();
-
-            /*
-             * Now we have the result of DFS (1) in _it_dfs.
-             * We need to make a heap with it and then,
-             * iterate by the strongly connected components.
-             */
-
-            _DFSInfoIterator _it_end (_it_dfs.info_end ());
-            for (_DFSInfoIterator _it (_it_dfs.info_begin ()); _it != _it_end; ++_it)
-              _dfsHeap.push (_SCC_DFSInfo (*_it));
-
-            _SCC_DFSInfoHeapIterator _it;
-            _SCC_DFSInfoHeapIterator _itEnd = _dfsHeap.end ();
-
-            for (_it = _dfsHeap.begin (); _it != _itEnd; ++_it)
-              _dfsInfoList.insert (_DFSInfo (_it->node ()));
-
-            _SCC_DFSInfo* pDFSInfo = _dfsHeap.pop ();
-
-            if (pDFSInfo)
-            {
-              _dfsStateStack.insert (_DFSState (pDFSInfo->node ()));
-              _discover_node (pDFSInfo->node (), NULL);
-
-
-              /*
-               * create SCC, add pDFSInfo to it and add SCC to component list
-               */
-              _component_list.insert (_Component (_SCCNode (pDFSInfo->node ().vertex ())));
-              _ptr_component = _component_list.back ();
-
-              /*
-               * add all reachable nodes from pDFSInfo to the SCC
-               */
-
-              _Node* _ptr_node = NULL;
-
-              while (! _dfsStateStack.empty ())
-              {
-                _DFSState *_ptr_state  = _dfsStateStack.top ();
-
-                while (! _ptr_state->adj_finished ())
-                {
-                  if (_has_color (_ptr_state->_adj_node (), _DFSInfo::WHITE))
-                  {
-                    _ptr_node = &(_ptr_state->_adj_node ());
-                    _ptr_state->adj_incr ();
-                    _dfsStateStack.push (_DFSState (*_ptr_node));
-                    _discover_node (*_ptr_node, &(_ptr_state->node ()));
-                    break;
-                  }
-                  else
-                    _ptr_state->adj_incr ();
-                }
-
-                if (_ptr_node)
-                {
-                  _component_list.back ()->insert (_SCCNode (_ptr_node->vertex ()));
-                  delete _ptr_node;
-                  _ptr_node = NULL;
-                }
-                else
-                {
-                  _DFSState *_ptr = _dfsStateStack.pop ();
-                  _finish_node (_ptr->node ());
-                  delete _ptr;
-                }
-              }
-
-              delete pDFSInfo;
-            }
-          }
+          void _init ();
 
         private:
-          void _discover_node (const _Node& _node, const _Node* const _ptr_parent);
+          void _run_reverse_dfs ();
+          void _discover_node (const _Node& _node);
           void _finish_node (const _Node& _node);
           const bool _has_color (const _Node& _node, const _DFSColor &_color) const;
           _DFSInfo* _get_depth_info_by_node (const _Node& _node);
+          _SCC_DFSInfo* _get_node_for_new_scc ();
+          void _make_new_scc (_Node& _node);
 
         public:
           _Component& operator*() const { return *_ptr_component; }
           _Component* operator->() const { return _ptr_component; }
           const bool operator==(const _Self& _other) const { return (_ptr_component == _other._ptr_component); }
           const bool operator!=(const _Self& _other) const { return !(*this == _other); }
-          _Self& operator++()
-          {
-            _ptr_component = NULL;
-
-            /*
-             * get the next node to create a new SCC
-             */
-
-            _SCC_DFSInfo* pDFSInfo = _dfsHeap.pop ();
-
-            while (pDFSInfo && ! _has_color (pDFSInfo->node (), _DFSInfo::WHITE))
-            {
-              delete pDFSInfo;
-              pDFSInfo = _dfsHeap.pop ();
-            }
-
-            if (pDFSInfo)
-            {
-              _dfsStateStack.insert (_DFSState (pDFSInfo->node ()));
-              _discover_node (pDFSInfo->node (), NULL);
-
-
-              /*
-               * add pDFSInfo to the SCC
-               */
-              _component_list.insert (_Component (_SCCNode (pDFSInfo->node ().vertex ())));
-              _ptr_component = _component_list.back ();
-
-              /*
-               * add all reachable nodes from pDFSInfo to the SCC
-               */
-
-              _Node* _ptr_node = NULL;
-
-              while (! _dfsStateStack.empty ())
-              {
-                _DFSState *_ptr_state  = _dfsStateStack.top ();
-
-                while (! _ptr_state->adj_finished ())
-                {
-                  if (_has_color (_ptr_state->_adj_node (), _DFSInfo::WHITE))
-                  {
-                    _ptr_node = &(_ptr_state->_adj_node ());
-                    _ptr_state->adj_incr ();
-                    _dfsStateStack.push (_DFSState (*_ptr_node));
-                    _discover_node (*_ptr_node, &(_ptr_state->node ()));
-                    break;
-                  }
-                  else
-                    _ptr_state->adj_incr ();
-                }
-
-                if (_ptr_node)
-                {
-                  _component_list.back ()->insert (_SCCNode (_ptr_node->vertex ()));
-//                  delete _ptr_node;
-                  _ptr_node = NULL;
-                }
-                else
-                {
-                  _DFSState *_ptr = _dfsStateStack.pop ();
-                  _finish_node (_ptr->node ());
-                  delete _ptr;
-                }
-              }
-
-              delete pDFSInfo;
-            }
-
-            return *this;
-          }
+          _Self& operator++();
 
         private:
           _Component*       _ptr_component;
-          _List<_Component> _component_list;
+          _ComponentList    _component_list;
 
-          _NodeIterator _it_node_begin;
-          _NodeIterator _it_node_end;
-
-          _DFSIterator    _it_dfs;
-
-          /*
-           * _Heap uses the operator< to identify priority:
-           *  i[n] is always <= i[2n] and i[2n+1]
-           * So, we need a structure to encapsulate DFSInfo and
-           * implement operator< correctly.
-           */
-
-          _SCC_DFSInfoHeap  _dfsHeap;
-          _DFSInfoList      _dfsInfoList;
-          _DFSStateStack    _dfsStateStack;
+          _DFSIterator      _it_rdfs;
+          _NodeIterator     _it_node_begin;
+          _NodeIterator     _it_node_end;
+          
+          _DFSInfoList      _dfs_list;
+          _DFSStateStack    _dfs_state_stack;
+          _SCC_DFSInfoHeap  _rdfs_heap;
       };
 
+
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-      void _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_discover_node (const _Node& _node, const _Node* const _ptr_parent)
+      void _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_init ()
+      {
+        /*
+         * Execute DFS in reverse graph and initialize heap
+         * used to get nodes in decreasing finish time.
+         */
+
+        _run_reverse_dfs ();
+
+        /*
+         * Paint all nodes with WHITE and set finish time to 0.
+         * These are the only important informations of DFS for
+         * this SCC algorithm step.
+         */
+
+        _SCC_DFSInfoHeapIterator _itEnd = _rdfs_heap.end ();
+        for (_SCC_DFSInfoHeapIterator _it = _rdfs_heap.begin (); _it != _itEnd; ++_it)
+          _dfs_list.insert (_DFSInfo (_it->node ()));
+
+        /*
+         * Get the node with greater finish time
+         * and try to make the first SCC.
+         */
+
+        _SCC_DFSInfo* _ptr_rdfs_info = _rdfs_heap.pop ();
+
+        if (_ptr_rdfs_info)
+        {
+          _make_new_scc (_ptr_rdfs_info->node ());
+          delete _ptr_rdfs_info;
+        }
+      }
+
+    /*
+     * Execute DFS in reverse graph and initialize heap
+     * used to get nodes in decreasing finish time.
+     */
+
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      void _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_run_reverse_dfs ()
+      {
+        for (_NodeIterator _it = _it_node_begin; _it != _it_node_end; ++_it)
+          _it->_invert_edges ();
+
+        _it_rdfs = _DFSIterator (_it_node_begin, _it_node_begin, _it_node_end);
+        _DFSIterator  _it_rdfs_end (NULL, _it_node_begin, _it_node_end);
+
+        while (_it_rdfs != _it_rdfs_end)
+          ++_it_rdfs;
+
+        for (_NodeIterator _it = _it_node_begin; _it != _it_node_end; ++_it)
+          _it->_invert_edges ();
+
+        _DFSInfoIterator _it_end (_it_rdfs.info_end ());
+        for (_DFSInfoIterator _it (_it_rdfs.info_begin ()); _it != _it_end; ++_it)
+          _rdfs_heap.push (_SCC_DFSInfo (*_it));
+      }
+
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      void _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_discover_node (const _Node& _node)
       {
         _DFSInfo *_ptr = _get_depth_info_by_node (_node);
 
         if (_ptr)
-        {
-          _ptr->set_parent (_ptr_parent);
           _ptr->set_color (_DFSInfo::GRAY);
-        }
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -307,9 +222,9 @@ namespace cgt
       {
         bool bRet = false;
 
-        _DFSInfoCIterator itEnd = _dfsInfoList.end ();
+        _DFSInfoCIterator itEnd = _dfs_list.end ();
 
-        for (_DFSInfoCIterator it = _dfsInfoList.begin (); it != itEnd; ++it)
+        for (_DFSInfoCIterator it = _dfs_list.begin (); it != itEnd; ++it)
         {
           if (it->node ().vertex () == _node.vertex ())
           {
@@ -326,9 +241,9 @@ namespace cgt
       {
         _DFSInfo *_ptr = NULL;
 
-        _DFSInfoIterator itEnd = _dfsInfoList.end ();
+        _DFSInfoIterator itEnd = _dfs_list.end ();
 
-        for (_DFSInfoIterator it = _dfsInfoList.begin (); it != itEnd; ++it)
+        for (_DFSInfoIterator it = _dfs_list.begin (); it != itEnd; ++it)
         {
           if (it->node ().vertex () == _node.vertex ())
           {
@@ -338,6 +253,103 @@ namespace cgt
         }
 
         return _ptr;
+      }
+
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      typename _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_SCC_DFSInfo* _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_get_node_for_new_scc ()
+      {
+        _SCC_DFSInfo* _ptr_rdfs_info = _rdfs_heap.pop ();
+
+        while (_ptr_rdfs_info && ! _has_color (_ptr_rdfs_info->node (), _DFSInfo::WHITE))
+        {
+          delete _ptr_rdfs_info;
+          _ptr_rdfs_info = _rdfs_heap.pop ();
+        }
+
+        return _ptr_rdfs_info;
+      }
+
+    /*
+     * Start of a new cycle of DFS. Put _node into stack,
+     * paint it with GRAY, and visit all nodes reachable
+     * from _node, i.e., execute DFS until _node is poped
+     * from the stack. Add all visited nodes (including
+     * _node) to the new SCC.
+     */
+
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      void _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_make_new_scc (_Node& _node)
+      {
+         // Put _node into the stack
+        _dfs_state_stack.insert (_DFSState (_node));
+
+        // Paint it with GRAY
+        _discover_node (_node);
+
+         // Add _node to the SCC
+        _component_list.insert (_Component (_SCCNode (_node)));
+
+        // Add _node to the new SCC
+        _ptr_component = _component_list.back ();
+
+        /*
+         * Execute DFS until _node is poped from the stack.
+         * Add all nodes reachable from _node to the new SCC
+         */
+
+        _Node* _ptr_node = NULL;
+
+        while (! _dfs_state_stack.empty ())
+        {
+          _DFSState *_ptr_state  = _dfs_state_stack.top ();
+
+          while (! _ptr_state->adj_finished ())
+          {
+            if (_has_color (_ptr_state->_adj_node (), _DFSInfo::WHITE))
+            {
+              _ptr_node = &(_ptr_state->_adj_node ());
+              _ptr_state->adj_incr ();
+              _dfs_state_stack.push (_DFSState (*_ptr_node));
+              _discover_node (*_ptr_node);
+              break;
+            }
+            else
+              _ptr_state->adj_incr ();
+          }
+
+          if (_ptr_node)
+          {
+            _ptr_component->insert (_SCCNode (*_ptr_node));
+            _ptr_node = NULL;
+          }
+          else
+          {
+            _DFSState *_ptr = _dfs_state_stack.pop ();
+            _finish_node (_ptr->node ());
+            delete _ptr;
+          }
+        }
+      }
+
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      _SCCIterator<_TpVertex, _TpEdge, _TpIterator>& _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
+      {
+        _ptr_component = NULL;
+
+        /*
+         * Get the next node with greater finish time
+         * and try to make the next SCC.
+         */
+
+        _SCC_DFSInfo* _ptr_rdfs_info = _get_node_for_new_scc ();
+
+        if (_ptr_rdfs_info)
+        {
+          _make_new_scc (_ptr_rdfs_info->node ());
+          delete _ptr_rdfs_info;
+        }
+
+        return *this;
       }
   }
 }

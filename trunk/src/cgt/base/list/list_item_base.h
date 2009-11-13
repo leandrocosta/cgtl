@@ -13,9 +13,6 @@ namespace cgt
       template<typename _TpItem>
         class _ListItem;
 
-      template<typename _TpItem, template<typename> class _TpIterator>
-        class _ListIteratorBase;
-
 
       template<typename _TpItem>
         class _ListItemBase

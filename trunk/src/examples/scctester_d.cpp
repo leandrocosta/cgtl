@@ -25,29 +25,35 @@ int main ()
   add_edge<string, int> (g, 12, "H", "J");
   add_edge<string, int> (g, 13, "J", "G");
   add_edge<string, int> (g, 14, "G", "E");
+  add_edge<string, int> (g, 15, "I", "F");
+  add_edge<string, int> (g, 16, "F", "D");
 
   mygraph::scciterator it;
   mygraph::scciterator itEnd = g.stconncomp_end ();
 
   for (it = g.stconncomp_begin (); it != itEnd; ++it)
   {
-//    cout << "first node of SCC [" << &(*it) << "], front [" << it->front () << "]" << endl;
-//    cout << "first node of SCC: " << it->front ()->vertex ().value () << endl;
-
     mygraph::scc& s = *it;
 
-    mygraph::scc::iterator it2    = s.begin ();
-    mygraph::scc::iterator it2End = s.end ();
+    mygraph::scc::const_iterator it2End = s.end ();
 
-    cout << "scc: " << it2->vertex ().value ();
+    cout << "scc:" << endl;
 
-    for (++it2; it2 != it2End; ++it2)
+    for (mygraph::scc::const_iterator it2 = s.begin (); it2 != it2End; ++it2)
     {
-      mygraph::sccnode& n = *it2;
-      cout << ", " << n.vertex ().value ();
-    }
+      const mygraph::node& n = it2->node ();
 
-    cout << endl;
+      cout << "  node: " << n.value () << endl;
+
+      mygraph::adjlist::const_iterator it3End = it2->adjlist ().end ();
+
+      for (mygraph::adjlist::const_iterator it3 = it2->adjlist ().begin (); it3 != it3End; ++it3)
+      {
+        const mygraph::edge& e = it3->edge ();
+
+        cout << "    edge (" << e.value () << ", " << e.v1 ().value () << ", " << e.v2 ().value () << ")" << endl;
+      }
+    }
   }
 
   return 0;

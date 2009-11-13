@@ -1,7 +1,7 @@
 #ifndef _GRAPH_SCC_NODE_H_
 #define _GRAPH_SCC_NODE_H_
 
-#include "../graph_vertex.h"
+#include "../graph_node.h"
 #include "../graph_adjlist.h"
 
 
@@ -14,17 +14,24 @@ namespace cgt
       {
         private:
           typedef _GraphVertex<_TpVertex>           _Vertex;
+          typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
+          typedef _GraphEdge<_TpVertex, _TpEdge>    _Edge;
           typedef _GraphAdjList<_TpVertex, _TpEdge> _AdjList;
 
         public:
-          _GraphSCCNode (const _Vertex& _v) : _vertex (_v) { }
+          _GraphSCCNode (_Node& _n) : _node (_n) { }
 
         public:
-          const _Vertex& vertex () const { return _vertex; }
+          void _insert (const _Edge& _e, _Node& _n) { _adjList._insert (_e, _n); }
+
+        public:
+          _Node& node () const { return _node; }
+          const _Vertex& vertex () const { return _node.vertex (); }
+          const _AdjList& adjlist () const { return _adjList; }
 
         private:
-          const _Vertex& _vertex;
-          _AdjList _adjList;
+          _Node&    _node;
+          _AdjList  _adjList;
       };
   }
 }

@@ -84,12 +84,6 @@ namespace cgt
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
         _DepthIterator<_TpVertex, _TpEdge, _TpIterator>& _DepthIterator<_TpVertex, _TpEdge, _TpIterator>::operator++()
         {
-          _NodeIterator _it = _it_node;
-          while (_it != _it_node_end)
-          {
-//            cout << "operator++() - node color is white: " << (_has_color (*_it, _DepthInfo::WHITE) ? "true":"false") << endl;
-            ++_it;
-          }
           /*
            * visit the adjacency list of the stack's top node:
            *  - if a WHITE node is found:
@@ -109,12 +103,10 @@ namespace cgt
 
           while (! _StateContainer.empty ())
           {
-//            cout << "container not empty" << endl;
             _DepthState *_ptr_state  = _StateContainer.top ();
 
             while (! _ptr_state->adj_finished ())
             {
-//              cout << "node " << _ptr_state->node ().vertex ().value () << " has ajdacency " << _ptr_state->_adj_node ().vertex ().value () << endl;
               if (_has_color (_ptr_state->_adj_node (), _DepthInfo::WHITE))
               {
                 _ptr_node = &(_ptr_state->_adj_node ());
@@ -129,10 +121,8 @@ namespace cgt
 
             if (! _ptr_node)
             {
-//              cout << "finish node" << endl;
               _DepthState *_ptr = _StateContainer.pop ();
               _finish_node (_ptr->node (), ++_global_time);
-//              cout << "finishing node " << _ptr->node ().vertex ().value () << " with time " << _global_time << endl;
               delete _ptr;
             }
             else
@@ -141,20 +131,11 @@ namespace cgt
 
           if (! _ptr_node)
           {
-//            cout << "trying another start" << endl;
             while (_it_node != _it_node_end && ! _has_color (*_it_node, _DepthInfo::WHITE))
-            {
-//              if (_it_node == _it_node_end)
-//                cout << "the end" << endl;
-//              else
-//                cout << "color not WHITE" << endl;
-
               ++_it_node;
-            }
 
             if (_it_node != _it_node_end)
             {
-//              cout << "another start yes" << endl;
               _ptr_node = &(*_it_node);
               _StateContainer.push (_DepthState (*_it_node));
               _discover_node (*_it_node, NULL, ++_global_time);

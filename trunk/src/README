@@ -15,7 +15,6 @@ cgt/
         prim/
     stconncomp/
     toposort/
-    strongconn/
     misc/
         (is_cyclic ?)
 

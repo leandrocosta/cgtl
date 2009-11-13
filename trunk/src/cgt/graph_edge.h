@@ -7,16 +7,16 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     class _GraphEdge
     {
-      public:
-        _GraphEdge (const _TpEdge &_e, _GraphVertex<_TpVertex> &_v1, _GraphVertex<_TpVertex> &_v2) : _value (_e), _vertex1 (_v1), _vertex2 (_v2) { }
+      private:
+        typedef _GraphVertex<_TpVertex> _Vertex;
 
       public:
-        const _TpEdge&    value () const { return _value; }
-        const _GraphVertex<_TpVertex>& v1 () const { return _vertex1; }
-        const _GraphVertex<_TpVertex>& v2 () const { return _vertex2; }
+        _GraphEdge (const _TpEdge& _e, _Vertex& _v1, _Vertex& _v2) : _value (_e), _vertex1 (_v1), _vertex2 (_v2) { }
 
-        //    const _TpVertex& v1 () const { return _vertex1.value (); }
-        //    const _TpVertex& v2 () const { return _vertex2.value (); }
+      public:
+        const _TpEdge& value () const { return _value; }
+        const _Vertex& v1 () const { return _vertex1; }
+        const _Vertex& v2 () const { return _vertex2; }
 
         const string to_string () const
         {
@@ -26,17 +26,13 @@ namespace cgt
         }
 
       private:
-        _TpEdge               _value;
-        _GraphVertex<_TpVertex>& _vertex1;
-        _GraphVertex<_TpVertex>& _vertex2;
+        _TpEdge   _value;
+        _Vertex&  _vertex1;
+        _Vertex&  _vertex2;
     };
 
   template<typename _TpVertex, typename _TpEdge>
-    class edge : public _GraphEdge<_TpVertex, _TpEdge>
-  {
-    public:
-      edge (const _TpEdge &_e, _GraphVertex<_TpVertex> &_v1, _GraphVertex<_TpVertex> &_v2) : _GraphEdge<_TpVertex, _TpEdge> (_e, _v1, _v2) { }
-  };
+    class edge : public _GraphEdge<_TpVertex, _TpEdge> { };
 }
 
 #endif

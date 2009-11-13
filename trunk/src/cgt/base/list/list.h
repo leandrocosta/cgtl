@@ -3,7 +3,6 @@
 
 #include "list_item_base.h"
 #include "list_item.h"
-#include "list_iterator_base.h"
 #include "list_iterator.h"
 #include "../alloc/allocator.h"
 
@@ -37,8 +36,15 @@ namespace cgt
             _Self& operator=(const _Self& _l);
 
           private:
-            _TpItem& _push_front (_Item *_ptr);
-            _TpItem& _push_back (_Item *_ptr);
+            _Item* _allocate (const _TpItem& _item);
+            void _deallocate (_Item* const _ptr);
+
+            _TpItem& _push_back (const _TpItem& _item);
+            _TpItem& _push_back (_Item* _ptr);
+
+            _TpItem& _push_front (const _TpItem& _item);
+            _TpItem& _push_front (_Item* _ptr);
+
             _Item* _find (const _TpItem& _item) const;
             _TpItem* _get (_Item* _ptr_item) const;
             _TpItem* _pop (_Item* _ptr_item);
@@ -93,38 +99,34 @@ namespace cgt
       template<typename _TpItem, typename _Alloc>
         _List<_TpItem, _Alloc>& _List<_TpItem, _Alloc>::operator=(const _Self& _l)
         {
-          clear ();
-//          cout << "_List::operator=(_Self&) - begin" << endl;
+          _remove_all ();
 
-          const_iterator it;
-          const_iterator itEnd = _l.end ();
-
-          for (it = _l.begin (); it != itEnd; ++it)
-          {
-            insert (*it);
-//            cout << "_List::operator=(_Self&): item: " << it->value () << ", inserted: " << back ()->value () << endl;
-          }
-
-//          cout << "_List::operator=(_Self&) - end" << endl;
+          const_iterator _itEnd = _l.end ();
+          for (const_iterator _it = _l.begin (); _it != _itEnd; ++_it)
+            insert (*_it);
 
           return *this;
         }
 
-      template<typename _TpItem, typename _Alloc>
-        _TpItem& _List<_TpItem, _Alloc>::_push_front (_Item *_ptr)
+     template<typename _TpItem, typename _Alloc>
+        _ListItem<_TpItem>* _List<_TpItem, _Alloc>::_allocate (const _TpItem& _item)
         {
-          if (! _tail)
-            _tail = _ptr;
-          else
-          {
-            _ptr->_next = _head;
-            _head->_prev = _ptr;
-          }
+          _Item* _ptr = _alloc.allocate (1);
+          _alloc.construct (_ptr, _Item (_item));
+          return _ptr;
+        }
 
-          _head = _ptr;
-          _size++;
+     template<typename _TpItem, typename _Alloc>
+        void _List<_TpItem, _Alloc>::_deallocate (_Item* const _ptr)
+        {
+          _alloc.destroy (_ptr);
+          _alloc.deallocate (_ptr, 1);
+        }
 
-          return _ptr->_data;
+      template<typename _TpItem, typename _Alloc>
+        _TpItem& _List<_TpItem, _Alloc>::_push_back (const _TpItem& _item)
+        {
+          return _push_back (_allocate (_item));
         }
 
       template<typename _TpItem, typename _Alloc>
@@ -139,6 +141,29 @@ namespace cgt
           }
 
           _tail = _ptr;
+          _size++;
+
+          return _ptr->_data;
+        }
+
+      template<typename _TpItem, typename _Alloc>
+        _TpItem& _List<_TpItem, _Alloc>::_push_front (const _TpItem& _item)
+        {
+          return _push_front (_allocate (_item));
+        }
+
+       template<typename _TpItem, typename _Alloc>
+        _TpItem& _List<_TpItem, _Alloc>::_push_front (_Item *_ptr)
+        {
+          if (! _tail)
+            _tail = _ptr;
+          else
+          {
+            _ptr->_next = _head;
+            _head->_prev = _ptr;
+          }
+
+          _head = _ptr;
           _size++;
 
           return _ptr->_data;
@@ -175,8 +200,7 @@ namespace cgt
           {
             _unlink (_ptr_item);
             _ptr = new _TpItem (_ptr_item->_data);
-            _alloc.destroy (_ptr_item);
-            _alloc.deallocate (_ptr_item, 1);
+            _deallocate (_ptr_item);
           }
 
           return _ptr;
@@ -204,8 +228,7 @@ namespace cgt
           if (_ptr)
           {
             _unlink (_ptr);
-            _alloc.destroy (_ptr);
-            _alloc.deallocate (_ptr, 1);
+            _deallocate (_ptr);
           }
         }
 
@@ -219,25 +242,19 @@ namespace cgt
       template<typename _TpItem, typename _Alloc>
         _TpItem& _List<_TpItem, _Alloc>::insert (const _TpItem& _item)
         {
-          _Item* _ptr = _alloc.allocate (1);
-          _alloc.construct (_ptr, _Item (_item));
-          return _push_back (_ptr);
+          return _push_back (_item);
         }
 
       template<typename _TpItem, typename _Alloc>
         _TpItem& _List<_TpItem, _Alloc>::push_front (const _TpItem& _item)
         {
-          _Item* _ptr = _alloc.allocate (1);
-          _alloc.construct (_ptr, _Item (_item));
-          return _push_front (_ptr);
+          return _push_front (_item);
         }
 
       template<typename _TpItem, typename _Alloc>
         _TpItem& _List<_TpItem, _Alloc>::push_back (const _TpItem& _item)
         {
-          _Item* _ptr = _alloc.allocate (1);
-          _alloc.construct (_ptr, _Item (_item));
-          return _push_back (_ptr);
+          return _push_back (_item);
         }
 
       template<typename _TpItem, typename _Alloc>
@@ -387,7 +404,6 @@ namespace cgt
         {
           _remove_all ();
         }
-
 
       template<typename _TpItem, typename _Alloc>
         void _List<_TpItem, _Alloc>::swap (_Self& _list1, _Self& _list2)
