@@ -39,37 +39,21 @@ namespace cgt
             _Item* _allocate (const _TpItem& _item);
             void _deallocate (_Item* const _ptr);
 
-            _TpItem& _push_back (const _TpItem& _item);
             _TpItem& _push_back (_Item* _ptr);
-
-            _TpItem& _push_front (const _TpItem& _item);
             _TpItem& _push_front (_Item* _ptr);
 
-            _Item* _find (const _TpItem& _item) const;
-            _TpItem* _get (_Item* _ptr_item) const;
-            _TpItem* _pop (_Item* _ptr_item);
             void _unlink (const _Item* const _ptr);
             void _remove (_Item* _ptr);
-            void _remove_all ();
 
-          public:
-            _TpItem& insert (const _TpItem& _item);
-            _TpItem& push_front (const _TpItem& _item);
-            _TpItem& push_back (const _TpItem& _item);
-            _TpItem* pop_front ();
-            _TpItem* pop_back ();
-            _TpItem* front ();
-            const _TpItem* const front () const;
-            _TpItem* back ();
-            const _TpItem* const back () const;
-            void remove (const _TpItem& _item);
-            void clear ();
-
-            const unsigned long size () const;
-            const bool empty () const;
-
-          private:
             void _rebuild_heap (unsigned int i, _TpItem* _arrayItem[]);
+
+          protected:
+            _TpItem& _push_front (const _TpItem& _item);
+            _TpItem& _push_back (const _TpItem& _item);
+            _TpItem* _pop (_Item* _ptr_item);
+            _TpItem* _get (_Item* _ptr_item) const;
+            _Item* _find (const _TpItem& _item) const;
+            void _remove_all ();
 
           public:
             void make_heap ();
@@ -82,18 +66,15 @@ namespace cgt
             const_iterator end () const { return const_iterator (NULL); }
 
           public:
-            iterator find (const _TpItem& _item);
-            const_iterator find (const _TpItem& _item) const;
-
-          public:
             static void swap (_Self& _list1, _Self& _list2);
 
           private:
-            _Item*        _head;
-            _Item*        _tail;
-            unsigned long _size;
-
             allocator_type  _alloc;
+
+          protected:
+            _Item*  _head;
+            _Item*  _tail;
+            size_t  _size;
         };
 
       template<typename _TpItem, typename _Alloc>
@@ -103,7 +84,7 @@ namespace cgt
 
           const_iterator _itEnd = _l.end ();
           for (const_iterator _it = _l.begin (); _it != _itEnd; ++_it)
-            insert (*_it);
+            _push_back (*_it);
 
           return *this;
         }
@@ -240,72 +221,6 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        _TpItem& _List<_TpItem, _Alloc>::insert (const _TpItem& _item)
-        {
-          return _push_back (_item);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _TpItem& _List<_TpItem, _Alloc>::push_front (const _TpItem& _item)
-        {
-          return _push_front (_item);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _TpItem& _List<_TpItem, _Alloc>::push_back (const _TpItem& _item)
-        {
-          return _push_back (_item);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _TpItem* _List<_TpItem, _Alloc>::pop_front ()
-        {
-          return _pop (_head);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _TpItem* _List<_TpItem, _Alloc>::pop_back ()
-        {
-          return _pop (_tail);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        const _TpItem* const _List<_TpItem, _Alloc>::front () const
-        {
-          return _get (_head);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _TpItem* _List<_TpItem, _Alloc>::front ()
-        {
-          return _get (_head);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _TpItem* _List<_TpItem, _Alloc>::back ()
-        {
-          return _get (_tail);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        const _TpItem* const _List<_TpItem, _Alloc>::back () const
-        {
-          return _get (_tail);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        const unsigned long _List<_TpItem, _Alloc>::size () const
-        {
-          return _size;
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        const bool _List<_TpItem, _Alloc>::empty () const
-        {
-          return (! _head);
-        }
-
-      template<typename _TpItem, typename _Alloc>
         void _List<_TpItem, _Alloc>::make_heap ()
         {
           _TpItem* _arrayItem [_size];
@@ -382,30 +297,6 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        _ListIterator<_TpItem> _List<_TpItem, _Alloc>::find (const _TpItem& _item)
-        {
-          return iterator (_find (_item));
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        _ListIterator<_TpItem, _TpConst> _List<_TpItem, _Alloc>::find (const _TpItem& _item) const
-        {
-          return const_iterator (_find (_item));
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        void _List<_TpItem, _Alloc>::remove (const _TpItem& _item)
-        {
-          _remove (_find (_item));
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        void _List<_TpItem, _Alloc>::clear ()
-        {
-          _remove_all ();
-        }
-
-      template<typename _TpItem, typename _Alloc>
         void _List<_TpItem, _Alloc>::swap (_Self& _list1, _Self& _list2)
         {
           _Item* _p = _list1._head;
@@ -422,7 +313,32 @@ namespace cgt
         }
 
       template<typename _TpItem>
-        class list : public _List<_TpItem> { };
+        class list : public _List<_TpItem>
+      {
+        private:
+          typedef _List<_TpItem> _Base;
+
+        public:
+          list () : _Base () { }
+          list (const list& _l) : _Base (_l) { }
+
+        public:
+          _TpItem& insert (const _TpItem& _item) { return _Base::_push_back (_item); }
+          _TpItem& push_front (const _TpItem& _item) { return _Base::_push_front (_item); }
+          _TpItem& push_back (const _TpItem& _item) { return _Base::_push_back (_item); }
+          _TpItem* pop_front () { return _pop (_Base::_head); }
+          _TpItem* pop_back () {return _pop (_Base::_tail); }
+          _TpItem* front () { return _get (_Base::_head); }
+          const _TpItem* const front () const { return _get (_Base::_head); }
+          _TpItem* back () {return _get (_Base::_tail); }
+          const _TpItem* const back () const { return _get (_Base::_tail); }
+          void remove (const _TpItem& _item) { _Base::_remove (_Base::_find (_item)); }
+          void clear () { _Base::_remove_all (); }
+          const size_t size () const { return _Base::_size; }
+          const bool empty () const { return (! _Base::_size); }
+          typename _Base::iterator find (const _TpItem& _item) { return typename _Base::iterator (_Base::_find (_item)); }
+          typename _Base::const_iterator find (const _TpItem& _item) const { return typename _Base::const_iterator (_Base::_find (_item)); }
+      };
     }
   }
 }

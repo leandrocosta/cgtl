@@ -4,8 +4,8 @@
 #include "../search_iterator.h"
 using namespace cgt::search;
 
-#include "../../base/queue/queue.h"
-using namespace cgt::base::queue;
+#include "../../base/queue.h"
+using namespace cgt::base;
 
 
 namespace cgt
@@ -41,7 +41,7 @@ namespace cgt
        */
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
-        class _BreadthIterator : public _SearchIterator<_TpVertex, _TpEdge, _Queue, _TpIterator>
+        class _BreadthIterator : public _SearchIterator<_TpVertex, _TpEdge, queue, _TpIterator>
       {
         public:
           typedef _SearchInfo<_TpVertex, _TpEdge> _BreadthInfo;
@@ -50,11 +50,11 @@ namespace cgt
           typedef _BreadthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
           typedef _BreadthIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
           typedef _GraphNode<_TpVertex, _TpEdge>                    _Node;
-          typedef typename _List<_Node>::iterator                   _NodeIterator;
+          typedef typename cgt::base::list::list<_Node>::iterator                    _NodeIterator;
           typedef _SearchState<_TpVertex, _TpEdge>                  _BreadthState;
 
         private:
-          typedef _SearchIterator<_TpVertex, _TpEdge, _Queue, _TpIterator> _Base;
+          typedef _SearchIterator<_TpVertex, _TpEdge, queue, _TpIterator> _Base;
 
         private:
           using _Base::_ptr_node;
@@ -77,8 +77,8 @@ namespace cgt
           const _BreadthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (*_ptr_node); }
           const _BreadthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
-          typename _List<_BreadthInfo>::iterator info_begin () { return _InfoList.begin (); }
-          typename _List<_BreadthInfo>::iterator info_end () { return _InfoList.end (); }
+          typename cgt::base::list::list<_BreadthInfo>::iterator info_begin () { return _InfoList.begin (); }
+          typename cgt::base::list::list<_BreadthInfo>::iterator info_end () { return _InfoList.end (); }
       };
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>

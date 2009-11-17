@@ -36,21 +36,24 @@ namespace cgt
           typedef _SCCIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
 
         private:
-          typedef _GraphSCCComponent<_TpVertex, _TpEdge>  _Component;
-          typedef _List<_Component>                       _ComponentList;
-          typedef typename _ComponentList::const_iterator _ComponentIterator;
           typedef _GraphNode<_TpVertex, _TpEdge>          _Node;
-          typedef typename _List<_Node>::iterator         _NodeIterator;
+          typedef typename cgt::base::list::list<_Node>   _NodeList;
+          typedef typename _NodeList::iterator            _NodeIterator;
+
+          typedef _GraphSCCComponent<_TpVertex, _TpEdge>  _Component;
+          typedef cgt::base::list::list<_Component>       _ComponentList;
+          typedef typename _ComponentList::const_iterator _ComponentIterator;
+
           typedef _GraphSCCNode<_TpVertex, _TpEdge>       _SCCNode;
 
           typedef _DepthIterator<_TpVertex, _TpEdge, _TpConst>  _DFSIterator;
           typedef typename _DFSIterator::_DepthInfo             _DFSInfo;
-          typedef _List<_DFSInfo>                               _DFSInfoList;
+          typedef cgt::base::list::list<_DFSInfo>               _DFSInfoList;
           typedef typename _DFSInfoList::iterator               _DFSInfoIterator;
           typedef typename _DFSInfoList::const_iterator         _DFSInfoCIterator;
           typedef typename _DFSInfo::_color_t                   _DFSColor;
           typedef typename _DFSIterator::_DepthState            _DFSState;
-          typedef _Stack<_DFSState>                             _DFSStateStack;
+          typedef cgt::base::stack<_DFSState>                   _DFSStateStack;
 
           typedef cgt::base::heap::_Heap<_SCC_DFSInfo>  _SCC_DFSInfoHeap;
           typedef typename _SCC_DFSInfoHeap::iterator   _SCC_DFSInfoHeapIterator;

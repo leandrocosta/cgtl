@@ -19,10 +19,6 @@ namespace cgt
 
           protected:
             virtual void _incr () = 0;
-
-          protected:
-            virtual const bool operator==(const _Self&) const { return false; }
-            virtual const bool operator!=(const _Self&) const { return false; }
         };
     }
   }

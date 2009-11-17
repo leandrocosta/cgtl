@@ -12,12 +12,12 @@ namespace cgt
     namespace heap
     {
       template<typename _TpItem, typename _Alloc = _Allocator<_TpItem> >
-        class _Heap : private _Vector<_TpItem, _Alloc>
+        class _Heap : private cgt::base::vector::vector<_TpItem, _Alloc>
       {
         private:
-          typedef _Vector<_TpItem, _Alloc>        _Base;
-          typedef typename _Base::iterator        _Iterator;
-          typedef typename _Base::const_iterator  _ConstIterator;
+          typedef cgt::base::vector::vector<_TpItem, _Alloc>  _Base;
+          typedef typename _Base::iterator                    _Iterator;
+          typedef typename _Base::const_iterator              _ConstIterator;
 
         public:
           using _Base::find;

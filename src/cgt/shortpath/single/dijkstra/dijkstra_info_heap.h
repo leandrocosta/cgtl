@@ -31,7 +31,6 @@ namespace cgt
           private:
             using _Base::begin;
             using _Base::end;
-            using _Base::empty;
             using _Base::modify_by;
 
           public:

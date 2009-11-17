@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.60)
+AC_PREREQ(2.57)
 AC_INIT(cgtl, 0.01, leandro.costa@gmail.com)
-AC_CONFIG_SRCDIR([src/cgt/adjacency.h])
+AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADER([config.h])
 AM_INIT_AUTOMAKE
 
