@@ -15,7 +15,7 @@ namespace cgt
 
 
   template<typename _TpVertex, typename _TpEdge>
-    class _GraphAdjList : public _List<_GraphAdjacency<_TpVertex, _TpEdge> >
+    class _GraphAdjList : public list<_GraphAdjacency<_TpVertex, _TpEdge> >
   {
     private:
       typedef _GraphAdjList<_TpVertex, _TpEdge>   _Self;
@@ -23,7 +23,7 @@ namespace cgt
       typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
       typedef _GraphVertex<_TpVertex>             _Vertex;
       typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
-      typedef _List<_Adjacency>                   _Base;
+      typedef list<_Adjacency>                    _Base;
       typedef typename _Base::const_iterator      _Iterator;
 
     public:

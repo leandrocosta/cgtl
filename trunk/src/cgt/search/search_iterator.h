@@ -5,9 +5,6 @@
 #include "search_state.h"
 #include "search_info.h"
 
-#include "../base/stack/stack.h"
-using namespace cgt::base::stack;
-
 
 namespace cgt
 {
@@ -22,11 +19,11 @@ namespace cgt
 
         private:
           typedef _SearchInfo<_TpVertex, _TpEdge> _Info;
-          typedef typename _List<_Info>::iterator _InfoIterator;
+          typedef typename list<_Info>::iterator  _InfoIterator;
 
         protected:
           typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
-          typedef typename _List<_Node>::iterator   _NodeIterator;
+          typedef typename list<_Node>::iterator    _NodeIterator;
           typedef _SearchState<_TpVertex, _TpEdge>  _State;
 
         protected:
@@ -63,7 +60,7 @@ namespace cgt
           _Node*                    _ptr_node;
           _NodeIterator             _it_node;
           _NodeIterator             _it_node_end;
-          _List<_Info>              _InfoList;
+          list<_Info>               _InfoList;
           _TpStateContainer<_State> _StateContainer;
 
           unsigned long             _global_time;
@@ -145,8 +142,8 @@ namespace cgt
       {
         bool bRet = false;
 
-        typename _List<_Info>::const_iterator it;
-        typename _List<_Info>::const_iterator itEnd = _InfoList.end ();
+        typename list<_Info>::const_iterator it;
+        typename list<_Info>::const_iterator itEnd = _InfoList.end ();
 
         for (it = _InfoList.begin (); it != itEnd; ++it)
         {

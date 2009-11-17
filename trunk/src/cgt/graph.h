@@ -45,20 +45,20 @@ namespace cgt
       typedef _VertexIterator<_TpVertex, _TpEdge>           viterator;
       typedef _VertexIterator<_TpVertex, _TpEdge, _TpConst> const_viterator;
 
-      typedef typename _List<edge>::iterator                eiterator;
-      typedef typename _List<edge>::const_iterator          const_eiterator;
+      typedef typename cgt::base::list::list<edge>::iterator                eiterator;
+      typedef typename cgt::base::list::list<edge>::const_iterator          const_eiterator;
 
       typedef _DepthIterator<_TpVertex, _TpEdge>            diterator;
       typedef _DepthIterator<_TpVertex, _TpEdge, _TpConst>  const_diterator;
 
-      typedef typename _List<typename diterator::_DepthInfo>::iterator       diiterator;
-      typedef typename _List<typename diterator::_DepthInfo>::const_iterator const_diiterator;
+      typedef typename cgt::base::list::list<typename diterator::_DepthInfo>::iterator       diiterator;
+      typedef typename cgt::base::list::list<typename diterator::_DepthInfo>::const_iterator const_diiterator;
 
       typedef _BreadthIterator<_TpVertex, _TpEdge>            biterator;
       typedef _BreadthIterator<_TpVertex, _TpEdge, _TpConst>  const_biterator;
 
-      typedef typename _List<typename biterator::_BreadthInfo>::iterator       biiterator;
-      typedef typename _List<typename biterator::_BreadthInfo>::const_iterator const_biiterator;
+      typedef typename cgt::base::list::list<typename biterator::_BreadthInfo>::iterator       biiterator;
+      typedef typename cgt::base::list::list<typename biterator::_BreadthInfo>::const_iterator const_biiterator;
 
       typedef typename diterator::_DepthInfo    depth_info;
       typedef typename biterator::_BreadthInfo  breadth_info;
@@ -66,8 +66,8 @@ namespace cgt
       typedef _DijkstraIterator<_TpVertex, _TpEdge>           djiterator;
       typedef _DijkstraIterator<_TpVertex, _TpEdge, _TpConst> const_djiterator;
 
-      typedef typename _List<typename djiterator::_DijkstraInfo>::iterator       djiiterator;
-      typedef typename _List<typename djiterator::_DijkstraInfo>::const_iterator const_djiiterator;
+      typedef typename cgt::base::list::list<typename djiterator::_DijkstraInfo>::iterator       djiiterator;
+      typedef typename cgt::base::list::list<typename djiterator::_DijkstraInfo>::const_iterator const_djiiterator;
 
       typedef typename djiterator::_DijkstraInfo  dijkstra_info;
 

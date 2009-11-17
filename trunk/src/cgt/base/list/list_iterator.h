@@ -16,10 +16,13 @@ namespace cgt
         class _ListIterator : public _IteratorPtr<_ListItemBase<_TpItem>, _TpIterator>
       {
         private:
-          typedef _IteratorPtr<_ListItemBase<_TpItem>, _TpIterator> _Base;
-          typedef _ListIterator<_TpItem, _TpIterator>       _Self;
-          typedef _ListIterator<_TpItem, _TpCommon>         _SelfCommon;
-          typedef _ListItem<_TpItem>                        _Item;
+          typedef _ListItemBase<_TpItem>                _ItemBase;
+          typedef _IteratorPtr<_ItemBase, _TpIterator>  _Base;
+          typedef _ListIterator<_TpItem, _TpIterator>   _Self;
+          typedef _ListIterator<_TpItem, _TpCommon>     _SelfCommon;
+          typedef _ListItem<_TpItem>                    _Item;
+
+        private:
           typedef typename _TpIterator<_TpItem>::pointer    pointer;
           typedef typename _TpIterator<_TpItem>::reference  reference;
 

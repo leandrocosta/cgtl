@@ -4,8 +4,7 @@
 #include "../search_iterator.h"
 using namespace cgt::search;
 
-#include "../../base/stack/stack.h"
-using namespace cgt::base::stack;
+#include "../../base/stack.h"
 
 
 namespace cgt
@@ -41,7 +40,7 @@ namespace cgt
        */
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
-        class _DepthIterator : public _SearchIterator<_TpVertex, _TpEdge, _Stack, _TpIterator>
+        class _DepthIterator : public _SearchIterator<_TpVertex, _TpEdge, cgt::base::stack, _TpIterator>
       {
         public:
           typedef _SearchInfo<_TpVertex, _TpEdge>   _DepthInfo;
@@ -54,7 +53,7 @@ namespace cgt
           typedef typename _List<_Node>::iterator                 _NodeIterator;
 
         private:
-          typedef _SearchIterator<_TpVertex, _TpEdge, _Stack, _TpIterator> _Base;
+          typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::stack, _TpIterator> _Base;
 
         private:
           using _Base::_ptr_node;

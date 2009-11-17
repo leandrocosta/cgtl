@@ -4,7 +4,6 @@
 #include "../../../graph_node.h"
 #include "dijkstra_info.h"
 #include "../../../base/list/list.h"
-using namespace cgt::base::list;
 
 
 namespace cgt
@@ -16,14 +15,14 @@ namespace cgt
       namespace dijkstra
       {
         template<typename _TpVertex, typename _TpEdge>
-          class _DijkstraInfoList : public _List<_DijkstraInfo<_TpVertex, _TpEdge> >
+          class _DijkstraInfoList : public cgt::base::list::list<_DijkstraInfo<_TpVertex, _TpEdge> >
         {
           private:
-            typedef _DijkstraInfoList<_TpVertex, _TpEdge>     _Self;
-            typedef _List<_DijkstraInfo<_TpVertex, _TpEdge> > _Base;
+            typedef _DijkstraInfo<_TpVertex, _TpEdge>     _Info;
+            typedef _DijkstraInfoList<_TpVertex, _TpEdge> _Self;
+            typedef cgt::base::list::list<_Info>                           _Base;
 
           private:
-            typedef _DijkstraInfo<_TpVertex, _TpEdge> _Info;
             typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
             typedef _GraphEdge<_TpVertex, _TpEdge>    _Edge;
             typedef typename _Base::iterator          _Iterator;

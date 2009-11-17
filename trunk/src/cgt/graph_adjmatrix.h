@@ -16,7 +16,7 @@ namespace cgt
 
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
-    class _GraphAdjMatrix : private _List<_GraphNode<_TpVertex, _TpEdge> >
+    class _GraphAdjMatrix : private list<_GraphNode<_TpVertex, _TpEdge> >
   {
     private:
       friend class graph<_TpVertex, _TpEdge, _TpGraphType>;
@@ -28,7 +28,7 @@ namespace cgt
       typedef _GraphNode<_TpVertex, _TpEdge>  _Node;
       typedef _GraphEdge<_TpVertex, _TpEdge>  _Edge;
       typedef _GraphVertex<_TpVertex>         _Vertex;
-      typedef _List<_Node>                    _Base;
+      typedef list<_Node>                     _Base;
 
     private:
       _Node* _get_node (const _TpVertex &_vertex);
@@ -59,7 +59,7 @@ namespace cgt
        *    edge and use it twice in undirected graphs.
        */
 
-      _List<_Edge>  _edge_list;
+      list<_Edge>  _edge_list;
   };
 
 
@@ -84,7 +84,7 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
-    typename _List<_GraphNode<_TpVertex, _TpEdge> >::iterator _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_find (const _TpVertex &_vertex)
+    typename list<_GraphNode<_TpVertex, _TpEdge> >::iterator _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_find (const _TpVertex &_vertex)
     {
       typename _Base::iterator it    = _Base::begin ();
       typename _Base::iterator itEnd = _Base::end ();

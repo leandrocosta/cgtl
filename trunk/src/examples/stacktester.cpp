@@ -1,8 +1,8 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/stack/stack.h"
-using namespace cgt::base::stack;
+#include "../cgt/base/stack.h"
+using namespace cgt::base;
 
 int main ()
 {

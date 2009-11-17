@@ -26,8 +26,8 @@ namespace cgt
               typedef _DijkstraInfoHeap<_TpVertex, _TpEdge> _InfoHeap;
               typedef _GraphNode<_TpVertex, _TpEdge>        _Node;
               typedef _GraphAdjList<_TpVertex, _TpEdge>     _AdjList;
-              typedef typename _List<_Node>::iterator       _NodeIterator;
-              typedef typename _List<_Info>::iterator       _InfoIterator;
+              typedef typename cgt::base::list::list<_Node>::iterator        _NodeIterator;
+              typedef typename cgt::base::list::list<_Info>::iterator        _InfoIterator;
               typedef typename _AdjList::const_iterator     _AdjListIterator;
 
             public:

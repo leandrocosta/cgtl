@@ -26,26 +26,29 @@ namespace cgt
             typedef typename _Alloc::template rebind<_TpItem>::other allocator_type;
 
           public:
-            _Vector () : _size (0), _bufsize (1) { _init (); }
-            _Vector (const _Self& _v) : _size (0), _bufsize (1) { _init (); *this = _v; }
+            _Vector () : _bufsize (1), _size (0) { _init (); }
+            _Vector (const _Self& _v) : _bufsize (1), _size (0) { _init (); *this = _v; }
             virtual ~_Vector () { _remove_all (); free (_array); }
 
           public:
             _Self& operator=(const _Self& _v);
 
           private:
+            _TpItem* _allocate (const _TpItem& _item);
+            void _deallocate (_TpItem* const _ptr);
+
+          private:
             void _init ();
-            void _remove_all ();
             void _increase ();
             void _swap (_TpItem** _ptr1, _TpItem** _ptr2);
+
+          protected:
+            void _remove_all ();
 
           public:
             void push_back (const _TpItem& _item);
             _TpItem* pop_back ();
             iterator find (const _TpItem& _item);
-            const bool empty () const;
-            const size_t size () const;
-            void clear ();
 
           private:
             void _rebuild_heap (size_t _pos);
@@ -66,10 +69,12 @@ namespace cgt
             _TpItem** _array;
             _TpItem** _head;
             _TpItem** _tail;
-            size_t    _size;
             size_t    _bufsize;
 
             allocator_type  _alloc;
+
+          protected:
+            size_t    _size;
         };
 
 
@@ -84,25 +89,36 @@ namespace cgt
       template<typename _TpItem, typename _Alloc>
         _Vector<_TpItem, _Alloc>& _Vector<_TpItem, _Alloc>::operator=(const _Self& _l)
         {
-          clear ();
+          _remove_all ();
 
-          const_iterator it;
           const_iterator itEnd = _l.end ();
-
-          for (it = _l.begin (); it != itEnd; ++it)
-            push_back (*it);
+          for (const_iterator _it = _l.begin (); _it != itEnd; ++_it)
+            push_back (*_it);
 
           return *this;
         }
+
+     template<typename _TpItem, typename _Alloc>
+        _TpItem* _Vector<_TpItem, _Alloc>::_allocate (const _TpItem& _item)
+        {
+          _TpItem* _ptr = _alloc.allocate (1);
+          _alloc.construct (_ptr, _TpItem (_item));
+          return _ptr;
+        }
+
+     template<typename _TpItem, typename _Alloc>
+        void _Vector<_TpItem, _Alloc>::_deallocate (_TpItem* const _ptr)
+        {
+          _alloc.destroy (_ptr);
+          _alloc.deallocate (_ptr, 1);
+        }
+
 
       template<typename _TpItem, typename _Alloc>
         void _Vector<_TpItem, _Alloc>::_remove_all ()
         {
           for (size_t i = 0; i < _size; i++)
-          {
-            _alloc.destroy (_array [i]);
-            _alloc.deallocate (_array [i], 1);
-          }
+            _deallocate (_array [i]);
 
           _tail = _head;
           _size = 0;
@@ -131,8 +147,7 @@ namespace cgt
           if (_size == _bufsize)
             _increase ();
 
-          *_tail  = _alloc.allocate (1);
-          _alloc.construct (*_tail, _item);
+          *_tail = _allocate (_item);
 
           _tail++;
           _size++;
@@ -166,24 +181,6 @@ namespace cgt
               break;
 
           return it;
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        const bool _Vector<_TpItem, _Alloc>::empty () const
-        {
-          return (! _size);
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        const size_t _Vector<_TpItem, _Alloc>::size () const
-        {
-          return _size;
-        }
-
-      template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::clear ()
-        {
-          _remove_all ();
         }
 
       template<typename _TpItem, typename _Alloc>
@@ -267,8 +264,21 @@ namespace cgt
           _array[_child] = _ptr;
         }
 
-      template<typename _TpItem>
-        class vector : public _Vector<_TpItem> { };
+      template<typename _TpItem, typename _Alloc = _Allocator<_TpItem> >
+        class vector : public _Vector<_TpItem, _Alloc>
+      {
+        private:
+          typedef _Vector<_TpItem>  _Base;
+
+        public:
+          vector () : _Base () { }
+          vector (const vector& _v) : _Base (_v) { }
+
+        public:
+          void clear () { _Base::_remove_all (); }
+          const size_t size () const { return _Base::_size; }
+          const bool empty () const { return (! _Base::_size); }
+      };
     }
   }
 }
