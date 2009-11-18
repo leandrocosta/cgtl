@@ -3,7 +3,6 @@
 
 #include "vector_iterator.h"
 #include "../alloc/allocator.h"
-using namespace cgt::base::alloc;
 
 
 namespace cgt
@@ -12,11 +11,11 @@ namespace cgt
   {
     namespace vector
     {
-      template<typename _TpItem, typename _Alloc = _Allocator<_TpItem> >
-        class _Vector
+      template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
+        class vector
         {
           private:
-            typedef _Vector<_TpItem, _Alloc>  _Self;
+            typedef vector<_TpItem, _Alloc>  _Self;
 
           public:
             typedef _VectorIterator<_TpItem>            iterator;
@@ -26,9 +25,9 @@ namespace cgt
             typedef typename _Alloc::template rebind<_TpItem>::other allocator_type;
 
           public:
-            _Vector () : _bufsize (1), _size (0) { _init (); }
-            _Vector (const _Self& _v) : _bufsize (1), _size (0) { _init (); *this = _v; }
-            virtual ~_Vector () { _remove_all (); free (_array); }
+            vector () : _bufsize (1), _size (0) { _init (); }
+            vector (const _Self& _v) : _bufsize (1), _size (0) { _init (); *this = _v; }
+            virtual ~vector () { _remove_all (); free (_array); }
 
           public:
             _Self& operator=(const _Self& _v);
@@ -46,12 +45,19 @@ namespace cgt
             void _remove_all ();
 
           public:
+            void clear () { _remove_all (); }
+            const size_t size () const { return _size; }
+            const bool empty () const { return (! _size); }
+
             void push_back (const _TpItem& _item);
             _TpItem* pop_back ();
             iterator find (const _TpItem& _item);
 
           private:
             void _rebuild_heap (size_t _pos);
+
+          protected:
+            virtual const bool _violates_heap (const _TpItem& _i1, const _TpItem& _i2) const;
 
           public:
             void make_heap ();
@@ -79,7 +85,7 @@ namespace cgt
 
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::_init ()
+        void vector<_TpItem, _Alloc>::_init ()
         {
           _array = (_TpItem **) malloc (_bufsize * sizeof (_TpItem **));
           _head = _array;
@@ -87,7 +93,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        _Vector<_TpItem, _Alloc>& _Vector<_TpItem, _Alloc>::operator=(const _Self& _l)
+        vector<_TpItem, _Alloc>& vector<_TpItem, _Alloc>::operator=(const _Self& _l)
         {
           _remove_all ();
 
@@ -99,7 +105,7 @@ namespace cgt
         }
 
      template<typename _TpItem, typename _Alloc>
-        _TpItem* _Vector<_TpItem, _Alloc>::_allocate (const _TpItem& _item)
+        _TpItem* vector<_TpItem, _Alloc>::_allocate (const _TpItem& _item)
         {
           _TpItem* _ptr = _alloc.allocate (1);
           _alloc.construct (_ptr, _TpItem (_item));
@@ -107,7 +113,7 @@ namespace cgt
         }
 
      template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::_deallocate (_TpItem* const _ptr)
+        void vector<_TpItem, _Alloc>::_deallocate (_TpItem* const _ptr)
         {
           _alloc.destroy (_ptr);
           _alloc.deallocate (_ptr, 1);
@@ -115,7 +121,7 @@ namespace cgt
 
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::_remove_all ()
+        void vector<_TpItem, _Alloc>::_remove_all ()
         {
           for (size_t i = 0; i < _size; i++)
             _deallocate (_array [i]);
@@ -125,7 +131,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::_increase ()
+        void vector<_TpItem, _Alloc>::_increase ()
         {
           _bufsize *= 2;
           _array = (_TpItem **) realloc (_array, _bufsize * sizeof (_TpItem **));
@@ -134,7 +140,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::_swap (_TpItem** _ptr1, _TpItem** _ptr2)
+        void vector<_TpItem, _Alloc>::_swap (_TpItem** _ptr1, _TpItem** _ptr2)
         {
           _TpItem* _p = *_ptr1;
           *_ptr1 = *_ptr2;
@@ -142,7 +148,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::push_back (const _TpItem& _item)
+        void vector<_TpItem, _Alloc>::push_back (const _TpItem& _item)
         {
           if (_size == _bufsize)
             _increase ();
@@ -154,7 +160,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        _TpItem* _Vector<_TpItem, _Alloc>::pop_back ()
+        _TpItem* vector<_TpItem, _Alloc>::pop_back ()
         {
           _TpItem* _ptr = NULL;
 
@@ -171,7 +177,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        _VectorIterator<_TpItem> _Vector<_TpItem, _Alloc>::find (const _TpItem& _item)
+        _VectorIterator<_TpItem> vector<_TpItem, _Alloc>::find (const _TpItem& _item)
         {
           iterator it;
           iterator itEnd = end ();
@@ -184,7 +190,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::make_heap ()
+        void vector<_TpItem, _Alloc>::make_heap ()
         {
           size_t _pos = _size/2;
 
@@ -193,7 +199,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::_rebuild_heap (size_t _pos)
+        void vector<_TpItem, _Alloc>::_rebuild_heap (size_t _pos)
         {
           _TpItem* _ptr = _array [_pos];
           size_t k = 2*_pos+1;
@@ -203,7 +209,7 @@ namespace cgt
             if (k+1 < _size && *_array[k+1] < *_array[k])
               k++;
 
-            if (*(_array[k]) < *_ptr)
+            if (_violates_heap (*(_array[k]), *_ptr))
             {
               _array[_pos] = _array[k];
               _pos = k;
@@ -217,13 +223,19 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::rebuild_heap (size_t _pos)
+        const bool vector<_TpItem, _Alloc>::_violates_heap (const _TpItem& _i1, const _TpItem& _i2) const
+        {
+          return (_i1 < _i2);
+        }
+
+      template<typename _TpItem, typename _Alloc>
+        void vector<_TpItem, _Alloc>::rebuild_heap (size_t _pos)
         {
           _rebuild_heap (_pos);
         }
 
       template<typename _TpItem, typename _Alloc>
-        _TpItem* _Vector<_TpItem, _Alloc>::pop_heap ()
+        _TpItem* vector<_TpItem, _Alloc>::pop_heap ()
         {
           _TpItem* _ptr = NULL;
 
@@ -240,7 +252,7 @@ namespace cgt
         }
 
       template<typename _TpItem, typename _Alloc>
-        void _Vector<_TpItem, _Alloc>::push_heap (const _TpItem& _item)
+        void vector<_TpItem, _Alloc>::push_heap (const _TpItem& _item)
         {
           push_back (_item);
 
@@ -252,7 +264,7 @@ namespace cgt
           {
             _parent = (_child-1)/2;
 
-            if (*_ptr < *_array[_parent])
+            if (_violates_heap (*_ptr, *_array[_parent]))
             {
               _array[_child] = _array[_parent];
               _child = _parent;
@@ -263,22 +275,6 @@ namespace cgt
 
           _array[_child] = _ptr;
         }
-
-      template<typename _TpItem, typename _Alloc = _Allocator<_TpItem> >
-        class vector : public _Vector<_TpItem, _Alloc>
-      {
-        private:
-          typedef _Vector<_TpItem>  _Base;
-
-        public:
-          vector () : _Base () { }
-          vector (const vector& _v) : _Base (_v) { }
-
-        public:
-          void clear () { _Base::_remove_all (); }
-          const size_t size () const { return _Base::_size; }
-          const bool empty () const { return (! _Base::_size); }
-      };
     }
   }
 }

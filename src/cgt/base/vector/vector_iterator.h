@@ -4,6 +4,8 @@
 #include "../iterator/iterator_type.h"
 using namespace cgt::base::iterator;
 
+#include "../iterator/iterator_ptr.h"
+
 
 namespace cgt
 {
@@ -12,40 +14,38 @@ namespace cgt
     namespace vector
     {
       template<typename _TpItem, template<typename> class _TpIterator = _TpCommon>
-        class _VectorIterator
+        class _VectorIterator : public _IteratorPtr<_TpItem*, _TpIterator>
         {
           private:
-            friend class _VectorIterator<_TpItem, _TpConst>;
-            friend class _VectorIterator<_TpItem, _TpCommon>;
-
-          private:
+            typedef _IteratorPtr<_TpItem*, _TpIterator>       _Base;
             typedef _VectorIterator<_TpItem, _TpIterator>     _Self;
             typedef _VectorIterator<_TpItem, _TpCommon>       _SelfCommon;
-            typedef _VectorIterator<_TpItem, _TpConst>        _SelfConst;
             typedef typename _TpIterator<_TpItem>::pointer    pointer;
             typedef typename _TpIterator<_TpItem>::reference  reference;
 
-          public:
-            _VectorIterator () { }
-            _VectorIterator (_TpItem** _p) : _ptr (_p) { }
-            _VectorIterator (const _SelfCommon& _it) : _ptr (_it._ptr) { }
+          private:
+            using _Base::_ptr;
 
           public:
-            const bool operator==(const _Self& _other) const { return (_ptr == _other._ptr); }
-            const bool operator!=(const _Self& _other) const { return ! (*this == _other); }
+            _VectorIterator () { }
+            _VectorIterator (_TpItem** _p) : _Base (_p) { }
+            _VectorIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
+
+          private:
+            void _incr () { _ptr++; }
+
+          public:
             const bool operator<(const _Self& _other) const { return (_ptr < _other._ptr); }
             const bool operator>(const _Self& _other) const { return (_ptr > _other._ptr); }
             const bool operator>=(const _Self& _other) const { return (_ptr >= _other._ptr); }
             reference operator*() const { return **_ptr; }
             pointer operator->() const { return *_ptr; }
 
-            _Self& operator++() { _ptr++; return *this; }
-            const _Self operator++(int) { return _Self (_ptr++); }
+            _Self& operator++() { _incr (); return *this; }
+            const _Self operator++(int) { _Self _it = *this; _incr (); return _it; }
             const size_t operator-(const _Self &_other) const { return _ptr - _other._ptr; }
-
-          private:
-            _TpItem** _ptr;
         };
+
 
       template<typename _TpItem, typename _Predicate>
         _VectorIterator<_TpItem> find_if (_VectorIterator<_TpItem> _it, _VectorIterator<_TpItem> _end, _Predicate _pred)

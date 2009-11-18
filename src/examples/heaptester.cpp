@@ -1,8 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/heap/heap.h"
-using namespace cgt::base::heap;
+#include "../cgt/base/heap.h"
 
 void _modify (int& i, const int& value)
 {
@@ -11,7 +10,7 @@ void _modify (int& i, const int& value)
 
 int main ()
 {
-  heap<int> s;
+  cgt::base::heap<int> s;
 
   cout << "push 12" << endl;
   s.push (12);
@@ -38,8 +37,8 @@ int main ()
   cout << "push 3" << endl;
   s.push (3);
 
-  heap<int>::const_iterator it = s.begin ();
-  heap<int>::const_iterator itEnd = s.end ();
+  cgt::base::heap<int>::const_iterator it = s.begin ();
+  cgt::base::heap<int>::const_iterator itEnd = s.end ();
 
   cout << "heap (" << *it;
   for (++it; it != itEnd; ++it)
@@ -82,6 +81,71 @@ int main ()
       cout << ")" << endl;
     }
   }
+
+  cout << "ptr_heap:" << endl << endl;
+
+  cgt::base::ptr_heap<int*> si;
+
+  cout << "push 1" << endl;
+  si.push (new int (1));
+  cout << "push 6" << endl;
+  si.push (new int (6));
+  cout << "push 2" << endl;
+  si.push (new int (2));
+  cout << "push 5" << endl;
+  si.push (new int (5));
+  cout << "push 3" << endl;
+  si.push (new int (3));
+
+  cgt::base::ptr_heap<int*>::const_iterator iti = si.begin ();
+  cgt::base::ptr_heap<int*>::const_iterator itiEnd = si.end ();
+
+  cout << "heap (" << *(*iti);
+  for (++iti; iti != itiEnd; ++iti)
+    cout << ", " << *(*iti);
+  cout << ")" << endl;
+
+  /*
+  iti = s.find (3);
+  s.modify (iti, 20);
+
+  iti = s.begin ();
+  itiEnd = s.end ();
+  cout << "heap (" << *iti;
+  for (++iti; iti != itiEnd; ++iti)
+    cout << ", " << *iti;
+  cout << ")" << endl;
+  */
+
+  /*
+  it = s.find (4);
+  s.modify_by (it, _modify, 40);;
+
+  it = s.begin ();
+  itEnd = s.end ();
+  cout << "heap (" << *it;
+  for (++it; it != itEnd; ++it)
+    cout << ", " << *it;
+  cout << ")" << endl;
+
+  */
+  while (! si.empty ())
+  {
+    int** pInt = si.pop ();
+    cout << "pop: " << **pInt << endl;
+    delete pInt;
+
+    if (! si.empty ())
+    {
+      iti = si.begin ();
+      itiEnd = si.end ();
+      cout << "heap (" << **iti;
+      for (++iti; iti != itiEnd; ++iti)
+        cout << ", " << **iti;
+      cout << ")" << endl;
+    }
+  }
+
 
   return 0;
 }

@@ -7,7 +7,6 @@
 #include "../alloc/allocator.h"
 #include "hash_func.h"
 #include "../pair.h"
-using namespace cgt::base;
 
 
 namespace cgt

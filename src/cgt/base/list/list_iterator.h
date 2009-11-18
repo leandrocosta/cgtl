@@ -35,7 +35,7 @@ namespace cgt
           _ListIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
 
         private:
-          void _incr ();
+          void _incr () { _ptr = _ptr->_next; }
 
         public:
           reference operator*() const;
@@ -45,12 +45,6 @@ namespace cgt
           const _Self operator++(int);
       };
 
-
-      template<typename _TpItem, template<typename> class _TpIterator>
-        void _ListIterator<_TpItem, _TpIterator>::_incr ()
-        {
-          _ptr = _ptr->_next;
-        }
 
       template<typename _TpItem, template<typename> class _TpIterator>
         typename _TpIterator<_TpItem>::reference _ListIterator<_TpItem, _TpIterator>::operator*() const
