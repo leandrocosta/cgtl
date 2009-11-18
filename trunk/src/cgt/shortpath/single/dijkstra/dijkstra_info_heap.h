@@ -1,10 +1,9 @@
 #ifndef _DIJKSTRA_INFO_HEAP_H_
 #define _DIJKSTRA_INFO_HEAP_H_
 
-#include "../../../graph_node.h"
 #include "dijkstra_info.h"
-#include "../../../base/heap/heap.h"
-using namespace cgt::base::heap;
+#include "../../../graph_node.h"
+#include "../../../base/heap.h"
 
 
 namespace cgt
@@ -16,14 +15,14 @@ namespace cgt
       namespace dijkstra
       {
         template<typename _TpVertex, typename _TpEdge>
-          class _DijkstraInfoHeap : public _Heap<_DijkstraInfo<_TpVertex, _TpEdge> >
+          class _DijkstraInfoHeap : public cgt::base::heap<_DijkstraInfo<_TpVertex, _TpEdge> >
         {
           private:
-            typedef _DijkstraInfoHeap<_TpVertex, _TpEdge>     _Self;
-            typedef _Heap<_DijkstraInfo<_TpVertex, _TpEdge> > _Base;
+            typedef _DijkstraInfo<_TpVertex, _TpEdge>     _Info;
+            typedef cgt::base::heap<_Info>                _Base;
+            typedef _DijkstraInfoHeap<_TpVertex, _TpEdge> _Self;
 
           private:
-            typedef _DijkstraInfo<_TpVertex, _TpEdge> _Info;
             typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
             typedef _GraphEdge<_TpVertex, _TpEdge>    _Edge;
             typedef typename _Base::const_iterator    _ConstIterator;

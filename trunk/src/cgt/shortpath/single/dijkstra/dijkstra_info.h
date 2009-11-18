@@ -32,10 +32,10 @@ namespace cgt
               _DijkstraInfo (const _DijkstraInfo& _d) : _node (_d._node), _distance (_d._distance), _ptr_previous (_d._ptr_previous) { }
 
             public:
-              const bool operator==(const _DijkstraInfo& _d) { return (_node.vertex () == _d._node.vertex ()); }
-              const bool operator!=(const _DijkstraInfo& _d) { return ! (*this == _d); }
-              const bool operator<(const _DijkstraInfo& _d) { return (! inf_distance () && (_d.inf_distance () || distance () < _d.distance ())); }
-              const bool operator<=(const _DijkstraInfo& _d) { return (! inf_distance () && (_d.inf_distance () || distance () <= _d.distance ())); }
+              const bool operator==(const _DijkstraInfo& _d) const { return (_node.vertex () == _d._node.vertex ()); }
+              const bool operator!=(const _DijkstraInfo& _d) const { return ! (*this == _d); }
+              const bool operator<(const _DijkstraInfo& _d) const { return (! inf_distance () && (_d.inf_distance () || distance () < _d.distance ())); }
+              const bool operator<=(const _DijkstraInfo& _d) const { return (! inf_distance () && (_d.inf_distance () || distance () <= _d.distance ())); }
 
             public:
               _Node& node () const { return _node; }

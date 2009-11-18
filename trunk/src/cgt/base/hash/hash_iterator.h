@@ -1,17 +1,17 @@
 #ifndef _HASH_ITERATOR_H_
 #define _HASH_ITERATOR_H_
 
-#include "../iterator/iterator_ptr.h"
 #include "hash_item.h"
 #include "../pair.h"
-using namespace cgt::base;
+
+#include "../iterator/iterator_ptr.h"
+using namespace cgt::base::iterator;
 
 
 namespace cgt
 {
   namespace base
   {
-    using namespace cgt::base::iterator;
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
       class _Hash;

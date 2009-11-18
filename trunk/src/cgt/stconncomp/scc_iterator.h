@@ -2,7 +2,7 @@
 #define _SCC_ITERATOR_H_
 
 #include "graph_scc_component.h"
-#include "../base/heap/heap.h"
+#include "../base/heap.h"
 
 #include "../base/iterator/iterator_type.h"
 using namespace cgt::base::iterator;
@@ -55,8 +55,8 @@ namespace cgt
           typedef typename _DFSIterator::_DepthState            _DFSState;
           typedef cgt::base::stack<_DFSState>                   _DFSStateStack;
 
-          typedef cgt::base::heap::_Heap<_SCC_DFSInfo>  _SCC_DFSInfoHeap;
-          typedef typename _SCC_DFSInfoHeap::iterator   _SCC_DFSInfoHeapIterator;
+          typedef cgt::base::heap<_SCC_DFSInfo>       _SCC_DFSInfoHeap;
+          typedef typename _SCC_DFSInfoHeap::iterator _SCC_DFSInfoHeapIterator;
 
           class _SCC_DFSInfo
           {
@@ -68,7 +68,7 @@ namespace cgt
               _Node& node () { return _info.node (); }
 
             public:
-              const bool operator<(const _SCC_DFSInfo& _b) { return _info.finish () >= _b._info.finish (); }
+              const bool operator<(const _SCC_DFSInfo& _b) const { return _info.finish () >= _b._info.finish (); }
 
             private:
               _DFSInfo& _info;
