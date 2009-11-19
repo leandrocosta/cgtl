@@ -34,6 +34,7 @@ namespace cgt
 
         public:
           _Hash () : _size (0), _tabsize (2) { _init (); }
+          _Hash (const _Hash& _h) { *this = _h; }
           virtual ~_Hash () { _remove_all (); free (_table); }
 
         private:
@@ -52,14 +53,14 @@ namespace cgt
           _TpItem* operator[](const _TpKey& _key);
           _Self& operator=(const _Self& _s)
           {
-            _size     = 0;
-            _tabsize  = _s._tabsize;
-
             if (_table)
             {
               _remove_all ();
               free (_table);
             }
+
+            _size     = 0;
+            _tabsize  = _s._tabsize;
 
             _table = (_Item **) malloc (_tabsize * sizeof (_Item **));
             bzero (_table, _tabsize * sizeof (_Item **));

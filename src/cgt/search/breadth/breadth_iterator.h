@@ -66,6 +66,7 @@ namespace cgt
 
         public:
           _BreadthIterator () { }
+          _BreadthIterator (_Node* const _ptr_n) : _Base (_ptr_n) { }
           _BreadthIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (_ptr_n, _it_begin, _it_end) { }
           _BreadthIterator (const _NodeIterator& _it, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (&(*_it), _it_begin, _it_end) { }
           _BreadthIterator (const _SelfCommon& _it) { }

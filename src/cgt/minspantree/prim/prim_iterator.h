@@ -1,9 +1,8 @@
 #ifndef _PRIM_ITERATOR_H_
 #define _PRIM_ITERATOR_H_
 
-#include "../../base/iterator/iterator_ptr.h"
 #include "prim_adjacency_heap.h"
-//#include "prim_vertex_hash.h"
+#include "../../base/iterator/iterator_ptr.h"
 #include "../../base/hash/hash.h"
 
 
@@ -35,8 +34,6 @@ namespace cgt
             typedef _IteratorPtr<_Adjacency, _TpIterator>    _Base;
 
           private:
-//            typedef cgt::base::heap<_Adjacency*>    _AdjacencyHeap;
-//            typedef _PrimAdjacencyHeap<_TpVertex, _TpEdge>  _AdjacencyHeap;
             typedef _PrimAdjacencyHeap<_Adjacency*>  _AdjacencyHeap;
             typedef cgt::base::hash<_Vertex*, bool> _VertexHash;
 
