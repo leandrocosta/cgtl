@@ -11,12 +11,10 @@
 #include "vertex_iterator.h"
 
 #include "search/depth/depth_iterator.h"
-
 #include "search/breadth/breadth_iterator.h"
-
 #include "shortpath/single/dijkstra/dijkstra_iterator.h"
-
 #include "minspantree/prim/prim_iterator.h"
+#include "minspantree/kruskal/kruskal_iterator.h"
 
 #include "stconncomp/scc_iterator.h"
 #include "stconncomp/graph_scc_component.h"
@@ -78,6 +76,9 @@ namespace cgt
       typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge>           piterator;
       typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge, _TpConst> const_piterator;
 
+      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge>           kiterator;
+      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge, _TpConst> const_kiterator;
+
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
       void insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2) { _insert_edge (_e, _v1, _v2); }
@@ -114,10 +115,10 @@ namespace cgt
 
       diterator depth_begin () { return diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       diterator depth_begin (const iterator& _it) { return diterator (_it, _Base::begin (), _Base::end ()); }
-      diterator depth_end () { return diterator (NULL, _Base::begin (), _Base::end ()); }
+      diterator depth_end () { return diterator (NULL); }
       const_diterator depth_begin () const { return const_diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       const_diterator depth_begin (const iterator& _it) const { return const_diterator (_it, _Base::begin (), _Base::end ()); }
-      const_diterator depth_end () const { return const_diterator (NULL, _Base::begin (), _Base::end ()); }
+      const_diterator depth_end () const { return const_diterator (NULL); }
 
       diiterator depth_info_begin (diterator &_it) { return diiterator (_it.info_begin ()); }
       diiterator depth_info_end (diterator &_it) { return diiterator (_it.info_end ()); }
@@ -126,10 +127,10 @@ namespace cgt
 
       biterator breadth_begin () { return biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       biterator breadth_begin (const iterator& _it) { return biterator (_it, _Base::begin (), _Base::end ()); }
-      biterator breadth_end () { return biterator (NULL, _Base::begin (), _Base::end ()); }
+      biterator breadth_end () { return biterator (NULL); }
       const_biterator breadth_begin () const { return const_biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       const_biterator breadth_begin (const iterator& _it) const { return const_biterator (_it, _Base::begin (), _Base::end ()); }
-      const_biterator breadth_end () const { return const_biterator (NULL, _Base::begin (), _Base::end ()); }
+      const_biterator breadth_end () const { return const_biterator (NULL); }
 
       biiterator breadth_info_begin (biterator &_it) { return biiterator (_it.info_begin ()); }
       biiterator breadth_info_end (biterator &_it) { return biiterator (_it.info_end ()); }
@@ -138,10 +139,10 @@ namespace cgt
 
       djiterator dijkstra_begin () { return djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       djiterator dijkstra_begin (const iterator& _it) { return djiterator (_it, _Base::begin (), _Base::end ()); }
-      djiterator dijkstra_end () { return djiterator (NULL, _Base::begin (), _Base::end ()); }
+      djiterator dijkstra_end () { return djiterator (NULL); }
       const_djiterator dijkstra_begin () const { return const_djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       const_djiterator dijkstra_begin (const iterator& _it) const { return const_djiterator (_it, _Base::begin (), _Base::end ()); }
-      const_djiterator dijkstra_end () const { return const_djiterator (NULL, _Base::begin (), _Base::end ()); }
+      const_djiterator dijkstra_end () const { return const_djiterator (NULL); }
 
       djiiterator dijkstra_info_begin (djiterator &_it) { return djiiterator (_it.info_begin ()); }
       djiiterator dijkstra_info_end (djiterator &_it) { return djiiterator (_it.info_end ()); }
@@ -159,6 +160,13 @@ namespace cgt
       const_piterator prim_begin () const { return const_piterator (_Base::begin ()); }
       const_piterator prim_begin (const iterator& _it) const { return const_piterator (_it); }
       const_piterator prim_end () const { return const_piterator (NULL); }
+
+      kiterator kruskal_begin () { return kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      kiterator kruskal_begin (const iterator& _it) { return kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      kiterator kruskal_end () { return kiterator (NULL); }
+      const_kiterator kruskal_begin () const { return const_kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      const_kiterator kruskal_begin (const iterator& _it) const { return const_kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      const_kiterator kruskal_end () const { return const_kiterator (NULL); }
   };
 }
 

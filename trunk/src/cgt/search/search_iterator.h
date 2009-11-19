@@ -28,12 +28,11 @@ namespace cgt
 
         protected:
           _SearchIterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
+          _SearchIterator (_Node* const _ptr_n) : _ptr_node (_ptr_n), _global_time (0) { }
           _SearchIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
         {
-//          cout << "_SearchIterator::_SearchIterator(_Node*, _NodeIterator&, _NodeIterator&) - begin" << endl;
           if (_ptr_node)
             _init ();
-//          cout << "_SearchIterator::_SearchIterator(_Node*, _NodeIterator&, _NodeIterator&) - end" << endl;
         }
           _SearchIterator (const _SelfCommon& _it) : _ptr_node (_it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _global_time (_it._global_time), _InfoList (_it._InfoList) { }
           virtual ~_SearchIterator () { }

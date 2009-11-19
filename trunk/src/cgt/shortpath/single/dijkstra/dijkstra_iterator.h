@@ -39,6 +39,7 @@ namespace cgt
                * The constructors need to insert all nodes (except _ptr_n) in _notVisitedInfoHeap with distance == infinite,
                * and after that, calculate distance for the nodes from adjacency list of _ptr_n.
                */
+              _DijkstraIterator (_Node* const _ptr_n) : _ptr_node (_ptr_n) { }
               _DijkstraIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end)
             {
               if (_ptr_node)
