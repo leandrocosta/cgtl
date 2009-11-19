@@ -3,7 +3,7 @@
 
 #include "../../../graph_node.h"
 #include "dijkstra_info.h"
-#include "../../../base/list/list.h"
+#include "../../../base/list.h"
 
 
 namespace cgt
@@ -15,12 +15,12 @@ namespace cgt
       namespace dijkstra
       {
         template<typename _TpVertex, typename _TpEdge>
-          class _DijkstraInfoList : public cgt::base::list::list<_DijkstraInfo<_TpVertex, _TpEdge> >
+          class _DijkstraInfoList : public cgt::base::list<_DijkstraInfo<_TpVertex, _TpEdge> >
         {
           private:
             typedef _DijkstraInfo<_TpVertex, _TpEdge>     _Info;
             typedef _DijkstraInfoList<_TpVertex, _TpEdge> _Self;
-            typedef cgt::base::list::list<_Info>                           _Base;
+            typedef cgt::base::list<_Info>                           _Base;
 
           private:
             typedef _GraphNode<_TpVertex, _TpEdge>    _Node;

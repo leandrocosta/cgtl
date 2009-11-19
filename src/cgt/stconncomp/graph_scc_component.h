@@ -2,7 +2,7 @@
 #define _GRAPH_SCC_COMPONENT_H_
 
 #include "graph_scc_node.h"
-#include "../base/list/list.h"
+#include "../base/list.h"
 
 
 namespace cgt
@@ -10,10 +10,10 @@ namespace cgt
   namespace stconncomp
   {
     template<typename _TpVertex, typename _TpEdge>
-      class _GraphSCCComponent : public cgt::base::list::list<_GraphSCCNode<_TpVertex, _TpEdge> >
+      class _GraphSCCComponent : public cgt::base::list<_GraphSCCNode<_TpVertex, _TpEdge> >
       {
         private:
-          typedef cgt::base::list::list<_GraphSCCNode<_TpVertex, _TpEdge> > _Base;
+          typedef cgt::base::list<_GraphSCCNode<_TpVertex, _TpEdge> > _Base;
           typedef typename _Base::iterator                  _Iterator;
 
         private:
@@ -49,7 +49,7 @@ namespace cgt
          * to use references to _Adjacencies. So, we reuse only the edges.
          */
 
-        const _Edge* _ptr_edge = NULL;
+        _Edge* _ptr_edge = NULL;
         _SCCNode* _ptr_node = back ();
         _Node& _n1 = _ptr_node->node ();
 

@@ -1,20 +1,19 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/vector/vector.h"
-using namespace cgt::base::vector;
+#include "../cgt/base/vector.h"
 
 int main ()
 {
-  vector<int> s;
+  cgt::base::vector<int> s;
 
 //  s.push_heap (1);
 //  s.pop_heap ();
 //  s.push_heap (1);
 
   int *p;
-  vector<int>::const_iterator it;
-  vector<int>::const_iterator itEnd;
+  cgt::base::vector<int>::const_iterator it;
+  cgt::base::vector<int>::const_iterator itEnd;
 
 
   s.push_back (2);

@@ -1,8 +1,7 @@
 #ifndef _GRAPH_ADJLIST_H_
 #define _GRAPH_ADJLIST_H_
 
-#include "base/list/list.h"
-using namespace cgt::base::list;
+#include "base/list.h"
 
 
 namespace cgt
@@ -15,7 +14,7 @@ namespace cgt
 
 
   template<typename _TpVertex, typename _TpEdge>
-    class _GraphAdjList : public list<_GraphAdjacency<_TpVertex, _TpEdge> >
+    class _GraphAdjList : public cgt::base::list<_GraphAdjacency<_TpVertex, _TpEdge> >
   {
     private:
       typedef _GraphAdjList<_TpVertex, _TpEdge>   _Self;
@@ -23,20 +22,20 @@ namespace cgt
       typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
       typedef _GraphVertex<_TpVertex>             _Vertex;
       typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
-      typedef list<_Adjacency>                    _Base;
+      typedef cgt::base::list<_Adjacency>         _Base;
       typedef typename _Base::const_iterator      _Iterator;
 
     public:
-      const _Edge* _get_edge (const _Vertex& _v) const;
+      _Edge* _get_edge (const _Vertex& _v) const;
 
     public:
-      void _insert (const _Edge& _e, _Node& _n);
+      void _insert (_Edge& _e, _Node& _n);
   };
 
   template<typename _TpVertex, typename _TpEdge>
-    const _GraphEdge<_TpVertex, _TpEdge>* _GraphAdjList<_TpVertex, _TpEdge>::_get_edge (const _Vertex& _v) const
+    _GraphEdge<_TpVertex, _TpEdge>* _GraphAdjList<_TpVertex, _TpEdge>::_get_edge (const _Vertex& _v) const
     {
-      const _Edge *_ptr_edge = NULL;
+      _Edge *_ptr_edge = NULL;
 
       _Iterator it;
       _Iterator itEnd = _Base::end ();
@@ -54,7 +53,7 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge>
-    void _GraphAdjList<_TpVertex, _TpEdge>::_insert (const _Edge& _e, _Node& _n)
+    void _GraphAdjList<_TpVertex, _TpEdge>::_insert (_Edge& _e, _Node& _n)
     {
       _Base::insert (_Adjacency (_e, _n));
     }

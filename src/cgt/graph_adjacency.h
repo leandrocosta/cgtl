@@ -17,24 +17,24 @@ namespace cgt
         typedef _GraphVertex<_TpVertex>        _Vertex;
 
       public:
-        _GraphAdjacency (const _Edge& _e, _Node& _n) : _edge (_e), _node (_n)  { }
+        _GraphAdjacency (_Edge& _e, _Node& _n) : _edge (_e), _node (_n)  { }
 
       public:
-        const _Edge&  edge () const;
+        _Edge&  edge () const;
         const _Vertex& vertex () const;
         _Node& node () const;
         const _TpEdge& value () const { return _edge.value (); }
 
       private:
         // Reference to the edge object (stored in _GraphAdjMatrix._edge_list)
-        const _Edge&   _edge;
+        _Edge&   _edge;
 
         // Reference to the node at the right
         _Node& _node;
     };
 
   template<typename _TpVertex, typename _TpEdge>
-    const _GraphEdge<_TpVertex, _TpEdge>& _GraphAdjacency<_TpVertex, _TpEdge>::edge () const
+    _GraphEdge<_TpVertex, _TpEdge>& _GraphAdjacency<_TpVertex, _TpEdge>::edge () const
     {
       return _edge;
     }

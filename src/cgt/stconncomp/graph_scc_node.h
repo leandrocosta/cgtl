@@ -22,7 +22,7 @@ namespace cgt
           _GraphSCCNode (_Node& _n) : _node (_n) { }
 
         public:
-          void _insert (const _Edge& _e, _Node& _n) { _adjList._insert (_e, _n); }
+          void _insert (_Edge& _e, _Node& _n) { _adjList._insert (_e, _n); }
 
         public:
           _Node& node () const { return _node; }
