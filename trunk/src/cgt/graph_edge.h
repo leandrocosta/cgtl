@@ -15,8 +15,8 @@ namespace cgt
 
       public:
         const _TpEdge& value () const { return _value; }
-        const _Vertex& v1 () const { return _vertex1; }
-        const _Vertex& v2 () const { return _vertex2; }
+        _Vertex& v1 () const { return _vertex1; }
+        _Vertex& v2 () const { return _vertex2; }
 
         const string to_string () const
         {

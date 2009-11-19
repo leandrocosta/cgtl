@@ -21,8 +21,9 @@ namespace cgt
           friend class _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst>;
 
         private:
-          typedef _HashItem<pair<const _TpKey, _TpItem> >  _Item;
-          typedef _HashFunc<_TpKey>           _Func;
+          typedef _Hash<_TpKey, _TpItem, _Alloc>          _Self;
+          typedef _HashItem<pair<const _TpKey, _TpItem> > _Item;
+          typedef _HashFunc<_TpKey>                       _Func;
 
         private:
           typedef typename _Alloc::template rebind<_Item>::other allocator_type;
@@ -49,35 +50,40 @@ namespace cgt
 
         public:
           _TpItem* operator[](const _TpKey& _key);
+          _Self& operator=(const _Self& _s)
+          {
+            _size     = 0;
+            _tabsize  = _s._tabsize;
+
+            if (_table)
+            {
+              _remove_all ();
+              free (_table);
+            }
+
+            _table = (_Item **) malloc (_tabsize * sizeof (_Item **));
+            bzero (_table, _tabsize * sizeof (_Item **));
+
+            for (size_t i = 0; i < _s._size; i++)
+            {
+              _Item** _ptr = &(_s._table [i]);
+
+              while (*_ptr)
+              {
+                insert ((*_ptr)->_item.first, (*_ptr)->_item.second);
+                _ptr = &((*_ptr)->_next);
+              }
+            }
+
+            return *this;
+          }
 
         public:
           void dump () const;
 
-          iterator begin ()
-          {
-            size_t _pos = 0;
-
-            while (_pos < _tabsize && ! _table [_pos])
-              _pos++;
-
-            if (_pos < _tabsize)
-              return iterator (_table [_pos], this);
-            else
-              return end ();
-          }
-          iterator end (){ return iterator (NULL, this); }
-          const_iterator begin () const
-          {
-            size_t _pos = 0;
-
-            while (! _table [_pos] && _pos < _tabsize)
-              _pos++;
-
-            if (_pos < _tabsize)
-              return iterator (_table [_pos], this);
-            else
-              return end ();
-          }
+          iterator begin ();
+          const_iterator begin () const;
+          iterator end () { return iterator (NULL, this); }
           const_iterator end () const { return const_iterator (NULL, this); }
 
         private:
@@ -190,13 +196,41 @@ namespace cgt
 
         _Item* _p = _table [_get_position (_key)];
 
-        while (_p && _p->_key != _key)
+        while (_p && _p->_item.first != _key)
           _p = _p->_next;
 
         if (_p)
-          _ptr = &(_p->_value);
+          _ptr = &(_p->_item.second);
 
         return _ptr;
+      }
+
+    template<typename _TpKey, typename _TpItem, typename _Alloc>
+      _HashIterator<_TpKey, _TpItem, _Alloc> _Hash<_TpKey, _TpItem, _Alloc>::begin ()
+      {
+        size_t _pos = 0;
+
+        while (_pos < _tabsize && ! _table [_pos])
+          _pos++;
+
+        if (_pos < _tabsize)
+          return iterator (_table [_pos], this);
+        else
+          return end ();
+      }
+
+    template<typename _TpKey, typename _TpItem, typename _Alloc>
+      _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst> _Hash<_TpKey, _TpItem, _Alloc>::begin () const
+      {
+        size_t _pos = 0;
+
+        while (! _table [_pos] && _pos < _tabsize)
+          _pos++;
+
+        if (_pos < _tabsize)
+          return iterator (_table [_pos], this);
+        else
+          return end ();
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>

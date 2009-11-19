@@ -1,7 +1,7 @@
 #ifndef _HEAP_H_
 #define _HEAP_H_
 
-#include "vector/vector.h"
+#include "vector.h"
 #include "alloc/allocator.h"
 
 
@@ -10,10 +10,10 @@ namespace cgt
   namespace base
   {
     template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
-      class heap : private cgt::base::vector::vector<_TpItem, _Alloc>
+      class heap : private cgt::base::vector<_TpItem, _Alloc>
     {
       private:
-        typedef cgt::base::vector::vector<_TpItem, _Alloc>  _Base;
+        typedef cgt::base::vector<_TpItem, _Alloc>  _Base;
 
       private:
         typedef typename _Base::iterator        _Iterator;
@@ -73,7 +73,7 @@ namespace cgt
       class ptr_heap : public heap<_TpItem, _Alloc>
     {
       protected:
-        virtual const bool _violates_heap (const _TpItem& _i1, const _TpItem& _i2) const { return (*_i1 < *_i2); }
+        virtual const bool _less_than (const _TpItem& _child, const _TpItem& _parent) const { return (*_child < *_parent); }
     };
   }
 }

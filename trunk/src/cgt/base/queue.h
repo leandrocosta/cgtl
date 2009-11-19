@@ -1,7 +1,7 @@
 #ifndef _QUEUE_H_
 #define _QUEUE_H_
 
-#include "list/list.h"
+#include "list.h"
 
 
 namespace cgt
@@ -9,10 +9,10 @@ namespace cgt
   namespace base
   {
     template<typename _TpItem>
-      class queue : private cgt::base::list::list<_TpItem>
+      class queue : private cgt::base::list<_TpItem>
     {
       private:
-        typedef cgt::base::list::list<_TpItem> _Base;
+        typedef cgt::base::list<_TpItem> _Base;
 
       public:
         using _Base::iterator;

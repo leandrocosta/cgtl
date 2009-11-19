@@ -37,18 +37,18 @@ namespace cgt
 
         private:
           typedef _GraphNode<_TpVertex, _TpEdge>          _Node;
-          typedef typename cgt::base::list::list<_Node>   _NodeList;
+          typedef typename cgt::base::list<_Node>   _NodeList;
           typedef typename _NodeList::iterator            _NodeIterator;
 
           typedef _GraphSCCComponent<_TpVertex, _TpEdge>  _Component;
-          typedef cgt::base::list::list<_Component>       _ComponentList;
+          typedef cgt::base::list<_Component>       _ComponentList;
           typedef typename _ComponentList::const_iterator _ComponentIterator;
 
           typedef _GraphSCCNode<_TpVertex, _TpEdge>       _SCCNode;
 
           typedef _DepthIterator<_TpVertex, _TpEdge, _TpConst>  _DFSIterator;
           typedef typename _DFSIterator::_DepthInfo             _DFSInfo;
-          typedef cgt::base::list::list<_DFSInfo>               _DFSInfoList;
+          typedef cgt::base::list<_DFSInfo>               _DFSInfoList;
           typedef typename _DFSInfoList::iterator               _DFSInfoIterator;
           typedef typename _DFSInfoList::const_iterator         _DFSInfoCIterator;
           typedef typename _DFSInfo::_color_t                   _DFSColor;
