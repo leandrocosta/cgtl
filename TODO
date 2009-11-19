@@ -1,19 +1,20 @@
-* Implement allocator and hash;
-  We already have an allocator for items, we need to implement hash.
-
-* Implement kruskal, prim (minimum spanning tree);
-
 * Implement topological sort;
 
-* Implement strongly connected components;
+* Implement bellmanford (single-source shortest path);
 
-* Implement multigraph and hypergraph (?): is it realy necessary for now?;
-* What should I do when the user tries to insert duplicated vertices or edges? What would STL do?
+* Implement floyd-warshall (all-pairs shortest path);
 
-===
+* Implement negative-weight single-source shortest path;
 
-* Implement heap
-  - OK, we have a vector and methds to build the heap. Now we need to use it in dijkstra.
+* Implement algorithms in misc/;
+
+* Implement more exceptions;
+
+* Implement thread-safety;
+
+* Implement structure to be accessed by minspantree iterators;
+
+* Implement structure to be accessed by strongly connected components iterators;
 
 * Implement const_iterators;
 	- OK, seems to be working.
@@ -30,9 +31,20 @@
 * Implement depth-first iterator:
 	- OK.
 
+* Implement allocator and hash;
+  - OK.
+
 * Implement breadth-first iterator;
   - OK.
 
 * Implement dijkstra (single-source shortest path);
   - OK.
 
+* Implement kruskal, prim (minimum spanning tree);
+  - OK.
+
+* Implement strongly connected components;
+  - OK.
+
+* Implement multigraph and hypergraph (?): is it realy necessary for now?;
+* What should I do when the user tries to insert duplicated vertices or edges? What would STL do?

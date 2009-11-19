@@ -3,21 +3,38 @@
 
 #include "prim_adjacency_heap.h"
 #include "../../base/iterator/iterator_ptr.h"
-#include "../../base/hash/hash.h"
+#include "../../base/hash.h"
 
 
 namespace cgt
 {
+  namespace base
+  {
+    template<typename _TpVertex, typename _TpEdge>
+      class _HeapInvariant<_GraphAdjacency<_TpVertex, _TpEdge>*>
+      {
+        private:
+          typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
+          typedef _Adjacency*                         _AdjacencyPtr;
+
+        public:
+          static const bool _less_than (const _AdjacencyPtr& _child, const _AdjacencyPtr& _parent)
+          {
+            return (_child->edge ().value () < _parent->edge ().value ());
+          }
+      };
+  }
+
   namespace minspantree
   {
     namespace prim
     {
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
-        class _PrimIterator : public _IteratorPtr<_GraphAdjacency<_TpVertex, _TpEdge>, _TpIterator>
+        class _PrimIterator : public cgt::base::iterator::_IteratorPtr<_GraphAdjacency<_TpVertex, _TpEdge>, _TpIterator>
         {
           private:
             typedef _PrimIterator<_TpVertex, _TpEdge, _TpIterator>  _Self;
-            typedef _PrimIterator<_TpVertex, _TpEdge, _TpCommon>    _SelfCommon;
+            typedef _PrimIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>    _SelfCommon;
 
           private:
             typedef _GraphVertex<_TpVertex>             _Vertex;
@@ -31,10 +48,11 @@ namespace cgt
             typedef cgt::base::list<_Adjacency>   _AdjacencyList;
             typedef typename _AdjacencyList::iterator   _AdjacencyIterator;
 
-            typedef _IteratorPtr<_Adjacency, _TpIterator>    _Base;
+            typedef cgt::base::iterator::_IteratorPtr<_Adjacency, _TpIterator>    _Base;
 
           private:
-            typedef _PrimAdjacencyHeap<_Adjacency*>  _AdjacencyHeap;
+//            typedef _PrimAdjacencyHeap<_Adjacency*>  _AdjacencyHeap;
+            typedef cgt::base::heap<_Adjacency*>  _AdjacencyHeap;
             typedef cgt::base::hash<_Vertex*, bool> _VertexHash;
 
           private:

@@ -3,12 +3,8 @@
 
 #include "graph_scc_component.h"
 #include "../base/heap.h"
-
 #include "../base/iterator/iterator_type.h"
-using namespace cgt::base::iterator;
-
 #include "../search/depth/depth_iterator.h"
-using namespace cgt::search::depth;
 
 
 /*
@@ -25,7 +21,7 @@ namespace cgt
 {
   namespace stconncomp
   {
-    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
       class _SCCIterator
       {
         private:
@@ -33,7 +29,7 @@ namespace cgt
 
         private:
           typedef _SCCIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
-          typedef _SCCIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
+          typedef _SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
 
         private:
           typedef _GraphNode<_TpVertex, _TpEdge>          _Node;
@@ -46,7 +42,7 @@ namespace cgt
 
           typedef _GraphSCCNode<_TpVertex, _TpEdge>       _SCCNode;
 
-          typedef _DepthIterator<_TpVertex, _TpEdge, _TpConst>  _DFSIterator;
+          typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  _DFSIterator;
           typedef typename _DFSIterator::_DepthInfo             _DFSInfo;
           typedef cgt::base::list<_DFSInfo>               _DFSInfoList;
           typedef typename _DFSInfoList::iterator               _DFSInfoIterator;
@@ -240,7 +236,7 @@ namespace cgt
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
-      typename _DepthIterator<_TpVertex, _TpEdge, _TpConst>::_DepthInfo* _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_get_depth_info_by_node (const _Node& _node)
+      typename cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>::_DepthInfo* _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_get_depth_info_by_node (const _Node& _node)
       {
         _DFSInfo *_ptr = NULL;
 

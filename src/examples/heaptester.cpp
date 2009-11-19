@@ -82,6 +82,7 @@ int main ()
     }
   }
 
+  /*
   cout << "ptr_heap:" << endl << endl;
 
   cgt::base::ptr_heap<int*> si;
@@ -105,30 +106,6 @@ int main ()
     cout << ", " << *(*iti);
   cout << ")" << endl;
 
-  /*
-  iti = s.find (3);
-  s.modify (iti, 20);
-
-  iti = s.begin ();
-  itiEnd = s.end ();
-  cout << "heap (" << *iti;
-  for (++iti; iti != itiEnd; ++iti)
-    cout << ", " << *iti;
-  cout << ")" << endl;
-  */
-
-  /*
-  it = s.find (4);
-  s.modify_by (it, _modify, 40);;
-
-  it = s.begin ();
-  itEnd = s.end ();
-  cout << "heap (" << *it;
-  for (++it; it != itEnd; ++it)
-    cout << ", " << *it;
-  cout << ")" << endl;
-
-  */
   while (! si.empty ())
   {
     int** pInt = si.pop ();
@@ -145,7 +122,7 @@ int main ()
       cout << ")" << endl;
     }
   }
-
+*/
 
   return 0;
 }

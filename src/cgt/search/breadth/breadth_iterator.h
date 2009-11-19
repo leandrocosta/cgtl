@@ -2,10 +2,7 @@
 #define _BREADTH_ITERATOR_H_
 
 #include "../search_iterator.h"
-using namespace cgt::search;
-
 #include "../../base/queue.h"
-using namespace cgt::base;
 
 
 namespace cgt
@@ -40,21 +37,21 @@ namespace cgt
        *      - point the current node to NULL.
        */
 
-      template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
-        class _BreadthIterator : public _SearchIterator<_TpVertex, _TpEdge, queue, _TpIterator>
+      template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
+        class _BreadthIterator : public _SearchIterator<_TpVertex, _TpEdge, cgt::base::queue, _TpIterator>
       {
         public:
           typedef _SearchInfo<_TpVertex, _TpEdge> _BreadthInfo;
 
         private:
           typedef _BreadthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
-          typedef _BreadthIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
+          typedef _BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
           typedef _GraphNode<_TpVertex, _TpEdge>                    _Node;
           typedef typename cgt::base::list<_Node>::iterator                    _NodeIterator;
           typedef _SearchState<_TpVertex, _TpEdge>                  _BreadthState;
 
         private:
-          typedef _SearchIterator<_TpVertex, _TpEdge, queue, _TpIterator> _Base;
+          typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::queue, _TpIterator> _Base;
 
         private:
           using _Base::_ptr_node;

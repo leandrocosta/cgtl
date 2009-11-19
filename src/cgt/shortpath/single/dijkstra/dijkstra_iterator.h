@@ -13,12 +13,12 @@ namespace cgt
     {
       namespace dijkstra
       {
-        template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
+        template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
           class _DijkstraIterator
           {
             private:
               typedef _DijkstraIterator<_TpVertex, _TpEdge, _TpIterator>  _Self;
-              typedef _DijkstraIterator<_TpVertex, _TpEdge, _TpCommon>    _SelfCommon;
+              typedef _DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>    _SelfCommon;
 
             private:
               typedef _DijkstraInfo<_TpVertex, _TpEdge>     _Info;

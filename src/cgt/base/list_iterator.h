@@ -6,18 +6,16 @@
 
 namespace cgt
 {
-  using namespace base::iterator;
-
   namespace base
   {
-    template<typename _TpItem, template<typename> class _TpIterator = _TpCommon>
-      class _ListIterator : public _IteratorPtr<_ListItemBase<_TpItem>, _TpIterator>
+    template<typename _TpItem, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
+      class _ListIterator : public cgt::base::iterator::_IteratorPtr<_ListItemBase<_TpItem>, _TpIterator>
     {
       private:
         typedef _ListItemBase<_TpItem>                _ItemBase;
-        typedef _IteratorPtr<_ItemBase, _TpIterator>  _Base;
+        typedef cgt::base::iterator::_IteratorPtr<_ItemBase, _TpIterator>  _Base;
         typedef _ListIterator<_TpItem, _TpIterator>   _Self;
-        typedef _ListIterator<_TpItem, _TpCommon>     _SelfCommon;
+        typedef _ListIterator<_TpItem, cgt::base::iterator::_TpCommon>     _SelfCommon;
         typedef _ListItem<_TpItem>                    _Item;
 
       private:

@@ -2,7 +2,6 @@
 #define _DIJKSTRA_DISTANCE_H_
 
 #include "../../../graph_node.h"
-using namespace cgt;
 
 
 namespace cgt

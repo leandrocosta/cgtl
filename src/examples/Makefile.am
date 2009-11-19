@@ -39,5 +39,8 @@ primtester_u_SOURCES	= $(PRIMTESTER_U_SRCS)
 kruskaltester_u_SOURCES	= $(KRUSKALTESTER_U_SRCS)
 scctester_d_SOURCES	= $(SCCTESTER_D_SRCS)
 dijkstratester_u_SOURCES	= $(DIJKSTRATESTER_U_SRCS)
-complexgraph_SOURCES = $(COMPLEXGRAPH_SRCS)
+
+complexgraph_SOURCES 	= $(COMPLEXGRAPH_SRCS)
+complexgraph_CPPFLAGS	= -DDEBUG
+
 alloctester_SOURCES = $(ALLOCTESTER_SRCS)

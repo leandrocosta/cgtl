@@ -10,12 +10,12 @@ namespace cgt
 {
   namespace search
   {
-    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator = _TpCommon>
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
       class _SearchIterator
       {
         private:
           typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator> _Self;
-          typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpCommon>   _SelfCommon;
+          typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, cgt::base::iterator::_TpCommon>   _SelfCommon;
 
         private:
           typedef _SearchInfo<_TpVertex, _TpEdge> _Info;

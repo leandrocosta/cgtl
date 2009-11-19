@@ -2,8 +2,6 @@
 #define _DEPTH_ITERATOR_H_
 
 #include "../search_iterator.h"
-using namespace cgt::search;
-
 #include "../../base/stack.h"
 
 
@@ -39,7 +37,7 @@ namespace cgt
        *      - point the current node to NULL.
        */
 
-      template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
+      template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
         class _DepthIterator : public _SearchIterator<_TpVertex, _TpEdge, cgt::base::stack, _TpIterator>
       {
         public:
@@ -48,7 +46,7 @@ namespace cgt
 
         private:
           typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
-          typedef _DepthIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
+          typedef _DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
           typedef _GraphNode<_TpVertex, _TpEdge>                  _Node;
           typedef typename cgt::base::_List<_Node>::iterator      _NodeIterator;
 

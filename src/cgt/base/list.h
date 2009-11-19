@@ -19,7 +19,7 @@ namespace cgt
 
         public:
           typedef _ListIterator<_TpItem>            iterator;
-          typedef _ListIterator<_TpItem, _TpConst>  const_iterator;
+          typedef _ListIterator<_TpItem, cgt::base::iterator::_TpConst>  const_iterator;
 
         private:
           typedef typename _Alloc::template rebind<_Item>::other allocator_type;
