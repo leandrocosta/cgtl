@@ -3,7 +3,6 @@
 
 #include "dijkstra_distance.h"
 #include "../../../graph_node.h"
-using namespace cgt;
 
 
 namespace cgt

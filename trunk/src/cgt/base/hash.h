@@ -1,12 +1,12 @@
-#ifndef _HASH_H_
-#define _HASH_H_
+#ifndef __CGTL__CGT_BASE_HASH_H_
+#define __CGTL__CGT_BASE_HASH_H_
 
 #include <string.h>
 #include "hash_item.h"
 #include "hash_iterator.h"
-#include "../alloc/allocator.h"
+#include "alloc/allocator.h"
 #include "hash_func.h"
-#include "../pair.h"
+#include "pair.h"
 
 
 namespace cgt
@@ -17,8 +17,8 @@ namespace cgt
       class _Hash
       {
         private:
-          friend class _HashIterator<_TpKey, _TpItem, _Alloc, _TpCommon>;
-          friend class _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst>;
+          friend class _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpCommon>;
+          friend class _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst>;
 
         private:
           typedef _Hash<_TpKey, _TpItem, _Alloc>          _Self;
@@ -30,7 +30,7 @@ namespace cgt
 
         public:
           typedef _HashIterator<_TpKey, _TpItem, _Alloc>            iterator;
-          typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst>  const_iterator;
+          typedef _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst>  const_iterator;
 
         public:
           _Hash () : _size (0), _tabsize (2) { _init (); }
@@ -65,7 +65,7 @@ namespace cgt
             _table = (_Item **) malloc (_tabsize * sizeof (_Item **));
             bzero (_table, _tabsize * sizeof (_Item **));
 
-            for (size_t i = 0; i < _s._size; i++)
+            for (size_t i = 0; i < _s._tabsize; i++)
             {
               _Item** _ptr = &(_s._table [i]);
 
@@ -221,7 +221,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst> _Hash<_TpKey, _TpItem, _Alloc>::begin () const
+      _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst> _Hash<_TpKey, _TpItem, _Alloc>::begin () const
       {
         size_t _pos = 0;
 

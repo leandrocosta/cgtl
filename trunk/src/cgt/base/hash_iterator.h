@@ -2,31 +2,28 @@
 #define _HASH_ITERATOR_H_
 
 #include "hash_item.h"
-#include "../pair.h"
-
-#include "../iterator/iterator_ptr.h"
-using namespace cgt::base::iterator;
+#include "pair.h"
+#include "iterator/iterator_ptr.h"
 
 
 namespace cgt
 {
   namespace base
   {
-
     template<typename _TpKey, typename _TpItem, typename _Alloc>
       class _Hash;
 
 
-    template<typename _TpKey, typename _TpItem, typename _Alloc, template<typename> class _TpIterator = _TpCommon>
-      class _HashIterator : public _IteratorPtr<_HashItem<pair<const _TpKey, _TpItem> >, _TpIterator>
+    template<typename _TpKey, typename _TpItem, typename _Alloc, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
+      class _HashIterator : public cgt::base::iterator::_IteratorPtr<_HashItem<pair<const _TpKey, _TpItem> >, _TpIterator>
     {
       private:
-        friend class _HashIterator<_TpKey, _TpItem, _Alloc, _TpConst>;
+        friend class _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst>;
 
       private:
-        typedef _IteratorPtr<_HashItem<pair<const _TpKey, _TpItem> >, _TpIterator>  _Base;
+        typedef cgt::base::iterator::_IteratorPtr<_HashItem<pair<const _TpKey, _TpItem> >, _TpIterator>  _Base;
         typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpIterator>                 _Self;
-        typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpCommon>                   _SelfCommon;
+        typedef _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpCommon>                   _SelfCommon;
         typedef _HashItem<pair<const _TpKey, _TpItem> >                             _Item;
         typedef _Hash<_TpKey, _TpItem, _Alloc>                                      _Hsh;
         typedef typename _TpIterator<pair<const _TpKey, _TpItem> >::pointer         pointer;

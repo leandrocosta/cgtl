@@ -6,13 +6,13 @@
 
 namespace cgt
 {
-  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = _TpCommon>
+  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
     class _VertexIterator : public cgt::base::_ListIterator<_GraphNode<_TpVertex, _TpEdge>, _TpIterator>
     {
       private:
         typedef _GraphNode<_TpVertex, _TpEdge>                   _Node;
         typedef cgt::base::_ListIterator<_Node, _TpIterator>     _Base;
-        typedef _VertexIterator<_TpVertex, _TpEdge, _TpCommon>   _SelfCommon;
+        typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
         typedef _GraphVertex<_TpVertex>                          _Vertex;
         typedef typename _TpIterator<_Vertex>::reference         reference;
 

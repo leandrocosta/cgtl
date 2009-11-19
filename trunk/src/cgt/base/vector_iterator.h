@@ -2,20 +2,19 @@
 #define _VECTOR_ITERATOR_H_
 
 #include "iterator/iterator_ptr.h"
-using namespace cgt::base::iterator;
 
 
 namespace cgt
 {
   namespace base
   {
-    template<typename _TpItem, template<typename> class _TpIterator = _TpCommon>
-      class _VectorIterator : public _IteratorPtr<_TpItem*, _TpIterator>
+    template<typename _TpItem, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
+      class _VectorIterator : public cgt::base::iterator::_IteratorPtr<_TpItem*, _TpIterator>
     {
       private:
-        typedef _IteratorPtr<_TpItem*, _TpIterator>       _Base;
+        typedef cgt::base::iterator::_IteratorPtr<_TpItem*, _TpIterator>       _Base;
         typedef _VectorIterator<_TpItem, _TpIterator>     _Self;
-        typedef _VectorIterator<_TpItem, _TpCommon>       _SelfCommon;
+        typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpCommon>       _SelfCommon;
         typedef typename _TpIterator<_TpItem>::pointer    pointer;
         typedef typename _TpIterator<_TpItem>::reference  reference;
 

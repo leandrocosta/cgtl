@@ -4,8 +4,8 @@
 #include "graph_type.h"
 #include "graph_node.h"
 #include "graph_vertex.h"
-
 #include "base/list.h"
+#include "misc/debug.h"
 
 
 namespace cgt
@@ -107,6 +107,8 @@ namespace cgt
 
       if (! _ptr)
         _insert_node (_vertex);
+      else
+        _brk ();
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>

@@ -9,6 +9,9 @@ namespace cgt
 {
   namespace base
   {
+    template<typename _TpItem>
+      class _HeapInvariant;
+
     template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
       class vector
       {
@@ -20,7 +23,7 @@ namespace cgt
 
         public:
           typedef _VectorIterator<_TpItem>            iterator;
-          typedef _VectorIterator<_TpItem, _TpConst>  const_iterator;
+          typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpConst>  const_iterator;
 
         public:
           vector () : _bufsize (1), _size (0) { _init (); }
@@ -29,6 +32,7 @@ namespace cgt
 
         public:
           _Self& operator=(const _Self& _v);
+          _TpItem& operator[](const size_t& _pos) const { return *(_array [_pos]); }
 
         private:
           _TpItem* _allocate (const _TpItem& _item);
@@ -41,12 +45,13 @@ namespace cgt
           void _rebuild_heap (size_t _pos);
           void _remove_all ();
 
+          /*
         protected:
           virtual const bool _less_than (const _TpItem& _child, const _TpItem& _parent) const
           {
-//            cout << "vector::_less_than ()" << endl;
             return (_child < _parent);
           }
+          */
 
         public:
           void clear () { _remove_all (); }
@@ -199,11 +204,10 @@ namespace cgt
 
         while (k < _size)
         {
-//          if (k+1 < _size && *_array[k+1] < *_array[k])
-          if (k+1 < _size && _less_than (*_array[k+1], *_array[k]))
+          if (k+1 < _size && _HeapInvariant<_TpItem>::_less_than (*_array[k+1], *_array[k]))
             k++;
 
-          if (_less_than (*_array[k], *_ptr))
+          if (_HeapInvariant<_TpItem>::_less_than (*_array[k], *_ptr))
           {
             _array[_pos] = _array[k];
             _pos = k;
@@ -246,7 +250,7 @@ namespace cgt
         {
           _parent = (_child-1)/2;
 
-          if (_less_than (*_ptr, *_array[_parent]))
+          if (_HeapInvariant<_TpItem>::_less_than (*_ptr, *_array[_parent]))
           {
             _array[_child] = _array[_parent];
             _child = _parent;
@@ -257,6 +261,16 @@ namespace cgt
 
         _array[_child] = _ptr;
       }
+
+    template<typename _TpItem>
+      class _HeapInvariant
+      {
+        public:
+          static const bool _less_than (const _TpItem& _child, const _TpItem& _parent)
+          {
+            return (_child < _parent);
+          }
+      };
   }
 }
 
