@@ -30,9 +30,6 @@ namespace cgt
         _Vertex&  _vertex1;
         _Vertex&  _vertex2;
     };
-
-  template<typename _TpVertex, typename _TpEdge>
-    class edge : public _GraphEdge<_TpVertex, _TpEdge> { };
 }
 
 #endif

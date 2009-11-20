@@ -67,16 +67,6 @@ namespace cgt
           _rebuild (_it - begin () + 1);
         }
       }
-
-
-    /*
-    template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
-      class ptr_heap : public heap<_TpItem, _Alloc>
-    {
-      protected:
-        virtual const bool _less_than (const _TpItem& _child, const _TpItem& _parent) const { return (*_child < *_parent); }
-    };
-    */
   }
 }
 

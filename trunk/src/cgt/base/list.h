@@ -8,9 +8,19 @@
 
 namespace cgt
 {
+  /*!
+   * \namespace cgt::base
+   * \brief The namespace where are defined structures for general propose
+   *        as list, hash, vector, stack, queue, pair.
+   */
   namespace base
   {
-    template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >
+    /*!
+     * \class _List<_TpItem, _Alloc>
+     * \brief A doubly-linked list container.
+     */
+
+    template<typename _TpItem, typename _Alloc>
       class _List
       {
         private:
@@ -309,11 +319,11 @@ namespace cgt
         _list2._size = _s;
       }
 
-    template<typename _TpItem>
-      class list : public _List<_TpItem>
+    template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >
+      class list : public _List<_TpItem, _Alloc>
     {
       private:
-        typedef _List<_TpItem> _Base;
+        typedef _List<_TpItem, _Alloc> _Base;
 
       public:
         list () : _Base () { }
