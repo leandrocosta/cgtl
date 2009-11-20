@@ -12,8 +12,11 @@ namespace cgt
   {
     namespace alloc
     {
-      /*
-       * Based on the example presented in The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570
+      /*!
+       * \class _Allocator<_TpItem>
+       * \brief Based on the example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
+       * \author Leandro Costa
+       * \date 2009
        */
 
       template<typename _TpItem>

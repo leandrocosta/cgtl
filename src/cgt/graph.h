@@ -21,7 +21,9 @@
 
 /*!
  * \file graph.h
- * \brief The only file the user needs to include in his source code.
+ * \brief Contains graph definition. The only file that needs to be included in source code.
+ * \author Leandro Costa
+ * \date 2009
  */
 
 #ifndef __CGTL__CGT_GRAPH_H_
@@ -47,15 +49,24 @@
 #include "stconncomp/graph_scc_node.h"
 
 
+/*!
+ * \namespace cgt
+ * \brief The primary namespace where are defined the graph and its main elements.
+ * \author Leandro Costa
+ * \date 2009
+ */
+
 namespace cgt
 {
   /*!
-   * \class graph
+   * \class graph<_TpVertex, _TpEdge, _TpGraphType>
    * \brief The graph class template.
+   * \author Leandro Costa
+   * \date 2009
    *
-   * A graph with vertices of type _TpVertex, edges of type _TpEdge.
-   * The type _TpGraphType is used to represent directed (_Directed)
-   * and indirected (_Undirected) graphs.
+   * A graph with vertices of type \b _TpVertex, edges of type \b _TpEdge.
+   * The type \b _TpGraphType is used to represent directed (\b _Directed)
+   * and indirected (\b _Undirected) graphs.
    */
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType = _Directed>
@@ -73,34 +84,35 @@ namespace cgt
       typedef typename _Base::iterator                      iterator;
       typedef typename _Base::const_iterator                const_iterator;
 
-      typedef _VertexIterator<_TpVertex, _TpEdge>           viterator;
+      typedef _VertexIterator<_TpVertex, _TpEdge>                                viterator;
       typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_viterator;
 
       typedef typename cgt::base::list<edge>::iterator                eiterator;
       typedef typename cgt::base::list<edge>::const_iterator          const_eiterator;
 
-      typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>            diterator;
+      typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>                                 diterator;
       typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_diterator;
 
-      typedef typename cgt::base::list<typename diterator::_DepthInfo>::iterator       diiterator;
-      typedef typename cgt::base::list<typename diterator::_DepthInfo>::const_iterator const_diiterator;
+      typedef typename diterator::_DepthInfo    depth_info;
 
-      typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge>            biterator;
+      typedef typename cgt::base::list<depth_info>::iterator       diiterator;
+      typedef typename cgt::base::list<depth_info>::const_iterator const_diiterator;
+
+      typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge>                                 biterator;
       typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_biterator;
 
-      typedef typename cgt::base::list<typename biterator::_BreadthInfo>::iterator       biiterator;
-      typedef typename cgt::base::list<typename biterator::_BreadthInfo>::const_iterator const_biiterator;
-
-      typedef typename diterator::_DepthInfo    depth_info;
       typedef typename biterator::_BreadthInfo  breadth_info;
 
-      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>           djiterator;
-      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_djiterator;
+      typedef typename cgt::base::list<breadth_info>::iterator       biiterator;
+      typedef typename cgt::base::list<breadth_info>::const_iterator const_biiterator;
 
-      typedef typename cgt::base::list<typename djiterator::_DijkstraInfo>::iterator       djiiterator;
-      typedef typename cgt::base::list<typename djiterator::_DijkstraInfo>::const_iterator const_djiiterator;
+      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>                                 djiterator;
+      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_djiterator;
 
       typedef typename djiterator::_DijkstraInfo  dijkstra_info;
+
+      typedef typename cgt::base::list<dijkstra_info>::iterator       djiiterator;
+      typedef typename cgt::base::list<dijkstra_info>::const_iterator const_djiiterator;
 
       typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge>           scciterator;
       typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_scciterator;
@@ -124,7 +136,8 @@ namespace cgt
 
     public:
       /**
-       * time complexity: O(V)
+       * A method to generate the transpose of graph.
+       * Time complexity: O(V).
        */
       void invert () { _Base::_invert (); }
 

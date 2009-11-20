@@ -1,5 +1,31 @@
-#ifndef _GRAPH_ADJMATRIX_H_
-#define _GRAPH_ADJMATRIX_H_
+/*
+ * CGTL - A graph template library for C++
+ * ---------------------------------------
+ * Copyright (C) 2009 Leandro Costa
+ *
+ * This file is part of CGTL.
+ *
+ * CGTL is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * CGTL is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CGTL. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*!
+ * \file graph_adjmatrix.h
+ * \brief Contains the definition of an adjacency matrix represented graph
+ */
+
+#ifndef __CGTL__CGT_GRAPH_ADJMATRIX_H_
+#define __CGTL__CGT_GRAPH_ADJMATRIX_H_
 
 #include "graph_type.h"
 #include "graph_node.h"
@@ -13,6 +39,15 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
     class graph;
 
+
+  /*!
+   * \class _GraphAdjMatrix
+   * \brief The adjacency matrix representation of a graph.
+   *
+   * An adjacency matrix is a list of nodes. Each node has a vertex
+   * and a list of adjacencies. Each adjacency is represented by
+   * a pair: an edge and a reference to the other node.
+   */
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
     class _GraphAdjMatrix : private cgt::base::list<_GraphNode<_TpVertex, _TpEdge> >
@@ -30,7 +65,13 @@ namespace cgt
       typedef cgt::base::list<_Node>          _Base;
 
     private:
+      /**
+       * A method to get a node pointer by its vertex.
+       * @param _vertex a reference to the vertex.
+       * @return A pointer to the node (NULL if the vertex is not found in graph).
+       */
       _Node* _get_node (const _TpVertex &_vertex);
+
       typename _Base::iterator _find (const _TpVertex &_vertex);
 
     private:
@@ -47,7 +88,7 @@ namespace cgt
       const bool _is_undirected () const;
 
     private:
-      _TpGraphType  _type;
+      _TpGraphType  _type; /** < directed or undirected */
 
       /*
        * We need a list of edges for two reasons:

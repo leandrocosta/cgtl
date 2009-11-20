@@ -21,7 +21,7 @@ namespace cgt
         private:
           typedef _GraphNode<_TpVertex, _TpEdge>             _Node;
           typedef _GraphAdjacency<_TpVertex, _TpEdge>        _Adjacency;
-          typedef typename cgt::base::_List<_Adjacency>::const_iterator _AdjIterator;
+          typedef typename cgt::base::list<_Adjacency>::const_iterator _AdjIterator;
 
         public:
           _SearchState (const _Node& _n) : _node (_n), _it_adj (_node.adjlist ().begin ()), _it_adj_end (_node.adjlist ().end ()) { };

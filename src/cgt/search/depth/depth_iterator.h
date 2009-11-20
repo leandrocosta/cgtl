@@ -48,7 +48,7 @@ namespace cgt
           typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
           typedef _DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
           typedef _GraphNode<_TpVertex, _TpEdge>                  _Node;
-          typedef typename cgt::base::_List<_Node>::iterator      _NodeIterator;
+          typedef typename cgt::base::list<_Node>::iterator      _NodeIterator;
 
         private:
           typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::stack, _TpIterator> _Base;
@@ -75,8 +75,8 @@ namespace cgt
           const _DepthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (_ptr_node); }
           const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
-          typename cgt::base::_List<_DepthInfo>::iterator info_begin () { return _InfoList.begin (); }
-          typename cgt::base::_List<_DepthInfo>::iterator info_end () { return _InfoList.end (); }
+          typename cgt::base::list<_DepthInfo>::iterator info_begin () { return _InfoList.begin (); }
+          typename cgt::base::list<_DepthInfo>::iterator info_end () { return _InfoList.end (); }
       };
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
