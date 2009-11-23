@@ -20,7 +20,7 @@
  */
 
 /*!
- * \file vector.h
+ * \file cgt/base/vector.h
  * \brief Contains the definition of a vector implemented as an array of pointers.
  * \author Leandro Costa
  * \date 2009

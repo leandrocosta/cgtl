@@ -20,7 +20,7 @@
  */
 
 /*!
- * \file cgt/base/pair.h
+ * \file [file name]
  * \brief [brief description]
  * \author Leandro Costa
  * \date 2009
@@ -30,25 +30,3 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_BASE_PAIR_H_
-#define __CGTL__CGT_BASE_PAIR_H_
-
-
-namespace cgt
-{
-  namespace base
-  {
-    template<typename _Tp1, typename _Tp2>
-      class pair
-      {
-        public:
-          pair (const _Tp1& _i1, const _Tp2& _i2) : first (_i1), second (_i2) { }
-
-        public:
-          _Tp1 first;
-          _Tp2 second;
-      };
-  }
-}
-
-#endif // __CGTL__CGT_BASE_PAIR_H_

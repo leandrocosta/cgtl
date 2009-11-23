@@ -1,5 +1,37 @@
-#ifndef _GRAPH_NODE_H_
-#define _GRAPH_NODE_H_
+/*
+ * CGTL - A graph template library for C++
+ * ---------------------------------------
+ * Copyright (C) 2009 Leandro Costa
+ *
+ * This file is part of CGTL.
+ *
+ * CGTL is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * CGTL is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CGTL. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*!
+ * \file cgt/graph_node.h
+ * \brief [brief description]
+ * \author Leandro Costa
+ * \date 2009
+ *
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $Revision$
+ */
+
+#ifndef __CGTL__CGT_GRAPH_NODE_H_
+#define __CGTL__CGT_GRAPH_NODE_H_
 
 #include "graph_vertex.h"
 #include "graph_adjlist.h"
@@ -28,7 +60,7 @@ namespace cgt
         const _TpVertex& value () const { return _vertex.value (); }
 
       public:
-        _GraphEdge<_TpVertex, _TpEdge>* _get_edge (const _Vertex &_v) const;
+        _GraphEdge<_TpVertex, _TpEdge>* _get_edge (const _Vertex& _v) const;
 
       public:
         void _insert (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
@@ -50,7 +82,7 @@ namespace cgt
     };
 
   template<typename _TpVertex, typename _TpEdge>
-    _GraphEdge<_TpVertex, _TpEdge>* _GraphNode<_TpVertex, _TpEdge>::_get_edge (const _GraphVertex<_TpVertex> &_v) const
+    _GraphEdge<_TpVertex, _TpEdge>* _GraphNode<_TpVertex, _TpEdge>::_get_edge (const _Vertex& _v) const
     {
       return _adjList._get_edge (_v);
     }
@@ -78,4 +110,4 @@ namespace cgt
     }
 }
 
-#endif
+#endif // __CGTL__CGT_GRAPH_NODE_H_
