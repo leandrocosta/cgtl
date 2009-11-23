@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_VERTEX_ITERATOR_H_
 #define __CGTL__CGT_VERTEX_ITERATOR_H_
 
-#include "base/list_iterator.h"
+#include "cgt/base/list_iterator.h"
 
 
 namespace cgt

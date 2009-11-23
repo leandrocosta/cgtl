@@ -27,11 +27,11 @@
 #ifndef __CGTL__CGT_GRAPH_ADJMATRIX_H_
 #define __CGTL__CGT_GRAPH_ADJMATRIX_H_
 
-#include "graph_type.h"
-#include "graph_node.h"
-#include "graph_vertex.h"
-#include "base/list.h"
-#include "misc/debug.h"
+#include "cgt/graph_type.h"
+#include "cgt/graph_node.h"
+#include "cgt/graph_vertex.h"
+#include "cgt/base/list.h"
+#include "cgt/misc/debug.h"
 
 
 namespace cgt
