@@ -20,7 +20,7 @@
  */
 
 /*!
- * \file graph_type.h
+ * \file cgt/graph_type.h
  * \brief Contains the types used to define directed and undirected graphs.
  * \author Leandro Costa
  * \date 2009

@@ -1,5 +1,37 @@
-#ifndef _DIJKSTRA_INFO_LIST_H_
-#define _DIJKSTRA_INFO_LIST_H_
+/*
+ * CGTL - A graph template library for C++
+ * ---------------------------------------
+ * Copyright (C) 2009 Leandro Costa
+ *
+ * This file is part of CGTL.
+ *
+ * CGTL is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * CGTL is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CGTL. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*!
+ * \file cgt/shortpath/single/dijkstra/dijkstra_info_list.h
+ * \brief [brief description]
+ * \author Leandro Costa
+ * \date 2009
+ *
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $Revision$
+ */
+
+#ifndef __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_LIST_H_
+#define __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_LIST_H_
 
 #include "../../../graph_node.h"
 #include "dijkstra_info.h"
@@ -28,11 +60,6 @@ namespace cgt
             typedef typename _Base::iterator          _Iterator;
 
           private:
-            using _Base::begin;
-            using _Base::end;
-            using _Base::empty;
-
-          private:
             static const bool _has_node (const _Info& _info, const _Node& _node) { return (_info.node ().vertex () == _node.vertex ()); }
 
           public:
@@ -44,18 +71,18 @@ namespace cgt
         template<typename _TpVertex, typename _TpEdge>
           typename _DijkstraInfoList<_TpVertex, _TpEdge>::_Iterator _DijkstraInfoList<_TpVertex, _TpEdge>::get_by_node (const _Node* const _ptr_node)
           {
-            return find_if (begin (), end (), _has_node, *_ptr_node);
+            return find_if (_Base::begin (), _Base::end (), _has_node, *_ptr_node);
           }
 
         template<typename _TpVertex, typename _TpEdge>
           typename _DijkstraInfoList<_TpVertex, _TpEdge>::_Iterator _DijkstraInfoList<_TpVertex, _TpEdge>::get_closest ()
           {
-            _Iterator it_ret = begin ();
+            _Iterator it_ret = _Base::begin ();
 
-            if (! empty ())
+            if (! _Base::empty ())
             {
               _Iterator it = it_ret;
-              _Iterator itEnd = end ();
+              _Iterator itEnd = _Base::end ();
 
               for (++it; it != itEnd; ++it)
               {
@@ -72,7 +99,7 @@ namespace cgt
           {
             _Iterator it = get_by_node (_ptr_node);
 
-            if (it != end ())
+            if (it != _Base::end ())
             {
               _TpEdge new_distance = _distance + _edge.value ();
 
@@ -89,4 +116,4 @@ namespace cgt
 }
 
 
-#endif
+#endif // __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_LIST_H_

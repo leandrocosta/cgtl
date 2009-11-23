@@ -20,7 +20,7 @@
  */
 
 /*!
- * \file graph_adjmatrix.h
+ * \file cgt/graph_adjmatrix.h
  * \brief Contains the definition of an adjacency matrix represented graph
  */
 

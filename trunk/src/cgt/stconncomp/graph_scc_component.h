@@ -1,5 +1,37 @@
-#ifndef _GRAPH_SCC_COMPONENT_H_
-#define _GRAPH_SCC_COMPONENT_H_
+/*
+ * CGTL - A graph template library for C++
+ * ---------------------------------------
+ * Copyright (C) 2009 Leandro Costa
+ *
+ * This file is part of CGTL.
+ *
+ * CGTL is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * CGTL is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CGTL. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*!
+ * \file cgt/stconncomp/graph_scc_component.h
+ * \brief [brief description]
+ * \author Leandro Costa
+ * \date 2009
+ *
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $Revision$
+ */
+
+#ifndef __CGTL__CGT_STCONNCOMP_GRAPH_SCC_COMPONENT_H_
+#define __CGTL__CGT_STCONNCOMP_GRAPH_SCC_COMPONENT_H_
 
 #include "graph_scc_node.h"
 #include "../base/list.h"
@@ -20,11 +52,6 @@ namespace cgt
           typedef _GraphSCCNode<_TpVertex, _TpEdge> _SCCNode;
           typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
           typedef _GraphEdge<_TpVertex, _TpEdge>    _Edge;
-
-        private:
-          using _Base::back;
-          using _Base::begin;
-          using _Base::end;
 
         public:
           void insert (const _SCCNode& _n);
@@ -50,12 +77,12 @@ namespace cgt
          */
 
         _Edge* _ptr_edge = NULL;
-        _SCCNode* _ptr_node = back ();
+        _SCCNode* _ptr_node = _Base::back ();
         _Node& _n1 = _ptr_node->node ();
 
-        _Iterator _itEnd = end ();
+        _Iterator _itEnd = _Base::end ();
 
-        for (_Iterator _it = begin (); _it != _itEnd; ++_it)
+        for (_Iterator _it = _Base::begin (); _it != _itEnd; ++_it)
         {
           _Node& _n2 = _it->node ();
 
@@ -69,4 +96,4 @@ namespace cgt
   }
 }
 
-#endif
+#endif // __CGTL__CGT_STCONNCOMP_GRAPH_SCC_COMPONENT_H_

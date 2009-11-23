@@ -20,10 +20,14 @@
  */
 
 /*!
- * \file graph.h
+ * \file cgt/graph.h
  * \brief Contains graph definition. The only file that needs to be included in source code.
  * \author Leandro Costa
  * \date 2009
+ *
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $Revision$
  */
 
 #ifndef __CGTL__CGT_GRAPH_H_
@@ -59,7 +63,7 @@
 namespace cgt
 {
   /*!
-   * \class graph<_TpVertex, _TpEdge, _TpGraphType>
+   * \class graph
    * \brief The graph class template.
    * \author Leandro Costa
    * \date 2009
@@ -109,7 +113,7 @@ namespace cgt
       typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>                                 djiterator;
       typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_djiterator;
 
-      typedef typename djiterator::_DijkstraInfo  dijkstra_info;
+      typedef typename djiterator::_Info  dijkstra_info;
 
       typedef typename cgt::base::list<dijkstra_info>::iterator       djiiterator;
       typedef typename cgt::base::list<dijkstra_info>::const_iterator const_djiiterator;
@@ -218,4 +222,4 @@ namespace cgt
   };
 }
 
-#endif
+#endif // __CGTL__CGT_GRAPH_H_

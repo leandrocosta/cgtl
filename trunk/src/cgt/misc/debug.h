@@ -1,7 +1,7 @@
 /*
- * Project CGTL
- * Copyright 2009 Leandro Costa
- * leandro.costa@gmail.com
+ * CGTL - A graph template library for C++
+ * ---------------------------------------
+ * Copyright (C) 2009 Leandro Costa
  *
  * This file is part of CGTL.
  *
@@ -17,6 +17,17 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with CGTL. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*!
+ * \file cgt/misc/debug.h
+ * \brief [brief description]
+ * \author Leandro Costa
+ * \date 2009
+ *
+ * $LastChangedDate$
+ * $LastChangedBy$
+ * $Revision$
  */
 
 #ifndef __CGTL__CGT_MISC_DEBUG_H_

@@ -1,5 +1,33 @@
-#ifndef _ALLOCATOR_H_
-#define _ALLOCATOR_H_
+/*
+ * CGTL - A graph template library for C++
+ * ---------------------------------------
+ * Copyright (C) 2009 Leandro Costa
+ *
+ * This file is part of CGTL.
+ *
+ * CGTL is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of
+ * the License, or (at your option) any later version.
+ *
+ * CGTL is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with CGTL. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*!
+ * \file cgt/base/alloc/allocator.h
+ * \brief Contains definition of a chunk-based allocator.
+ * \author Leandro Costa
+ * \date 2009
+ */
+
+#ifndef __CGTL__CGT_BASE_ALLOC_ALLOCATOR_H_
+#define __CGTL__CGT_BASE_ALLOC_ALLOCATOR_H_
 
 #include "storage.h"
 #include <stdlib.h>
@@ -13,10 +41,14 @@ namespace cgt
     namespace alloc
     {
       /*!
-       * \class _Allocator<_TpItem>
-       * \brief Based on the example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
+       * \class _Allocator
+       * \brief A chunk-based allocator.
        * \author Leandro Costa
        * \date 2009
+       * \todo Implement thread-safety.
+       *
+       * A chunk-based allocator, implementation based on the example found in
+       * <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
        */
 
       template<typename _TpItem>
@@ -76,4 +108,4 @@ namespace cgt
   }
 }
 
-#endif
+#endif // __CGTL__CGT_BASE_ALLOC_ALLOCATOR_H_
