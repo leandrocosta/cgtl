@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_GRAPH_NODE_H_
 #define __CGTL__CGT_GRAPH_NODE_H_
 
-#include "graph_vertex.h"
-#include "graph_adjlist.h"
+#include "cgt/graph_vertex.h"
+#include "cgt/graph_adjlist.h"
 
 namespace cgt
 {

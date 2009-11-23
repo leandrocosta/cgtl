@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_GRAPH_ADJLIST_H_
 #define __CGTL__CGT_GRAPH_ADJLIST_H_
 
-#include "base/list.h"
+#include "cgt/base/list.h"
 
 
 namespace cgt

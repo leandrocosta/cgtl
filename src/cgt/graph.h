@@ -33,24 +33,24 @@
 #ifndef __CGTL__CGT_GRAPH_H_
 #define __CGTL__CGT_GRAPH_H_
 
-#include "graph_type.h"
-#include "graph_vertex.h"
-#include "graph_edge.h"
-#include "graph_adjacency.h"
-#include "graph_node.h"
-#include "graph_adjlist.h"
-#include "graph_adjmatrix.h"
-#include "vertex_iterator.h"
+#include "cgt/graph_type.h"
+#include "cgt/graph_vertex.h"
+#include "cgt/graph_edge.h"
+#include "cgt/graph_adjacency.h"
+#include "cgt/graph_node.h"
+#include "cgt/graph_adjlist.h"
+#include "cgt/graph_adjmatrix.h"
+#include "cgt/vertex_iterator.h"
 
-#include "search/depth/depth_iterator.h"
-#include "search/breadth/breadth_iterator.h"
-#include "shortpath/single/dijkstra/dijkstra_iterator.h"
-#include "minspantree/prim/prim_iterator.h"
-#include "minspantree/kruskal/kruskal_iterator.h"
+#include "cgt/search/depth/depth_iterator.h"
+#include "cgt/search/breadth/breadth_iterator.h"
+#include "cgt/shortpath/single/dijkstra/dijkstra_iterator.h"
+#include "cgt/minspantree/prim/prim_iterator.h"
+#include "cgt/minspantree/kruskal/kruskal_iterator.h"
 
-#include "stconncomp/scc_iterator.h"
-#include "stconncomp/graph_scc_component.h"
-#include "stconncomp/graph_scc_node.h"
+#include "cgt/stconncomp/scc_iterator.h"
+#include "cgt/stconncomp/graph_scc_component.h"
+#include "cgt/stconncomp/graph_scc_node.h"
 
 
 /*!
@@ -88,46 +88,47 @@ namespace cgt
       typedef typename _Base::iterator                      iterator;
       typedef typename _Base::const_iterator                const_iterator;
 
+      /** vertex iterator */
       typedef _VertexIterator<_TpVertex, _TpEdge>                                viterator;
       typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_viterator;
 
-      typedef typename cgt::base::list<edge>::iterator                eiterator;
-      typedef typename cgt::base::list<edge>::const_iterator          const_eiterator;
+      /** edge iterator */
+      typedef typename cgt::base::list<edge>::iterator       eiterator;
+      typedef typename cgt::base::list<edge>::const_iterator const_eiterator;
 
+      /** depth-first search iterator */
       typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>                                 diterator;
       typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_diterator;
+      typedef typename diterator::_DepthInfo                                                         depth_info;
+      typedef typename cgt::base::list<depth_info>::iterator                                         diiterator;
+      typedef typename cgt::base::list<depth_info>::const_iterator                                   const_diiterator;
 
-      typedef typename diterator::_DepthInfo    depth_info;
-
-      typedef typename cgt::base::list<depth_info>::iterator       diiterator;
-      typedef typename cgt::base::list<depth_info>::const_iterator const_diiterator;
-
+      /** breadth-first search iterator */
       typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge>                                 biterator;
       typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_biterator;
+      typedef typename biterator::_BreadthInfo                                                           breadth_info;
+      typedef typename cgt::base::list<breadth_info>::iterator                                           biiterator;
+      typedef typename cgt::base::list<breadth_info>::const_iterator                                     const_biiterator;
 
-      typedef typename biterator::_BreadthInfo  breadth_info;
-
-      typedef typename cgt::base::list<breadth_info>::iterator       biiterator;
-      typedef typename cgt::base::list<breadth_info>::const_iterator const_biiterator;
-
+      /** dijkstra iterator */
       typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>                                 djiterator;
       typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_djiterator;
+      typedef typename djiterator::_Info                                                                              dijkstra_info;
+      typedef typename cgt::base::list<dijkstra_info>::iterator                                                       djiiterator;
+      typedef typename cgt::base::list<dijkstra_info>::const_iterator                                                 const_djiiterator;
 
-      typedef typename djiterator::_Info  dijkstra_info;
-
-      typedef typename cgt::base::list<dijkstra_info>::iterator       djiiterator;
-      typedef typename cgt::base::list<dijkstra_info>::const_iterator const_djiiterator;
-
-      typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge>           scciterator;
+      /** strongly connected components iterator */
+      typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge>                                scciterator;
       typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_scciterator;
+      typedef cgt::stconncomp::_GraphSCCComponent<_TpVertex, _TpEdge>                          scc;
+      typedef cgt::stconncomp::_GraphSCCNode<_TpVertex, _TpEdge>                               sccnode;
 
-      typedef cgt::stconncomp::_GraphSCCComponent<_TpVertex, _TpEdge>  scc;
-      typedef cgt::stconncomp::_GraphSCCNode<_TpVertex, _TpEdge>       sccnode;
-
-      typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge>           piterator;
+      /** prim iterator */
+      typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge>                                piterator;
       typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_piterator;
 
-      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge>           kiterator;
+      /** dijkstra iterator */
+      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge>                                kiterator;
       typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_kiterator;
 
     public:

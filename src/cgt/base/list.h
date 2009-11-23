@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_BASE_LIST_H_
 #define __CGTL__CGT_BASE_LIST_H_
 
-#include "list_item.h"
-#include "list_iterator.h"
-#include "alloc/allocator.h"
+#include "cgt/base/list_item.h"
+#include "cgt/base/list_iterator.h"
+#include "cgt/base/alloc/allocator.h"
 
 
 namespace cgt
