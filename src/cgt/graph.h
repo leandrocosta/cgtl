@@ -188,7 +188,9 @@ namespace cgt
       biiterator breadth_info_begin (biterator &_it) { return biiterator (_it.info_begin ()); }
       biiterator breadth_info_end (biterator &_it) { return biiterator (_it.info_end ()); }
       const_biiterator breadth_info_begin (biterator &_it) const { return const_biiterator (_it.info_begin ()); }
+      const_biiterator breadth_info_begin (const_biterator &_it) const { return const_biiterator (_it.info_begin ()); }
       const_biiterator breadth_info_end (biterator &_it) const { return const_biiterator (_it.info_end ()); }
+      const_biiterator breadth_info_end (const_biterator &_it) const { return const_biiterator (_it.info_end ()); }
 
       djiterator dijkstra_begin () { return djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       djiterator dijkstra_begin (const iterator& _it) { return djiterator (_it, _Base::begin (), _Base::end ()); }
