@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/search/search_iterator.h
- * \brief [brief description]
+ * \brief Contains the base of breadth-first and depth-first iterators.
  * \author Leandro Costa
  * \date 2009
  *
@@ -40,6 +40,13 @@
 
 namespace cgt
 {
+  /*!
+   * \namespace cgt::search
+   * \brief Where are defined structures related to breadth-first and depth-first search algorithms.
+   * \author Leandro Costa
+   * \date 2009
+   */
+
   namespace search
   {
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
@@ -111,10 +118,8 @@ namespace cgt
 
         for (_it = _it_node; _it != _it_node_end; ++_it)
         {
-//          cout << "_init node " << _it->vertex ().value () << endl;
           if (&(*_it) == _ptr_node)
           {
-//            cout << "_init start " << endl;
             _InfoList.insert (_Info (*_it, _Info::GRAY, ++_global_time));
             _StateContainer.insert (_State (*_it));
           }

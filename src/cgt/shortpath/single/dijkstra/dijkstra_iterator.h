@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/shortpath/single/dijkstra/dijkstra_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator that implements Dijkstra algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -39,10 +39,31 @@
 
 namespace cgt
 {
+    /*!
+     * \namespace cgt::shortpath
+     * \brief Where are defined structures related to shortest-path algorithms.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
   namespace shortpath
   {
+    /*!
+     * \namespace cgt::shortpath::single
+     * \brief Where are defined structures related to single-source shortest-path algorithms.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace single
     {
+    /*!
+     * \namespace cgt::shortpath::single::dijkstra
+     * \brief Where are defined structures related to Dijkstra iterator.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
       namespace dijkstra
       {
         template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>

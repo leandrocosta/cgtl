@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/shortpath/single/dijkstra/dijkstra_distance.h
- * \brief [brief description]
+ * \brief Contains definition of a structure that represents distance for Dijkstra algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -44,6 +44,21 @@ namespace cgt
     {
       namespace dijkstra
       {
+        /*!
+         * \class _DijkstraDistance
+         * \brief A class template used by Dijkstra algorithms that represents distance between vertices.
+         * \author Leandro Costa
+         * \date 2009
+         * \todo Define constructors for all primitive types.
+         *
+         * The structure uses the edge value to represent distance, but since any type can
+         * be used as an edge (numerical, strings, and even classes or structures), we need
+         * a way to represent the infinite value. So, this class template encapsulates an
+         * edge value and has a flag to indicate if the distance is equal to infinite. If
+         * a user-defined class is used as edge, it is expected from this class to have a
+         * constructor that receives no value.
+         */
+
         template<typename _TpEdge>
           class _DijkstraDistance
           {
@@ -69,8 +84,6 @@ namespace cgt
         template<> _DijkstraDistance<long>::_DijkstraDistance ()            : _distance (0), _inf (true) { }
         template<> _DijkstraDistance<unsigned long>::_DijkstraDistance ()   : _distance (0), _inf (true) { }
         template<> _DijkstraDistance<string>::_DijkstraDistance ()          : _distance (""),_inf (true) { }
-
-        // TODO: define constructors for all primitive types
       }
     }
   }

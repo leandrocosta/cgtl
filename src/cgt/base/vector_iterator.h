@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/vector_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of vector iterator (common and const).
  * \author Leandro Costa
  * \date 2009
  *

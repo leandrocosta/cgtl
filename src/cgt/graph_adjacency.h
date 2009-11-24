@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/graph_adjacency.h
- * \brief [brief description]
+ * \brief Contains definition of a graph's adjacency, that is a reference to an edge and the node at right.
  * \author Leandro Costa
  * \date 2009
  *
@@ -37,8 +37,19 @@
 namespace cgt
 {
   template<typename _TpVertex, typename _TpEdge>
-    class _GraphNode;
+    class _GraphNode; /** < \b We can't include \b graph_adjacency.h since \b _GraphAdjacency has a reference to \b _GraphNode, and \b _GraphNode has a list of adjacencies. */
 
+  /*!
+   * \class _GraphAdjacency
+   * \brief The _GraphAdjacency class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * A \b _GraphAdjacency is a structure that belongs to a node (stored in its
+   * adjacency list) and contains a reference to an edge and a reference to the
+   * other node of the relationship. So, from an adjacency it is possible to visit
+   * all vertices reachable from the vertex to which the adjacency belongs.
+   */
 
   template<typename _TpVertex, typename _TpEdge>
     class _GraphAdjacency

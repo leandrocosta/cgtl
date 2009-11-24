@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/graph_edge.h
- * \brief [brief description]
+ * \brief Contains definition of an edge.
  * \author Leandro Costa
  * \date 2009
  *
@@ -36,6 +36,18 @@
 
 namespace cgt
 {
+  /*!
+   * \class _GraphEdge
+   * \brief The _GraphEdge class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * A \b _GraphEdge is a structure that encapsulates the edge. Inside, it has
+   * the object edge and the references for the vertices linked by the edge.
+   * When an edge is inserted in the graph, an object of this type is created
+   * and pushed in the edge's list of the structure \b _GraphAdjMatrix.
+   */
+
   template<typename _TpVertex, typename _TpEdge>
     class _GraphEdge
     {

@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/hash_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of hash iterator (common and const).
  * \author Leandro Costa
  * \date 2009
  *

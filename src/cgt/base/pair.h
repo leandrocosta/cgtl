@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/pair.h
- * \brief [brief description]
+ * \brief Contains definition of a pair container for general use.
  * \author Leandro Costa
  * \date 2009
  *

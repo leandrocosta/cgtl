@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/list_item_base.h
- * \brief [brief description]
+ * \brief Contains the basic definition of a list item (structure with just the pointers).
  * \author Leandro Costa
  * \date 2009
  *

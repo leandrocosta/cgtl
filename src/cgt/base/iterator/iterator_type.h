@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/iterator/iterator_type.h
- * \brief [brief description]
+ * \brief Contains definition of structures used to identify common and const iterators.
  * \author Leandro Costa
  * \date 2009
  *
@@ -38,6 +38,13 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \namespace cgt::base::iterator
+     * \brief Where are defined the base templates for iterators.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace iterator
     {
       template<typename _TpItem>

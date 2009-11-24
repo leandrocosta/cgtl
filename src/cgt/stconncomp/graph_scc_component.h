@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/stconncomp/graph_scc_component.h
- * \brief [brief description]
+ * \brief Contains definition of a structure that represents a Strongly Connected Component.
  * \author Leandro Costa
  * \date 2009
  *

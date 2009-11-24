@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/stconncomp/scc_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator that implements SCC algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -39,7 +39,7 @@
 #include "../search/depth/depth_iterator.h"
 
 
-/*
+/*!
  * invert graph;
  * run DFS (1);
  * invert graph again;
@@ -51,6 +51,13 @@
 
 namespace cgt
 {
+  /*!
+   * \namespace cgt::stconncomp
+   * \brief Where are defined structures related to strongly connected components iterator.
+   * \author Leandro Costa
+   * \date 2009
+   */
+
   namespace stconncomp
   {
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
@@ -117,10 +124,11 @@ namespace cgt
           _dfs_list         = _s._dfs_list;
           _dfs_state_stack  = _s._dfs_state_stack;
 
-          /*
-           * TODO: we need a better way to initialize _ptr_component.
+          /*!
+           * \todo We need a better way to initialize _ptr_component.
            * It should point to the component pointed by _s._ptr_component:
            * 
+           * \code
            *   _ptr_component = NULL;
            *
            *   if (_s._ptr_component)
@@ -130,6 +138,7 @@ namespace cgt
            *     if (_it != _component_list.end ())
            *      _ptr_component  = &(*_it);
            *   }
+           * \endcode
            */
 
           if (_s._ptr_component)

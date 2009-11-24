@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/graph_node.h
- * \brief [brief description]
+ * \brief Contains definition of a node.
  * \author Leandro Costa
  * \date 2009
  *
@@ -38,6 +38,19 @@
 
 namespace cgt
 {
+  /*!
+   * \class _GraphNode
+   * \brief The _GraphNode class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * A \b _GraphNode is a structure of the graph that contains a vertex and an
+   * adjacency list. Each adjacency to its vertex contains a reference to the
+   * other node of the relationship. So, from the node of a vertex \b v it's
+   * possible to iterate by its adjacency list and visit all vertices reachable
+   * from \b v.
+   */
+
   template<typename _TpVertex, typename _TpEdge>
     class _GraphNode
     {

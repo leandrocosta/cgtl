@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/shortpath/single/dijkstra/dijkstra_info.h
- * \brief [brief description]
+ * \brief Contains definition of a structure where we put node's informations about Dijkstra algorithm execution.
  * \author Leandro Costa
  * \date 2009
  *

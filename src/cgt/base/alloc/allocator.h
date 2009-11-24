@@ -38,6 +38,13 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \namespace cgt::base::alloc
+     * \brief Where are defined the default chunk-based allocator and structures related.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace alloc
     {
       /*!

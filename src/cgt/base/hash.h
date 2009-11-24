@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/hash.h
- * \brief [brief description]
+ * \brief Contains definition of a hash container for general use.
  * \author Leandro Costa
  * \date 2009
  *

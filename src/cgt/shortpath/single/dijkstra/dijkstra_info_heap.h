@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/shortpath/single/dijkstra/dijkstra_info_heap.h
- * \brief [brief description]
+ * \brief Contains definition of the heap used by Dijkstra algorithm.
  * \author Leandro Costa
  * \date 2009
  *

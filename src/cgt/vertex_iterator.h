@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/vertex_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of a vertex iterator.
  * \author Leandro Costa
  * \date 2009
  *
@@ -38,15 +38,28 @@
 
 namespace cgt
 {
+  /*!
+   * \class _VertexIterator
+   * \brief The _VertexIterator class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * A \b _VertexIterator is an iterator of vertices. It is used when
+   * we are interested only in the vertices of the graph, and not in
+   * the adjacency list of each vertex.
+   */
+
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
     class _VertexIterator : public cgt::base::_ListIterator<_GraphNode<_TpVertex, _TpEdge>, _TpIterator>
     {
       private:
-        typedef _GraphNode<_TpVertex, _TpEdge>                   _Node;
-        typedef cgt::base::_ListIterator<_Node, _TpIterator>     _Base;
-        typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
-        typedef _GraphVertex<_TpVertex>                          _Vertex;
-        typedef typename _TpIterator<_Vertex>::reference         reference;
+        typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon> _SelfCommon;
+
+      private:
+        typedef _GraphNode<_TpVertex, _TpEdge>                _Node;
+        typedef cgt::base::_ListIterator<_Node, _TpIterator>  _Base;
+        typedef _GraphVertex<_TpVertex>                       _Vertex;
+        typedef typename _TpIterator<_Vertex>::reference      reference;
 
       public:
         _VertexIterator () { }

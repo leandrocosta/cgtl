@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/search/search_info.h
- * \brief [brief description]
+ * \brief Contains a structure used to put informations about breadth-first and depth-first search iterators
  * \author Leandro Costa
  * \date 2009
  *

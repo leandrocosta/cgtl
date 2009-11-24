@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/search/search_state.h
- * \brief [brief description]
+ * \brief Contains definition of a structure used by breadth-first and depth-first searches.
  * \author Leandro Costa
  * \date 2009
  *

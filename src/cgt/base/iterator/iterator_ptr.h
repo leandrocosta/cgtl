@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/iterator/iterator_ptr.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator for general use that has a pointer to the iterated item.
  * \author Leandro Costa
  * \date 2009
  *

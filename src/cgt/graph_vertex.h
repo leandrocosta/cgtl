@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/graph_vertex.h
- * \brief [brief description]
+ * \brief Contains definition of a vertex.
  * \author Leandro Costa
  * \date 2009
  *
@@ -36,6 +36,18 @@
 
 namespace cgt
 {
+  /*!
+   * \class _GraphVertex
+   * \brief The _GraphVertex class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * A \b _GraphVertex is a structure that encapsulates the vertex. Inside,
+   * it has only the object vertex. When a vertex is inserted in the graph,
+   * an object of this type is created as an inner attribute of structure
+   * \b _GraphNode.
+   */
+
   template<typename _TpVertex>
     class _GraphVertex
     {
