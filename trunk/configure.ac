@@ -10,21 +10,31 @@ AM_INIT_AUTOMAKE
 # Checks for programs.
 AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_CPP
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
 
 # Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([malloc.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
 AC_C_CONST
-
+AC_TYPE_SIZE_T
+AC_CHECK_TYPES([ptrdiff_t])
 CPPFLAGS="-g -Wall"
+LDFLAGS="-lpthread"
 INCLUDES='-I$(top_srcdir)/src'
+AC_SUBST(CPPFLAGS)
+AC_SUBST(LDFLAGS)
 AC_SUBST(INCLUDES)
 
 # Checks for library functions.
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([bzero strdup])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile

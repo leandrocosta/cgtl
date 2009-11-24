@@ -55,12 +55,12 @@ namespace cgt
         virtual ~_RWLockable () { pthread_rwlock_destroy(&_rwlock); }
 
       public:
-        void rlock () { pthread_rwlock_rdlock (&_rwlock); }
-        void wlock () { pthread_rwlock_wrlock (&_rwlock); }
-        void unlock () { pthread_rwlock_unlock (&_rwlock); }
+        void rlock () const { pthread_rwlock_rdlock (&_rwlock); }
+        void wlock () const { pthread_rwlock_wrlock (&_rwlock); }
+        void unlock () const { pthread_rwlock_unlock (&_rwlock); }
 
       private:
-        pthread_rwlock_t  _rwlock;
+        mutable pthread_rwlock_t  _rwlock;
     };
   }
 }
