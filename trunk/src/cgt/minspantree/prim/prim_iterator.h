@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/minspantree/prim/prim_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator that implements Prim algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -59,6 +59,13 @@ namespace cgt
 
   namespace minspantree
   {
+    /*!
+     * \namespace cgt::minspantree::prim
+     * \brief Where are defined the Prim iterator's related structures
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace prim
     {
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>

@@ -36,6 +36,7 @@ namespace cgt
    * \typedef _Directed
    * \brief Used to define a directed graph.
    */
+
   typedef struct _GraphTypeDirected
   {
     enum { _directed = true };
@@ -45,6 +46,7 @@ namespace cgt
    * \typedef _Undirected
    * \brief Used to define an undirected graph.
    */
+
   typedef struct _GraphTypeUndirected
   {
     enum { _directed = false };

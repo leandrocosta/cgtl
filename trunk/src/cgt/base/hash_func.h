@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/hash_func.h
- * \brief [brief description]
+ * \brief Contains definition of the hash function.
  * \author Leandro Costa
  * \date 2009
  *
@@ -38,6 +38,14 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \struct _HashFunc
+     * \brief The hash-function used by hash for general use.
+     * \author Leandro Costa
+     * \date 2009
+     * \todo Define \b operator() for all numerical types as a simple mod operation.
+     */
+
     template<typename _TpKey>
       struct _HashFunc
       {

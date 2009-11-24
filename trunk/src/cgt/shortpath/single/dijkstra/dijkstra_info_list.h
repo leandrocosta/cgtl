@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/shortpath/single/dijkstra/dijkstra_info_list.h
- * \brief [brief description]
+ * \brief Containss definition of a list of structures used by Dijkstra iterator.
  * \author Leandro Costa
  * \date 2009
  *

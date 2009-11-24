@@ -55,7 +55,7 @@
 
 /*!
  * \namespace cgt
- * \brief The primary namespace where are defined the graph and its main elements.
+ * \brief The primary namespace where are defined graph and its main elements.
  * \author Leandro Costa
  * \date 2009
  */

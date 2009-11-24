@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/search/breadth/breadth_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator that implements breadth-first search algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -41,6 +41,13 @@ namespace cgt
 {
   namespace search
   {
+    /*!
+     * \namespace cgt::search::breadth
+     * \brief Where are defined structures related to breadth-first search algorithms.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace breadth
     {
       /*

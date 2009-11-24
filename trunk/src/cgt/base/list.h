@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/list.h
- * \brief [brief description]
+ * \brief Contains definition of a doubly-linked list container for general use.
  * \author Leandro Costa
  * \date 2009
  *

@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/minspantree/prim/prim_adjacency_heap.h
- * \brief [brief description]
+ * \brief Contains definition of the heap used by Prim algorithm.
  * \author Leandro Costa
  * \date 2009
  *

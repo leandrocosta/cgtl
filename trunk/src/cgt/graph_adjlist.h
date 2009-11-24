@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/graph_adjlist.h
- * \brief [brief description]
+ * \brief Contains definition of an adjacency's list.
  * \author Leandro Costa
  * \date 2009
  *
@@ -33,17 +33,24 @@
 #ifndef __CGTL__CGT_GRAPH_ADJLIST_H_
 #define __CGTL__CGT_GRAPH_ADJLIST_H_
 
+#include "cgt/graph_adjacency.h"
+#include "cgt/graph_vertex.h"
 #include "cgt/base/list.h"
 
 
 namespace cgt
 {
-  template<typename _TpVertex>
-    class _GraphVertex;
-
-  template<typename _TpVertex, typename _TpEdge>
-    class _GraphAdjacency;
-
+  /*!
+   * \class _GraphAdjList
+   * \brief The _GraphAdjList class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * A \b _GraphAdjList is a list of objects from type _GraphAdjacency.
+   * Each \b _GraphNode has a list of adjacencies, and from this list
+   * it is possible to visit all nodes that are linked to the node
+   * to which the adjacency list belongs.
+   */
 
   template<typename _TpVertex, typename _TpEdge>
     class _GraphAdjList : public cgt::base::list<_GraphAdjacency<_TpVertex, _TpEdge> >

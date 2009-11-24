@@ -22,6 +22,8 @@
 /*!
  * \file cgt/graph_adjmatrix.h
  * \brief Contains the definition of an adjacency matrix represented graph
+ * \author Leandro Costa
+ * \date 2009
  */
 
 #ifndef __CGTL__CGT_GRAPH_ADJMATRIX_H_
@@ -36,10 +38,6 @@
 
 namespace cgt
 {
-  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
-    class graph;
-
-
   /*!
    * \class _GraphAdjMatrix
    * \brief The adjacency matrix representation of a graph.
@@ -50,11 +48,8 @@ namespace cgt
    */
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
-    class _GraphAdjMatrix : private cgt::base::list<_GraphNode<_TpVertex, _TpEdge> >
+    class _GraphAdjMatrix : protected cgt::base::list<_GraphNode<_TpVertex, _TpEdge> >
   {
-    private:
-      friend class graph<_TpVertex, _TpEdge, _TpGraphType>;
-
     private:
       typedef _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType> _Self;
 
@@ -64,7 +59,7 @@ namespace cgt
       typedef _GraphVertex<_TpVertex>         _Vertex;
       typedef cgt::base::list<_Node>          _Base;
 
-    private:
+    protected:
       /**
        * A method to get a node pointer by its vertex.
        * @param _vertex a reference to the vertex.
@@ -74,22 +69,23 @@ namespace cgt
 
       typename _Base::iterator _find (const _TpVertex &_vertex);
 
-    private:
+    protected:
       void _insert_node (const _TpVertex &_vertex);
       void _insert_vertex (const _TpVertex &_vertex);
       void _insert_edge (const _TpEdge &_e, const _TpVertex &_v1, const _TpVertex &_v2);
       void _insert_edge (_Node& _n1, _Node& _n2, _Vertex& _v1, _Vertex& _v2, _Edge& _e);
 
-    private:
+    protected:
       void _invert ();
 
-    private:
+    protected:
       const bool _is_directed () const;
       const bool _is_undirected () const;
 
     private:
-      _TpGraphType  _type; /** < directed or undirected */
+      _TpGraphType  _type; /** < the graph type: directed or undirected */
 
+    protected:
       /*
        * We need a list of edges for two reasons:
        *  - first, that's an easy way to create the edge_iterator,

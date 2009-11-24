@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/stconncomp/graph_scc_node.h
- * \brief [brief description]
+ * \brief Contains definition of a thin node used by SCC iterator.
  * \author Leandro Costa
  * \date 2009
  *

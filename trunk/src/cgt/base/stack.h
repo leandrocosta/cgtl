@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/stack.h
- * \brief [brief description]
+ * \brief Contains definition of stack container (based on list container) for general use.
  * \author Leandro Costa
  * \date 2009
  *

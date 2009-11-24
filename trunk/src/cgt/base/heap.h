@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/heap.h
- * \brief [brief description]
+ * \brief Contains definition of a heap container (based on vector container) for general use.
  * \author Leandro Costa
  * \date 2009
  *

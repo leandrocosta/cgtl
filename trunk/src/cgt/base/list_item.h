@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/list_item.h
- * \brief [brief description]
+ * \brief Contains definition of the structure used as a list's item.
  * \author Leandro Costa
  * \date 2009
  *

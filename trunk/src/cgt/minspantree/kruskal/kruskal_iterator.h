@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/minspantree/kruskal/kruskal_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator that implements Kruskal algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -60,8 +60,22 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     class _VertexIterator;
 
+  /*!
+   * \namespace cgt::minspantree
+   * \brief Where are defined structures related to minimum spanning tree algoriths.
+   * \author Leandro Costa
+   * \date 2009
+   */
+
   namespace minspantree
   {
+    /*!
+     * \namespace cgt::minspantree::kruskal
+     * \brief Where are defined the Kruskal iterator's related structures
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace kruskal
     {
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>

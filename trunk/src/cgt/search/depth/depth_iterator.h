@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/search/depth/depth_iterator.h
- * \brief [brief description]
+ * \brief Contains definition of an iterator that implements depth-first search algorithm.
  * \author Leandro Costa
  * \date 2009
  *
@@ -41,6 +41,13 @@ namespace cgt
 {
   namespace search
   {
+    /*!
+     * \namespace cgt::search::depth
+     * \brief Where are defined structures related to depth-first search algorithms.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     namespace depth
     {
       /*

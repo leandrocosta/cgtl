@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/hash_item.h
- * \brief [brief description]
+ * \brief Contains definition of the strucutre used as a hash's item.
  * \author Leandro Costa
  * \date 2009
  *

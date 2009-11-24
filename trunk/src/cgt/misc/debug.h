@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/misc/debug.h
- * \brief [brief description]
+ * \brief Contains de definition of a macro to insert break points into the source code.
  * \author Leandro Costa
  * \date 2009
  *
