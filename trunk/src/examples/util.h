@@ -1,7 +1,7 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-#include "../cgt/graph_type.h"
+#include "cgt/graph_type.h"
 using namespace cgt;
 
 #include <string>

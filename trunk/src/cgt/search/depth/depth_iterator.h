@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_SEARCH_DEPTH_DEPTH_ITERATOR_H_
 #define __CGTL__CGT_SEARCH_DEPTH_DEPTH_ITERATOR_H_
 
-#include "../search_iterator.h"
-#include "../../base/stack.h"
+#include "cgt/search/search_iterator.h"
+#include "cgt/base/stack.h"
 
 
 namespace cgt

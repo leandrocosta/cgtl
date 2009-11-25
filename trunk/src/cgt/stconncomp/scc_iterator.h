@@ -33,10 +33,10 @@
 #ifndef __CGTL__CGT_STCONNCOMP_SCC_ITERATOR_H_
 #define __CGTL__CGT_STCONNCOMP_SCC_ITERATOR_H_
 
-#include "graph_scc_component.h"
-#include "../base/heap.h"
-#include "../base/iterator/iterator_type.h"
-#include "../search/depth/depth_iterator.h"
+#include "cgt/stconncomp/graph_scc_component.h"
+#include "cgt/base/heap.h"
+#include "cgt/base/iterator/iterator_type.h"
+#include "cgt/search/depth/depth_iterator.h"
 
 
 /*!

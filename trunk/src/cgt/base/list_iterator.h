@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_LIST_ITERATOR_H_
 #define __CGTL__CGT_BASE_LIST_ITERATOR_H_
 
-#include "iterator/iterator_ptr.h"
+#include "cgt/base/iterator/iterator_ptr.h"
 
 
 namespace cgt
@@ -44,14 +44,11 @@ namespace cgt
       class _ListIterator : public cgt::base::iterator::_IteratorPtr<_ListItemBase<_TpItem>, _TpIterator>
     {
       private:
-        friend class _ListIterator<_TpItem, cgt::base::iterator::_TpConst>;
-
-      private:
-        typedef _ListItemBase<_TpItem>                _ItemBase;
-        typedef cgt::base::iterator::_IteratorPtr<_ItemBase, _TpIterator>  _Base;
-        typedef _ListIterator<_TpItem, _TpIterator>   _Self;
-        typedef _ListIterator<_TpItem, cgt::base::iterator::_TpCommon>     _SelfCommon;
-        typedef _ListItem<_TpItem>                    _Item;
+        typedef _ListItemBase<_TpItem>                                    _ItemBase;
+        typedef cgt::base::iterator::_IteratorPtr<_ItemBase, _TpIterator> _Base;
+        typedef _ListIterator<_TpItem, _TpIterator>                       _Self;
+        typedef _ListIterator<_TpItem, cgt::base::iterator::_TpCommon>    _SelfCommon;
+        typedef _ListItem<_TpItem>                                        _Item;
 
       private:
         typedef typename _TpIterator<_TpItem>::pointer    pointer;
@@ -63,7 +60,8 @@ namespace cgt
       public:
         _ListIterator () { }
         _ListIterator (_Item* _p) : _Base (_p) { }
-        _ListIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
+        _ListIterator (const _SelfCommon& _it) : _Base (_it) { }
+        virtual ~_ListIterator () { }
 
       private:
         void _incr () { _ptr = _ptr->_next; }

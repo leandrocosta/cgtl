@@ -29,8 +29,8 @@
 #ifndef __CGTL__CGT_BASE_VECTOR_H_
 #define __CGTL__CGT_BASE_VECTOR_H_
 
-#include "vector_iterator.h"
-#include "alloc/allocator.h"
+#include "cgt/base/vector_iterator.h"
+#include "cgt/base/alloc//allocator.h"
 
 
 namespace cgt

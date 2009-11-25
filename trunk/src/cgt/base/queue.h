@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_QUEUE_H_
 #define __CGTL__CGT_BASE_QUEUE_H_
 
-#include "list.h"
+#include "cgt/base/list.h"
 
 
 namespace cgt

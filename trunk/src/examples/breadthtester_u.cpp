@@ -46,7 +46,10 @@ int main ()
     const mygraph::vertex& v = n.vertex ();
     const mygraph::breadth_info* i = itd.info (n);
 
-    cout << "node: " << v.value () << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-") << ", discovery: " << setw (2) << i->discovery () << ", finish: " << setw (2) << i->finish () << endl;
+    cout << "node: " << v.value ();
+    cout << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-");
+    cout << ", discovery: " << setw (2) << i->discovery ();
+    cout << ", finish: " << setw (2) << i->finish () << endl;
   }
 
   cout << endl;

@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_LIST_H_
 #define __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_LIST_H_
 
-#include "../../../graph_node.h"
-#include "dijkstra_info.h"
-#include "../../../base/list.h"
+#include "cgt/graph_node.h"
+#include "cgt/shortpath/single/dijkstra/dijkstra_info.h"
+#include "cgt/base/list.h"
 
 
 namespace cgt

@@ -24,11 +24,16 @@ AC_HEADER_STDBOOL
 AC_C_CONST
 AC_TYPE_SIZE_T
 AC_CHECK_TYPES([ptrdiff_t])
-CPPFLAGS="-g -Wall"
-LDFLAGS="-lpthread"
+
+CPPFLAGS='-g -Wall -Werror -O'
+CFLAGS=
+CXXFLAGS=
+
+#LDFLAGS='-lpthread'
 INCLUDES='-I$(top_srcdir)/src'
+
 AC_SUBST(CPPFLAGS)
-AC_SUBST(LDFLAGS)
+#AC_SUBST(LDFLAGS)
 AC_SUBST(INCLUDES)
 
 # Checks for library functions.

@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/vector.h"
+#include "cgt/base/vector.h"
 
 int main ()
 {

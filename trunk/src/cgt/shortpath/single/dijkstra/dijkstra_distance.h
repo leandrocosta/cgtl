@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_DISTANCE_H_
 #define __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_DISTANCE_H_
 
-#include "../../../graph_node.h"
+#include "cgt/graph_node.h"
 
 
 namespace cgt

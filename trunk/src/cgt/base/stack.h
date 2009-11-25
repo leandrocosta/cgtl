@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_STACK_H_
 #define __CGTL__CGT_BASE_STACK_H_
 
-#include "list.h"
+#include "cgt/base/list.h"
 
 
 namespace cgt

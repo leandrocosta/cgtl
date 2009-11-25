@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_MINSPANTREE_KRUSKAL_KRUSKAL_ITERATOR_H_
 #define __CGTL__CGT_MINSPANTREE_KRUSKAL_KRUSKAL_ITERATOR_H_
 
-#include "kruskal_edge_heap.h"
-#include "../../base/iterator/iterator_ptr.h"
-#include "../../base/hash.h"
+#include "cgt/minspantree/kruskal/kruskal_edge_heap.h"
+#include "cgt/base/iterator/iterator_ptr.h"
+#include "cgt/base/hash.h"
 
 
 namespace cgt

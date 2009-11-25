@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_STCONNCOMP_GRAPH_SCC_NODE_H_
 #define __CGTL__CGT_STCONNCOMP_GRAPH_SCC_NODE_H_
 
-#include "../graph_node.h"
-#include "../graph_adjlist.h"
+#include "cgt/graph_node.h"
+#include "cgt/graph_adjlist.h"
 
 
 namespace cgt

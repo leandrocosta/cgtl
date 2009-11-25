@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/list.h"
+#include "cgt/base/list.h"
 
 const bool is_even (const int& i) { return ! (i % 2); }
 const bool is_odd (const int& i) { return (i % 2); }

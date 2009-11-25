@@ -33,9 +33,7 @@
 #ifndef __CGTL__CGT_BASE_HASH_ITERATOR_H_
 #define __CGTL__CGT_BASE_HASH_ITERATOR_H_
 
-#include "hash_item.h"
-#include "pair.h"
-#include "iterator/iterator_ptr.h"
+#include "cgt/base/hash_iterator_base.h"
 
 
 namespace cgt
@@ -47,27 +45,28 @@ namespace cgt
 
 
     template<typename _TpKey, typename _TpItem, typename _Alloc, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
-      class _HashIterator : public cgt::base::iterator::_IteratorPtr<_HashItem<pair<const _TpKey, _TpItem> >, _TpIterator>
+      class _HashIterator : public _HashIteratorBase<_TpKey, _TpItem, _Alloc, _TpIterator>
     {
       private:
-        friend class _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst>;
+        typedef _HashItem<pair<const _TpKey, _TpItem> >                                 _Item;
+        typedef _HashIteratorBase<_TpKey, _TpItem, _Alloc, _TpIterator>                 _Base;
+        typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpIterator>                     _Self;
+        typedef _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpCommon>  _SelfCommon;
+        typedef _Hash<_TpKey, _TpItem, _Alloc>                                          _Hsh;
 
       private:
-        typedef cgt::base::iterator::_IteratorPtr<_HashItem<pair<const _TpKey, _TpItem> >, _TpIterator>  _Base;
-        typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpIterator>                 _Self;
-        typedef _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpCommon>                   _SelfCommon;
-        typedef _HashItem<pair<const _TpKey, _TpItem> >                             _Item;
-        typedef _Hash<_TpKey, _TpItem, _Alloc>                                      _Hsh;
-        typedef typename _TpIterator<pair<const _TpKey, _TpItem> >::pointer         pointer;
-        typedef typename _TpIterator<pair<const _TpKey, _TpItem> >::reference       reference;
+        typedef typename _TpIterator<pair<const _TpKey, _TpItem> >::pointer   pointer;
+        typedef typename _TpIterator<pair<const _TpKey, _TpItem> >::reference reference;
 
       private:
         using _Base::_ptr;
+        using _Base::_ptr_hash;
 
       public:
-        _HashIterator () : _Base (NULL), _ptr_hash (NULL) { }
-        _HashIterator (_Item* _p, _Hsh* _p_hsh) : _Base (_p), _ptr_hash (_p_hsh) { }
-        _HashIterator (const _SelfCommon& _it) : _Base (_it._ptr), _ptr_hash (_it._ptr_hash) { }
+        _HashIterator () : _Base () { }
+        _HashIterator (_Item* _p, _Hsh* _p_hsh) : _Base (_p, _p_hsh) { }
+        _HashIterator (const _SelfCommon& _it) : _Base (_it) { }
+        virtual ~_HashIterator () { }
 
       private:
         void _incr ()
@@ -93,10 +92,7 @@ namespace cgt
         pointer operator->() const { return &(operator*()); }
 
         _Self& operator++() { _incr (); return *this; }
-        const _Self operator++(int) { return _Self (_ptr++); }
-
-      private:
-        _Hsh* _ptr_hash;
+        const _Self operator++(int) { _Self _s = *this; _incr (); return _s; }
     };
   }
 }

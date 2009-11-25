@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_MINSPANTREE_KRUSKAL_KRUSKAL_EDGE_HEAP_H_
 #define __CGTL__CGT_MINSPANTREE_KRUSKAL_KRUSKAL_EDGE_HEAP_H_
 
-#include "../../base/heap.h"
-#include "../../graph_edge.h"
+#include "cgt/base/heap.h"
+#include "cgt/graph_edge.h"
 
 
 namespace cgt

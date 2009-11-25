@@ -29,7 +29,7 @@
 #ifndef __CGTL__CGT_BASE_ALLOC_STORAGE_H_
 #define __CGTL__CGT_BASE_ALLOC_STORAGE_H_
 
-#include "../exception/mem_except.h"
+#include "cgt/base/exception/mem_except.h"
 
 
 namespace cgt

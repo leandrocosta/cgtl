@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/stack.h"
+#include "cgt/base/stack.h"
 using namespace cgt::base;
 
 int main ()

@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_ITERATOR_ITERATOR_PTR_H_
 #define __CGTL__CGT_BASE_ITERATOR_ITERATOR_PTR_H_
 
-#include "iterator_type.h"
+#include "cgt/base/iterator/iterator_type.h"
 
 
 namespace cgt
@@ -42,6 +42,7 @@ namespace cgt
   {
     namespace iterator
     {
+      /*
       template<typename _TpItem, template<typename> class _TpIterator>
         class _IteratorPtr
       {
@@ -50,8 +51,9 @@ namespace cgt
           friend class _IteratorPtr<_TpItem, _TpConst>;
 
         private:
-          typedef _IteratorPtr<_TpItem, _TpCommon>  _SelfCommon;
-          typedef _IteratorPtr<_TpItem, _TpConst>   _SelfConst;
+          typedef _IteratorPtr<_TpItem, _TpIterator>  _Self;
+          typedef _IteratorPtr<_TpItem, _TpCommon>    _SelfCommon;
+          typedef _IteratorPtr<_TpItem, _TpConst>     _SelfConst;
 
         protected:
           _IteratorPtr () : _ptr (NULL) { }
@@ -59,6 +61,8 @@ namespace cgt
           virtual ~_IteratorPtr () { }
 
         public:
+            // virtual const bool operator==(const _Self& _other) const { return (_ptr == _other._ptr); }
+            // virtual const bool operator!=(const _Self& _other) const { return !(*this == _other); }
             virtual const bool operator==(const _SelfCommon& _other) const { return (_ptr == _other._ptr); }
             virtual const bool operator==(const _SelfConst& _other) const { return (_ptr == _other._ptr); }
             virtual const bool operator!=(const _SelfCommon& _other) const { return !(*this == _other); }
@@ -70,6 +74,67 @@ namespace cgt
         protected:
           _TpItem* _ptr;
       };
+    */
+
+      template<typename _TpItem, template<typename> class _TpIterator>
+        class _IteratorPtr;
+
+      template<typename _TpItem>
+        class _IteratorPtr<_TpItem, _TpCommon>
+        {
+          private:
+            friend class _IteratorPtr<_TpItem, _TpConst>;
+
+          private:
+            typedef _IteratorPtr<_TpItem, _TpCommon>  _Self;
+            typedef _IteratorPtr<_TpItem, _TpConst>   _SelfConst;
+
+          protected:
+            _IteratorPtr () : _ptr (NULL) { }
+            _IteratorPtr (_TpItem* _p) : _ptr (_p) { }
+            virtual ~_IteratorPtr () { }
+
+          public:
+            virtual const bool operator==(const _Self& _other) const { return (_ptr == _other._ptr); }
+            virtual const bool operator==(const _SelfConst& _other) const { return (_ptr == _other._ptr); }
+            virtual const bool operator!=(const _Self& _other) const { return !(*this == _other); }
+            virtual const bool operator!=(const _SelfConst& _other) const { return !(*this == _other); }
+
+          protected:
+            virtual void _incr () = 0;
+
+          protected:
+            _TpItem* _ptr;
+        };
+
+      template<typename _TpItem>
+        class _IteratorPtr<_TpItem, _TpConst>
+        {
+          private:
+            friend class _IteratorPtr<_TpItem, _TpCommon>;
+
+          private:
+            typedef _IteratorPtr<_TpItem, _TpConst>   _Self;
+            typedef _IteratorPtr<_TpItem, _TpCommon>  _SelfCommon;
+
+          protected:
+            _IteratorPtr () : _ptr (NULL) { }
+            _IteratorPtr (_TpItem* _p) : _ptr (_p) { }
+            _IteratorPtr (const _SelfCommon& _it) : _ptr (_it._ptr) { }
+            virtual ~_IteratorPtr () { }
+
+          public:
+            virtual const bool operator==(const _Self& _other) const { return (_ptr == _other._ptr); }
+            virtual const bool operator==(const _SelfCommon& _other) const { return (_ptr == _other._ptr); }
+            virtual const bool operator!=(const _Self& _other) const { return !(*this == _other); }
+            virtual const bool operator!=(const _SelfCommon& _other) const { return !(*this == _other); }
+
+          protected:
+            virtual void _incr () = 0;
+
+          protected:
+            _TpItem* _ptr;
+        };
     }
   }
 }
