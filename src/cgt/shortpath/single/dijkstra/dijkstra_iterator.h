@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_ITERATOR_H_
 #define __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_ITERATOR_H_
 
-//#include "dijkstra_info.h"
-#include "dijkstra_info_list.h"
-#include "dijkstra_info_heap.h"
+//#include "cgt/shortpath/single/dijkstra/dijkstra_info.h"
+#include "cgt/shortpath/single/dijkstra/dijkstra_info_list.h"
+#include "cgt/shortpath/single/dijkstra/dijkstra_info_heap.h"
 
 namespace cgt
 {
@@ -162,16 +162,16 @@ namespace cgt
           {
             const _Info* _ptr = NULL;
 
-            typename _InfoList::const_iterator it = _infoList.get_by_node (_ptr_node);
+            typename _InfoList::const_iterator _it = _infoList.get_by_node (_ptr_node);
 
-            if (it != _infoList.end ())
-              _ptr = &(*it);
+            if (_it != _infoList.end ())
+              _ptr = &(*_it);
             else
             {
-              typename _InfoHeap::const_iterator it = _notVisitedInfoHeap.get_by_node (_ptr_node);
+              typename _InfoHeap::const_iterator _it = _notVisitedInfoHeap.get_by_node (_ptr_node);
 
-              if (it != _notVisitedInfoHeap.end ())
-                _ptr = &(*it);
+              if (_it != _notVisitedInfoHeap.end ())
+                _ptr = &(*_it);
             }
 
             return _ptr;

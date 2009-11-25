@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_HEAP_H_
 #define __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_INFO_HEAP_H_
 
-#include "dijkstra_info.h"
-#include "../../../graph_node.h"
-#include "../../../base/heap.h"
+#include "cgt/shortpath/single/dijkstra/dijkstra_info.h"
+#include "cgt/graph_node.h"
+#include "cgt/base/heap.h"
 
 
 namespace cgt
@@ -55,9 +55,9 @@ namespace cgt
             typedef _DijkstraInfoHeap<_TpVertex, _TpEdge> _Self;
 
           private:
-            typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
-            typedef _GraphEdge<_TpVertex, _TpEdge>    _Edge;
-            typedef typename _Base::const_iterator    _ConstIterator;
+            typedef _GraphNode<_TpVertex, _TpEdge>  _Node;
+            typedef _GraphEdge<_TpVertex, _TpEdge>  _Edge;
+            typedef typename _Base::const_iterator  _ConstIterator;
 
           public:
             static void _set_previous (_Info& _info, const _Node* const _previous) { _info._set_previous (_previous); }
@@ -89,7 +89,7 @@ namespace cgt
           {
             _ConstIterator it = get_by_node (_ptr_node);
 
-            if (it != _Base::end ())
+            if (it != static_cast<const _Self*> (this)->_Base::end ())
             {
               _TpEdge _new_distance = _distance + _edge.value ();
 

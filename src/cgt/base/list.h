@@ -36,7 +36,6 @@
 #include "cgt/base/list_item.h"
 #include "cgt/base/list_iterator.h"
 #include "cgt/base/alloc/allocator.h"
-#include "cgt/misc/rwlockable.h"
 
 
 namespace cgt
@@ -54,7 +53,7 @@ namespace cgt
      */
 
     template<typename _TpItem, typename _Alloc>
-      class _List : private cgt::misc::_RWLockable
+      class _List
       {
         private:
           typedef _List<_TpItem, _Alloc>  _Self;
@@ -120,15 +119,11 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _List<_TpItem, _Alloc>& _List<_TpItem, _Alloc>::operator=(const _Self& _l)
       {
-        wlock ();
-
         _remove_all ();
 
         const_iterator _itEnd = _l.end ();
         for (const_iterator _it = _l.begin (); _it != _itEnd; ++_it)
           _push_back (*_it);
-
-        unlock ();
 
         return *this;
       }
@@ -151,16 +146,12 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::_push_back (const _TpItem& _item)
       {
-        wlock ();
         return _push_back (_allocate (_item));
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::_push_back (_Item *_ptr)
       {
-        wlock ();
-
         if (! _head)
           _head = _ptr;
         else
@@ -172,24 +163,18 @@ namespace cgt
         _tail = _ptr;
         _size++;
 
-        unlock ();
-
         return _ptr->_data;
       }
 
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::_push_front (const _TpItem& _item)
       {
-        wlock ();
         return _push_front (_allocate (_item));
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       _TpItem& _List<_TpItem, _Alloc>::_push_front (_Item *_ptr)
       {
-        wlock ();
-
         if (! _tail)
           _tail = _ptr;
         else
@@ -201,22 +186,16 @@ namespace cgt
         _head = _ptr;
         _size++;
 
-        unlock ();
-
         return _ptr->_data;
       }
 
     template<typename _TpItem, typename _Alloc>
       _ListItem<_TpItem>* _List<_TpItem, _Alloc>::_find (const _TpItem& _item) const
       {
-        rlock ();
-
         _Item* _ptr = _head;
 
         while (_ptr != NULL && _ptr->_data != _item)
           _ptr = static_cast<_Item *>(_ptr->_next);
-
-        unlock ();
 
         return _ptr;
       }
@@ -224,14 +203,10 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _TpItem* _List<_TpItem, _Alloc>::_get (_Item* _ptr_item) const
       {
-        rlock ();
-
         _TpItem* _ptr = NULL;
 
         if (_ptr_item)
           _ptr = &(_ptr_item->_data);
-
-        unlock ();
 
         return _ptr;
       }
@@ -239,8 +214,6 @@ namespace cgt
     template<typename _TpItem, typename _Alloc>
       _TpItem* _List<_TpItem, _Alloc>::_pop (_Item* _ptr_item)
       {
-        wlock ();
-
         _TpItem* _ptr = NULL;
 
         if (_ptr_item)
@@ -250,16 +223,12 @@ namespace cgt
           _deallocate (_ptr_item);
         }
 
-        unlock ();
-
         return _ptr;
       }
 
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::_unlink (const _Item* const _ptr)
       {
-        wlock ();
-
         if (_ptr->_prev)
           _ptr->_prev->_next = _ptr->_next;
         else
@@ -271,40 +240,28 @@ namespace cgt
           _tail = static_cast<_Item *>(_ptr->_prev);
 
         _size--;
-
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::_remove (_Item* _ptr)
       {
-        wlock ();
-
         if (_ptr)
         {
           _unlink (_ptr);
           _deallocate (_ptr);
         }
-
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::_remove_all ()
       {
-        wlock ();
-
         while (_head)
           _remove (_head);
-
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::make_heap ()
       {
-        wlock ();
-
         _TpItem* _arrayItem [_size];
 
         iterator it;
@@ -318,15 +275,11 @@ namespace cgt
 
         while (i >= 0)
           _rebuild_heap (i--, _arrayItem);
-
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::_rebuild_heap (unsigned int i, _TpItem* _arrayItem[])
       {
-        wlock ();
-
         _TpItem item = *(_arrayItem [i]);
 
         unsigned int k = 2*i+1;
@@ -347,16 +300,12 @@ namespace cgt
         }
 
         *(_arrayItem [i]) = item;
-
-        unlock ();
       }
 
     template<typename _TpItem, typename _Alloc>
       _TpItem* _List<_TpItem, _Alloc>::pop_heap ()
       {
         _TpItem* _ptr = NULL;
-
-        wlock ();
 
         if (_head)
         {
@@ -383,17 +332,12 @@ namespace cgt
           }
         }
 
-        unlock ();
-
         return _ptr;
       }
 
     template<typename _TpItem, typename _Alloc>
       void _List<_TpItem, _Alloc>::swap (_Self& _list1, _Self& _list2)
       {
-        _list1.wlock ();
-        _list2.wlock ();
-
         _Item* _p = _list1._head;
         _list1._head = _list2._head;
         _list2._head = _p;
@@ -405,9 +349,6 @@ namespace cgt
         size_t _s = _list1._size;
         _list1._size = _list2._size;
         _list2._size = _s;
-
-        _list1.unlock ();
-        _list2.unlock ();
       }
 
     template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >

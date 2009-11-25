@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_MINSPANTREE_PRIM_PRIM_ADJACENCY_HEAP_H_
 #define __CGTL__CGT_MINSPANTREE_PRIM_PRIM_ADJACENCY_HEAP_H_
 
-#include "../../base/heap.h"
-#include "../../graph_adjacency.h"
+#include "cgt/base/heap.h"
+#include "cgt/graph_adjacency.h"
 
 
 namespace cgt

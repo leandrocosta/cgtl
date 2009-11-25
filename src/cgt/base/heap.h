@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_BASE_HEAP_H_
 #define __CGTL__CGT_BASE_HEAP_H_
 
-#include "vector.h"
-#include "alloc/allocator.h"
+#include "cgt/base/vector.h"
+#include "cgt/base/alloc//allocator.h"
 
 
 namespace cgt

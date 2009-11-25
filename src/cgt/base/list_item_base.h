@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_LIST_ITEM_BASE_H_
 #define __CGTL__CGT_BASE_LIST_ITEM_BASE_H_
 
-#include "iterator/iterator_type.h"
+#include "cgt/base/iterator/iterator_type.h"
 
 
 namespace cgt

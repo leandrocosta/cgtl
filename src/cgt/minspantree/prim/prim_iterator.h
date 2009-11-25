@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_MINSPANTREE_PRIM_PRIM_ITERATOR_H_
 #define __CGTL__CGT_MINSPANTREE_PRIM_PRIM_ITERATOR_H_
 
-#include "prim_adjacency_heap.h"
-#include "../../base/iterator/iterator_ptr.h"
-#include "../../base/hash.h"
+#include "cgt/minspantree/prim/prim_adjacency_heap.h"
+#include "cgt/base/iterator/iterator_ptr.h"
+#include "cgt/base/hash.h"
 
 
 namespace cgt

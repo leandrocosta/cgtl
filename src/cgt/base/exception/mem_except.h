@@ -29,7 +29,7 @@
 #ifndef __CGTL__CGT_BASE_EXCEPTION_MEM_EXCEPT_H_
 #define __CGTL__CGT_BASE_EXCEPTION_MEM_EXCEPT_H_
 
-#include "exception.h"
+#include "cgt/base/exception/exception.h"
 
 namespace cgt
 {

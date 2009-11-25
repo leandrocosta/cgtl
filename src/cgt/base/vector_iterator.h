@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_VECTOR_ITERATOR_H_
 #define __CGTL__CGT_BASE_VECTOR_ITERATOR_H_
 
-#include "iterator/iterator_ptr.h"
+#include "cgt/base/iterator/iterator_ptr.h"
 
 
 namespace cgt
@@ -44,12 +44,11 @@ namespace cgt
       class _VectorIterator : public cgt::base::iterator::_IteratorPtr<_TpItem*, _TpIterator>
     {
       private:
-        friend class _VectorIterator<_TpItem, cgt::base::iterator::_TpConst>;
+        typedef cgt::base::iterator::_IteratorPtr<_TpItem*, _TpIterator>  _Base;
+        typedef _VectorIterator<_TpItem, _TpIterator>                     _Self;
+        typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpCommon>  _SelfCommon;
 
       private:
-        typedef cgt::base::iterator::_IteratorPtr<_TpItem*, _TpIterator>       _Base;
-        typedef _VectorIterator<_TpItem, _TpIterator>     _Self;
-        typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpCommon>       _SelfCommon;
         typedef typename _TpIterator<_TpItem>::pointer    pointer;
         typedef typename _TpIterator<_TpItem>::reference  reference;
 
@@ -59,7 +58,8 @@ namespace cgt
       public:
         _VectorIterator () { }
         _VectorIterator (_TpItem** _p) : _Base (_p) { }
-        _VectorIterator (const _SelfCommon& _it) : _Base (_it._ptr) { }
+        _VectorIterator (const _SelfCommon& _it) : _Base (_it) { }
+        virtual ~_VectorIterator () { }
 
       private:
         void _incr () { _ptr++; }

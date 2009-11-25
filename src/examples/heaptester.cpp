@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/heap.h"
+#include "cgt/base/heap.h"
 
 void _modify (int& i, const int& value)
 {

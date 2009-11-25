@@ -33,8 +33,8 @@
 #ifndef __CGTL__CGT_SEARCH_BREADTH_BREADTH_ITERATOR_H_
 #define __CGTL__CGT_SEARCH_BREADTH_BREADTH_ITERATOR_H_
 
-#include "../search_iterator.h"
-#include "../../base/queue.h"
+#include "cgt/search/search_iterator.h"
+#include "cgt/base/queue.h"
 
 
 namespace cgt

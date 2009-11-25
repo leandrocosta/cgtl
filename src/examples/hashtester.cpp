@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-#include "../cgt/base/hash.h"
+#include "cgt/base/hash.h"
 using namespace cgt::base;
 
 int main ()

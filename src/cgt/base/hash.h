@@ -34,11 +34,11 @@
 #define __CGTL__CGT_BASE_HASH_H_
 
 #include <string.h>
-#include "hash_item.h"
-#include "hash_iterator.h"
-#include "alloc/allocator.h"
-#include "hash_func.h"
-#include "pair.h"
+#include "cgt/base/hash_item.h"
+#include "cgt/base/hash_iterator.h"
+#include "cgt/base/alloc//allocator.h"
+#include "cgt/base/hash_func.h"
+#include "cgt/base/pair.h"
 
 
 namespace cgt

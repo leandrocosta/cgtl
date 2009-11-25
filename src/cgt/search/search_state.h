@@ -33,9 +33,9 @@
 #ifndef __CGTL__CGT_SEARCH_SEARCH_STATE_H_
 #define __CGTL__CGT_SEARCH_SEARCH_STATE_H_
 
-#include "../graph_node.h"
-#include "../graph_adjacency.h"
-#include "../base/list_iterator.h"
+#include "cgt/graph_node.h"
+#include "cgt/graph_adjacency.h"
+#include "cgt/base/list_iterator.h"
 
 
 namespace cgt

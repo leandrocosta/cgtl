@@ -29,7 +29,7 @@
 #ifndef __CGTL__CGT_BASE_ALLOC_ALLOCATOR_H_
 #define __CGTL__CGT_BASE_ALLOC_ALLOCATOR_H_
 
-#include "storage.h"
+#include "cgt/base/alloc/storage.h"
 #include <stdlib.h>
 #include <malloc.h>
 
