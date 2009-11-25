@@ -47,9 +47,14 @@ int main ()
     const mygraph::breadth_info* i = itd.info (n);
 
     cout << "node: " << v.value ();
-    cout << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-");
-    cout << ", discovery: " << setw (2) << i->discovery ();
-    cout << ", finish: " << setw (2) << i->finish () << endl;
+    if (i)
+    {
+      cout << ", parent: " << (i->parent () ? i->parent ()->vertex ().value ():"-");
+      cout << ", discovery: " << setw (2) << i->discovery ();
+      cout << ", finish: " << setw (2) << i->finish () << endl;
+    }
+    else
+      cout << ", info is null" << endl;
   }
 
   cout << endl;

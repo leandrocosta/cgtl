@@ -33,7 +33,10 @@ stacktester_SOURCES	= $(STACKTESTER_SRCS)
 depthtester_d_SOURCES	= $(DEPTHTESTER_D_SRCS)
 depthtester_u_SOURCES	= $(DEPTHTESTER_U_SRCS)
 breadthtester_d_SOURCES	= $(BREADTHTESTER_D_SRCS)
+
 breadthtester_u_SOURCES	= $(BREADTHTESTER_U_SRCS)
+breadthtester_u_CPPFLAGS = -DDEBUG
+
 dijkstratester_d_SOURCES	= $(DIJKSTRATESTER_D_SRCS)
 primtester_u_SOURCES	= $(PRIMTESTER_U_SRCS)
 kruskaltester_u_SOURCES	= $(KRUSKALTESTER_U_SRCS)
