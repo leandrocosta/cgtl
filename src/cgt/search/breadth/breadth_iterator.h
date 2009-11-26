@@ -83,21 +83,19 @@ namespace cgt
           typedef _SearchInfo<_TpVertex, _TpEdge> _BreadthInfo;
 
         private:
-          typedef _BreadthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
-          typedef _BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
-          typedef _GraphNode<_TpVertex, _TpEdge>                    _Node;
-          typedef typename cgt::base::list<_Node>::iterator                    _NodeIterator;
-          typedef _SearchState<_TpVertex, _TpEdge>                  _BreadthState;
-
-        private:
-          typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::queue, _TpIterator> _Base;
+          typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::queue, _TpIterator>    _Base;
+          typedef _BreadthIterator<_TpVertex, _TpEdge, _TpIterator>                     _Self;
+          typedef _BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>  _SelfCommon;
+          typedef _GraphNode<_TpVertex, _TpEdge>                                        _Node;
+          typedef typename cgt::base::list<_Node>::iterator                             _NodeIterator;
+          typedef _SearchState<_TpVertex, _TpEdge>                                      _BreadthState;
 
         private:
           using _Base::_ptr_node;
           using _Base::_it_node;
           using _Base::_it_node_end;
-          using _Base::_InfoList;
-          using _Base::_StateContainer;
+          using _Base::_infoList;
+          using _Base::_stContainer;
           using _Base::_global_time;
 
         public:
@@ -105,7 +103,7 @@ namespace cgt
           _BreadthIterator (_Node* const _ptr_n) : _Base (_ptr_n) { }
           _BreadthIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (_ptr_n, _it_begin, _it_end) { }
           _BreadthIterator (const _NodeIterator& _it, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (&(*_it), _it_begin, _it_end) { }
-          _BreadthIterator (const _SelfCommon& _it) { }
+          _BreadthIterator (const _SelfCommon& _it) : _Base (_it) { }
 
         public:
           _Self& operator++();
@@ -114,8 +112,8 @@ namespace cgt
           const _BreadthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (*_ptr_node); }
           const _BreadthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
-          typename cgt::base::list<_BreadthInfo>::iterator info_begin () { return _InfoList.begin (); }
-          typename cgt::base::list<_BreadthInfo>::iterator info_end () { return _InfoList.end (); }
+          typename cgt::base::list<_BreadthInfo>::iterator info_begin () { return _infoList.begin (); }
+          typename cgt::base::list<_BreadthInfo>::iterator info_end () { return _infoList.end (); }
       };
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -138,9 +136,9 @@ namespace cgt
 
           _ptr_node = NULL;
 
-          while (! _StateContainer.empty ())
+          while (! _stContainer.empty ())
           {
-            _BreadthState *_ptr_state  = _StateContainer.first ();
+            _BreadthState *_ptr_state  = _stContainer.first ();
 
             while (! _ptr_state->adj_finished ())
             {
@@ -148,7 +146,7 @@ namespace cgt
               {
                 _ptr_node = &(_ptr_state->_adj_node ());
                 _ptr_state->adj_incr ();
-                _StateContainer.enqueue (_BreadthState (*_ptr_node));
+                _stContainer.enqueue (_BreadthState (*_ptr_node));
                 _discover_node (*_ptr_node, &(_ptr_state->node ()), ++_global_time);
                 break;
               }
@@ -158,7 +156,7 @@ namespace cgt
 
             if (! _ptr_node)
             {
-              _BreadthState *_ptr = _StateContainer.dequeue ();
+              _BreadthState *_ptr = _stContainer.dequeue ();
               _finish_node (_ptr->node (), ++_global_time);
               delete _ptr;
             }
@@ -174,7 +172,7 @@ namespace cgt
             if (_it_node != _it_node_end)
             {
               _ptr_node = &(*_it_node);
-              _StateContainer.enqueue (_BreadthState (*_it_node));
+              _stContainer.enqueue (_BreadthState (*_it_node));
               _discover_node (*_it_node, NULL, ++_global_time);
             }
           }

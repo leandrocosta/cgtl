@@ -30,6 +30,7 @@
 #define __CGTL__CGT_BASE_ALLOC_STORAGE_H_
 
 #include "cgt/base/exception/mem_except.h"
+#include "cgt/misc/safe_wlock.h"
 
 
 namespace cgt
@@ -38,20 +39,49 @@ namespace cgt
   {
     namespace alloc
     {
-      /*
-       * Based on the example presented in The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570
+      /*!
+       * \class _Storage
+       * \brief A storage for a chunk-based allocator, encapsulates \b new and \b delete.
+       * \author Leandro Costa
+       * \date 2009
+       * \todo Implement thread-safety for allocator.
+       *
+       * This is the storage used by a chunk-based allocator, implementation based on the
+       * example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
        */
 
-      template<typename _TpItem, size_t _ChunkSize = 0xFFFF /* 64k-1 */>
-        class _Storage
+      template<typename _TpItem, size_t _ChunkSize = 0xFFFF /* 64K-1 */>
+        class _Storage : private cgt::misc::_RWLockable
         {
           private:
+            friend class cgt::misc::_Safe_WLock;
+
+          private:
+            /*!
+             * \class _Chunk
+             * \brief The chunk structure for a chunk-based allocator, default size = 64K-1 bytes.
+             * \author Leandro Costa
+             * \date 2009
+             * \todo Implement thread-safety for allocator.
+             *
+             * This is the storage's chunk structure used by a chunk-based allocator, implementation based on the
+             * example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
+             */
+
             class _Chunk
             {
               public:
+                /*!
+                 * \struct _Block
+                 * \brief The block structure for a chunk-based allocator, used to identify a free block.
+                 * \author Leandro Costa
+                 * \date 2009
+                 * \todo Implement thread-safety for allocator.
+                 */
+
                 struct _Block
                 {
-                  _Block* _next;
+                  _Block* _next; /** < points to the next free block (valid only if this block is free) */
                 };
 
               public:
@@ -70,8 +100,8 @@ namespace cgt
                 }
 
               public:
-                char _block [_ChunkSize * sizeof (_TpItem)];
-                _Chunk* _next;
+                char _block [_ChunkSize * sizeof (_TpItem)]; /** < a block of the chunk */
+                _Chunk* _next; /** < points to the next allocated chunk */
             };
 
           private:
@@ -86,12 +116,12 @@ namespace cgt
             void _destroy ();
 
           public:
-            _TpItem* allocate ();
-            void deallocate (_TpItem* _ptr);
+            _TpItem* allocate (); /** < a thread-safe allocator method */
+            void deallocate (_TpItem* _ptr); /** < a thread-safe deallocator method */
 
           private:
-            _Chunk* _head;
-            _Block* _free;
+            _Chunk* _head; /** < the first allocated chunk of the storage */
+            _Block* _free; /** < points to the first free block of any chunk */
         };
 
 
@@ -124,6 +154,8 @@ namespace cgt
       template<typename _TpItem, size_t _ChunkSize>
         _TpItem* _Storage<_TpItem, _ChunkSize>::allocate ()
         {
+          cgt::misc::_Safe_WLock (*this); /** < guarantees thread-safety */
+
           if (! _free)
             _add_chunk ();
 
@@ -136,6 +168,8 @@ namespace cgt
       template<typename _TpItem, size_t _ChunkSize>
         void _Storage<_TpItem, _ChunkSize>::deallocate (_TpItem* _ptr)
         {
+          cgt::misc::_Safe_WLock (*this); /** < guarantees thread-safety */
+
           reinterpret_cast<_Block *>(_ptr)->_next = _free;
           _free = reinterpret_cast<_Block *>(_ptr);
         }

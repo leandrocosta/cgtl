@@ -34,9 +34,9 @@
 #define __CGTL__CGT_MISC_DEBUG_H_
 
 #if (defined DEBUG)
-#  define _brk() { asm ("int $3"); } // __GNUC__
-#elif !defined (_brk)
-#  define _brk() {;}
+#  define _BRK() { asm ("int $3"); } // __GNUC__
+#elif !defined (_BRK)
+#  define _BRK() {;}
 #endif
 
 #endif

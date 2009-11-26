@@ -38,9 +38,14 @@
 
 namespace cgt
 {
-  /*
-   * keep informations about depth-first search and breadth-first search visited node
-   * like color, parent, discovery time, finish time, etc.
+  /*!
+   * \class _SearchInfo
+   * \brief The _SearchInfo class template.
+   * \author Leandro Costa
+   * \date 2009
+   *
+   * The _SearchInfo keeps informations about depth-first search and breadth-first
+   * search visited node like color, parent, discovery time, finish time, etc.
    */
 
   template<typename _TpVertex, typename _TpEdge>
@@ -61,9 +66,6 @@ namespace cgt
         _SearchInfo (const _Self& _s) : _node (_s._node), _ptr_parent (_s._ptr_parent), _color (_s._color), _discovery (_s._discovery), _finish (_s._finish) { }
 
       public:
-        _SearchInfo& operator=(const _Self& _s) { }
-
-      public:
         void set_parent (const _Node* const _ptr) { _ptr_parent = _ptr; }
         void set_color (const _color_t& _c) { _color = _c; }
         void set_discovery (const unsigned long& _d) { _discovery = _d; }
@@ -78,7 +80,7 @@ namespace cgt
         const _color_t& value () const { return _color; }
 
       private:
-        _Node&  _node;
+        _Node&        _node;
         const _Node*  _ptr_parent;
         _color_t      _color;
         unsigned long _discovery;

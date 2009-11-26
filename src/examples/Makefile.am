@@ -35,7 +35,7 @@ depthtester_u_SOURCES	= $(DEPTHTESTER_U_SRCS)
 breadthtester_d_SOURCES	= $(BREADTHTESTER_D_SRCS)
 
 breadthtester_u_SOURCES	= $(BREADTHTESTER_U_SRCS)
-breadthtester_u_CPPFLAGS = -DDEBUG
+#breadthtester_u_CPPFLAGS = -DDEBUG -gstabs
 
 dijkstratester_d_SOURCES	= $(DIJKSTRATESTER_D_SRCS)
 primtester_u_SOURCES	= $(PRIMTESTER_U_SRCS)
@@ -44,6 +44,6 @@ scctester_d_SOURCES	= $(SCCTESTER_D_SRCS)
 dijkstratester_u_SOURCES	= $(DIJKSTRATESTER_U_SRCS)
 
 complexgraph_SOURCES 	= $(COMPLEXGRAPH_SRCS)
-complexgraph_CPPFLAGS	= -DDEBUG
+#complexgraph_CPPFLAGS	= -DDEBUG
 
 alloctester_SOURCES = $(ALLOCTESTER_SRCS)
