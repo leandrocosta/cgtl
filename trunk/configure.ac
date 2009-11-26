@@ -25,16 +25,24 @@ AC_C_CONST
 AC_TYPE_SIZE_T
 AC_CHECK_TYPES([ptrdiff_t])
 
+# CxxTest (cxxtest.tigris.org)
+AC_PATH_PROG([CXXTESTGEN], [cxxtestgen.pl], [cxxtestgen.pl], [/usr/bin/cxxtestgen.pl])
+
+# CxxTest code generator flags:
+CXXTFLAGS='--error-printer'
+
+# C e C++ compilers flags:
 CPPFLAGS='-g -Wall -Werror -O'
 CFLAGS=
 CXXFLAGS=
 
-#LDFLAGS='-lpthread'
+LDFLAGS='-lpthread'
 INCLUDES='-I$(top_srcdir)/src'
 
 AC_SUBST(CPPFLAGS)
-#AC_SUBST(LDFLAGS)
+AC_SUBST(LDFLAGS)
 AC_SUBST(INCLUDES)
+AC_SUBST(CXXTFLAGS)
 
 # Checks for library functions.
 AC_FUNC_MALLOC
@@ -43,5 +51,8 @@ AC_CHECK_FUNCS([bzero strdup])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile
-                 src/examples/Makefile])
+                 src/examples/Makefile
+                 src/tests/Makefile
+                 src/tests/cgt/Makefile
+                 src/tests/cgt/base/Makefile])
 AC_OUTPUT

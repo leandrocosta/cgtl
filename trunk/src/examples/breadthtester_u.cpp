@@ -22,10 +22,12 @@ int main ()
 
   cout << "=== breadth-first search from vertex E ===" << endl << endl;
 
-  mygraph::const_biterator itd;
+  mygraph::iterator itE = g.find ("E");
+  mygraph::const_biterator itd = g.breadth_begin (itE);
   mygraph::const_biterator itdEnd = g.breadth_end ();
 
-  for (itd = g.breadth_begin (g.find ("E")); itd != itdEnd; ++itd)
+//  for (itd = g.breadth_begin (g.find ("E")); itd != itdEnd; ++itd)
+  for (; itd != itdEnd; ++itd)
   {
     const mygraph::node&       n = *itd;
     const mygraph::vertex&     v = n.vertex ();

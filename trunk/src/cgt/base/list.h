@@ -50,6 +50,10 @@ namespace cgt
     /*!
      * \class _List
      * \brief A doubly-linked list container.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A doubly-linked list container. This is the \i private class.
      */
 
     template<typename _TpItem, typename _Alloc>
@@ -82,7 +86,6 @@ namespace cgt
           _TpItem& _push_front (_Item* _ptr);
 
           void _unlink (const _Item* const _ptr);
-          void _remove (_Item* _ptr);
 
           void _rebuild_heap (unsigned int i, _TpItem* _arrayItem[]);
 
@@ -92,6 +95,7 @@ namespace cgt
           _TpItem* _pop (_Item* _ptr_item);
           _TpItem* _get (_Item* _ptr_item) const;
           _Item* _find (const _TpItem& _item) const;
+          void _remove (_Item* _ptr);
           void _remove_all ();
 
         public:
@@ -350,6 +354,15 @@ namespace cgt
         _list1._size = _list2._size;
         _list2._size = _s;
       }
+
+    /*!
+     * \class list
+     * \brief A doubly-linked list container.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A doubly-linked list container. This is the \i public class.
+     */
 
     template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >
       class list : public _List<_TpItem, _Alloc>

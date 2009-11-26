@@ -48,10 +48,18 @@ namespace cgt
     namespace iterator
     {
       template<typename _TpItem>
+        struct _TpCommon;
+
+      template<typename _TpItem>
+        struct _TpConst;
+
+      template<typename _TpItem>
         struct _TpCommon
         {
           typedef _TpItem* pointer;
           typedef _TpItem& reference;
+
+//          typedef template _TpConst other;
         };
 
       template<typename _TpItem>
@@ -59,6 +67,8 @@ namespace cgt
         {
           typedef const _TpItem* pointer;
           typedef const _TpItem& reference;
+
+//          typedef template _TpCommon other;
         };
     }
   }

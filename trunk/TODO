@@ -10,11 +10,17 @@
 
 * Implement more exceptions;
 
-* Implement thread-safety;
+* Implement thread-safety (is it really important?);
 
 * Implement structure to be accessed by minspantree iterators;
 
+* Implement multigraph and hypergraph (?): is it realy necessary for now?;
+* What should I do when the user tries to insert duplicated vertices or edges? What would STL do?
+
+---
+
 * Implement structure to be accessed by strongly connected components iterators;
+  - OK.
 
 * Implement const_iterators;
 	- OK, seems to be working.
@@ -22,7 +28,7 @@
 * Check if an edge already exist before insert it;
 	- OK, seems to be working.
 
-* Implement edge and vertex iterators: an easy way to get just the vertex's, or just the edges's values, without take care about the links, the adjacency list, etc.;
+* Implement edge and vertex iterators: get just the vertex's or just the edges's values without take care about the links, the adjacency list, etc.;
 	- OK, seems to be working.
 
 * Implement undirected graph: as a type or an attribute to the already existing types;
@@ -45,6 +51,3 @@
 
 * Implement strongly connected components;
   - OK.
-
-* Implement multigraph and hypergraph (?): is it realy necessary for now?;
-* What should I do when the user tries to insert duplicated vertices or edges? What would STL do?

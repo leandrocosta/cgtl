@@ -49,32 +49,77 @@ namespace cgt
 
   namespace search
   {
+    /*!
+     * \class _SearchIterator
+     * \brief The _SearchIterator class template.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * The _SearchIterator is the base for breath and depth iterators. It defines
+     * operations that are shared by both, and accepts a template class as a
+     * container template that is initialized as a queue or a stack according
+     * to the method of search.
+     */
+
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
       class _SearchIterator
       {
         private:
-          typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator> _Self;
-          typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, cgt::base::iterator::_TpCommon>   _SelfCommon;
+//          friend class _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, typename _TpIterator<_GraphNode<_TpVertex, _TpEdge> >::other>;
+          friend class _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, cgt::base::iterator::_TpConst>;
 
         private:
-          typedef _SearchInfo<_TpVertex, _TpEdge> _Info;
-          typedef typename cgt::base::list<_Info>::iterator  _InfoIterator;
+          typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>                     _Self;
+          typedef _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, cgt::base::iterator::_TpCommon>  _SelfCommon;
+
+        private:
+          typedef _SearchInfo<_TpVertex, _TpEdge>     _Info;
+          typedef cgt::base::list<_Info>              _InfoList;
+          typedef typename _InfoList::iterator        _InfoIterator;
+          typedef typename _InfoList::const_iterator  _InfoCIterator;
 
         protected:
-          typedef _GraphNode<_TpVertex, _TpEdge>    _Node;
-          typedef typename cgt::base::list<_Node>::iterator    _NodeIterator;
-          typedef _SearchState<_TpVertex, _TpEdge>  _State;
+          typedef _GraphNode<_TpVertex, _TpEdge>      _Node;
+          typedef typename cgt::base::list<_Node>     _NodeList;
+          typedef typename _NodeList::iterator        _NodeIterator;
+          typedef typename _NodeList::const_iterator  _NodeCIterator;
+
+          typedef _SearchState<_TpVertex, _TpEdge>    _State;
+
+        private:
+          typedef typename _TpIterator<_Node>::pointer    pointer;
+          typedef typename _TpIterator<_Node>::reference  reference;
 
         protected:
           _SearchIterator () : _ptr_node (NULL), _it_node (NULL), _it_node_end (NULL), _global_time (0) { }
           _SearchIterator (_Node* const _ptr_n) : _ptr_node (_ptr_n), _global_time (0) { }
-          _SearchIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
-        {
-          if (_ptr_node)
-            _init ();
-        }
-          _SearchIterator (const _SelfCommon& _it) : _ptr_node (_it._ptr_node), _it_node (_it._it_node), _it_node_end (_it._it_node_end), _global_time (_it._global_time), _InfoList (_it._InfoList) { }
+          _SearchIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end)
+            : _ptr_node (_ptr_n), _it_node (_it_begin), _it_node_end (_it_end), _global_time (0)
+          {
+            _BRK();
+            if (_ptr_node)
+              _init ();
+            _BRK();
+          }
+
+        public:
+          _SearchIterator (const _SelfCommon& _it) { *this = _it; }
+
+        protected:
           virtual ~_SearchIterator () { }
+
+        public:
+          const _Self& operator=(const _SelfCommon& _it)
+          {
+            _ptr_node     = _it._ptr_node;
+            _it_node      = _it._it_node;
+            _it_node_end  = _it._it_node_end;
+            _global_time  = _it._global_time;
+            _infoList     = _it._infoList;
+            _stContainer  = _it._stContainer;
+
+            return *this;
+          }
 
         private:
           void _init ();
@@ -85,21 +130,21 @@ namespace cgt
         protected:
           void _discover_node (const _Node& _node, const _Node* const _ptr_parent, const unsigned long& _d);
           void _finish_node (const _Node& _node, const unsigned long& _f);
-          const bool _has_color (const _Node& _node, const typename _Info::_color_t &_color) const;
+          const bool _has_color (const _Node& _node, const typename _Info::_color_t& _color) const;
 
         public:
-          _Node& operator*() const;
-          _Node* operator->() const;
-          const bool operator==(const _Self &_other) const;
-          const bool operator!=(const _Self &_other) const;
+          reference operator*() const { return *_ptr_node; }
+          pointer operator->() const { return _ptr_node; }
+          const bool operator==(const _Self& _other) const { return _ptr_node == _other._ptr_node; }
+          const bool operator!=(const _Self& _other) const { return !(*this == _other); }
           const _Self operator++(int);
 
         protected:
           _Node*                    _ptr_node;
           _NodeIterator             _it_node;
           _NodeIterator             _it_node_end;
-          cgt::base::list<_Info>               _InfoList;
-          _TpStateContainer<_State> _StateContainer;
+          _InfoList                 _infoList;
+          _TpStateContainer<_State> _stContainer;
 
           unsigned long             _global_time;
       };
@@ -120,11 +165,11 @@ namespace cgt
         {
           if (&(*_it) == _ptr_node)
           {
-            _InfoList.insert (_Info (*_it, _Info::GRAY, ++_global_time));
-            _StateContainer.insert (_State (*_it));
+            _infoList.insert (_Info (*_it, _Info::GRAY, ++_global_time));
+            _stContainer.insert (_State (*_it));
           }
           else
-            _InfoList.insert (_Info (*_it));
+            _infoList.insert (_Info (*_it));
         }
       }
 
@@ -133,14 +178,14 @@ namespace cgt
       {
         _Info *_ptr = NULL;
 
-        _InfoIterator it;
-        _InfoIterator itEnd = _InfoList.end ();
+        _InfoIterator _it;
+        _InfoIterator _itEnd = _infoList.end ();
 
-        for (it = _InfoList.begin (); it != itEnd; ++it)
+        for (_it = _infoList.begin (); _it != _itEnd; ++_it)
         {
-          if (it->node ().vertex () == _node.vertex ())
+          if (_it->node ().vertex () == _node.vertex ())
           {
-            _ptr = &(*it);
+            _ptr = &(*_it);
             break;
           }
         }
@@ -174,14 +219,14 @@ namespace cgt
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      const bool _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_has_color (const _Node& _node, const typename _Info::_color_t &_color) const
+      const bool _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_has_color (const _Node& _node, const typename _Info::_color_t& _color) const
       {
         bool bRet = false;
 
-        typename cgt::base::list<_Info>::const_iterator it;
-        typename cgt::base::list<_Info>::const_iterator itEnd = _InfoList.end ();
+        _InfoCIterator it;
+        _InfoCIterator itEnd = _infoList.end ();
 
-        for (it = _InfoList.begin (); it != itEnd; ++it)
+        for (it = _infoList.begin (); it != itEnd; ++it)
         {
           if (it->node ().vertex () == _node.vertex ())
           {
@@ -191,30 +236,6 @@ namespace cgt
         }
 
         return bRet;
-      }
-
-    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      _GraphNode<_TpVertex, _TpEdge>& _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::operator*() const
-      {
-        return *_ptr_node;
-      }
-
-    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      _GraphNode<_TpVertex, _TpEdge>* _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::operator->() const
-      {
-        return _ptr_node;
-      }
-
-    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      const bool _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::operator==(const _Self &_other) const
-      {
-        return _ptr_node == _other._ptr_node;
-      }
-
-    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
-      const bool _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::operator!=(const _Self &_other) const
-      {
-        return !(*this == _other);
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>

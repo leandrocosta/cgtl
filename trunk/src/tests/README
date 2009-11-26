@@ -1,0 +1,20 @@
+What can be tested?
+
+Macro                                         Description                                             Example
+TS_FAIL(message)                              Fail unconditionally                                    TS_FAIL("Test not implemented");
+TS_ASSERT(expr)                               Verify (expr) is true                                   TS_ASSERT(messageReceived());
+TS_ASSERT_EQUALS(x, y)                        Verify (x==y)                                           TS_ASSERT_EQUALS(nodeCount(), 14);
+TS_ASSERT_SAME_DATA(x, y, size)               Verify two buffers are equal                            TS_ASSERT_SAME_DATA(input, output,, size);
+TS_ASSERT_DELTA(x, y, d)                      Verify (x==y) up to d                                   TS_ASSERT_DELTA(sqrt(4.0), 2.0, 0.0001);
+TS_ASSERT_DIFFERS(x, y)                       Verify !(x==y)                                          TS_ASSERT_DIFFERS(exam.nTook(), exam.nPassed());
+TS_ASSERT_LESS_THAN(x, y)                     Verify (x<y)                                            TS_ASSERT_LESS_THAN(s.speed(), SPEED_OF_LIGHT);
+TS_ASSERT_LESS_THAN_EQUALS(x, y)              Verify (x<=y)                                           TS_ASSERT_LESS_THAN_EQUALS(requests, items);
+TS_ASSERT_PREDICATE(R, x)                     Verify P(x)                                             TS_ASSERT_PREDICATE(SeemsReasonable, salary);
+TS_ASSERT_RELATION(R, x, y)                   Verify x R y                                            TS_ASSERT_RELATION(std::greater, salary, avg);
+TS_ASSERT_THROWS(expr, type)                  Verify that (expr) throws a specific type of exception  TS_ASSERT_THROWS(parse(f), Parser::ReadError);
+TS_ASSERT_THROWS_EQUALS(expr, arg, x, y)      Verify type and value of what (expr) throws             (See text)
+TS_ASSERT_THROWS_ASSERT(expr, arg, assertion) Verify type and value of what (expr) throws             (See text)
+TS_ASSERT_THROWS_ANYTHING(expr)               Verify that (expr) throws an exception                  TS_ASSERT_THROWS_ANYTHING(buggy());
+TS_ASSERT_THROWS_NOTHING(expr)                Verify that (expr) doesn't throw anything               TS_ASSERT_THROWS_NOTHING(robust());
+TS_WARN(message)                              Print message as a warning                              TS_WARN("TODO: Check invalid parameters");
+TS_TRACE(message)                             Print message as an informational message               TS_TRACE(errno);

@@ -96,8 +96,8 @@ namespace cgt
           using _Base::_ptr_node;
           using _Base::_it_node;
           using _Base::_it_node_end;
-          using _Base::_InfoList;
-          using _Base::_StateContainer;
+          using _Base::_infoList;
+          using _Base::_stContainer;
           using _Base::_global_time;
 
         public:
@@ -114,8 +114,8 @@ namespace cgt
           const _DepthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (_ptr_node); }
           const _DepthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
-          typename cgt::base::list<_DepthInfo>::iterator info_begin () { return _InfoList.begin (); }
-          typename cgt::base::list<_DepthInfo>::iterator info_end () { return _InfoList.end (); }
+          typename cgt::base::list<_DepthInfo>::iterator info_begin () { return _infoList.begin (); }
+          typename cgt::base::list<_DepthInfo>::iterator info_end () { return _infoList.end (); }
       };
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -138,9 +138,9 @@ namespace cgt
 
           _ptr_node = NULL;
 
-          while (! _StateContainer.empty ())
+          while (! _stContainer.empty ())
           {
-            _DepthState *_ptr_state  = _StateContainer.top ();
+            _DepthState *_ptr_state  = _stContainer.top ();
 
             while (! _ptr_state->adj_finished ())
             {
@@ -148,7 +148,7 @@ namespace cgt
               {
                 _ptr_node = &(_ptr_state->_adj_node ());
                 _ptr_state->adj_incr ();
-                _StateContainer.push (_DepthState (*_ptr_node));
+                _stContainer.push (_DepthState (*_ptr_node));
                 _discover_node (*_ptr_node, &(_ptr_state->node ()), ++_global_time);
                 break;
               }
@@ -158,7 +158,7 @@ namespace cgt
 
             if (! _ptr_node)
             {
-              _DepthState *_ptr = _StateContainer.pop ();
+              _DepthState *_ptr = _stContainer.pop ();
               _finish_node (_ptr->node (), ++_global_time);
               delete _ptr;
             }
@@ -174,7 +174,7 @@ namespace cgt
             if (_it_node != _it_node_end)
             {
               _ptr_node = &(*_it_node);
-              _StateContainer.push (_DepthState (*_it_node));
+              _stContainer.push (_DepthState (*_it_node));
               _discover_node (*_it_node, NULL, ++_global_time);
             }
           }

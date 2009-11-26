@@ -52,7 +52,7 @@ namespace cgt
        * \brief A chunk-based allocator.
        * \author Leandro Costa
        * \date 2009
-       * \todo Implement thread-safety.
+       * \todo Implement thread-safety for allocator.
        *
        * A chunk-based allocator, implementation based on the example found in
        * <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
@@ -70,6 +70,13 @@ namespace cgt
             typedef const _TpItem&  const_reference;
             typedef _TpItem         value_type;
 
+            /*!
+             * \struct rebind
+             * \brief A classical rebind struct for the allocator.
+             * \author Leandro Costa
+             * \date 2009
+             */
+
             template <class _U> struct rebind { typedef _Allocator<_U> other; };
 
             _Allocator() { };
@@ -80,33 +87,14 @@ namespace cgt
             pointer address(reference x) const { return &x; }
             const_pointer address(const_reference x) const { return &x; }
 
-            pointer allocate(size_type size, _Allocator<_TpItem>::const_pointer hint = 0)
-            {
-              return static_cast<pointer>(_storage.allocate ());
-            }
-
-            void deallocate(pointer p, size_type n)
-            {
-              _storage.deallocate (p);
-            }
-
-            size_type max_size() const
-            {
-              return (size_t (-1) / sizeof (_TpItem));
-            }
-
-            void construct(pointer p, const _TpItem& val)
-            {
-              new (static_cast<_TpItem *>(p)) _TpItem (val);
-            }
-
-            void destroy(pointer p)
-            {
-              p->~_TpItem ();
-            }
+            pointer allocate(size_type size, _Allocator<_TpItem>::const_pointer hint = 0) { return static_cast<pointer>(_storage.allocate ()); }
+            void deallocate(pointer p, size_type n) { _storage.deallocate (p); }
+            size_type max_size() const { return (size_t (-1) / sizeof (_TpItem)); }
+            void construct(pointer p, const _TpItem& val) { new (static_cast<_TpItem *>(p)) _TpItem (val); }
+            void destroy(pointer p) { p->~_TpItem (); }
 
           private:
-            static _Storage<_TpItem> _storage;
+            static _Storage<_TpItem> _storage; /** < each allocator has its own \i static storage, that's why we need to guarantee mutual exclusion */
         };
 
       template<typename _TpItem>

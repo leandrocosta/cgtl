@@ -145,7 +145,7 @@ namespace cgt
       if (! _ptr)
         _insert_node (_vertex);
       else
-        _brk ();
+        _BRK();
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
