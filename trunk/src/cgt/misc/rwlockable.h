@@ -38,6 +38,13 @@
 
 namespace cgt
 {
+  /*!
+   * \namespace cgt::misc
+   * \brief Where are defined all auxiliary types, classes, files, etc.
+   * \author Leandro Costa
+   * \date 2009
+   */
+
   namespace misc
   {
     /*!

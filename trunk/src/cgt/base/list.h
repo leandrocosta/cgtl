@@ -81,12 +81,9 @@ namespace cgt
         private:
           _Item* _allocate (const _TpItem& _item);
           void _deallocate (_Item* const _ptr);
-
           _TpItem& _push_back (_Item* _ptr);
           _TpItem& _push_front (_Item* _ptr);
-
           void _unlink (const _Item* const _ptr);
-
           void _rebuild_heap (unsigned int i, _TpItem* _arrayItem[]);
 
         protected:
@@ -361,7 +358,7 @@ namespace cgt
      * \author Leandro Costa
      * \date 2009
      *
-     * A doubly-linked list container. This is the \i public class.
+     * A doubly-linked list container. This is the \i public interface.
      */
 
     template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >
