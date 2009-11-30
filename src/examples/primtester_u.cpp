@@ -23,9 +23,9 @@ int main ()
   cout << "=== prim from vertex E ===" << endl << endl;
 
   mygraph::piterator itp;
-  mygraph::piterator itpEnd = g.prim_end ();
+  mygraph::piterator itpEnd = g.pend ();
 
-  for (itp = g.prim_begin (); itp != itpEnd; ++itp)
+  for (itp = g.pbegin (); itp != itpEnd; ++itp)
   {
 //    cout << "edge: " << itp->value () << endl;
       const mygraph::edge&     e   = *itp;
@@ -37,7 +37,7 @@ int main ()
 
   /*
 
-  for (itd = g.dijkstra_begin (g.find ("E")); itd != itdEnd; ++itd)
+  for (itd = g.djbegin (g.find ("E")); itd != itdEnd; ++itd)
   {
     const mygraph::node&       n = *itd;
     const mygraph::vertex&     v = n.vertex ();
@@ -68,9 +68,9 @@ int main ()
   cout << "=== show the same using dijkstra info iterator ===" << endl << endl;
 
   mygraph::const_djiiterator it;
-  mygraph::const_djiiterator itEnd = g.dijkstra_info_end (itd);
+  mygraph::const_djiiterator itEnd = g.djiend (itd);
 
-  for (it = g.dijkstra_info_begin (itd); it != itEnd; ++it)
+  for (it = g.djibegin (itd); it != itEnd; ++it)
   {
     const mygraph::dijkstra_info& i = *it;
 

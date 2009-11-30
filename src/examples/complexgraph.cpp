@@ -61,9 +61,9 @@ int main ()
   cout << "=== dijkstra from vertex 1 ===" << endl << endl;
 
   mygraph::djiterator itd;
-  mygraph::djiterator itdEnd = g.dijkstra_end ();
+  mygraph::djiterator itdEnd = g.djend ();
 
-  for (itd = g.dijkstra_begin (g.find (1)); itd != itdEnd; ++itd)
+  for (itd = g.djbegin (g.find (1)); itd != itdEnd; ++itd)
   {
     const mygraph::node&       n = *itd;
     const mygraph::vertex&     v = n.vertex ();
@@ -92,9 +92,9 @@ int main ()
   cout << "=== show the same using dijkstra info iterator ===" << endl << endl;
 
   mygraph::const_djiiterator it;
-  mygraph::const_djiiterator itEnd = g.dijkstra_info_end (itd);
+  mygraph::const_djiiterator itEnd = g.djiend (itd);
 
-  for (it = g.dijkstra_info_begin (itd); it != itEnd; ++it)
+  for (it = g.djibegin (itd); it != itEnd; ++it)
   {
     const mygraph::dijkstra_info& i = *it;
 

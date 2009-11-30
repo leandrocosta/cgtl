@@ -23,9 +23,9 @@ int main ()
   cout << "=== breadth-first search from vertex E ===" << endl << endl;
 
   mygraph::biterator itd;
-  mygraph::biterator itdEnd = g.breadth_end ();
+  mygraph::biterator itdEnd = g.bend ();
 
-  for (itd = g.breadth_begin (g.find ("E")); itd != itdEnd; ++itd)
+  for (itd = g.bbegin (g.find ("E")); itd != itdEnd; ++itd)
   {
     const mygraph::node&       n = *itd;
     const mygraph::vertex&     v = n.vertex ();
@@ -53,9 +53,9 @@ int main ()
   cout << "=== show the same using breadth info iterator ===" << endl << endl;
 
   mygraph::const_biiterator it;
-  mygraph::const_biiterator itEnd = g.breadth_info_end (itd);
+  mygraph::const_biiterator itEnd = g.biend (itd);
 
-  for (it = g.breadth_info_begin (itd); it != itEnd; ++it)
+  for (it = g.bibegin (itd); it != itEnd; ++it)
   {
     const mygraph::breadth_info& i = *it;
 

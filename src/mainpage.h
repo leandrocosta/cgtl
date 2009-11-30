@@ -24,8 +24,8 @@
  * Here is an example of how to iterate by vertices using the graph created above:
  *
  * \code
- * cgt::graph<string, int>::const_viterator itEnd = g.vertex_end ();
- * for (cgt::graph<string, int>::const_viterator it; it != itEnd; ++it)
+ * cgt::graph<string, int>::const_viterator itEnd = g.vend ();
+ * for (cgt::graph<string, int>::const_viterator it = g.vbegin (); it != itEnd; ++it)
  * {
  *   const cgt::graph<string, int>::vertex& v = *it;
  *   cout << "vertex " << v.value () << endl;
@@ -35,9 +35,8 @@
  * And here is an example of how to iterate by edges:
  *
  * \code
- * cgt::graph<string, int>::const_eiterator itEnd = g.edge_end ();
- * 
- * for (cgt::graph<string, int>::const_eiterator it; it != itEnd; ++it)
+ * cgt::graph<string, int>::const_eiterator itEnd = g.eend ();
+ * for (cgt::graph<string, int>::const_eiterator it = g.ebegin (); it != itEnd; ++it)
  * {
  *   const cgt::graph<string, int>::edge&   e  = *it;
  *   const cgt::graph<string, int>::vertex& v1 = e.v1 ();

@@ -30,9 +30,9 @@ int main ()
   cout << endl;
 
   mygraph::const_viterator itv;
-  mygraph::const_viterator itvEnd = g.vertex_end ();
+  mygraph::const_viterator itvEnd = g.vend ();
 
-  for (itv = g.vertex_begin (); itv != itvEnd; ++itv)
+  for (itv = g.vbegin (); itv != itvEnd; ++itv)
   {
     const mygraph::vertex& v = *itv;
 
@@ -42,9 +42,9 @@ int main ()
   cout << endl;
 
   mygraph::const_eiterator ite;
-  mygraph::const_eiterator iteEnd = g.edge_end ();
+  mygraph::const_eiterator iteEnd = g.eend ();
 
-  for (ite = g.edge_begin (); ite != iteEnd; ++ite)
+  for (ite = g.ebegin (); ite != iteEnd; ++ite)
   {
     const mygraph::edge&     e  = *ite;
     const mygraph::vertex&  v1 = e.v1 ();
