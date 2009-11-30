@@ -29,9 +29,9 @@ int main ()
   add_edge<string, int> (g, 16, "F", "D");
 
   mygraph::scciterator it;
-  mygraph::scciterator itEnd = g.stconncomp_end ();
+  mygraph::scciterator itEnd = g.sccend ();
 
-  for (it = g.stconncomp_begin (); it != itEnd; ++it)
+  for (it = g.sccbegin (); it != itEnd; ++it)
   {
     mygraph::scc& s = *it;
 

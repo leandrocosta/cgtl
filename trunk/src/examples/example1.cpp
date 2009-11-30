@@ -70,9 +70,9 @@ int main ()
   cout << "--- running dijkstra ---" << endl << endl;
 
   mygraph::djiterator itdj;
-  mygraph::djiterator itdjEnd = g.dijkstra_end ();
+  mygraph::djiterator itdjEnd = g.djend ();
 
-  for (itdj = g.dijkstra_begin (); itdj != itdjEnd; ++itdj)
+  for (itdj = g.djbegin (); itdj != itdjEnd; ++itdj)
   {
     const mygraph::node&          n = *itdj;
     const mygraph::vertex&        v = n.vertex ();

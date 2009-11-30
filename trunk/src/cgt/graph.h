@@ -85,51 +85,8 @@ namespace cgt
       typedef _GraphNode<_TpVertex, _TpEdge>    node;
       typedef _GraphAdjList<_TpVertex, _TpEdge> adjlist;
 
-      typedef typename _Base::iterator                      iterator;
-      typedef typename _Base::const_iterator                const_iterator;
-
-      /** vertex iterator */
-      typedef _VertexIterator<_TpVertex, _TpEdge>                                viterator;
-      typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_viterator;
-
-      /** edge iterator */
-      typedef typename cgt::base::list<edge>::iterator       eiterator;
-      typedef typename cgt::base::list<edge>::const_iterator const_eiterator;
-
-      /** depth-first search iterator */
-      typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>                                 diterator;
-      typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_diterator;
-      typedef typename diterator::_DepthInfo                                                         depth_info;
-      typedef typename cgt::base::list<depth_info>::iterator                                         diiterator;
-      typedef typename cgt::base::list<depth_info>::const_iterator                                   const_diiterator;
-
-      /** breadth-first search iterator */
-      typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge>                                 biterator;
-      typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_biterator;
-      typedef typename biterator::_BreadthInfo                                                           breadth_info;
-      typedef typename cgt::base::list<breadth_info>::iterator                                           biiterator;
-      typedef typename cgt::base::list<breadth_info>::const_iterator                                     const_biiterator;
-
-      /** dijkstra iterator */
-      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>                                 djiterator;
-      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_djiterator;
-      typedef typename djiterator::_Info                                                                              dijkstra_info;
-      typedef typename cgt::base::list<dijkstra_info>::iterator                                                       djiiterator;
-      typedef typename cgt::base::list<dijkstra_info>::const_iterator                                                 const_djiiterator;
-
-      /** strongly connected components iterator */
-      typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge>                                scciterator;
-      typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_scciterator;
-      typedef cgt::stconncomp::_GraphSCCComponent<_TpVertex, _TpEdge>                          scc;
-      typedef cgt::stconncomp::_GraphSCCNode<_TpVertex, _TpEdge>                               sccnode;
-
-      /** prim iterator */
-      typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge>                                piterator;
-      typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_piterator;
-
-      /** dijkstra iterator */
-      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge>                                kiterator;
-      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_kiterator;
+      typedef typename _Base::iterator          iterator;
+      typedef typename _Base::const_iterator    const_iterator;
 
     public:
       void insert_vertex (const _TpVertex &_vertex) { _insert_vertex (_vertex); }
@@ -151,77 +108,121 @@ namespace cgt
       const bool is_undirected () const { return _Base::_is_undirected (); }
 
     public:
+      /** node iterator */
       iterator begin () { return _Base::begin (); }
       iterator end () { return _Base::end (); }
       const_iterator begin () const { return _Base::begin (); }
       const_iterator end () const { return _Base::end (); }
 
-      eiterator edge_begin () { return eiterator (_Base::_edge_list.begin ()); }
-      eiterator edge_end () { return eiterator (_Base::_edge_list.end ()); }
-      const_eiterator edge_begin () const { return const_eiterator (_Base::_edge_list.begin ()); }
-      const_eiterator edge_end () const { return const_eiterator (_Base::_edge_list.end ()); }
+      /** vertex iterator */
+      typedef _VertexIterator<_TpVertex, _TpEdge>                                viterator;
+      typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_viterator;
 
-      viterator vertex_begin () { return viterator (_Base::begin ()); }
-      viterator vertex_end () { return viterator (_Base::end ()); }
-      const_viterator vertex_begin () const { return const_viterator (_Base::begin ()); }
-      const_viterator vertex_end () const { return const_viterator (_Base::end ()); }
+      viterator vbegin () { return viterator (_Base::begin ()); }
+      viterator vend () { return viterator (_Base::end ()); }
+      const_viterator vbegin () const { return const_viterator (_Base::begin ()); }
+      const_viterator vend () const { return const_viterator (_Base::end ()); }
 
-      diterator depth_begin () { return diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
-      diterator depth_begin (const iterator& _it) { return diterator (_it, _Base::begin (), _Base::end ()); }
-      diterator depth_end () { return diterator (NULL); }
-      const_diterator depth_begin () const { return const_diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
-      const_diterator depth_begin (const iterator& _it) const { return const_diterator (_it, _Base::begin (), _Base::end ()); }
-      const_diterator depth_end () const { return const_diterator (NULL); }
+      /** edge iterator */
+      typedef typename cgt::base::list<edge>::iterator       eiterator;
+      typedef typename cgt::base::list<edge>::const_iterator const_eiterator;
 
-      diiterator depth_info_begin (diterator &_it) { return diiterator (_it.info_begin ()); }
-      diiterator depth_info_end (diterator &_it) { return diiterator (_it.info_end ()); }
-      const_diiterator depth_info_begin (diterator &_it) const { return const_diiterator (_it.info_begin ()); }
-      const_diiterator depth_info_end (diterator &_it) const { return const_diiterator (_it.info_end ()); }
+      eiterator ebegin () { return eiterator (_Base::_edge_list.begin ()); }
+      eiterator eend () { return eiterator (_Base::_edge_list.end ()); }
+      const_eiterator ebegin () const { return const_eiterator (_Base::_edge_list.begin ()); }
+      const_eiterator eend () const { return const_eiterator (_Base::_edge_list.end ()); }
 
-      biterator breadth_begin () { return biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
-      biterator breadth_begin (const iterator& _it) { return biterator (_it, _Base::begin (), _Base::end ()); }
-      biterator breadth_end () { return biterator (NULL); }
-      const_biterator breadth_begin () const { return const_biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
-      const_biterator breadth_begin (const iterator& _it) const { return const_biterator (_it, _Base::begin (), _Base::end ()); }
-      const_biterator breadth_end () const { return const_biterator (NULL); }
+      /** depth-first search iterator */
+      typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>                                 diterator;
+      typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_diterator;
+      typedef typename diterator::_DepthInfo                                                         depth_info;
+      typedef typename cgt::base::list<depth_info>::iterator                                         diiterator;
+      typedef typename cgt::base::list<depth_info>::const_iterator                                   const_diiterator;
 
-      biiterator breadth_info_begin (biterator &_it) { return biiterator (_it.info_begin ()); }
-      biiterator breadth_info_end (biterator &_it) { return biiterator (_it.info_end ()); }
-      const_biiterator breadth_info_begin (biterator &_it) const { return const_biiterator (_it.info_begin ()); }
-      const_biiterator breadth_info_begin (const_biterator &_it) const { return const_biiterator (_it.info_begin ()); }
-      const_biiterator breadth_info_end (biterator &_it) const { return const_biiterator (_it.info_end ()); }
-      const_biiterator breadth_info_end (const_biterator &_it) const { return const_biiterator (_it.info_end ()); }
+      diterator dbegin () { return diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      diterator dbegin (const iterator& _it) { return diterator (_it, _Base::begin (), _Base::end ()); }
+      diterator dend () { return diterator (NULL); }
+      const_diterator dbegin () const { return const_diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      const_diterator dbegin (const iterator& _it) const { return const_diterator (_it, _Base::begin (), _Base::end ()); }
+      const_diterator dend () const { return const_diterator (NULL); }
 
-      djiterator dijkstra_begin () { return djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
-      djiterator dijkstra_begin (const iterator& _it) { return djiterator (_it, _Base::begin (), _Base::end ()); }
-      djiterator dijkstra_end () { return djiterator (NULL); }
-      const_djiterator dijkstra_begin () const { return const_djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
-      const_djiterator dijkstra_begin (const iterator& _it) const { return const_djiterator (_it, _Base::begin (), _Base::end ()); }
-      const_djiterator dijkstra_end () const { return const_djiterator (NULL); }
+      diiterator dibegin (diterator &_it) { return diiterator (_it.info_begin ()); }
+      diiterator diend (diterator &_it) { return diiterator (_it.info_end ()); }
+      const_diiterator dibegin (diterator &_it) const { return const_diiterator (_it.info_begin ()); }
+      const_diiterator diend (diterator &_it) const { return const_diiterator (_it.info_end ()); }
 
-      djiiterator dijkstra_info_begin (djiterator &_it) { return djiiterator (_it.info_begin ()); }
-      djiiterator dijkstra_info_end (djiterator &_it) { return djiiterator (_it.info_end ()); }
-      const_djiiterator dijkstra_info_begin (djiterator &_it) const { return const_djiiterator (_it.info_begin ()); }
-      const_djiiterator dijkstra_info_end (djiterator &_it) const { return const_djiiterator (_it.info_end ()); }
+      /** breadth-first search iterator */
+      typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge>                                 biterator;
+      typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_biterator;
+      typedef typename biterator::_BreadthInfo                                                           breadth_info;
+      typedef typename cgt::base::list<breadth_info>::iterator                                           biiterator;
+      typedef typename cgt::base::list<breadth_info>::const_iterator                                     const_biiterator;
 
-      scciterator stconncomp_begin () { return scciterator (_Base::begin (), _Base::end ()); }
-      scciterator stconncomp_end () { return scciterator (); }
-      const_scciterator stconncomp_begin () const { return const_scciterator (_Base::begin (), _Base::end ()); }
-      const_scciterator stconncomp_end () const { return const_scciterator (); }
+      biterator bbegin () { return biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      biterator bbegin (const iterator& _it) { return biterator (_it, _Base::begin (), _Base::end ()); }
+      biterator bend () { return biterator (NULL); }
+      const_biterator bbegin () const { return const_biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      const_biterator bbegin (const iterator& _it) const { return const_biterator (_it, _Base::begin (), _Base::end ()); }
+      const_biterator bend () const { return const_biterator (NULL); }
 
-      piterator prim_begin () { return piterator (_Base::begin ()); }
-      piterator prim_begin (const iterator& _it) { return piterator (_it); }
-      piterator prim_end () { return piterator (NULL); }
-      const_piterator prim_begin () const { return const_piterator (_Base::begin ()); }
-      const_piterator prim_begin (const iterator& _it) const { return const_piterator (_it); }
-      const_piterator prim_end () const { return const_piterator (NULL); }
+      biiterator bibegin (biterator &_it) { return biiterator (_it.info_begin ()); }
+      biiterator biend (biterator &_it) { return biiterator (_it.info_end ()); }
+      const_biiterator bibegin (biterator &_it) const { return const_biiterator (_it.info_begin ()); }
+      const_biiterator bibegin (const_biterator &_it) const { return const_biiterator (_it.info_begin ()); }
+      const_biiterator biend (biterator &_it) const { return const_biiterator (_it.info_end ()); }
+      const_biiterator biend (const_biterator &_it) const { return const_biiterator (_it.info_end ()); }
 
-      kiterator kruskal_begin () { return kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
-      kiterator kruskal_begin (const iterator& _it) { return kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
-      kiterator kruskal_end () { return kiterator (NULL); }
-      const_kiterator kruskal_begin () const { return const_kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
-      const_kiterator kruskal_begin (const iterator& _it) const { return const_kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
-      const_kiterator kruskal_end () const { return const_kiterator (NULL); }
+      /** dijkstra iterator */
+      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>                                 djiterator;
+      typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_djiterator;
+      typedef typename djiterator::_Info                                                                              dijkstra_info;
+      typedef typename cgt::base::list<dijkstra_info>::iterator                                                       djiiterator;
+      typedef typename cgt::base::list<dijkstra_info>::const_iterator                                                 const_djiiterator;
+
+      djiterator djbegin () { return djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      djiterator djbegin (const iterator& _it) { return djiterator (_it, _Base::begin (), _Base::end ()); }
+      djiterator djend () { return djiterator (NULL); }
+      const_djiterator djbegin () const { return const_djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
+      const_djiterator djbegin (const iterator& _it) const { return const_djiterator (_it, _Base::begin (), _Base::end ()); }
+      const_djiterator djend () const { return const_djiterator (NULL); }
+
+      djiiterator djibegin (djiterator &_it) { return djiiterator (_it.info_begin ()); }
+      djiiterator djiend (djiterator &_it) { return djiiterator (_it.info_end ()); }
+      const_djiiterator djibegin (djiterator &_it) const { return const_djiiterator (_it.info_begin ()); }
+      const_djiiterator djiend (djiterator &_it) const { return const_djiiterator (_it.info_end ()); }
+
+      /** strongly connected components iterator */
+      typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge>                                scciterator;
+      typedef cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_scciterator;
+      typedef cgt::stconncomp::_GraphSCCComponent<_TpVertex, _TpEdge>                          scc;
+      typedef cgt::stconncomp::_GraphSCCNode<_TpVertex, _TpEdge>                               sccnode;
+
+      scciterator sccbegin () { return scciterator (_Base::begin (), _Base::end ()); }
+      scciterator sccend () { return scciterator (); }
+      const_scciterator sccbegin () const { return const_scciterator (_Base::begin (), _Base::end ()); }
+      const_scciterator sccend () const { return const_scciterator (); }
+
+      /** prim iterator */
+      typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge>                                piterator;
+      typedef cgt::minspantree::prim::_PrimIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_piterator;
+
+      piterator pbegin () { return piterator (_Base::begin ()); }
+      piterator pbegin (const iterator& _it) { return piterator (_it); }
+      piterator pend () { return piterator (NULL); }
+      const_piterator pbegin () const { return const_piterator (_Base::begin ()); }
+      const_piterator pbegin (const iterator& _it) const { return const_piterator (_it); }
+      const_piterator pend () const { return const_piterator (NULL); }
+
+      /** kruskal iterator */
+      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge>                                kiterator;
+      typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_kiterator;
+
+      kiterator kbegin () { return kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      kiterator kbegin (const iterator& _it) { return kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      kiterator kend () { return kiterator (NULL); }
+      const_kiterator kbegin () const { return const_kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      const_kiterator kbegin (const iterator& _it) const { return const_kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      const_kiterator kend () const { return const_kiterator (NULL); }
   };
 }
 

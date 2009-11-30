@@ -25,9 +25,9 @@ int main ()
 
   /*
   graph<string, int>::vertex_iterator itv;
-  graph<string, int>::vertex_iterator itvEnd = g.vertex_end ();
+  graph<string, int>::vertex_iterator itvEnd = g.vend ();
 
-  for (itv = g.vertex_begin (); itv != itvEnd; ++itv)
+  for (itv = g.vbegin (); itv != itvEnd; ++itv)
     cout << "vertex: " << *itv << endl;
 
   g.insert_edge (0, "A", "B");
@@ -36,9 +36,9 @@ int main ()
 
   /*
   graph<string, int>::edge_iterator ite;
-  graph<string, int>::edge_iterator iteEnd = g.edge_end ();
+  graph<string, int>::edge_iterator iteEnd = g.eend ();
 
-  for (ite = g.edge_begin (); ite != iteEnd; ++ite)
+  for (ite = g.ebegin (); ite != iteEnd; ++ite)
   {
     _GraphEdge<string, int> &r_edge = *ite;
     cout << "edge: " << r_edge.to_string () << endl;

@@ -23,9 +23,9 @@ int main ()
   cout << "=== depth-first search from vertex E ===" << endl << endl;
 
   mygraph::diterator itd;
-  mygraph::diterator itdEnd = g.depth_end ();
+  mygraph::diterator itdEnd = g.dend ();
 
-  for (itd = g.depth_begin (g.find ("E")); itd != itdEnd; ++itd)
+  for (itd = g.dbegin (g.find ("E")); itd != itdEnd; ++itd)
   {
     const mygraph::node&       n = *itd;
     const mygraph::vertex&     v = n.vertex ();
@@ -53,9 +53,9 @@ int main ()
   cout << "=== show the same using depth info iterator ===" << endl << endl;
 
   mygraph::const_diiterator it;
-  mygraph::const_diiterator itEnd = g.depth_info_end (itd);
+  mygraph::const_diiterator itEnd = g.diend (itd);
 
-  for (it = g.depth_info_begin (itd); it != itEnd; ++it)
+  for (it = g.dibegin (itd); it != itEnd; ++it)
   {
     const mygraph::depth_info& i = *it;
 
