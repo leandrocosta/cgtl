@@ -34,18 +34,18 @@
 #define __CGTL__CGT_BASE_HEAP_H_
 
 #include "cgt/base/vector.h"
-#include "cgt/base/alloc//allocator.h"
+#include "cgt/base/alloc/allocator.h"
 
 
 namespace cgt
 {
   namespace base
   {
-    template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
-      class heap : private cgt::base::vector<_TpItem, _Alloc>
+    template<typename _TpItem, template<typename> class _HeapInvariant = cgt::base::_LessThan, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
+      class heap : private cgt::base::vector<_TpItem, _HeapInvariant, _Alloc>
     {
       private:
-        typedef cgt::base::vector<_TpItem, _Alloc>  _Base;
+        typedef cgt::base::vector<_TpItem, _HeapInvariant, _Alloc>  _Base;
 
       private:
         typedef typename _Base::iterator        _Iterator;
@@ -83,15 +83,15 @@ namespace cgt
     };
 
 
-    template<typename _TpItem, typename _Alloc>
-      void heap<_TpItem, _Alloc>::_rebuild (size_t _pos)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void heap<_TpItem, _HeapInvariant, _Alloc>::_rebuild (size_t _pos)
       {
         while (_pos > 0)
           _Base::rebuild_heap (--_pos);
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void heap<_TpItem, _Alloc>::modify (_ConstIterator& _it, const _TpItem& _i)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void heap<_TpItem, _HeapInvariant, _Alloc>::modify (_ConstIterator& _it, const _TpItem& _i)
       {
         if (_it >= begin () && _it < end ())
         {

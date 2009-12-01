@@ -51,7 +51,7 @@ namespace cgt
   {
     /*!
      * \class _SearchIterator
-     * \brief The _SearchIterator class template.
+     * \brief The base template for breadth-first and depth-first search iterators.
      * \author Leandro Costa
      * \date 2009
      *

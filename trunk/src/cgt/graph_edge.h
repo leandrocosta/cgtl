@@ -62,12 +62,14 @@ namespace cgt
         _Vertex& v1 () const { return _vertex1; }
         _Vertex& v2 () const { return _vertex2; }
 
+        /*
         const string to_string () const
         {
           ostringstream s;
           s << "(" << _value << ", " << _vertex1.value () << ", " << _vertex2.value () << ")";
           return s.str ();
         }
+        */
 
       private:
         _TpEdge   _value;

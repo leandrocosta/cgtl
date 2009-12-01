@@ -42,8 +42,28 @@ namespace cgt
   {
     namespace iterator
     {
+      /*
+       * \class _IteratorPtr
+       * \brief A base class for iterators that hold pointers to the item.
+       * \author Leandro Costa
+       * \date 2009
+       *
+       * This is just the definition of the template.
+       */
+
       template<typename _TpItem, template<typename> class _TpIterator>
         class _IteratorPtr;
+
+
+      /*
+       * \class _IteratorPtr<_TpItem, _TpCommon>
+       * \brief A base class for iterators that hold pointers to the item.
+       * \author Leandro Costa
+       * \date 2009
+       *
+       * This is a specialization of a base class for common iterators that
+       * hold pointers to the item.
+       */
 
       template<typename _TpItem>
         class _IteratorPtr<_TpItem, _TpCommon>
@@ -72,6 +92,17 @@ namespace cgt
           protected:
             _TpItem* _ptr;
         };
+
+
+      /*
+       * \class _IteratorPtr<_TpItem, _TpConst>
+       * \brief A base class for iterators that hold pointers to the item.
+       * \author Leandro Costa
+       * \date 2009
+       *
+       * This is a specialization of a base class for const iterators that
+       * hold pointers to the item.
+       */
 
       template<typename _TpItem>
         class _IteratorPtr<_TpItem, _TpConst>

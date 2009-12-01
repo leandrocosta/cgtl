@@ -92,7 +92,7 @@ class vector_cxx : public CxxTest::TestSuite
       delete p;
     }
 
-    void ctest_constructor_copy ()
+    void test_constructor_copy ()
     {
       cgt::base::vector<int> l1;
       l1.push_back (1);
@@ -111,7 +111,7 @@ class vector_cxx : public CxxTest::TestSuite
       TS_ASSERT_DIFFERS (&(*(l1.find (3))), &(*(l2.find (3))));
     }
 
-    void ctest_operator_assign ()
+    void test_operator_assign ()
     {
       cgt::base::vector<int> l1;
       l1.push_back (1);

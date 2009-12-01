@@ -30,21 +30,29 @@
 #define __CGTL__CGT_BASE_VECTOR_H_
 
 #include "cgt/base/vector_iterator.h"
-#include "cgt/base/alloc//allocator.h"
+#include "cgt/base/alloc/allocator.h"
+#include "cgt/base/compares.h"
 
 
 namespace cgt
 {
   namespace base
   {
-    template<typename _TpItem>
-      class _HeapInvariant;
+    /*!
+     * \class vector
+     * \brief A simple and smart vector, implemented as an array of pointers.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A simple and smart vector, implemented as an array of pointers. It means
+     * only the pointers need to be copied if the vector size increases.
+     */
 
-    template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
+    template<typename _TpItem, template<typename> class _HeapInvariant = _LessThan, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
       class vector
       {
         private:
-          typedef vector<_TpItem, _Alloc>  _Self;
+          typedef vector<_TpItem, _HeapInvariant, _Alloc>  _Self;
 
         private:
           typedef typename _Alloc::template rebind<_TpItem>::other allocator_type;
@@ -54,8 +62,8 @@ namespace cgt
           typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpConst>  const_iterator;
 
         public:
-          vector () : _bufsize (1), _size (0) { _init (); }
-          vector (const _Self& _v) : _bufsize (1), _size (0) { _init (); *this = _v; }
+          vector () : _size (0), _bufsize (1) { _init (); }
+          vector (const _Self& _v) : _size (0), _bufsize (1) { _init (); *this = _v; }
           virtual ~vector () { _remove_all (); free (_array); }
 
         public:
@@ -72,14 +80,6 @@ namespace cgt
 
           void _rebuild_heap (size_t _pos);
           void _remove_all ();
-
-          /*
-        protected:
-          virtual const bool _less_than (const _TpItem& _child, const _TpItem& _parent) const
-          {
-            return (_child < _parent);
-          }
-          */
 
         public:
           void clear () { _remove_all (); }
@@ -104,24 +104,22 @@ namespace cgt
           _TpItem**       _array;
           _TpItem**       _head;
           _TpItem**       _tail;
+          size_t          _size;
           size_t          _bufsize;
           allocator_type  _alloc;
-
-        protected:
-          size_t    _size;
       };
 
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::_init ()
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::_init ()
       {
         _array = (_TpItem **) malloc (_bufsize * sizeof (_TpItem **));
         _head = _array;
         _tail = _array;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      vector<_TpItem, _Alloc>& vector<_TpItem, _Alloc>::operator=(const _Self& _l)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      vector<_TpItem, _HeapInvariant, _Alloc>& vector<_TpItem, _HeapInvariant, _Alloc>::operator=(const _Self& _l)
       {
         _remove_all ();
 
@@ -132,23 +130,23 @@ namespace cgt
         return *this;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      _TpItem* vector<_TpItem, _Alloc>::_allocate (const _TpItem& _item)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      _TpItem* vector<_TpItem, _HeapInvariant, _Alloc>::_allocate (const _TpItem& _item)
       {
         _TpItem* _ptr = _alloc.allocate (1);
         _alloc.construct (_ptr, _TpItem (_item));
         return _ptr;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::_deallocate (_TpItem* const _ptr)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::_deallocate (_TpItem* const _ptr)
       {
         _alloc.destroy (_ptr);
         _alloc.deallocate (_ptr, 1);
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::_remove_all ()
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::_remove_all ()
       {
         for (size_t i = 0; i < _size; i++)
           _deallocate (_array [i]);
@@ -157,8 +155,8 @@ namespace cgt
         _size = 0;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::_increase ()
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::_increase ()
       {
         _bufsize *= 2;
         _array = (_TpItem **) realloc (_array, _bufsize * sizeof (_TpItem **));
@@ -166,16 +164,16 @@ namespace cgt
         _tail = &(_array [_size]);
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::_swap (_TpItem** _ptr1, _TpItem** _ptr2)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::_swap (_TpItem** _ptr1, _TpItem** _ptr2)
       {
         _TpItem* _p = *_ptr1;
         *_ptr1 = *_ptr2;
         *_ptr2 = _p;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::push_back (const _TpItem& _item)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::push_back (const _TpItem& _item)
       {
         if (_size == _bufsize)
           _increase ();
@@ -186,8 +184,8 @@ namespace cgt
         _size++;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      _TpItem* vector<_TpItem, _Alloc>::pop_back ()
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      _TpItem* vector<_TpItem, _HeapInvariant, _Alloc>::pop_back ()
       {
         _TpItem* _ptr = NULL;
 
@@ -202,8 +200,8 @@ namespace cgt
         return _ptr;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      _VectorIterator<_TpItem> vector<_TpItem, _Alloc>::find (const _TpItem& _item)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      _VectorIterator<_TpItem> vector<_TpItem, _HeapInvariant, _Alloc>::find (const _TpItem& _item)
       {
         iterator it;
         iterator itEnd = end ();
@@ -215,8 +213,8 @@ namespace cgt
         return it;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::make_heap ()
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::make_heap ()
       {
         size_t _pos = _size/2;
 
@@ -224,18 +222,18 @@ namespace cgt
           _rebuild_heap (--_pos);
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::_rebuild_heap (size_t _pos)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::_rebuild_heap (size_t _pos)
       {
         _TpItem* _ptr = _array [_pos];
         size_t k = 2*_pos+1;
 
         while (k < _size)
         {
-          if (k+1 < _size && _HeapInvariant<_TpItem>::_less_than (*_array[k+1], *_array[k]))
+          if (k+1 < _size && _HeapInvariant<_TpItem>()(*_array[k+1], *_array[k]))
             k++;
 
-          if (_HeapInvariant<_TpItem>::_less_than (*_array[k], *_ptr))
+          if (_HeapInvariant<_TpItem>()(*_array[k], *_ptr))
           {
             _array[_pos] = _array[k];
             _pos = k;
@@ -248,8 +246,8 @@ namespace cgt
         _array[_pos] = _ptr;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      _TpItem* vector<_TpItem, _Alloc>::pop_heap ()
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      _TpItem* vector<_TpItem, _HeapInvariant, _Alloc>::pop_heap ()
       {
         _TpItem* _ptr = NULL;
 
@@ -265,8 +263,8 @@ namespace cgt
         return _ptr;
       }
 
-    template<typename _TpItem, typename _Alloc>
-      void vector<_TpItem, _Alloc>::push_heap (const _TpItem& _item)
+    template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
+      void vector<_TpItem, _HeapInvariant, _Alloc>::push_heap (const _TpItem& _item)
       {
         push_back (_item);
 
@@ -278,7 +276,7 @@ namespace cgt
         {
           _parent = (_child-1)/2;
 
-          if (_HeapInvariant<_TpItem>::_less_than (*_ptr, *_array[_parent]))
+          if (_HeapInvariant<_TpItem>()(*_ptr, *_array[_parent]))
           {
             _array[_child] = _array[_parent];
             _child = _parent;
@@ -289,16 +287,6 @@ namespace cgt
 
         _array[_child] = _ptr;
       }
-
-    template<typename _TpItem>
-      class _HeapInvariant
-      {
-        public:
-          static const bool _less_than (const _TpItem& _child, const _TpItem& _parent)
-          {
-            return (_child < _parent);
-          }
-      };
   }
 }
 
