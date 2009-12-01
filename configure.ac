@@ -28,8 +28,8 @@ AC_CHECK_TYPES([ptrdiff_t])
 # CxxTest (cxxtest.tigris.org)
 AC_PATH_PROG([CXXTESTGEN], [cxxtestgen.pl], [cxxtestgen.pl], [/usr/bin/cxxtestgen.pl])
 
-#DIR_CXXTEST_INC_DEFAULT='/usr/local/src/cxxtest-3.10.1/cxxtest'
-DIR_CXXTEST_INC_DEFAULT='/usr/include'
+DIR_CXXTEST_INC_DEFAULT='/usr/local/cxxtest-3.10.1/cxxtest'
+#DIR_CXXTEST_INC_DEFAULT='/usr/include'
 
 # CxxTest code generator flags:
 CXXTFLAGS='--error-printer'
