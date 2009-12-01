@@ -45,15 +45,24 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class hash
+     * \brief A hash container.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A simple hash container.
+     */
+
     template<typename _TpKey, typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_HashItem<pair<const _TpKey, _TpItem> > > >
-      class _Hash
+      class hash
       {
         private:
           friend class _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpCommon>;
           friend class _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst>;
 
         private:
-          typedef _Hash<_TpKey, _TpItem, _Alloc>          _Self;
+          typedef hash<_TpKey, _TpItem, _Alloc>           _Self;
           typedef _HashItem<pair<const _TpKey, _TpItem> > _Item;
           typedef _HashFunc<_TpKey>                       _Func;
 
@@ -65,9 +74,9 @@ namespace cgt
           typedef _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst>  const_iterator;
 
         public:
-          _Hash () : _size (0), _tabsize (2) { _init (); }
-          _Hash (const _Hash& _h) { *this = _h; }
-          virtual ~_Hash () { _remove_all (); free (_table); }
+          hash () : _size (0), _tabsize (2) { _init (); }
+          hash (const hash& _h) { *this = _h; }
+          virtual ~hash () { _remove_all (); free (_table); }
 
         private:
           void _init ();
@@ -130,14 +139,14 @@ namespace cgt
 
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      void _Hash<_TpKey, _TpItem, _Alloc>::_init ()
+      void hash<_TpKey, _TpItem, _Alloc>::_init ()
       {
         _table = (_Item **) malloc (_tabsize * sizeof (_Item **));
         bzero (_table, _tabsize * sizeof (_Item **));
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      void _Hash<_TpKey, _TpItem, _Alloc>::_increase ()
+      void hash<_TpKey, _TpItem, _Alloc>::_increase ()
       {
         _tabsize *= 2;
         _table = (_Item **) realloc (_table, _tabsize * sizeof (_Item **));
@@ -158,7 +167,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      void _Hash<_TpKey, _TpItem, _Alloc>::_insert (_Item* const _p)
+      void hash<_TpKey, _TpItem, _Alloc>::_insert (_Item* const _p)
       {
         _Item** _ptr = &(_table [_get_position (_p->_item.first)]);
         while (*_ptr)
@@ -169,7 +178,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      _HashItem<pair<const _TpKey, _TpItem> >* _Hash<_TpKey, _TpItem, _Alloc>::_pop (_Item** const _p)
+      _HashItem<pair<const _TpKey, _TpItem> >* hash<_TpKey, _TpItem, _Alloc>::_pop (_Item** const _p)
       {
         _Item* _ptr = *_p;
         *_p = (*_p)->_next;
@@ -180,7 +189,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      void _Hash<_TpKey, _TpItem, _Alloc>::_remove_all ()
+      void hash<_TpKey, _TpItem, _Alloc>::_remove_all ()
       {
         for (size_t i = 0; i < _tabsize; i++)
         {
@@ -195,13 +204,13 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      const size_t _Hash<_TpKey, _TpItem, _Alloc>::_get_position (const _TpKey& _key) const
+      const size_t hash<_TpKey, _TpItem, _Alloc>::_get_position (const _TpKey& _key) const
       {
         return (_hash_func (_key) % _tabsize);
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      _TpItem** _Hash<_TpKey, _TpItem, _Alloc>::_get_head ()
+      _TpItem** hash<_TpKey, _TpItem, _Alloc>::_get_head ()
       {
         _TpItem** _ptr = &(_table [0]);
 
@@ -212,7 +221,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      void _Hash<_TpKey, _TpItem, _Alloc>::insert (const _TpKey& _key, const _TpItem& _item)
+      void hash<_TpKey, _TpItem, _Alloc>::insert (const _TpKey& _key, const _TpItem& _item)
       {
         if (_size == _tabsize)
           _increase ();
@@ -223,7 +232,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      _TpItem* _Hash<_TpKey, _TpItem, _Alloc>::operator[](const _TpKey& _key)
+      _TpItem* hash<_TpKey, _TpItem, _Alloc>::operator[](const _TpKey& _key)
       {
         _TpItem* _ptr = NULL;
 
@@ -239,7 +248,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      _HashIterator<_TpKey, _TpItem, _Alloc> _Hash<_TpKey, _TpItem, _Alloc>::begin ()
+      _HashIterator<_TpKey, _TpItem, _Alloc> hash<_TpKey, _TpItem, _Alloc>::begin ()
       {
         size_t _pos = 0;
 
@@ -253,7 +262,7 @@ namespace cgt
       }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst> _Hash<_TpKey, _TpItem, _Alloc>::begin () const
+      _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpConst> hash<_TpKey, _TpItem, _Alloc>::begin () const
       {
         size_t _pos = 0;
 
@@ -265,28 +274,6 @@ namespace cgt
         else
           return end ();
       }
-
-    /*
-    template<typename _TpKey, typename _TpItem, typename _Alloc>
-      void _Hash<_TpKey, _TpItem, _Alloc>::dump () const
-      {
-        cout << "dump - _tabsize: " << _tabsize << endl;
-
-        for (size_t i = 0; i < _tabsize; i++)
-        {
-          _Item* _ptr = _table [i];
-
-          while (_ptr)
-          {
-            cout << "dump - pos: " << i << ", key: " << _ptr->_item.first << ", value: " << _ptr->_item.second << ", _get_position (): " << _get_position (_ptr->_item.first) << endl;
-            _ptr = _ptr->_next;
-          }
-        }
-      }
-      */
-
-    template<typename _TpKey, typename _TpItem>
-      class hash : public _Hash<_TpKey, _TpItem> { };
   }
 }
 

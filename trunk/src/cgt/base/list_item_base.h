@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_BASE_LIST_ITEM_BASE_H_
 #define __CGTL__CGT_BASE_LIST_ITEM_BASE_H_
 
-#include "cgt/base/iterator/iterator_type.h"
+//#include "cgt/base/iterator/iterator_type.h"
 
 
 namespace cgt
@@ -42,6 +42,13 @@ namespace cgt
   {
     template<typename _TpItem>
       class _ListItem;
+
+    /*!
+     * \class _ListItemBase
+     * \brief The base for an item of a list. It contains the pointers to next previous elements.
+     * \author Leandro Costa
+     * \date 2009
+     */
 
     template<typename _TpItem>
       class _ListItemBase

@@ -40,9 +40,10 @@ namespace cgt
       /*!
        * \class mem_except
        * \brief Exception thrown by allocator where it's not possible to allocate memory.
-       * \exception mem_except It was not possible to allocate memory.
        * \author Leandro Costa
        * \date 2009
+       *
+       * \exception mem_except It was not possible to allocate memory.
        */
       class mem_except : public exception
       {

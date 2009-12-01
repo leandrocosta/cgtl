@@ -40,25 +40,6 @@
 
 namespace cgt
 {
-  namespace base
-  {
-    /*
-    template<typename _TpVertex, typename _TpEdge>
-      class _HeapInvariant<_GraphEdge<_TpVertex, _TpEdge>*>
-      {
-        private:
-          typedef _GraphEdge<_TpVertex, _TpEdge> _Edge;
-          typedef _Edge*                         _EdgePtr;
-
-        public:
-          static const bool _less_than (const _EdgePtr& _child, const _EdgePtr& _parent)
-          {
-            return (_child->value () < _parent->value ());
-          }
-      };
-      */
-  }
-
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     class _VertexIterator;
 
@@ -113,103 +94,27 @@ namespace cgt
             typedef typename _NodeList::iterator  _NodeIterator;
 
           private:
-//            typedef _KruskalEdgeHeap<_Edge*>            _EdgeHeap;
-            typedef cgt::base::heap<_Edge*, _KruskalEdgeHeapInvariant>             _EdgeHeap;
-            typedef cgt::base::vector<_SetInfo>         _SetVector;
-//            typedef cgt::base::hash<_Vertex*, _SetInfo> _VertexSetHash;
-            typedef cgt::base::hash<_Vertex*, size_t> _VertexSetHash;
+            typedef cgt::base::heap<_Edge*, _KruskalEdgeHeapInvariant>  _EdgeHeap;
+            typedef cgt::base::vector<_SetInfo>                         _SetVector;
+            typedef cgt::base::hash<_Vertex*, size_t>                   _VertexSetHash;
 
           private:
             using _Base::_ptr;
 
           private:
+            /*!
+             * \struct _SetInfo
+             * \brief A structure to represent the sets used by Kruskal Algorithm.
+             * \author Leandro Costa
+             * \date 2009
+             *
+             * Implementation found in book <b>Algorithms, by S. Dasgupta, C.H. Papadimitriou, and U.V. Vazirani</b>.
+             */
+
             struct _SetInfo
             {
-              /*
-              _SetInfo ()
-              {
-                _set = this;
-                _rank = 0;
-              }
-              */
-
               _SetInfo (const size_t& _pos) { _set = _pos; _rank = 0; }
-
-              /*
-              _SetInfo (const _SetInfo& _s) { *this = _s; }
-
-              _SetInfo& operator=(const _SetInfo& _s)
-              {
-                if (_s._set == &_s)
-                  _set = this;
-                else
-                {
-                  cout << "ops.." << endl;
-                  _set = _s._set;
-                } 
-
-                _rank = _s._rank;
-
-                return *this;
-              }
-              */
-
               const _SetInfo* operator()() { return this; }
-
-              /*
-              static void _union (_SetInfo* _s1, _SetInfo* _s2)
-              {
-                if (_s1 && _s2)
-                {
-                  cout << "  union (" << _s1 << ", " << _s2 << ")" << endl;
-
-                  while (_s1->_set != _s1)
-                    _s1 = _s1->_set;
-
-                  while (_s2->_set != _s2)
-                    _s2 = _s2->_set;
-
-                  if (_s1 != _s2)
-                  {
-                    if (_s1->_rank > _s2->_rank)
-                    {
-                      _s2->_set = _s1;
-                      cout << "    _s2 [" << _s2 << "]._set = _s1 [" << _s1 << "]" << endl;
-                    }
-                    else
-                    {
-                      _s1->_set = _s2;
-                      cout << "    _s1 [" << _s1 << "]._set = _s2 [" << _s2 << "]" << endl;
-
-                      if (_s1->_rank == _s2->_rank)
-                        _s2->_rank++;
-                    }
-                  }
-                }
-              }
-              */
-
-              /*
-              static const bool _same_set (_SetInfo* _s1, _SetInfo* _s2)
-              {
-                bool _ret = false;
-
-                if (_s1 && _s2)
-                {
-                  while (_s1->_set != _s1)
-                    _s1 = _s1->_set;
-
-                  while (_s2->_set != _s2)
-                    _s2 = _s2->_set;
-
-                  _ret = (_s1 == _s2);
-                }
-
-                return _ret;
-              }
-              */
-
-//              _SetInfo* _set;
               size_t  _set;
               size_t  _rank;
             };
@@ -251,8 +156,6 @@ namespace cgt
             {
               if (_pos1 < _setVector.size () && _pos2 < _setVector.size ())
               {
-//                cout << "  union (" << _pos1 << ", " << _pos2 << ")" << endl;
-
                 while (_setVector [_pos1]._set != _pos1)
                   _pos1 = _setVector [_pos1]._set;
 
@@ -264,12 +167,10 @@ namespace cgt
                   if (_setVector [_pos1]._rank > _setVector [_pos2]._rank)
                   {
                     _setVector [_pos2]._set = _pos1;
-//                    cout << "    _pos2 [" << _pos2 << "]._set = _pos1 [" << _pos1 << "]" << endl;
                   }
                   else
                   {
                     _setVector [_pos1]._set = _pos2;
-//                    cout << "    _pos1 [" << _pos1 << "]._set = _pos2 [" << _pos2 << "]" << endl;
 
                     if (_setVector [_pos1]._rank == _setVector [_pos2]._rank)
                       _setVector [_pos2]._rank++;
@@ -298,7 +199,6 @@ namespace cgt
           {
             _vertexSetHash.insert (&(*_vit), _setVector.size ());
             _setVector.push_back (_SetInfo (_setVector.size ()));
-//            cout << "hash [" << &(*_vit) << "] = " << _vertexSetHash [&(*_vit)] << endl;
             ++_vit;
           }
 
@@ -312,19 +212,6 @@ namespace cgt
           _ptr = *_p;
           delete _p;
 
-          /*
-          typename _VertexSetHash::iterator it = _vertexSetHash.begin ();
-          typename _VertexSetHash::iterator itEnd = _vertexSetHash.end ();
-          if (it != itEnd)
-          {
-            cout << "_vertexSetHash: (" << it->first << ", " << it->second << ")";
-            while (++it != itEnd)
-              cout << ", (" << it->first << ", " << it->second << ")";
-            cout << endl;
-          }
-          */
-
-//          cout << "  joining " << _ptr->v1 ().value () << " [" << &(_ptr->v1 ()) << "] and " << _ptr->v2 ().value () << " [" << &(_ptr->v2 ()) << "]" << endl;
           _set_union (*(_vertexSetHash [&(_ptr->v1 ())]), *(_vertexSetHash [&(_ptr->v2 ())]));
         }
 
@@ -341,19 +228,6 @@ namespace cgt
 
             if (! _set_same (*(_vertexSetHash [&(_ptr->v1 ())]), *(_vertexSetHash [&(_ptr->v2 ())])))
             {
-              /*
-              typename _VertexSetHash::iterator it = _vertexSetHash.begin ();
-              typename _VertexSetHash::iterator itEnd = _vertexSetHash.end ();
-              if (it != itEnd)
-              {
-                cout << "_vertexSetHash: (" << it->first << ", " << it->second << ")";
-                while (++it != itEnd)
-                  cout << ", (" << it->first << ", " << it->second << ")";
-                cout << endl;
-              }
-              */
-
-//              cout << "  joining " << _ptr->v1 ().value () << " [" << &(_ptr->v1 ()) << "] and " << _ptr->v2 ().value () << " [" << &(_ptr->v2 ()) << "]" << endl;
               _set_union (*(_vertexSetHash [&(_ptr->v1 ())]), *(_vertexSetHash [&(_ptr->v2 ())]));
               break;
             }

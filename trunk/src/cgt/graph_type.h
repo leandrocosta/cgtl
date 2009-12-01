@@ -33,8 +33,11 @@
 namespace cgt
 {
   /*!
+   * \struct _GraphTypeDirected
    * \typedef _Directed
    * \brief Used to define a directed graph.
+   * \author Leandro Costa
+   * \date 2009
    */
 
   typedef struct _GraphTypeDirected
@@ -43,8 +46,11 @@ namespace cgt
   } _Directed;
 
   /*!
+   * \struct _GraphTypeUndirected
    * \typedef _Undirected
    * \brief Used to define an undirected graph.
+   * \author Leandro Costa
+   * \date 2009
    */
 
   typedef struct _GraphTypeUndirected

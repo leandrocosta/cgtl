@@ -38,6 +38,16 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class _HashItem
+     * \brief The item of a hash. It contains the key and the data for a hash's element.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This is the item of a hash. It contains the key and the data for a
+     * hash's element.
+     */
+
     template<typename _TpItem>
       class _HashItem
       {

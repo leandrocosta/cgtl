@@ -50,7 +50,12 @@ namespace cgt
 
     namespace depth
     {
-      /*
+      /*!
+       * \class _DepthIterator
+       * \brief An iterator that implements depth-first search by nodes.
+       * \author Leandro Costa
+       * \date 2009
+       *
        * depth-first search algorithm
        *  - _it_node: iterator pointing to the begining of the node list;
        *  - _it_node_end: iterator pointing to the end of the node list.

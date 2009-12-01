@@ -45,9 +45,14 @@ namespace cgt
     {
       namespace dijkstra
       {
-        /*
-         * keep informations about dijkstra algorithm nodes
-         * like distance.
+        /*!
+         * \class _DijkstraInfo
+         * \brief A structure used to keep information about each node by dijkstra iterator.
+         * \author Leandro Costa
+         * \date 2009
+         *
+         * This structure keeps informations about nodes while executing
+         * Dijkstra Algorithm, like distance.
          */
 
         template<typename _TpVertex, typename _TpEdge>

@@ -41,6 +41,18 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class heap
+     * \brief A heap container based on vector.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A heap container based on vector. It's not just a wrapper since
+     * it contains some methods that not exist in the vector container,
+     * as \b modify and \b modify_by template. The heap container should
+     * be used if you wants to maintain the heap invariant always true.
+     */
+
     template<typename _TpItem, template<typename> class _HeapInvariant = cgt::base::_LessThan, typename _Alloc = cgt::base::alloc::_Allocator<_TpItem> >
       class heap : private cgt::base::vector<_TpItem, _HeapInvariant, _Alloc>
     {

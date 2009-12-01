@@ -38,14 +38,42 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \struct _LessThan
+     * \brief Operator less than (<) used as heap invariant.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     template<typename _Tp>
       struct _LessThan { const bool operator() (const _Tp& _x, const _Tp& _y) const { return (_x < _y); } };
+
+    /*!
+     * \struct _LessEqualsTo
+     * \brief Operator less or equals to (<=) used as heap invariant.
+     * \author Leandro Costa
+     * \date 2009
+     */
 
     template<typename _Tp>
       struct _LessEqualsTo { const bool operator() (const _Tp& _x, const _Tp& _y) const { return (_x <= _y); } };
 
+    /*!
+     * \struct _GreaterThan
+     * \brief Operator greater than (>) used as heap invariant.
+     * \author Leandro Costa
+     * \date 2009
+     */
+
     template<typename _Tp>
       struct _GreaterThan { const bool operator() (const _Tp& _x, const _Tp& _y) const { return (_x > _y); } };
+
+    /*!
+     * \struct _GreaterEqualsTo
+     * \brief Operator greater or equals to (>=) used as heap invariant.
+     * \author Leandro Costa
+     * \date 2009
+     */
 
     template<typename _Tp>
       struct _GreaterEqualsTo { const bool operator() (const _Tp& _x, const _Tp& _y) const { return (_x >= _y); } };

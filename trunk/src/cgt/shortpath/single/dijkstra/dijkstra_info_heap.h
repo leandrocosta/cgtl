@@ -46,6 +46,16 @@ namespace cgt
     {
       namespace dijkstra
       {
+        /*!
+         * \class _DijkstraInfoHeap
+         * \brief A heap of dijkstra info structures used by dijkstra iterator.
+         * \author Leandro Costa
+         * \date 2009
+         *
+         * The heap used by Dijkstra Algorithm to get the closest node
+         * on each iteration.
+         */
+
         template<typename _TpVertex, typename _TpEdge>
           class _DijkstraInfoHeap : public cgt::base::heap<_DijkstraInfo<_TpVertex, _TpEdge> >
         {

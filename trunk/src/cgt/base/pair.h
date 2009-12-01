@@ -38,6 +38,15 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class pair
+     * \brief A simple STL-like pair container with two elements: first and second.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A simple STL-like pair container with just two public elements: first and second.
+     */
+
     template<typename _Tp1, typename _Tp2>
       class pair
       {

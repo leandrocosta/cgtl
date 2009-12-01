@@ -43,6 +43,16 @@ namespace cgt
   {
     namespace prim
     {
+      /*!
+       * \class _PrimAdjacencyHeapInvariant
+       * \brief Invariant used to contruct a heap for Prim Algorithm.
+       * \author Leandro Costa
+       * \date 2009
+       *
+       * The new invariant is necessary because we need an indirect heap,
+       * based on a pointers's array.
+       */
+
       template<typename _TpItem>
         class _PrimAdjacencyHeapInvariant
         {
@@ -52,18 +62,6 @@ namespace cgt
               return (_child->edge ().value () < _parent->edge ().value ());
             }
       };
-
-      /*
-      template<typename _TpItem>
-        class _PrimAdjacencyHeap : public cgt::base::heap<_TpItem>
-        {
-          protected:
-            virtual const bool _less_than (const _TpItem& _child, const _TpItem& _parent) const
-            {
-              return (_child->edge ().value () < _parent->edge ().value ());
-            }
-        };
-        */
     }
   }
 }

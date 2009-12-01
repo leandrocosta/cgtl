@@ -46,6 +46,17 @@ namespace cgt
     {
       namespace dijkstra
       {
+        /*!
+         * \class _DijkstraInfoList
+         * \brief A list of dijkstra info structures used by dijkstra iterator.
+         * \author Leandro Costa
+         * \date 2009
+         *
+         * The list used by Dijkstra Algorithm to keep the nodes already taken.
+         * This is also the list of dijkstra infos that can be obtained after
+         * the algorithm finish.
+         */
+
         template<typename _TpVertex, typename _TpEdge>
           class _DijkstraInfoList : public cgt::base::list<_DijkstraInfo<_TpVertex, _TpEdge> >
         {

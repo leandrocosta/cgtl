@@ -70,6 +70,16 @@ namespace cgt
 
     namespace prim
     {
+      /*!
+       * \class _PrimIterator
+       * \brief An iterator that executes Prim Algorithm
+       * \author Leandro Costa
+       * \date 2009
+       *
+       * The prim iterator returns edges in sequence according to the
+       * Prim Algorithm.
+       */
+
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
         class _PrimIterator : public cgt::base::iterator::_IteratorPtr<_GraphAdjacency<_TpVertex, _TpEdge>, _TpIterator>
         {

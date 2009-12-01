@@ -53,7 +53,7 @@ namespace cgt
      * \author Leandro Costa
      * \date 2009
      *
-     * A doubly-linked list container. This is the \i private class.
+     * A doubly-linked list container. This is the \b private class.
      */
 
     template<typename _TpItem, typename _Alloc>
@@ -64,8 +64,8 @@ namespace cgt
           typedef _ListItem<_TpItem>      _Item;
 
         public:
-          typedef _ListIterator<_TpItem>            iterator;
-          typedef _ListIterator<_TpItem, cgt::base::iterator::_TpConst>  const_iterator;
+          typedef _ListIterator<_TpItem>                                iterator;
+          typedef _ListIterator<_TpItem, cgt::base::iterator::_TpConst> const_iterator;
 
         private:
           typedef typename _Alloc::template rebind<_Item>::other allocator_type;
@@ -358,7 +358,7 @@ namespace cgt
      * \author Leandro Costa
      * \date 2009
      *
-     * A doubly-linked list container. This is the \i public interface.
+     * A doubly-linked list container. This is the \b public interface.
      */
 
     template<typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_ListItem<_TpItem> > >
