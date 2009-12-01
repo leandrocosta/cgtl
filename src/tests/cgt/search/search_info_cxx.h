@@ -56,8 +56,8 @@ class search_info_cxx : public CxxTest::TestSuite
       TS_ASSERT_EQUALS (_s.node ().vertex ().value (), 1);
       TS_ASSERT_EQUALS (_s.parent (), static_cast<_Node*>(NULL));
       TS_ASSERT_EQUALS (_s.color (), _Info::WHITE);
-      TS_ASSERT_EQUALS (_s.discovery (), 0);
-      TS_ASSERT_EQUALS (_s.finish (), 0);
+      TS_ASSERT_EQUALS (_s.discovery (), static_cast<unsigned long>(0));
+      TS_ASSERT_EQUALS (_s.finish (), static_cast<unsigned long>(0));
     }
 
     void test_set ()
@@ -74,8 +74,8 @@ class search_info_cxx : public CxxTest::TestSuite
       TS_ASSERT_EQUALS (_s.node ().vertex ().value (), 1);
       TS_ASSERT_EQUALS (_s.parent (), &_n2);
       TS_ASSERT_EQUALS (_s.color (), _Info::GRAY);
-      TS_ASSERT_EQUALS (_s.discovery (), 5);
-      TS_ASSERT_EQUALS (_s.finish (), 10);
+      TS_ASSERT_EQUALS (_s.discovery (), static_cast<unsigned long>(5));
+      TS_ASSERT_EQUALS (_s.finish (), static_cast<unsigned long>(10));
     }
 };
 
