@@ -44,6 +44,17 @@ namespace cgt
     namespace prim
     {
       template<typename _TpItem>
+        class _PrimAdjacencyHeapInvariant
+        {
+          public:
+            virtual const bool operator() (const _TpItem& _child, const _TpItem& _parent) const
+            {
+              return (_child->edge ().value () < _parent->edge ().value ());
+            }
+      };
+
+      /*
+      template<typename _TpItem>
         class _PrimAdjacencyHeap : public cgt::base::heap<_TpItem>
         {
           protected:
@@ -52,6 +63,7 @@ namespace cgt
               return (_child->edge ().value () < _parent->edge ().value ());
             }
         };
+        */
     }
   }
 }

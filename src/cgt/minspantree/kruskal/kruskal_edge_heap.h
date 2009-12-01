@@ -44,7 +44,18 @@ namespace cgt
     namespace kruskal
     {
       template<typename _TpItem>
-        class _KruskalEdgeHeap : public cgt::base::heap<_TpItem>
+        class _KruskalEdgeHeapInvariant
+        {
+          public:
+            virtual const bool operator() (const _TpItem& _child, const _TpItem& _parent) const
+            {
+              return (_child->value () < _parent->value ());
+            }
+        };
+
+      /*
+      template<typename _TpItem>
+        class _KruskalEdgeHeap : public cgt::base::heap<_TpItem, _KruskalEdgeHeapInvariant>
         {
           protected:
             virtual const bool _less_than (const _TpItem& _child, const _TpItem& _parent) const
@@ -52,6 +63,7 @@ namespace cgt
               return (_child->value () < _parent->value ());
             }
         };
+        */
     }
   }
 }

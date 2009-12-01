@@ -41,6 +41,8 @@ namespace cgt
   /*!
    * \class _GraphAdjMatrix
    * \brief The adjacency matrix representation of a graph.
+   * \author Leandro Costa
+   * \date 2009
    *
    * An adjacency matrix is a list of nodes. Each node has a vertex
    * and a list of adjacencies. Each adjacency is represented by

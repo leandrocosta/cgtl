@@ -42,6 +42,7 @@ namespace cgt
 {
   namespace base
   {
+    /*
     template<typename _TpVertex, typename _TpEdge>
       class _HeapInvariant<_GraphAdjacency<_TpVertex, _TpEdge>*>
       {
@@ -55,6 +56,7 @@ namespace cgt
             return (_child->edge ().value () < _parent->edge ().value ());
           }
       };
+      */
   }
 
   namespace minspantree
@@ -90,8 +92,7 @@ namespace cgt
             typedef cgt::base::iterator::_IteratorPtr<_Adjacency, _TpIterator>    _Base;
 
           private:
-//            typedef _PrimAdjacencyHeap<_Adjacency*>  _AdjacencyHeap;
-            typedef cgt::base::heap<_Adjacency*>  _AdjacencyHeap;
+            typedef cgt::base::heap<_Adjacency*, _PrimAdjacencyHeapInvariant>  _AdjacencyHeap;
             typedef cgt::base::hash<_Vertex*, bool> _VertexHash;
 
           private:

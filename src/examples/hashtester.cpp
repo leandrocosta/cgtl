@@ -21,7 +21,7 @@ int main ()
   cout << "hash [5]: " << *(s[5]) << endl;
   */
 
-  s.dump ();
+//  s.dump ();
 
   hash<int, string>::const_iterator it;
   hash<int, string>::const_iterator itEnd = s.end ();

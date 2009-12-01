@@ -33,7 +33,7 @@
 #ifndef __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_DISTANCE_H_
 #define __CGTL__CGT_SHORTPATH_SINGLE_DIJKSTRA_DIJKSTRA_DISTANCE_H_
 
-#include "cgt/graph_node.h"
+#include <string>
 
 
 namespace cgt
@@ -83,7 +83,7 @@ namespace cgt
         template<> _DijkstraDistance<unsigned int>::_DijkstraDistance ()    : _distance (0), _inf (true) { }
         template<> _DijkstraDistance<long>::_DijkstraDistance ()            : _distance (0), _inf (true) { }
         template<> _DijkstraDistance<unsigned long>::_DijkstraDistance ()   : _distance (0), _inf (true) { }
-        template<> _DijkstraDistance<string>::_DijkstraDistance ()          : _distance (""),_inf (true) { }
+        template<> _DijkstraDistance<std::string>::_DijkstraDistance ()     : _distance (""),_inf (true) { }
       }
     }
   }

@@ -36,7 +36,7 @@
 #include <string.h>
 #include "cgt/base/hash_item.h"
 #include "cgt/base/hash_iterator.h"
-#include "cgt/base/alloc//allocator.h"
+#include "cgt/base/alloc/allocator.h"
 #include "cgt/base/hash_func.h"
 #include "cgt/base/pair.h"
 
@@ -266,6 +266,7 @@ namespace cgt
           return end ();
       }
 
+    /*
     template<typename _TpKey, typename _TpItem, typename _Alloc>
       void _Hash<_TpKey, _TpItem, _Alloc>::dump () const
       {
@@ -282,6 +283,7 @@ namespace cgt
           }
         }
       }
+      */
 
     template<typename _TpKey, typename _TpItem>
       class hash : public _Hash<_TpKey, _TpItem> { };

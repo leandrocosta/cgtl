@@ -42,6 +42,7 @@ namespace cgt
 {
   namespace base
   {
+    /*
     template<typename _TpVertex, typename _TpEdge>
       class _HeapInvariant<_GraphEdge<_TpVertex, _TpEdge>*>
       {
@@ -55,6 +56,7 @@ namespace cgt
             return (_child->value () < _parent->value ());
           }
       };
+      */
   }
 
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -102,7 +104,7 @@ namespace cgt
 
           private:
 //            typedef _KruskalEdgeHeap<_Edge*>            _EdgeHeap;
-            typedef cgt::base::heap<_Edge*>             _EdgeHeap;
+            typedef cgt::base::heap<_Edge*, _KruskalEdgeHeapInvariant>             _EdgeHeap;
             typedef cgt::base::vector<_SetInfo>         _SetVector;
 //            typedef cgt::base::hash<_Vertex*, _SetInfo> _VertexSetHash;
             typedef cgt::base::hash<_Vertex*, size_t> _VertexSetHash;
