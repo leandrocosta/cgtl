@@ -41,6 +41,16 @@ namespace cgt
 {
   namespace stconncomp
   {
+    /*!
+     * \class _GraphSCCNode
+     * \brief The node used by _GraphSCCComponent. It has a reference to the real node.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This is the node used by strongly connected component structure. It is a
+     * special node with a reference to the real node and a list of adjacencies.
+     */
+
     template<typename _TpVertex, typename _TpEdge>
       class _GraphSCCNode
       {

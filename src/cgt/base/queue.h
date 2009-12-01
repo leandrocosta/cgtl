@@ -40,6 +40,17 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class queue
+     * \brief A queue container based on cgt::base::list.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A queue container implemented as a list. It's just a wrapper for
+     * the list container that exposes only a few set of methods in the
+     * interface.
+     */
+
     template<typename _TpItem>
       class queue : private cgt::base::list<_TpItem>
     {

@@ -41,8 +41,17 @@ namespace cgt
   namespace base
   {
     template<typename _TpKey, typename _TpItem, typename _Alloc>
-      class _Hash;
+      class hash;
 
+
+    /*!
+     * \class _HashIterator
+     * \brief An iterator for hash container.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This is the default iterator for hash container.
+     */
 
     template<typename _TpKey, typename _TpItem, typename _Alloc, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
       class _HashIterator : public _HashIteratorBase<_TpKey, _TpItem, _Alloc, _TpIterator>
@@ -52,7 +61,7 @@ namespace cgt
         typedef _HashIteratorBase<_TpKey, _TpItem, _Alloc, _TpIterator>                 _Base;
         typedef _HashIterator<_TpKey, _TpItem, _Alloc, _TpIterator>                     _Self;
         typedef _HashIterator<_TpKey, _TpItem, _Alloc, cgt::base::iterator::_TpCommon>  _SelfCommon;
-        typedef _Hash<_TpKey, _TpItem, _Alloc>                                          _Hsh;
+        typedef hash<_TpKey, _TpItem, _Alloc>                                           _Hash;
 
       private:
         typedef typename _TpIterator<pair<const _TpKey, _TpItem> >::pointer   pointer;
@@ -64,7 +73,7 @@ namespace cgt
 
       public:
         _HashIterator () : _Base () { }
-        _HashIterator (_Item* _p, _Hsh* _p_hsh) : _Base (_p, _p_hsh) { }
+        _HashIterator (_Item* _p, _Hash* _p_hash) : _Base (_p, _p_hash) { }
         _HashIterator (const _SelfCommon& _it) : _Base (_it) { }
         virtual ~_HashIterator () { }
 

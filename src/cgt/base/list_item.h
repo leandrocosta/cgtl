@@ -41,12 +41,19 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class _ListItem
+     * \brief The item of a list. It contains an element (the data) and two pointers (next and prev).
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This is the item of a list. It inherits from \b _ListItemBase, that
+     * contains two pointers (next and prev) to elements of the same type.
+     */
+
     template<typename _TpItem>
       class _ListItem : public _ListItemBase<_TpItem>
     {
-      private:
-        typedef _ListItemBase<_TpItem> _Base;
-
       public:
         _ListItem (const _TpItem& _d) : _data (_d) { }
 

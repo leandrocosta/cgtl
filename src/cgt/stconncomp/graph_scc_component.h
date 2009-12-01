@@ -41,6 +41,17 @@ namespace cgt
 {
   namespace stconncomp
   {
+    /*!
+     * \class _GraphSCCComponent
+     * \brief A strongly connected component: a list of _GraphSCCNode.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This is the structure returned by SCC iterator. It is a list of
+     * _GraphSCCNode, that is a special node with a reference to the
+     * real node and a list of adjacencies.
+     */
+
     template<typename _TpVertex, typename _TpEdge>
       class _GraphSCCComponent : public cgt::base::list<_GraphSCCNode<_TpVertex, _TpEdge> >
       {
@@ -66,7 +77,7 @@ namespace cgt
       {
         _Base::insert (_n);
 
-        /*
+        /*!
          * We need to add adjacencies between nodes that are linked in the
          * same SCC. In order to do it, we need to visit all nodes of the
          * SCC and ask for edges linking _n and these nodes. If we find some,

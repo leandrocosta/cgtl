@@ -66,6 +66,16 @@ namespace cgt
 
       namespace dijkstra
       {
+        /*!
+         * \class _DijkstraIterator
+         * \brief An iterator that implements dijkstra algorithm.
+         * \author Leandro Costa
+         * \date 2009
+         *
+         * This iterator executes Dijkstra Algorithm and returns nodes
+         * in the order found by the algorithm.
+         */
+
         template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
           class _DijkstraIterator
           {

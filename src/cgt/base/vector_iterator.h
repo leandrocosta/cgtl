@@ -40,6 +40,15 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class _VectorIterator
+     * \brief An iterator for vector container.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This is the default iterator for vector container.
+     */
+
     template<typename _TpItem, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
       class _VectorIterator : public cgt::base::iterator::_IteratorPtr<_TpItem*, _TpIterator>
     {

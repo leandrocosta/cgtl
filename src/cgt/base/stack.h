@@ -40,6 +40,17 @@ namespace cgt
 {
   namespace base
   {
+    /*!
+     * \class stack
+     * \brief A stack container based on cgt::base::list.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * A stack container implemented as a list. It's just a wrapper for
+     * the list container that exposes only a few set of methods in the
+     * interface.
+     */
+
     template<typename _TpItem>
       class stack : private cgt::base::list<_TpItem>
     {

@@ -53,6 +53,13 @@ namespace cgt
       template<typename _TpItem>
         struct _TpConst;
 
+      /*!
+       * \struct _TpCommon
+       * \brief Used to represent a common iterator
+       * \author Leandro Costa
+       * \date 2009
+       */
+
       template<typename _TpItem>
         struct _TpCommon
         {
@@ -61,6 +68,13 @@ namespace cgt
 
 //          typedef template _TpConst other;
         };
+
+      /*!
+       * \struct _TpConst
+       * \brief Used to represent a const iterator
+       * \author Leandro Costa
+       * \date 2009
+       */
 
       template<typename _TpItem>
         struct _TpConst

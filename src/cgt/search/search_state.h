@@ -42,9 +42,14 @@ namespace cgt
 {
   namespace search
   {
-    /*
-     * keep informations about depth-first search and breadth-first search cycles
-     * used by _DepthIterator and _BreadthIterator
+    /*!
+     * \class _SearchState
+     * \brief The _SearchState class template.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This structure keeps informations about depth-first search and
+     * breadth-first search cycles used by _DepthIterator and _BreadthIterator.
      */
 
     template<typename _TpVertex, typename _TpEdge>

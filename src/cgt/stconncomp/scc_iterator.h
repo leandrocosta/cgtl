@@ -60,6 +60,15 @@ namespace cgt
 
   namespace stconncomp
   {
+    /*!
+     * \class _SCCIterator
+     * \brief An iterator that returns strongly connected components.
+     * \author Leandro Costa
+     * \date 2009
+     *
+     * This iterator returns all strongly connected components that exist in the graph.
+     */
+
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
       class _SCCIterator
       {
@@ -92,6 +101,18 @@ namespace cgt
 
           typedef cgt::base::heap<_SCC_DFSInfo>       _SCC_DFSInfoHeap;
           typedef typename _SCC_DFSInfoHeap::iterator _SCC_DFSInfoHeapIterator;
+
+          /*!
+           * \class _SCC_DFSInfo
+           * \brief A structure used to keep informations about SCC iterator.
+           * \author Leandro Costa
+           * \date 2009
+           *
+           * This structure is used to keep informations about strongly connected
+           * components algorithm. It is a wrapper for a depth-first search info structure
+           * with an operator les than (<) used to create a heap. \b S1 < \b S2 means the
+           * finish time of \b S1 os greater or equals to the finish time of \b S2.
+           */
 
           class _SCC_DFSInfo
           {
