@@ -43,6 +43,18 @@ namespace cgt
   {
     namespace kruskal
     {
+      /*!
+       * \class _KruskalEdgeHeapInvariant
+       * \brief The invariant used to construct a heap used by kruskal iterator.
+       * \author Leandro Costa
+       * \date 2009
+       *
+       *  The invariant to be used while constructing the heap used by kruskal.
+       *  The difference from the default invariant is that in this case we have
+       *  a vector of pointers to structures, and not a vector of structures. Because
+       *  that we need to access the value of the object pointed to each vector's item.
+       */
+
       template<typename _TpItem>
         class _KruskalEdgeHeapInvariant
         {

@@ -80,6 +80,16 @@ namespace cgt
 
     namespace kruskal
     {
+      /*!
+       * \class _KruskalIterator
+       * \brief An iterator that executes kruskal algorithm
+       * \author Leandro Costa
+       * \date 2009
+       *
+       * The kruskal iterator returns edges in sequence according to the
+       * Kruskal Algorithm.
+       */
+
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
         class _KruskalIterator : public cgt::base::iterator::_IteratorPtr<_GraphEdge<_TpVertex, _TpEdge>, _TpIterator>
         {
