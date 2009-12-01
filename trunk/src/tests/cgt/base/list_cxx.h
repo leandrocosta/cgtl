@@ -47,7 +47,7 @@ class list_cxx : public CxxTest::TestSuite
     void test_basic ()
     {
       cgt::base::list<int> l;
-      TS_ASSERT_EQUALS (l.size (), 0);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
       TS_ASSERT_EQUALS (l.empty (), true);
     }
 
@@ -55,7 +55,7 @@ class list_cxx : public CxxTest::TestSuite
     {
       cgt::base::list<int> l;
       l.insert (1);
-      TS_ASSERT_EQUALS (l.size (), 1);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
       TS_ASSERT_EQUALS (l.empty (), false);
       TS_ASSERT_EQUALS (*(l.front ()), 1);
       TS_ASSERT_EQUALS (*(l.back ()), 1);
@@ -73,9 +73,9 @@ class list_cxx : public CxxTest::TestSuite
     {
       cgt::base::list<int> l;
       l.insert (1);
-      TS_ASSERT_EQUALS (l.size (), 1);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
       l.clear ();
-      TS_ASSERT_EQUALS (l.size (), 0);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
       TS_ASSERT_EQUALS (l.empty (), true);
     }
 
@@ -83,9 +83,9 @@ class list_cxx : public CxxTest::TestSuite
     {
       cgt::base::list<int> l;
       l.insert (1);
-      TS_ASSERT_EQUALS (l.size (), 1);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
       l.remove (1);
-      TS_ASSERT_EQUALS (l.size (), 0);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
       TS_ASSERT_EQUALS (l.empty (), true);
     }
 
@@ -95,9 +95,9 @@ class list_cxx : public CxxTest::TestSuite
       l.insert (1);
       l.insert (2);
       l.insert (3);
-      TS_ASSERT_EQUALS (l.size (), 3);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(3));
       l.remove (2);
-      TS_ASSERT_EQUALS (l.size (), 2);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(2));
       TS_ASSERT_EQUALS (*(l.front ()), 1);
       TS_ASSERT_EQUALS (*(l.back ()), 3);
     }
@@ -108,9 +108,9 @@ class list_cxx : public CxxTest::TestSuite
       l.insert (1);
       l.insert (2);
       l.insert (3);
-      TS_ASSERT_EQUALS (l.size (), 3);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(3));
       int* p = l.pop_back ();
-      TS_ASSERT_EQUALS (l.size (), 2);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(2));
       TS_ASSERT_EQUALS (*(l.front ()), 1);
       TS_ASSERT_EQUALS (*(l.back ()), 2);
       delete p;
@@ -122,9 +122,9 @@ class list_cxx : public CxxTest::TestSuite
       l.insert (1);
       l.insert (2);
       l.insert (3);
-      TS_ASSERT_EQUALS (l.size (), 3);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(3));
       int* p = l.pop_front ();
-      TS_ASSERT_EQUALS (l.size (), 2);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(2));
       TS_ASSERT_EQUALS (*(l.front ()), 2);
       TS_ASSERT_EQUALS (*(l.back ()), 3);
       delete p;

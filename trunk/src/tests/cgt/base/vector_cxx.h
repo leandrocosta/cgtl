@@ -47,7 +47,7 @@ class vector_cxx : public CxxTest::TestSuite
     void test_basic ()
     {
       cgt::base::vector<int> l;
-      TS_ASSERT_EQUALS (l.size (), 0);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
       TS_ASSERT_EQUALS (l.empty (), true);
     }
 
@@ -55,7 +55,7 @@ class vector_cxx : public CxxTest::TestSuite
     {
       cgt::base::vector<int> l;
       l.push_back (1);
-      TS_ASSERT_EQUALS (l.size (), 1);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
       TS_ASSERT_EQUALS (l.empty (), false);
       TS_ASSERT_EQUALS (l[0], 1);
     }
@@ -72,9 +72,9 @@ class vector_cxx : public CxxTest::TestSuite
     {
       cgt::base::vector<int> l;
       l.push_back (1);
-      TS_ASSERT_EQUALS (l.size (), 1);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
       l.clear ();
-      TS_ASSERT_EQUALS (l.size (), 0);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
       TS_ASSERT_EQUALS (l.empty (), true);
     }
 
@@ -84,9 +84,9 @@ class vector_cxx : public CxxTest::TestSuite
       l.push_back (1);
       l.push_back (2);
       l.push_back (3);
-      TS_ASSERT_EQUALS (l.size (), 3);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(3));
       int* p = l.pop_back ();
-      TS_ASSERT_EQUALS (l.size (), 2);
+      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(2));
       TS_ASSERT_EQUALS (l[0], 1);
       TS_ASSERT_EQUALS (l[1], 2);
       delete p;
