@@ -53,6 +53,9 @@ namespace cgt
       template<typename _TpItem, size_t _ChunkSize = 0xFFFF /* 64K-1 */>
         class _Storage : private cgt::misc::_RWLockable
         {
+//          private:
+//            friend class storage_cxx;
+
           private:
             friend class cgt::misc::_Safe_WLock;
 

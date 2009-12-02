@@ -70,5 +70,8 @@ AC_CONFIG_FILES([Makefile
                  src/tests/Makefile
                  src/tests/cgt/Makefile
                  src/tests/cgt/base/Makefile
+                 src/tests/cgt/base/alloc/Makefile
+                 src/tests/cgt/base/exception/Makefile
+                 src/tests/cgt/base/iterator/Makefile
                  src/tests/cgt/search/Makefile])
 AC_OUTPUT

@@ -1,3 +1,5 @@
+SUBDIRS = alloc exception iterator
+
 LIST_CXXSRCS = list_cxx.cc
 VECTOR_CXXSRCS = vector_cxx.cc
 
