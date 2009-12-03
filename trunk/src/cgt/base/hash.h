@@ -21,7 +21,7 @@
 
 /*!
  * \file cgt/base/hash.h
- * \brief Contains definition of a hash container for general use.
+ * \brief Contains a general-purpose hash container.
  * \author Leandro Costa
  * \date 2009
  *
@@ -47,11 +47,16 @@ namespace cgt
   {
     /*!
      * \class hash
-     * \brief A hash container.
+     * \brief A general-purpose hash container, 
      * \author Leandro Costa
      * \date 2009
      *
-     * A simple hash container.
+     * This is a general-purpose hash container, table size starts with 2 and
+     * increases exponentially. The hash function is _HashFunc, and each item is
+     * represented by a _HashItem structure, that contains key and data to be stored.
+     * Table increases when the number of elements of the hash is equal to the table
+     * size, and it happens in time complexity \b O(n) (worst case), where \b n is the
+     * number of elements stored in the hash.
      */
 
     template<typename _TpKey, typename _TpItem, typename _Alloc = cgt::base::alloc::_Allocator<_HashItem<pair<const _TpKey, _TpItem> > > >

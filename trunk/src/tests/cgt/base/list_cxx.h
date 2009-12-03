@@ -34,6 +34,7 @@
 #define __CGTL__CXXTEST_CGT_BASE_LIST_CXX_H_
 
 #include <cxxtest/TestSuite.h>
+#include "cgt/misc/cxxtest_defs.h"
 #include "cgt/base/list.h"
 
 

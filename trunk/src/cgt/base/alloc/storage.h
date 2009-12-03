@@ -31,6 +31,9 @@
 
 #include "cgt/base/exception/mem_except.h"
 #include "cgt/misc/safe_wlock.h"
+#include "cgt/misc/cxxtest_defs.h"
+
+UT_CXXTEST_DEFINE_CLASS(storage_cxx);
 
 
 namespace cgt
@@ -44,7 +47,6 @@ namespace cgt
        * \brief A storage for a chunk-based allocator, encapsulates \b new and \b delete.
        * \author Leandro Costa
        * \date 2009
-       * \todo Implement thread-safety for allocator.
        *
        * This is the storage used by a chunk-based allocator, implementation based on the
        * example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
@@ -52,80 +54,78 @@ namespace cgt
 
       template<typename _TpItem, size_t _ChunkSize = 0xFFFF /* 64K-1 */>
         class _Storage : private cgt::misc::_RWLockable
-        {
-//          private:
-//            friend class storage_cxx;
+      {
+        private:
+          UT_CXXTEST_FRIEND_CLASS(::storage_cxx);
 
-          private:
-            friend class cgt::misc::_Safe_WLock;
+        private:
+          friend class cgt::misc::_Safe_WLock;
 
-          private:
-            /*!
-             * \class _Chunk
-             * \brief The chunk structure for a chunk-based allocator, default size = 64K-1 bytes.
-             * \author Leandro Costa
-             * \date 2009
-             * \todo Implement thread-safety for allocator.
-             *
-             * This is the storage's chunk structure used by a chunk-based allocator, implementation based on the
-             * example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
-             */
+        private:
+          /*!
+           * \class _Chunk
+           * \brief The chunk structure for a chunk-based allocator, default size = 64K-1 bytes.
+           * \author Leandro Costa
+           * \date 2009
+           *
+           * This is the storage's chunk structure used by a chunk-based allocator, implementation based on the
+           * example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
+           */
 
-            class _Chunk
-            {
-              public:
-                /*!
-                 * \struct _Block
-                 * \brief The block structure for a chunk-based allocator, used to identify a free block.
-                 * \author Leandro Costa
-                 * \date 2009
-                 * \todo Implement thread-safety for allocator.
-                 */
+          class _Chunk
+          {
+            public:
+              /*!
+               * \struct _Block
+               * \brief The block structure for a chunk-based allocator, used to identify a free block.
+               * \author Leandro Costa
+               * \date 2009
+               */
 
-                struct _Block
-                {
-                  _Block* _next; /** < points to the next free block (valid only if this block is free) */
-                };
+              struct _Block
+              {
+                _Block* _next; /** < points to the next free block (valid only if this block is free) */
+              };
 
-              public:
-                _Chunk () : _next (NULL) { _init (); }
+            public:
+              _Chunk () : _next (NULL) { _init (); }
 
-              private:
-                void _init ()
-                {
-                  size_t size = sizeof (_TpItem);
-                  char* _ptr_last = &(_block [(_ChunkSize-1) * size]);
+            private:
+              void _init ()
+              {
+                size_t size = sizeof (_TpItem);
+                char* _ptr_last = &(_block [(_ChunkSize-1) * size]);
 
-                  for (char* _ptr = _block; _ptr < _ptr_last; _ptr += size)
-                    reinterpret_cast<_Block *>(_ptr)->_next = reinterpret_cast<_Block *>(_ptr + size);
+                for (char* _ptr = _block; _ptr < _ptr_last; _ptr += size)
+                  reinterpret_cast<_Block *>(_ptr)->_next = reinterpret_cast<_Block *>(_ptr + size);
 
-                  reinterpret_cast<_Block *>(_ptr_last)->_next = NULL;
-                }
+                reinterpret_cast<_Block *>(_ptr_last)->_next = NULL;
+              }
 
-              public:
-                char _block [_ChunkSize * sizeof (_TpItem)]; /** < a block of the chunk */
-                _Chunk* _next; /** < points to the next allocated chunk */
-            };
+            public:
+              char _block [_ChunkSize * sizeof (_TpItem)]; /** < a block of the chunk */
+              _Chunk* _next; /** < points to the next allocated chunk */
+          };
 
-          private:
-            typedef typename _Chunk::_Block _Block;
+        private:
+          typedef typename _Chunk::_Block _Block;
 
-          public:
-            _Storage () : _head (NULL), _free (NULL) { }
-            virtual ~_Storage () { _destroy (); }
+        public:
+          _Storage () : _head (NULL), _free (NULL) { }
+          virtual ~_Storage () { _destroy (); }
 
-          private:
-            void _add_chunk ();
-            void _destroy ();
+        private:
+          void _add_chunk ();
+          void _destroy ();
 
-          public:
-            _TpItem* allocate (); /** < a thread-safe allocator method */
-            void deallocate (_TpItem* _ptr); /** < a thread-safe deallocator method */
+        public:
+          _TpItem* allocate (); /** < a thread-safe allocator method */
+          void deallocate (_TpItem* _ptr); /** < a thread-safe deallocator method */
 
-          private:
-            _Chunk* _head; /** < the first allocated chunk of the storage */
-            _Block* _free; /** < points to the first free block of any chunk */
-        };
+        private:
+          _Chunk* _head; /** < the first allocated chunk of the storage */
+          _Block* _free; /** < points to the first free block of any chunk */
+      };
 
 
       template<typename _TpItem, size_t _ChunkSize>

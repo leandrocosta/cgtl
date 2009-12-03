@@ -72,4 +72,4 @@ namespace cgt
   }
 }
 
-#endif
+#endif // __CGTL__CGT_MISC_RWLOCKABLE_H_

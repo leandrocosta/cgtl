@@ -34,6 +34,7 @@
 #define __CGTL__CXXTEST_CGT_SEARCH_SEARCH_INFO_CXX_H_
 
 #include <cxxtest/TestSuite.h>
+#include "cgt/misc/cxxtest_defs.h"
 #include "cgt/graph.h"
 
 

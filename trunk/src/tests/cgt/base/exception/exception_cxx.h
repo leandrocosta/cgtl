@@ -35,6 +35,7 @@
 
 #include <string>
 #include <cxxtest/TestSuite.h>
+#include "cgt/misc/cxxtest_defs.h"
 #include "cgt/base/exception/exception.h"
 
 

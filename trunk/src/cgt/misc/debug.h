@@ -39,4 +39,4 @@
 #  define _BRK() {;}
 #endif
 
-#endif
+#endif // __CGTL__CGT_MISC_DEBUG_H_
