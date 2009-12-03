@@ -20,37 +20,41 @@
  */
 
 /*!
- * \file tests/cgt/base/exception/mem_except_cxx.h
- * \brief Contains unit tests for class cgt::base::exception::mem_except.
+ * \file cgt/misc/cxxtest_defs.h
+ * \brief Contains de definition of a macro to insert break points into the source code.
  * \author Leandro Costa
  * \date 2009
  *
- * $LastChangedDate: 2009-11-24 22:12:23 -0200 (Tue, 24 Nov 2009) $
+ * $LastChangedDate: 2009-11-26 21:31:35 -0200 (Thu, 26 Nov 2009) $
  * $LastChangedBy: leandro.costa $
- * $Revision: 83 $
+ * $Revision: 86 $
  */
 
-#ifndef __CGTL__CXXTEST_CGT_BASE_EXCEPTION_MEM_EXCEPT_CXX_H_
-#define __CGTL__CXXTEST_CGT_BASE_EXCEPTION_MEM_EXCEPT_CXX_H_
+#ifndef __CGTL__CGT_MISC_CXXTEST_DEFS_H_
+#define __CGTL__CGT_MISC_CXXTEST_DEFS_H_
 
-#include <string>
-#include <cxxtest/TestSuite.h>
-#include "cgt/misc/cxxtest_defs.h"
-#include "cgt/base/exception/mem_except.h"
+//#ifdef USE_UT_CXXTEST
+//#define UT_CXXTEST_VIRTUAL virtual
+//#else
+//#define UT_CXXTEST_VIRTUAL
+//#endif
 
+//#ifdef USE_UT_CXXTEST
+//#define UT_CXXTEST_FRIEND_CLASS(C) friend class C;
+//#else
+//#define UT_CXXTEST_FRIEND_CLASS(C)
+//#endif
 
-class mem_except_cxx : public CxxTest::TestSuite
-{
-  public:
-    void setUp () { }
-    void tearDown () { } 
+#ifdef USE_UT_CXXTEST
+#define UT_CXXTEST_DEFINE_CLASS(C) class C
+#else
+#define UT_CXXTEST_DEFINE_CLASS(C)
+#endif
 
-  public:
-    void test_basic ()
-    {
-      cgt::base::exception::mem_except e ("test mem_except");
-      TS_ASSERT_EQUALS (std::string (e.message ()), "test mem_except");
-    }
-};
+#ifdef USE_UT_CXXTEST
+#define UT_CXXTEST_FRIEND_CLASS(C) friend class C
+#else
+#define UT_CXXTEST_FRIEND_CLASS(C)
+#endif
 
-#endif // __CGTL__CXXTEST_CGT_BASE_EXCEPTION_MEM_EXCEPT_CXX_H_
+#endif // __CGTL__CGT_MISC_CXXTEST_DEFS_H_

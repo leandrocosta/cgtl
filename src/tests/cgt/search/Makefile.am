@@ -1,6 +1,9 @@
 LIST_CXXSRCS = search_info_cxx.cc
 
-LIST_SRCS = $(LIST_CXXSRCS) $(top_builddir)/src/cgt/search/search_info.h
+LIST_SRCS = $(LIST_CXXSRCS) $(top_builddir)/src/cgt/search/search_info.h \
+						$(top_builddir)/src/cgt/misc/cxxtest_defs.h
+
+AM_CPPFLAGS             = -DUSE_UT_CXXTEST
 
 check_PROGRAMS	   			= search_info_cxx
 search_info_cxx_SOURCES = $(LIST_SRCS)

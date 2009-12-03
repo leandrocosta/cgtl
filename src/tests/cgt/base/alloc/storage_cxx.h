@@ -35,6 +35,7 @@
 
 #include <string>
 #include <cxxtest/TestSuite.h>
+#include "cgt/misc/cxxtest_defs.h"
 #include "cgt/base/alloc/storage.h"
 
 
@@ -48,13 +49,17 @@ class storage_cxx : public CxxTest::TestSuite
     void test_basic ()
     {
       cgt::base::alloc::_Storage<int> storage;
-//      cgt::base::alloc::_Storage<int>::_Chunk::_Block* ptr_free = storage._free;
+//      cgt::base::alloc::_Storage<int>::_Chunk::_Block* ptr_block1 = storage._free;
+//      cgt::base::alloc::_Storage<int>::_Chunk::_Block* ptr_block2 = ptr_block1->_next;
+//      cgt::base::alloc::_Storage<int>::_Chunk::_Block* ptr_block3 = ptr_block2->next;
+
+      TS_ASSERT_EQUALS (storage._free, static_cast<cgt::base::alloc::_Storage<int>::_Chunk::_Block*>(NULL));
 
       int* ptr = storage.allocate ();
       new (ptr) int (1);
 
       TS_ASSERT_EQUALS (*ptr, 1);
-//      TS_ASSERT_DIFFERS (ptr_free, storage._free);
+      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<cgt::base::alloc::_Storage<int>::_Chunk::_Block*>(ptr+1));
 
       storage.deallocate (ptr);
     }
