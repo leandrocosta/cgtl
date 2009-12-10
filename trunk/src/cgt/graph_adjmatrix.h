@@ -40,13 +40,44 @@ namespace cgt
 {
   /*!
    * \class _GraphAdjMatrix
-   * \brief The adjacency matrix representation of a graph.
+   * \brief An adjacency matrix represented by a list of nodes. Each node has a list of adjacencies.
    * \author Leandro Costa
    * \date 2009
    *
    * An adjacency matrix is a list of nodes. Each node has a vertex
    * and a list of adjacencies. Each adjacency is represented by
    * a pair: an edge and a reference to the other node.
+   *
+   * Each _GraphAdjMatrix is a list of nodes and contains a list of edges.
+   * We need 4 bytes to represent the graph's type too.
+   *
+   * An empty graph has only an emtpy node's list (12 bytes) and an empty edge's
+   * list (12 bytes). So, considering the 4 bytes to represent tye type, we need
+   * <b>28 bytes</b> to represent an empty graph.
+   *
+   * A node has a vertex and two adjacency lists. Each node needs 8 more bytes
+   * since it belongs to a doubly-linked list. As the overhead of a _GraphVertex
+   * is 0 and the size of an empty adjacency's list is 12, we need
+   * <b>32 + sizeof (_TpVertex) bytes</b> to represent each node.
+   *
+   * Each edge is an item in the edge's list and generates adjacencies for its nodes.
+   * The overhead of an edge is 8 bytes (references to its vertices), and it needs 8 more
+   * bytes since it belongs to a doubly-linked list. If the graph is directed, each edge
+   * generates 2 adjacencies. If the graph is undirected, each edge generates 4 adjacencies.
+   * Each adjacency needs 16 bytes (8 for the references plus 8 for the list pointers), so,
+   * for a directed graph, we need <b>48 + sizeof (_TpEdg) bytes</b> to represent each
+   * edge. For an undirected graph we need <b>64 + sizeof (_TpEdg) bytes</b>.
+   *
+   * Let's say \b v is the number of vertices and \b e is the number of edges in
+   * the graph. For each vertex we have a node, and for each edge we have an item
+   * in the edge's list and 2 (if it's a directed graph) or 4 (if it's an undirected
+   * graph) adjacencies.
+   *
+   * So, the total size of a directed graph is:
+   * <b>24 + v * (32 + sizeof (_TpVertex)) + e * (48 + sizeof (_TpEdge))</b>.
+   *
+   * And the total size of an undirected graph is:
+   * <b>24 + v * (32 + sizeof (_TpVertex)) + e * (64 + sizeof (_TpEdge))</b>.
    */
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
