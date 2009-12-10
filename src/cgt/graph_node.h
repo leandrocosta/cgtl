@@ -40,7 +40,7 @@ namespace cgt
 {
   /*!
    * \class _GraphNode
-   * \brief The _GraphNode class template.
+   * \brief It contains the vertex, its adjacency list and an inverted ajacency list to ease graph's invertion.
    * \author Leandro Costa
    * \date 2009
    *
@@ -49,6 +49,11 @@ namespace cgt
    * other node of the relationship. So, from the node of a vertex \b v it's
    * possible to iterate by its adjacency list and visit all vertices reachable
    * from \b v.
+   *
+   * A _GraphNode has a vertex and two adjacency lists. The overhead of a vertex
+   * is 0, and the size of an adjacency list is <b>12 + 16n bytes</b>, where n is
+   * the number of edges of the vertex. So, the _GraphNode's size is
+   * <b>24 + 32n + sizeof (_TpVertex) bytes</b>.
    */
 
   template<typename _TpVertex, typename _TpEdge>

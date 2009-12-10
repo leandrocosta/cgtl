@@ -42,7 +42,7 @@ namespace cgt
 {
   /*!
    * \class _GraphAdjList
-   * \brief The _GraphAdjList class template.
+   * \brief It belongs to a node and contains its list of adjacencies (each one composed by reference to edge and linked node).
    * \author Leandro Costa
    * \date 2009
    *
@@ -50,6 +50,10 @@ namespace cgt
    * Each \b _GraphNode has a list of adjacencies, and from this list
    * it is possible to visit all nodes that are linked to the node
    * to which the adjacency list belongs.
+   *
+   * The structure is a list of adjacencies. Each list has an overhead of <b>12 + 8n bytes</b>.
+   * Each adjacency is composed by two references. So, we need <b>12 + 16n bytes</b> to represent
+   * a _GraphAdjList structure.
    */
 
   template<typename _TpVertex, typename _TpEdge>

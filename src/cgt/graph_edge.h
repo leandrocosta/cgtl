@@ -38,7 +38,7 @@ namespace cgt
 {
   /*!
    * \class _GraphEdge
-   * \brief The _GraphEdge class template.
+   * \brief A wrapper for edge, contains attribute \b _value of type \b _TpEdge and references to vertices: \b _vertex1 and \b _vertex2.
    * \author Leandro Costa
    * \date 2009
    *
@@ -46,6 +46,9 @@ namespace cgt
    * the object edge and the references for the vertices linked by the edge.
    * When an edge is inserted in the graph, an object of this type is created
    * and pushed in the edge's list of the structure \b _GraphAdjMatrix.
+   *
+   * The _GraphEdge's size has an overhead of 2 references to vertices. In 32-bits
+   * architectures it means we need 8 more bytes to represent each edge in our graph.
    */
 
   template<typename _TpVertex, typename _TpEdge>
@@ -61,15 +64,6 @@ namespace cgt
         const _TpEdge& value () const { return _value; }
         _Vertex& v1 () const { return _vertex1; }
         _Vertex& v2 () const { return _vertex2; }
-
-        /*
-        const string to_string () const
-        {
-          ostringstream s;
-          s << "(" << _value << ", " << _vertex1.value () << ", " << _vertex2.value () << ")";
-          return s.str ();
-        }
-        */
 
       private:
         _TpEdge   _value;

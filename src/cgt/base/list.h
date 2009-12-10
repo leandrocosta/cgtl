@@ -54,6 +54,12 @@ namespace cgt
      * \date 2009
      *
      * A doubly-linked list container. This is the \b private class.
+     *
+     * Each list has two pointers and an attribute of type size_t. For each item
+     * inserted in the list we need two more pointers to doubly-link the item.
+     * So, the overhead of a list in a 32-bytes architecture is <b>12 + 8n bytes</b>,
+     * where \b n is the number of items. The total size of the list is
+     * <b>12 + n * (8 + sizeof (_TpItem)) bytes</b>.
      */
 
     template<typename _TpItem, typename _Alloc>

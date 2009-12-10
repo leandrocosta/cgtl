@@ -41,7 +41,7 @@ namespace cgt
 
   /*!
    * \class _GraphAdjacency
-   * \brief The _GraphAdjacency class template.
+   * \brief It belongs to a node and contains references to an edge and the other node linked by the edge.
    * \author Leandro Costa
    * \date 2009
    *
@@ -49,6 +49,9 @@ namespace cgt
    * adjacency list) and contains a reference to an edge and a reference to the
    * other node of the relationship. So, from an adjacency it is possible to visit
    * all vertices reachable from the vertex to which the adjacency belongs.
+   *
+   * The structure is composed by two references, so we need 8 bytes to represent
+   * it in our graph.
    */
 
   template<typename _TpVertex, typename _TpEdge>

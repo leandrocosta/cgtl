@@ -38,7 +38,7 @@ namespace cgt
 {
   /*!
    * \class _GraphVertex
-   * \brief The _GraphVertex class template.
+   * \brief A wrapper for vertex, contains only the attribute \b _value of type \b _TpVertex.
    * \author Leandro Costa
    * \date 2009
    *
