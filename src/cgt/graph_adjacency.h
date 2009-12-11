@@ -52,6 +52,15 @@ namespace cgt
    *
    * The structure is composed by two references, so we need 8 bytes to represent
    * it in our graph.
+   *
+   * \code
+   *  ________________________
+   * | _GraphAdjacency's size |
+   * |________________________|
+   * |           8            |
+   * |________________________|
+   *
+   * \endcode
    */
 
   template<typename _TpVertex, typename _TpEdge>
@@ -72,7 +81,7 @@ namespace cgt
         const _TpEdge& value () const { return _edge.value (); }
 
       private:
-        // Reference to the edge object (stored in _GraphAdjMatrix._edge_list)
+        // Reference to the edge object (stored in _GraphAdjMatrix._edgeList)
         _Edge&   _edge;
 
         // Reference to the node at the right

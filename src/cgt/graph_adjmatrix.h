@@ -91,6 +91,7 @@ namespace cgt
       typedef _GraphEdge<_TpVertex, _TpEdge>  _Edge;
       typedef _GraphVertex<_TpVertex>         _Vertex;
       typedef cgt::base::list<_Node>          _Base;
+      typedef cgt::base::list<_Edge>          _EdgeList;
 
     protected:
       /**
@@ -128,7 +129,7 @@ namespace cgt
        *    edge and use it twice in undirected graphs.
        */
 
-      cgt::base::list<_Edge>  _edge_list;
+      _EdgeList _edgeList;
   };
 
 
@@ -197,7 +198,7 @@ namespace cgt
           if (! _ptr_n1->_get_edge (_vertex2))
           {
             _Vertex& _vertex1 = _ptr_n1->vertex ();
-            _Edge &_edge = _edge_list.insert (_Edge (_e, _vertex1, _vertex2));
+            _Edge &_edge = _edgeList.insert (_Edge (_e, _vertex1, _vertex2));
             _insert_edge (*_ptr_n1, *_ptr_n2, _vertex1, _vertex2, _edge);
           }
         }

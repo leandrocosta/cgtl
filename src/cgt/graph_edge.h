@@ -38,7 +38,7 @@ namespace cgt
 {
   /*!
    * \class _GraphEdge
-   * \brief A wrapper for edge, contains attribute \b _value of type \b _TpEdge and references to vertices: \b _vertex1 and \b _vertex2.
+   * \brief A wrapper for edge, contains \b _value of type \b _TpEdge and references to vertices: \b _vertex1 and \b _vertex2.
    * \author Leandro Costa
    * \date 2009
    *
@@ -49,6 +49,15 @@ namespace cgt
    *
    * The _GraphEdge's size has an overhead of 2 references to vertices. In 32-bits
    * architectures it means we need 8 more bytes to represent each edge in our graph.
+   *
+   * \code
+   *  _______________________
+   * |   _GraphEdge's size   |
+   * |_______________________|
+   * |  8 + sizeof(_TpEdge)  |
+   * |_______________________|
+   *
+   * \endcode
    */
 
   template<typename _TpVertex, typename _TpEdge>
