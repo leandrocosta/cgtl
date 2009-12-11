@@ -80,8 +80,11 @@ namespace cgt
 
         public:
           hash () : _size (0), _tabsize (2) { _init (); }
-          hash (const hash& _h) { *this = _h; }
+          hash (const hash& _h) : _table (NULL), _size (0), _tabsize (0) { *this = _h; }
           virtual ~hash () { _remove_all (); free (_table); }
+
+        public:
+          _Self& operator=(const _Self& _s);
 
         private:
           void _init ();
@@ -94,40 +97,13 @@ namespace cgt
 
         public:
           void insert (const _TpKey& _key, const _TpItem& _item);
+          size_t size () const { return _size; }
+          const bool empty () const { return (! _size); }
 
         public:
           _TpItem* operator[](const _TpKey& _key);
-          _Self& operator=(const _Self& _s)
-          {
-            if (_table)
-            {
-              _remove_all ();
-              free (_table);
-            }
-
-            _size     = 0;
-            _tabsize  = _s._tabsize;
-
-            _table = (_Item **) malloc (_tabsize * sizeof (_Item **));
-            bzero (_table, _tabsize * sizeof (_Item **));
-
-            for (size_t i = 0; i < _s._tabsize; i++)
-            {
-              _Item** _ptr = &(_s._table [i]);
-
-              while (*_ptr)
-              {
-                insert ((*_ptr)->_item.first, (*_ptr)->_item.second);
-                _ptr = &((*_ptr)->_next);
-              }
-            }
-
-            return *this;
-          }
 
         public:
-          void dump () const;
-
           iterator begin ();
           const_iterator begin () const;
           iterator end () { return iterator (NULL, this); }
@@ -142,6 +118,35 @@ namespace cgt
           allocator_type  _alloc;
       };
 
+
+    template<typename _TpKey, typename _TpItem, typename _Alloc>
+      hash<_TpKey, _TpItem, _Alloc>& hash<_TpKey, _TpItem, _Alloc>::operator=(const _Self& _s)
+      {
+        if (_table)
+        {
+          _remove_all ();
+          free (_table);
+        }
+
+        _size     = 0;
+        _tabsize  = _s._tabsize;
+
+        _table = (_Item **) malloc (_tabsize * sizeof (_Item **));
+        bzero (_table, _tabsize * sizeof (_Item **));
+
+        for (size_t i = 0; i < _s._tabsize; i++)
+        {
+          _Item** _ptr = &(_s._table [i]);
+
+          while (*_ptr)
+          {
+            insert ((*_ptr)->_item.first, (*_ptr)->_item.second);
+            _ptr = &((*_ptr)->_next);
+          }
+        }
+
+        return *this;
+      }
 
     template<typename _TpKey, typename _TpItem, typename _Alloc>
       void hash<_TpKey, _TpItem, _Alloc>::_init ()
