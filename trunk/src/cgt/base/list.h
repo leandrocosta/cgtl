@@ -60,6 +60,15 @@ namespace cgt
      * So, the overhead of a list in a 32-bytes architecture is <b>12 + 8n bytes</b>,
      * where \b n is the number of items. The total size of the list is
      * <b>12 + n * (8 + sizeof (_TpItem)) bytes</b>.
+     *
+     * \code
+     *  ________________________________
+     * |          _List's size          |
+     * |________________________________|
+     * | 12 + n * (8 + sizeof(_TpItem)) |
+     * |________________________________|
+     *
+     * \endcode
      */
 
     template<typename _TpItem, typename _Alloc>

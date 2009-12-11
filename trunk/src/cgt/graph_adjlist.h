@@ -54,6 +54,15 @@ namespace cgt
    * The structure is a list of adjacencies. Each list has an overhead of <b>12 + 8n bytes</b>.
    * Each adjacency is composed by two references. So, we need <b>12 + 16n bytes</b> to represent
    * a _GraphAdjList structure.
+   *
+   * \code
+   *  ______________________
+   * | _GraphAdjList's size |
+   * |______________________|
+   * |       12 + 16n       |
+   * |______________________|
+   *
+   * \endcode
    */
 
   template<typename _TpVertex, typename _TpEdge>

@@ -46,6 +46,15 @@ namespace cgt
    * it has only the object vertex. When a vertex is inserted in the graph,
    * an object of this type is created as an inner attribute of structure
    * \b _GraphNode.
+   *
+   * \code
+   *  _______________________
+   * |  _GraphVertex's size  |
+   * |_______________________|
+   * |   sizeof(_TpVertex)   |
+   * |_______________________|
+   *
+   * \endcode
    */
 
   template<typename _TpVertex>

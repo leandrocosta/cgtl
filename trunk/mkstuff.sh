@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf Makefile Makefile.in aclocal.m4 autom4te.cache config.guess config.h config.h.in config.log config.status config.sub configure depcomp install-sh libtool ltmain.sh missing mkinstalldirs stamp-h1 autoscan.log configure.scan
+
 echo autoheader
 autoheader
 
