@@ -186,10 +186,10 @@ namespace cgt
       typedef typename cgt::base::list<edge>::iterator       eiterator;
       typedef typename cgt::base::list<edge>::const_iterator const_eiterator;
 
-      eiterator ebegin () { return eiterator (_Base::_edge_list.begin ()); }
-      eiterator eend () { return eiterator (_Base::_edge_list.end ()); }
-      const_eiterator ebegin () const { return const_eiterator (_Base::_edge_list.begin ()); }
-      const_eiterator eend () const { return const_eiterator (_Base::_edge_list.end ()); }
+      eiterator ebegin () { return eiterator (_Base::_edgeList.begin ()); }
+      eiterator eend () { return eiterator (_Base::_edgeList.end ()); }
+      const_eiterator ebegin () const { return const_eiterator (_Base::_edgeList.begin ()); }
+      const_eiterator eend () const { return const_eiterator (_Base::_edgeList.end ()); }
 
       /** depth-first search iterator */
       typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>                                 diterator;
@@ -276,11 +276,11 @@ namespace cgt
       typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge>                                kiterator;
       typedef cgt::minspantree::kruskal::_KruskalIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_kiterator;
 
-      kiterator kbegin () { return kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
-      kiterator kbegin (const iterator& _it) { return kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      kiterator kbegin () { return kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edgeList.begin (), _Base::_edgeList.end ()); }
+      kiterator kbegin (const iterator& _it) { return kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edgeList.begin (), _Base::_edgeList.end ()); }
       kiterator kend () { return kiterator (NULL); }
-      const_kiterator kbegin () const { return const_kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
-      const_kiterator kbegin (const iterator& _it) const { return const_kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edge_list.begin (), _Base::_edge_list.end ()); }
+      const_kiterator kbegin () const { return const_kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edgeList.begin (), _Base::_edgeList.end ()); }
+      const_kiterator kbegin (const iterator& _it) const { return const_kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edgeList.begin (), _Base::_edgeList.end ()); }
       const_kiterator kend () const { return const_kiterator (NULL); }
   };
 }
