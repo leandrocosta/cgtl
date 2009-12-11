@@ -1,23 +1,26 @@
 SUBDIRS = alloc exception iterator
 
-LIST_CXXSRCS = list_cxx.cc
-VECTOR_CXXSRCS = vector_cxx.cc
+CXXTSRCS_HASH 	= hash_cxx.cc
+CXXTSRCS_LIST 	= list_cxx.cc
+CXXTSRCS_VECTOR = vector_cxx.cc
+CXXTSRCS				= $(CXXTSRCS_HASH) $(CXXTSRCS_LIST) $(CXXTSRCS_VECTOR)
 
-LIST_SRCS = $(LIST_CXXSRCS) $(top_builddir)/src/cgt/base/list.h \
-						$(top_builddir)/src/cgt/misc/cxxtest_defs.h
-VECTOR_SRCS = $(VECTOR_CXXSRCS) $(top_builddir)/src/cgt/base/vector.h \
+SRCS_HASH 	= $(CXXTSRCS_HASH) $(top_builddir)/src/cgt/base/hash.h \
+							$(top_builddir)/src/cgt/misc/cxxtest_defs.h
+SRCS_LIST 	= $(CXXTSRCS_LIST) $(top_builddir)/src/cgt/base/list.h \
+							$(top_builddir)/src/cgt/misc/cxxtest_defs.h
+SRCS_VECTOR = $(CXXTSRCS_VECTOR) $(top_builddir)/src/cgt/base/vector.h \
 							$(top_builddir)/src/cgt/misc/cxxtest_defs.h
 
 AM_CPPFLAGS        = -DUSE_UT_CXXTEST
 
-check_PROGRAMS	   = list_cxx vector_cxx
-list_cxx_SOURCES   = $(LIST_SRCS)
-vector_cxx_SOURCES = $(VECTOR_SRCS)
+check_PROGRAMS	   = hash_cxx list_cxx vector_cxx
+hash_cxx_SOURCES   = $(SRCS_HASH)
+list_cxx_SOURCES   = $(SRCS_LIST)
+vector_cxx_SOURCES = $(SRCS_VECTOR)
 TESTS              = $(check_PROGRAMS)
-
-#AM_DEFAULT_SOURCE_EXT	= .cc
 
 %_cxx.cc: %_cxx.h
 	  $(CXXTESTGEN) $(CXXTFLAGS) $< -o $@
 
-CLEANFILES = $(LIST_CXXSRCS)
+CLEANFILES = $(CXXTSRCS)
