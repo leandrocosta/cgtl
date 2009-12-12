@@ -65,8 +65,9 @@ namespace cgt
 
       public:
         using _Base::find;
-        using _Base::empty;
+        using _Base::clear;
         using _Base::size;
+        using _Base::empty;
         using _Base::iterator;
         using _Base::const_iterator;
         using _Base::begin;
@@ -79,6 +80,7 @@ namespace cgt
         void push (const _TpItem& _i) { _Base::push_heap (_i); }
         _TpItem* pop () { return _Base::pop_heap (); }
         void modify (_ConstIterator& _it, const _TpItem& _i);
+        void modify (_Iterator& _it, const _TpItem& _i) { modify (reinterpret_cast<_ConstIterator&>(_it), _i); }
  
       public:
         template<typename _Modifier, typename _Parm>

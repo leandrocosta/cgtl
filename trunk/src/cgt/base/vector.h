@@ -58,8 +58,8 @@ namespace cgt
           typedef typename _Alloc::template rebind<_TpItem>::other allocator_type;
 
         public:
-          typedef _VectorIterator<_TpItem>            iterator;
-          typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpConst>  const_iterator;
+          typedef _VectorIterator<_TpItem>                                iterator;
+          typedef _VectorIterator<_TpItem, cgt::base::iterator::_TpConst> const_iterator;
 
         public:
           vector () : _size (0), _bufsize (1) { _init (); }
@@ -89,6 +89,7 @@ namespace cgt
           void push_back (const _TpItem& _item);
           _TpItem* pop_back ();
           iterator find (const _TpItem& _item);
+          const_iterator find (const _TpItem& _item) const { return const_iterator (find (_item)); }
 
           void make_heap ();
           _TpItem* pop_heap ();
@@ -203,14 +204,14 @@ namespace cgt
     template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
       _VectorIterator<_TpItem> vector<_TpItem, _HeapInvariant, _Alloc>::find (const _TpItem& _item)
       {
-        iterator it;
-        iterator itEnd = end ();
+        iterator _it;
+        iterator _itEnd = end ();
 
-        for (it = begin (); it != itEnd; ++it)
-          if (*it == _item)
+        for (_it = begin (); _it != _itEnd; ++_it)
+          if (*_it == _item)
             break;
 
-        return it;
+        return _it;
       }
 
     template<typename _TpItem, template<typename> class _HeapInvariant, typename _Alloc>
