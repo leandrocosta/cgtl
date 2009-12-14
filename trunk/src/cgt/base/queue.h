@@ -58,11 +58,14 @@ namespace cgt
         typedef cgt::base::list<_TpItem> _Base;
 
       public:
+        using _Base::find;
+        using _Base::clear;
+        using _Base::size;
+        using _Base::empty;
         using _Base::iterator;
         using _Base::const_iterator;
         using _Base::begin;
         using _Base::end;
-        using _Base::empty;
 
       public:
         void insert (const _TpItem &_item) { _Base::_push_back (_item); }
