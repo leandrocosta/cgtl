@@ -47,89 +47,89 @@ class vector_cxx : public CxxTest::TestSuite
   public:
     void test_basic ()
     {
-      cgt::base::vector<int> l;
-      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
-      TS_ASSERT_EQUALS (l.empty (), true);
+      cgt::base::vector<int> v;
+      TS_ASSERT_EQUALS (v.size (), static_cast<size_t>(0));
+      TS_ASSERT_EQUALS (v.empty (), true);
     }
 
     void test_push_back ()
     {
-      cgt::base::vector<int> l;
-      l.push_back (1);
-      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
-      TS_ASSERT_EQUALS (l.empty (), false);
-      TS_ASSERT_EQUALS (l[0], 1);
+      cgt::base::vector<int> v;
+      v.push_back (1);
+      TS_ASSERT_EQUALS (v.size (), static_cast<size_t>(1));
+      TS_ASSERT_EQUALS (v.empty (), false);
+      TS_ASSERT_EQUALS (v[0], 1);
     }
 
     void test_find ()
     {
-      cgt::base::vector<int> l;
-      l.push_back (1);
-      TS_ASSERT_DIFFERS (l.find (1), l.end ());
-      TS_ASSERT_EQUALS (*(l.find (1)), 1);
+      cgt::base::vector<int> v;
+      v.push_back (1);
+      TS_ASSERT_DIFFERS (v.find (1), v.end ());
+      TS_ASSERT_EQUALS (*(v.find (1)), 1);
     }
 
     void test_clear ()
     {
-      cgt::base::vector<int> l;
-      l.push_back (1);
-      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(1));
-      l.clear ();
-      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(0));
-      TS_ASSERT_EQUALS (l.empty (), true);
+      cgt::base::vector<int> v;
+      v.push_back (1);
+      TS_ASSERT_EQUALS (v.size (), static_cast<size_t>(1));
+      v.clear ();
+      TS_ASSERT_EQUALS (v.size (), static_cast<size_t>(0));
+      TS_ASSERT_EQUALS (v.empty (), true);
     }
 
     void test_pop_back ()
     {
-      cgt::base::vector<int> l;
-      l.push_back (1);
-      l.push_back (2);
-      l.push_back (3);
-      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(3));
-      int* p = l.pop_back ();
-      TS_ASSERT_EQUALS (l.size (), static_cast<size_t>(2));
-      TS_ASSERT_EQUALS (l[0], 1);
-      TS_ASSERT_EQUALS (l[1], 2);
+      cgt::base::vector<int> v;
+      v.push_back (1);
+      v.push_back (2);
+      v.push_back (3);
+      TS_ASSERT_EQUALS (v.size (), static_cast<size_t>(3));
+      int* p = v.pop_back ();
+      TS_ASSERT_EQUALS (v.size (), static_cast<size_t>(2));
+      TS_ASSERT_EQUALS (v[0], 1);
+      TS_ASSERT_EQUALS (v[1], 2);
       delete p;
     }
 
     void test_constructor_copy ()
     {
-      cgt::base::vector<int> l1;
-      l1.push_back (1);
-      l1.push_back (2);
-      l1.push_back (3);
-      cgt::base::vector<int> l2 (l1);
+      cgt::base::vector<int> v1;
+      v1.push_back (1);
+      v1.push_back (2);
+      v1.push_back (3);
+      cgt::base::vector<int> v2 (v1);
 
-      TS_ASSERT_EQUALS (l1.size (), l2.size ());
+      TS_ASSERT_EQUALS (v1.size (), v2.size ());
 
-      TS_ASSERT_EQUALS (*(l1.find (1)), *(l2.find (1)));
-      TS_ASSERT_EQUALS (*(l1.find (2)), *(l2.find (2)));
-      TS_ASSERT_EQUALS (*(l1.find (3)), *(l2.find (3)));
+      TS_ASSERT_EQUALS (*(v1.find (1)), *(v2.find (1)));
+      TS_ASSERT_EQUALS (*(v1.find (2)), *(v2.find (2)));
+      TS_ASSERT_EQUALS (*(v1.find (3)), *(v2.find (3)));
 
-      TS_ASSERT_DIFFERS (&(*(l1.find (1))), &(*(l2.find (1))));
-      TS_ASSERT_DIFFERS (&(*(l1.find (2))), &(*(l2.find (2))));
-      TS_ASSERT_DIFFERS (&(*(l1.find (3))), &(*(l2.find (3))));
+      TS_ASSERT_DIFFERS (&(*(v1.find (1))), &(*(v2.find (1))));
+      TS_ASSERT_DIFFERS (&(*(v1.find (2))), &(*(v2.find (2))));
+      TS_ASSERT_DIFFERS (&(*(v1.find (3))), &(*(v2.find (3))));
     }
 
     void test_operator_assign ()
     {
-      cgt::base::vector<int> l1;
-      l1.push_back (1);
-      l1.push_back (2);
-      l1.push_back (3);
-      cgt::base::vector<int> l2;
-      l2 = l1;
+      cgt::base::vector<int> v1;
+      v1.push_back (1);
+      v1.push_back (2);
+      v1.push_back (3);
+      cgt::base::vector<int> v2;
+      v2 = v1;
 
-      TS_ASSERT_EQUALS (l1.size (), l2.size ());
+      TS_ASSERT_EQUALS (v1.size (), v2.size ());
 
-      TS_ASSERT_EQUALS (*(l1.find (1)), *(l2.find (1)));
-      TS_ASSERT_EQUALS (*(l1.find (2)), *(l2.find (2)));
-      TS_ASSERT_EQUALS (*(l1.find (3)), *(l2.find (3)));
+      TS_ASSERT_EQUALS (*(v1.find (1)), *(v2.find (1)));
+      TS_ASSERT_EQUALS (*(v1.find (2)), *(v2.find (2)));
+      TS_ASSERT_EQUALS (*(v1.find (3)), *(v2.find (3)));
 
-      TS_ASSERT_DIFFERS (&(*(l1.find (1))), &(*(l2.find (1))));
-      TS_ASSERT_DIFFERS (&(*(l1.find (2))), &(*(l2.find (2))));
-      TS_ASSERT_DIFFERS (&(*(l1.find (3))), &(*(l2.find (3))));
+      TS_ASSERT_DIFFERS (&(*(v1.find (1))), &(*(v2.find (1))));
+      TS_ASSERT_DIFFERS (&(*(v1.find (2))), &(*(v2.find (2))));
+      TS_ASSERT_DIFFERS (&(*(v1.find (3))), &(*(v2.find (3))));
     }
 };
 
