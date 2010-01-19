@@ -42,6 +42,8 @@ namespace cgt
   {
     namespace alloc
     {
+      const static size_t _CHUNK_SIZE = 0xFFFF; /* 64K-1 */
+
       /*!
        * \class _Storage
        * \brief A storage for a chunk-based allocator, encapsulates \b new and \b delete.
@@ -52,7 +54,7 @@ namespace cgt
        * example found in <b>The C++ Programming Language, 3rd Edition, by Bjarne Stroustrup, page 570</b>.
        */
 
-      template<typename _TpItem, size_t _ChunkSize = 0xFFFF /* 64K-1 */>
+      template<typename _TpItem, size_t _ChunkSize = _CHUNK_SIZE /* 64K-1 */>
         class _Storage : private cgt::misc::_RWLockable
       {
         private:
