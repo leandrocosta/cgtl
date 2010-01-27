@@ -29,6 +29,8 @@
 #ifndef __CGTL__CGT_BASE_ALLOC_STORAGE_H_
 #define __CGTL__CGT_BASE_ALLOC_STORAGE_H_
 
+#include <iostream>
+
 #include "cgt/base/exception/mem_except.h"
 #include "cgt/misc/safe_wlock.h"
 #include "cgt/misc/cxxtest_defs.h"
@@ -95,17 +97,20 @@ namespace cgt
             private:
               void _init ()
               {
-                size_t size = sizeof (_TpItem);
-                char* _ptr_last = &(_block [(_ChunkSize-1) * size]);
+                size_t _blocksize = sizeof (_TpItem) >= sizeof (_Block*) ? sizeof (_TpItem):sizeof (_Block*);
+                unsigned int _numblocks = _ChunkSize/_blocksize;
+                char* _ptr_last = &(_block [(_numblocks - 1) * _blocksize]);
 
-                for (char* _ptr = _block; _ptr < _ptr_last; _ptr += size)
-                  reinterpret_cast<_Block *>(_ptr)->_next = reinterpret_cast<_Block *>(_ptr + size);
+                for (char* _ptr = _block; _ptr < _ptr_last; _ptr += _blocksize)
+                {
+                  reinterpret_cast<_Block *>(_ptr)->_next = reinterpret_cast<_Block *>(_ptr + _blocksize);
+                }
 
                 reinterpret_cast<_Block *>(_ptr_last)->_next = NULL;
               }
 
             public:
-              char _block [_ChunkSize * sizeof (_TpItem)]; /** < a block of the chunk */
+              char _block [_ChunkSize]; /** < a block of the chunk */
               _Chunk* _next; /** < points to the next allocated chunk */
           };
 
@@ -182,4 +187,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_BASE_ALLOC_STORAGE_H_ // __CGTL__CGT_BASE_ALLOC_STORAGE_H_
+#endif // __CGTL__CGT_BASE_ALLOC_STORAGE_H_

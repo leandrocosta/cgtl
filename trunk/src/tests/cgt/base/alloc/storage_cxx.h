@@ -34,6 +34,8 @@
 #define __CGTL__CXXTEST_CGT_BASE_ALLOC_STORAGE_CXX_H_
 
 #include <stdlib.h>
+
+#include <iostream>
 #include <string>
 #include <cxxtest/TestSuite.h>
 #include "cgt/misc/cxxtest_defs.h"
@@ -42,6 +44,15 @@
 
 class storage_cxx : public CxxTest::TestSuite
 {
+  private:
+    typedef cgt::base::alloc::_Storage<int> _Storage;
+    typedef _Storage::_Chunk                _Chunk;
+    typedef _Chunk::_Block                  _Block;
+
+  private:
+    static const size_t blocksize = (sizeof (int) >= sizeof (_Block *) ? sizeof (int):sizeof (_Block *));
+    static const size_t numblocks = cgt::base::alloc::_CHUNK_SIZE/blocksize;
+
   public:
     void setUp () { }
     void tearDown () { } 
@@ -49,10 +60,6 @@ class storage_cxx : public CxxTest::TestSuite
   public:
     void test_basic ()
     {
-      typedef cgt::base::alloc::_Storage<int> _Storage;
-      typedef _Storage::_Chunk                _Chunk;
-      typedef _Chunk::_Block                  _Block;
-
       _Storage storage;
 
       TS_ASSERT_EQUALS (storage._head, static_cast<_Chunk*>(NULL));
@@ -63,7 +70,7 @@ class storage_cxx : public CxxTest::TestSuite
 
       TS_ASSERT_EQUALS (*ptr, 1);
       TS_ASSERT_EQUALS (storage._head, reinterpret_cast<_Chunk*>(ptr));
-      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block*>(ptr+1));
+      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block *>(reinterpret_cast<char *>(ptr)+blocksize));
       TS_ASSERT_EQUALS (reinterpret_cast<_Chunk*>(ptr)->_next, static_cast<_Chunk*> (NULL));
 
       storage.deallocate (ptr);
@@ -75,16 +82,12 @@ class storage_cxx : public CxxTest::TestSuite
 
     void test_two_chunks ()
     {
-      typedef cgt::base::alloc::_Storage<int> _Storage;
-      typedef _Storage::_Chunk                _Chunk;
-      typedef _Chunk::_Block                  _Block;
-
       _Storage storage;
 
       int* ptr = storage.allocate ();
       new (ptr) int (1);
 
-      for (unsigned int i = 1; i < cgt::base::alloc::_CHUNK_SIZE; i++)
+      for (unsigned int i = 1; i < numblocks; i++)
       {
         int* p = storage.allocate ();
         new (p) int (i);
@@ -99,22 +102,19 @@ class storage_cxx : public CxxTest::TestSuite
 
       TS_ASSERT_EQUALS (*ptr2, 2);
       TS_ASSERT_EQUALS (storage._head, reinterpret_cast<_Chunk*>(ptr2));
-      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block*>(ptr2+1));
+      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block *>(reinterpret_cast<char *>(ptr2) + blocksize));
       TS_ASSERT_EQUALS (reinterpret_cast<_Chunk*>(ptr)->_next, static_cast<_Chunk*> (NULL));
       TS_ASSERT_EQUALS (reinterpret_cast<_Chunk*>(ptr2)->_next, reinterpret_cast<_Chunk*> (ptr));
     }
 
     void test_dealloc_three_chunks ()
     {
-      typedef cgt::base::alloc::_Storage<int> _Storage;
-      typedef _Storage::_Chunk                _Chunk;
-      typedef _Chunk::_Block                  _Block;
-
       _Storage storage;
 
-      int** array_ptrs = (int**) malloc ((3 * cgt::base::alloc::_CHUNK_SIZE + 1) * sizeof (int*));
+      int** array_ptrs = (int**) malloc ((3 * numblocks + 1) * sizeof (int*));
 
-      for (unsigned int i = 0; i < 3 * cgt::base::alloc::_CHUNK_SIZE; i++)
+      //for (unsigned int i = 0; i < 3 * cgt::base::alloc::_CHUNK_SIZE; i++)
+      for (unsigned int i = 0; i < 3 * numblocks; i++)
       {
         array_ptrs [i] = storage.allocate ();
         new (array_ptrs [i]) int (i);
@@ -122,8 +122,8 @@ class storage_cxx : public CxxTest::TestSuite
 
       TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block*>(NULL));
 
-      array_ptrs [3 * cgt::base::alloc::_CHUNK_SIZE] = storage.allocate ();
-      new (array_ptrs [3 * cgt::base::alloc::_CHUNK_SIZE]) int (3 * cgt::base::alloc::_CHUNK_SIZE);
+      array_ptrs [3 * numblocks] = storage.allocate ();
+      new (array_ptrs [3 * numblocks]) int (3 * numblocks);
 
       TS_ASSERT_DIFFERS (storage._free, reinterpret_cast<_Block*>(NULL));
 
@@ -132,30 +132,28 @@ class storage_cxx : public CxxTest::TestSuite
       TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block*>(array_ptrs [0]));
       TS_ASSERT_EQUALS (reinterpret_cast<_Block*> (array_ptrs [0])->_next, last_free);
 
-      for (unsigned int i = 1; i <= 3 * cgt::base::alloc::_CHUNK_SIZE; i++)
+      for (unsigned int i = 1; i <= 3 * numblocks; i++)
       {
         storage.deallocate (array_ptrs [i]);
         TS_ASSERT_EQUALS (reinterpret_cast<_Block*> (array_ptrs [i])->_next, reinterpret_cast<_Block*> (array_ptrs [i-1]));
       }
 
-      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block*>(array_ptrs [3 * cgt::base::alloc::_CHUNK_SIZE]));
+      TS_ASSERT_EQUALS (storage._free, reinterpret_cast<_Block*>(array_ptrs [3 * numblocks]));
       TS_ASSERT_EQUALS (reinterpret_cast<_Block*> (array_ptrs [0])->_next, last_free);
     }
 
     void test_chunk ()
     {
-      typedef cgt::base::alloc::_Storage<int> _Storage;
-      typedef _Storage::_Chunk                _Chunk;
-      typedef _Chunk::_Block                  _Block;
-
       _Chunk chunk;
+
       TS_ASSERT_EQUALS (chunk._next, static_cast<_Chunk*>(NULL));
-      TS_ASSERT_EQUALS (sizeof (chunk._block), cgt::base::alloc::_CHUNK_SIZE * sizeof (int));
+      TS_ASSERT_EQUALS (sizeof (chunk._block), cgt::base::alloc::_CHUNK_SIZE);
 
-      char* _ptr_last = &(chunk._block [(cgt::base::alloc::_CHUNK_SIZE-1) * sizeof (int)]);
+      //char* _ptr_last = &(chunk._block [(cgt::base::alloc::_CHUNK_SIZE-1) * blocksize]);
+      char* _ptr_last = &(chunk._block [(numblocks - 1) * blocksize]);
 
-      for (char* _ptr = chunk._block; _ptr < _ptr_last; _ptr += sizeof (int))
-        TS_ASSERT_EQUALS (reinterpret_cast<_Block *>(_ptr)->_next, reinterpret_cast<_Block *>(_ptr + sizeof (int)));
+      for (char* _ptr = chunk._block; _ptr < _ptr_last; _ptr += blocksize)
+        TS_ASSERT_EQUALS (reinterpret_cast<_Block *>(_ptr)->_next, reinterpret_cast<_Block *>(reinterpret_cast<char *>(_ptr) + blocksize));
 
       TS_ASSERT_EQUALS (reinterpret_cast<_Block *>(_ptr_last)->_next, static_cast<_Block *> (NULL));
     }
