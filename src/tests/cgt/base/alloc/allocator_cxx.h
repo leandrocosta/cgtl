@@ -33,6 +33,7 @@
 #ifndef __CGTL__CXXTEST_CGT_BASE_ALLOC_ALLOCATOR_CXX_H_
 #define __CGTL__CXXTEST_CGT_BASE_ALLOC_ALLOCATOR_CXX_H_
 
+#include <limits.h>
 #include <string>
 #include <cxxtest/TestSuite.h>
 #include "cgt/misc/cxxtest_defs.h"
@@ -41,6 +42,9 @@
 
 class allocator_cxx : public CxxTest::TestSuite
 {
+  private:
+    typedef cgt::base::alloc::_Allocator<int> _Allocator_int;
+
   public:
     void setUp () { }
     void tearDown () { } 
@@ -58,6 +62,19 @@ class allocator_cxx : public CxxTest::TestSuite
 
       allocator.destroy (ptr);
       allocator.deallocate (ptr, 1);
+    }
+
+    void test_load ()
+    {
+      std::list<int, _Allocator_int> l;
+
+      //for (int i = 0; i < INT_MAX; i++)
+      int i;
+      int max = 1000;
+      for (i = 0; i <= max; i++)
+        l.push_back (i);
+
+      TS_ASSERT_EQUALS (l.back (), max);
     }
 };
 
