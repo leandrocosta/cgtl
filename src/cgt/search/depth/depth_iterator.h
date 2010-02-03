@@ -86,16 +86,14 @@ namespace cgt
       {
         public:
           typedef _SearchInfo<_TpVertex, _TpEdge>   _DepthInfo;
-          typedef _SearchState<_TpVertex, _TpEdge>  _DepthState;
+          typedef _SearchState<_TpVertex, _TpEdge>  _DepthState; // need to be public because it's used by scc_iterator
 
         private:
-          typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator> _Self;
-          typedef _DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>   _SelfCommon;
-          typedef _GraphNode<_TpVertex, _TpEdge>                  _Node;
-          typedef typename cgt::base::list<_Node>::iterator      _NodeIterator;
-
-        private:
-          typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::stack, _TpIterator> _Base;
+          typedef _SearchIterator<_TpVertex, _TpEdge, cgt::base::stack, _TpIterator>  _Base;
+          typedef _DepthIterator<_TpVertex, _TpEdge, _TpIterator>                     _Self;
+          typedef _DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>  _SelfCommon;
+          typedef _GraphNode<_TpVertex, _TpEdge>                                      _Node;
+          typedef typename cgt::base::list<_Node>::iterator                           _NodeIterator;
 
         private:
           using _Base::_ptr_node;
@@ -110,7 +108,7 @@ namespace cgt
           _DepthIterator (_Node* const _ptr_n) : _Base (_ptr_n) { }
           _DepthIterator (_Node* const _ptr_n, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (_ptr_n, _it_begin, _it_end) { }
           _DepthIterator (const _NodeIterator& _it, const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _Base (&(*_it), _it_begin, _it_end) { }
-          _DepthIterator (const _SelfCommon& _it) { }
+          _DepthIterator (const _SelfCommon& _it) : _Base (_it) { }
 
         public:
           _Self& operator++();
