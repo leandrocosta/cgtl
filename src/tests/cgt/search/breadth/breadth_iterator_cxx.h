@@ -20,8 +20,8 @@
  */
 
 /*!
- * \file tests/cgt/search/list_cxx.h
- * \brief Contains unit tests for class cgt::search::list.
+ * \file tests/cgt/search/breadth/breadth_iterator_cxx.h
+ * \brief Contains unit tests for class cgt::search::breadth::breadth_iterator.
  * \author Leandro Costa
  * \date 2009
  *
