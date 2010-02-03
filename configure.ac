@@ -12,12 +12,13 @@ AC_PROG_CXX
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_LIBTOOL
+AC_PROG_RANLIB
 
 # Checks for libraries.
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([malloc.h stdlib.h string.h])
+AC_CHECK_HEADERS([limits.h malloc.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
@@ -73,5 +74,7 @@ AC_CONFIG_FILES([Makefile
                  src/tests/cgt/base/alloc/Makefile
                  src/tests/cgt/base/exception/Makefile
                  src/tests/cgt/base/iterator/Makefile
-                 src/tests/cgt/search/Makefile])
+                 src/tests/cgt/search/Makefile
+                 src/tests/cgt/search/breadth/Makefile
+                 src/tests/cgt/search/depth/Makefile])
 AC_OUTPUT
