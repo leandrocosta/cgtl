@@ -1,3 +1,5 @@
+SUBDIRS = breadth depth
+
 LIST_CXXSRCS = search_info_cxx.cc
 
 LIST_SRCS = $(LIST_CXXSRCS) $(top_builddir)/src/cgt/search/search_info.h \
