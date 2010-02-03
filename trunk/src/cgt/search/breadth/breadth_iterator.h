@@ -99,6 +99,7 @@ namespace cgt
           using _Base::_ptr_node;
           using _Base::_it_node;
           using _Base::_it_node_end;
+          using _Base::_infoList;
           using _Base::_stContainer;
           using _Base::_global_time;
 
@@ -116,8 +117,8 @@ namespace cgt
           const _BreadthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (*_ptr_node); }
           const _BreadthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
-          typename cgt::base::list<_BreadthInfo>::iterator info_begin () { return _Base::_infoList.begin (); }
-          typename cgt::base::list<_BreadthInfo>::iterator info_end () { return _Base::_infoList.end (); }
+          typename cgt::base::list<_BreadthInfo>::iterator info_begin () { return _infoList.begin (); }
+          typename cgt::base::list<_BreadthInfo>::iterator info_end () { return _infoList.end (); }
       };
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
