@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_SEARCH_SEARCH_INFO_H_
-#define __CGTL__CGT_SEARCH_SEARCH_INFO_H_
+#ifndef __CGTL__CGT_SEARCH__SEARCH_INFO_H_
+#define __CGTL__CGT_SEARCH__SEARCH_INFO_H_
 
 #include "cgt/graph_node.h"
 
@@ -89,4 +89,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_SEARCH_SEARCH_INFO_H_
+#endif // __CGTL__CGT_SEARCH__SEARCH_INFO_H_

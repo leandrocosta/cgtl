@@ -77,7 +77,7 @@ namespace cgt
        *    - use _it_node to find the next WHITE node.
        *    - if a WHITE node is found:
        *      - paint it with GRAY, put it on the queue and turn it the current node.
-       *    - if no more WIHTE nodes are found:
+       *    - if no more WHITE nodes are found:
        *      - point the current node to NULL.
        */
 
@@ -135,7 +135,7 @@ namespace cgt
            *  - use _it_node to find the next WHITE node.
            *  - if a WHITE node is found:
            *    - paint it with GRAY, put it on the queue and turn it the current node.
-           *  - if no more WIHTE nodes are found:
+           *  - if no more WHITE nodes are found:
            *    - point the current node to NULL.
            */
 

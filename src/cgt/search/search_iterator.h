@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_SEARCH_SEARCH_ITERATOR_H_
-#define __CGTL__CGT_SEARCH_SEARCH_ITERATOR_H_
+#ifndef __CGTL__CGT_SEARCH__SEARCH_ITERATOR_H_
+#define __CGTL__CGT_SEARCH__SEARCH_ITERATOR_H_
 
 #include "cgt/graph_node.h"
 #include "cgt/search/search_state.h"
@@ -65,7 +65,6 @@ namespace cgt
       class _SearchIterator
       {
         private:
-//          friend class _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, typename _TpIterator<_GraphNode<_TpVertex, _TpEdge> >::other>;
           friend class _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, cgt::base::iterator::_TpConst>;
 
         private:
@@ -152,7 +151,7 @@ namespace cgt
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpStateContainer, template<typename> class _TpIterator>
       void _SearchIterator<_TpVertex, _TpEdge, _TpStateContainer, _TpIterator>::_init ()
       {
-        /*
+        /*!
          * paint the first node (_ptr_node) with GRAY;
          * put it on the state container;
          * turn it the current node (actualy, it already is the current node);
@@ -248,4 +247,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_SEARCH_SEARCH_ITERATOR_H_
+#endif // __CGTL__CGT_SEARCH__SEARCH_ITERATOR_H_

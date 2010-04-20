@@ -66,8 +66,22 @@ namespace cgt
       private:
         typedef _GraphVertex<_TpVertex> _Vertex;
 
+      private:
+        typedef _GraphEdge<_TpVertex, _TpEdge>  _Edge;
+
       public:
         _GraphEdge (const _TpEdge& _e, _Vertex& _v1, _Vertex& _v2) : _value (_e), _vertex1 (_v1), _vertex2 (_v2) { }
+
+      public:
+        const bool operator==(const _Edge& _edge) const
+        {
+          return (_value == _edge.value () && _vertex1 == _edge.v1 () && _vertex2 == _edge.v2 ());
+        }
+
+        const bool operator!=(const _Edge& _edge) const
+        {
+          return ! (*this == _edge);
+        }
 
       public:
         const _TpEdge& value () const { return _value; }

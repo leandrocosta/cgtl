@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_GRAPH_NODE_H_
-#define __CGTL__CGT_GRAPH_NODE_H_
+#ifndef __CGTL__CGT__GRAPH_NODE_H_
+#define __CGTL__CGT__GRAPH_NODE_H_
 
 #include "cgt/graph_vertex.h"
 #include "cgt/graph_adjlist.h"
@@ -83,17 +83,17 @@ namespace cgt
       public:
         void _insert (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
         void _insert_inverse (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
-        void _invert_edges ();
+        void _invert_edges (); /*!< time complexity: O(1) */
 
       private:
         _Vertex   _vertex;
         _AdjList  _adjList;
 
-        /*
+        /*!
          * This is a list of inverted edges: if a node n1 has an
          * inverted edge pointing to n2, it means n2 has an edge
          * pointing to n1. This way we can invert a graph in O(V),
-         * just swaping the two lists: _adjList and _invAdjList.
+         * just swapping the two lists: _adjList and _invAdjList.
          */
 
         _AdjList  _invAdjList;
@@ -118,7 +118,7 @@ namespace cgt
       _invAdjList._insert (_e, _n);
     }
 
-  /*
+  /*!
    * time complexity: O(1)
    */
   template<typename _TpVertex, typename _TpEdge>
@@ -128,4 +128,4 @@ namespace cgt
     }
 }
 
-#endif // __CGTL__CGT_GRAPH_NODE_H_
+#endif // __CGTL__CGT__GRAPH_NODE_H_

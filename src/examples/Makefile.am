@@ -13,8 +13,9 @@ KRUSKALTESTER_U_SRCS	= kruskaltester_u.cpp
 SCCTESTER_D_SRCS	= scctester_d.cpp
 DIJKSTRATESTER_U_SRCS	= dijkstratester_u.cpp
 COMPLEXGRAPH_SRCS = complexgraph.cpp
+TOPOSORTTESTER_SRCS = toposorttester.cpp
 
-bin_PROGRAMS		= example1 example2 example3 example4 depthtester_d depthtester_u breadthtester_d breadthtester_u dijkstratester_d primtester_u kruskaltester_u scctester_d dijkstratester_u complexgraph
+bin_PROGRAMS		= example1 example2 example3 example4 depthtester_d depthtester_u breadthtester_d breadthtester_u dijkstratester_d primtester_u kruskaltester_u scctester_d dijkstratester_u complexgraph toposorttester
 example1_SOURCES	= $(EX1_SRCS)
 example2_SOURCES	= $(EX2_SRCS)
 example3_SOURCES	= $(EX3_SRCS)
@@ -34,3 +35,5 @@ dijkstratester_u_SOURCES	= $(DIJKSTRATESTER_U_SRCS)
 
 complexgraph_SOURCES 	= $(COMPLEXGRAPH_SRCS)
 #complexgraph_CPPFLAGS	= -DDEBUG
+
+toposorttester_SOURCES	= $(TOPOSORTTESTER_SRCS)

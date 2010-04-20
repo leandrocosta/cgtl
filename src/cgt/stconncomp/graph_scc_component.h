@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_STCONNCOMP_GRAPH_SCC_COMPONENT_H_
-#define __CGTL__CGT_STCONNCOMP_GRAPH_SCC_COMPONENT_H_
+#ifndef __CGTL__CGT_STCONNCOMP__GRAPH_SCC_COMPONENT_H_
+#define __CGTL__CGT_STCONNCOMP__GRAPH_SCC_COMPONENT_H_
 
 #include "cgt/stconncomp/graph_scc_node.h"
 #include "cgt/base/list.h"
@@ -83,8 +83,8 @@ namespace cgt
          * SCC and ask for edges linking _n and these nodes. If we find some,
          * we insert it in the SCC node at the end of the list.
          *
-         * _SCCNode can have a reference to _Node, but it's impossible
-         * to use references to _Adjacencies. So, we reuse only the edges.
+         * _SCCNode has a reference to _Node, but it's impossible
+         * to reuse the _Adjacencies. So, we reuse only the edges.
          */
 
         _Edge* _ptr_edge = NULL;
@@ -107,4 +107,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_STCONNCOMP_GRAPH_SCC_COMPONENT_H_
+#endif // __CGTL__CGT_STCONNCOMP__GRAPH_SCC_COMPONENT_H_

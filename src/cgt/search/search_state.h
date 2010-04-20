@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_SEARCH_SEARCH_STATE_H_
-#define __CGTL__CGT_SEARCH_SEARCH_STATE_H_
+#ifndef __CGTL__CGT_SEARCH__SEARCH_STATE_H_
+#define __CGTL__CGT_SEARCH__SEARCH_STATE_H_
 
 #include "cgt/graph_node.h"
 #include "cgt/graph_adjacency.h"
@@ -78,4 +78,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_SEARCH_SEARCH_STATE_H_
+#endif // __CGTL__CGT_SEARCH__SEARCH_STATE_H_

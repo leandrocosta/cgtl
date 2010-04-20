@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_STCONNCOMP_GRAPH_SCC_NODE_H_
-#define __CGTL__CGT_STCONNCOMP_GRAPH_SCC_NODE_H_
+#ifndef __CGTL__CGT_STCONNCOMP__GRAPH_SCC_NODE_H_
+#define __CGTL__CGT_STCONNCOMP__GRAPH_SCC_NODE_H_
 
 #include "cgt/graph_node.h"
 #include "cgt/graph_adjlist.h"
@@ -47,8 +47,8 @@ namespace cgt
      * \author Leandro Costa
      * \date 2009
      *
-     * This is the node used by strongly connected component structure. It is a
-     * special node with a reference to the real node and a list of adjacencies.
+     * This is the node used by strongly connected component structure. It's a
+     * special node with a reference to the real node and its own list of adjacencies.
      */
 
     template<typename _TpVertex, typename _TpEdge>
@@ -61,7 +61,7 @@ namespace cgt
           typedef _GraphAdjList<_TpVertex, _TpEdge> _AdjList;
 
         public:
-          _GraphSCCNode (_Node& _n) : _node (_n) { }
+          explicit _GraphSCCNode (_Node& _n) : _node (_n) { }
 
         public:
           void _insert (_Edge& _e, _Node& _n) { _adjList._insert (_e, _n); }
@@ -78,4 +78,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_STCONNCOMP_GRAPH_SCC_NODE_H_
+#endif // __CGTL__CGT_STCONNCOMP__GRAPH_SCC_NODE_H_
