@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_STCONNCOMP_SCC_ITERATOR_H_
-#define __CGTL__CGT_STCONNCOMP_SCC_ITERATOR_H_
+#ifndef __CGTL__CGT_STCONNCOMP__SCC_ITERATOR_H_
+#define __CGTL__CGT_STCONNCOMP__SCC_ITERATOR_H_
 
 #include "cgt/stconncomp/graph_scc_component.h"
 #include "cgt/base/heap.h"
@@ -81,23 +81,24 @@ namespace cgt
 
         private:
           typedef _GraphNode<_TpVertex, _TpEdge>          _Node;
-          typedef typename cgt::base::list<_Node>   _NodeList;
+          typedef typename cgt::base::list<_Node>         _NodeList;
           typedef typename _NodeList::iterator            _NodeIterator;
 
           typedef _GraphSCCComponent<_TpVertex, _TpEdge>  _Component;
-          typedef cgt::base::list<_Component>       _ComponentList;
+          typedef cgt::base::list<_Component>             _ComponentList;
           typedef typename _ComponentList::const_iterator _ComponentIterator;
 
           typedef _GraphSCCNode<_TpVertex, _TpEdge>       _SCCNode;
 
           typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  _DFSIterator;
-          typedef typename _DFSIterator::_DepthInfo             _DFSInfo;
-          typedef cgt::base::list<_DFSInfo>               _DFSInfoList;
-          typedef typename _DFSInfoList::iterator               _DFSInfoIterator;
-          typedef typename _DFSInfoList::const_iterator         _DFSInfoCIterator;
-          typedef typename _DFSInfo::_color_t                   _DFSColor;
-          typedef typename _DFSIterator::_DepthState            _DFSState;
-          typedef cgt::base::stack<_DFSState>                   _DFSStateStack;
+
+          typedef typename _DFSIterator::_DepthInfo     _DFSInfo;
+          typedef cgt::base::list<_DFSInfo>             _DFSInfoList;
+          typedef typename _DFSInfoList::iterator       _DFSInfoIterator;
+          typedef typename _DFSInfoList::const_iterator _DFSInfoCIterator;
+          typedef typename _DFSInfo::_color_t           _DFSColor;
+          typedef typename _DFSIterator::_DepthState    _DFSState;
+          typedef cgt::base::stack<_DFSState>           _DFSStateStack;
 
           typedef cgt::base::heap<_SCC_DFSInfo>       _SCC_DFSInfoHeap;
           typedef typename _SCC_DFSInfoHeap::iterator _SCC_DFSInfoHeapIterator;
@@ -111,7 +112,7 @@ namespace cgt
            * This structure is used to keep informations about strongly connected
            * components algorithm. It is a wrapper for a depth-first search info structure
            * with an operator les than (<) used to create a heap. \b S1 < \b S2 means the
-           * finish time of \b S1 os greater or equals to the finish time of \b S2.
+           * finish time of \b S1 is greater or equal to the finish time of \b S2.
            */
 
           class _SCC_DFSInfo
@@ -132,7 +133,9 @@ namespace cgt
 
         public:
           _SCCIterator () : _ptr_component (NULL) { }
-          _SCCIterator (const _NodeIterator& _it_begin, const _NodeIterator& _it_end) : _ptr_component (NULL), _it_node_begin (_it_begin), _it_node_end (_it_end) { _init (); }
+          _SCCIterator (const _NodeIterator& _it_begin, const _NodeIterator& _it_end)
+            : _ptr_component (NULL), _it_node_begin (_it_begin), _it_node_end (_it_end)
+          { _init (); }
           _SCCIterator (const _SelfCommon& _it) { *this = _it; }
 
         _Self& operator=(const _Self& _s)
@@ -146,6 +149,8 @@ namespace cgt
           _dfs_state_stack  = _s._dfs_state_stack;
 
           /*!
+           * TODO:
+           *
            * \todo We need a better way to initialize _ptr_component.
            * It should point to the component pointed by _s._ptr_component:
            * 
@@ -415,4 +420,4 @@ namespace cgt
   }
 }
 
-#endif // __CGTL__CGT_STCONNCOMP_SCC_ITERATOR_H_
+#endif // __CGTL__CGT_STCONNCOMP__SCC_ITERATOR_H_

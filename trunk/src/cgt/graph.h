@@ -52,6 +52,8 @@
 #include "cgt/stconncomp/graph_scc_component.h"
 #include "cgt/stconncomp/graph_scc_node.h"
 
+#include "cgt/toposort/toposort_iterator.h"
+
 
 /*!
  * \namespace cgt
@@ -282,6 +284,17 @@ namespace cgt
       const_kiterator kbegin () const { return const_kiterator (_Base::begin (), viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edgeList.begin (), _Base::_edgeList.end ()); }
       const_kiterator kbegin (const iterator& _it) const { return const_kiterator (_it, viterator (_Base::begin ()), viterator (_Base::end ()), _Base::_edgeList.begin (), _Base::_edgeList.end ()); }
       const_kiterator kend () const { return const_kiterator (NULL); }
+
+      /** topological sort iterator */
+      typedef cgt::toposort::_ToposortIterator<_TpVertex, _TpEdge>                                tsiterator;
+      typedef cgt::toposort::_ToposortIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_tsiterator;
+
+      tsiterator tsbegin () { return tsiterator (_Base::begin (), _Base::end ()); }
+      tsiterator tsbegin (const iterator& _it) { return tsiterator (_it); }
+      tsiterator tsend () { return tsiterator (); }
+      const_tsiterator tsbegin () const { return const_tsiterator (_Base::begin (), _Base::end ()); }
+      const_tsiterator tsbegin (const iterator& _it) const { return const_tsiterator (_it); }
+      const_tsiterator tsend () const { return const_tsiterator (); }
   };
 }
 

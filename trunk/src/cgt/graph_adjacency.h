@@ -71,8 +71,22 @@ namespace cgt
         typedef _GraphEdge<_TpVertex, _TpEdge> _Edge;
         typedef _GraphVertex<_TpVertex>        _Vertex;
 
+      private:
+        typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
+
       public:
         _GraphAdjacency (_Edge& _e, _Node& _n) : _edge (_e), _node (_n)  { }
+
+      public:
+        const bool operator==(const _Adjacency& _adj) const
+        {
+          return (_edge == _adj.edge () && _node.vertex () == _adj.node ().vertex ());
+        }
+
+        const bool operator!=(const _Adjacency& _adj) const
+        {
+          return !(*this == _adj);
+        }
 
       public:
         _Edge&  edge () const;
