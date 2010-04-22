@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_GRAPH_ADJLIST_H_
-#define __CGTL__CGT_GRAPH_ADJLIST_H_
+#ifndef __CGTL__CGT__GRAPH_ADJLIST_H_
+#define __CGTL__CGT__GRAPH_ADJLIST_H_
 
 #include "cgt/graph_adjacency.h"
 #include "cgt/graph_vertex.h"
@@ -40,6 +40,21 @@
 
 namespace cgt
 {
+  namespace stconncomp
+  {
+    template<typename _TpVertex, typename _TpEdge>
+      class _GraphSCCNode;
+  }
+
+  namespace toposort
+  {
+    template<typename _TpVertex, typename _TpEdge>
+      class _GraphTSNode;
+  }
+
+  template<typename _TpVertex, typename _TpEdge>
+    class _GraphNode;
+
   /*!
    * \class _GraphAdjList
    * \brief It belongs to a node and contains its list of adjacencies (each one composed by reference to edge and linked node).
@@ -69,7 +84,11 @@ namespace cgt
     class _GraphAdjList : public cgt::base::list<_GraphAdjacency<_TpVertex, _TpEdge> >
   {
     private:
-      typedef _GraphAdjList<_TpVertex, _TpEdge>   _Self;
+      friend class _GraphNode<_TpVertex, _TpEdge>;
+      friend class cgt::toposort::_GraphTSNode<_TpVertex, _TpEdge>;
+      friend class cgt::stconncomp::_GraphSCCNode<_TpVertex, _TpEdge>;
+
+    private:
       typedef _GraphNode<_TpVertex, _TpEdge>      _Node;
       typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
       typedef _GraphVertex<_TpVertex>             _Vertex;
@@ -77,26 +96,26 @@ namespace cgt
       typedef cgt::base::list<_Adjacency>         _Base;
       typedef typename _Base::const_iterator      _Iterator;
 
-    public:
-      _Edge* _get_edge (const _Vertex& _v) const;
+    private:
+      void _insert (_Edge& _e, _Node& _n);
+      void _remove_adj_by_node (const _Node& _n);
 
     public:
-      void _insert (_Edge& _e, _Node& _n);
+      _Edge* get_edge (const _Vertex& _v) const;
   };
 
   template<typename _TpVertex, typename _TpEdge>
-    _GraphEdge<_TpVertex, _TpEdge>* _GraphAdjList<_TpVertex, _TpEdge>::_get_edge (const _Vertex& _v) const
+    _GraphEdge<_TpVertex, _TpEdge>* _GraphAdjList<_TpVertex, _TpEdge>::get_edge (const _Vertex& _v) const
     {
       _Edge *_ptr_edge = NULL;
 
-      _Iterator it;
       _Iterator itEnd = _Base::end ();
 
-      for (it = _Base::begin (); it != itEnd; ++it)
+      for (_Iterator _it = _Base::begin (); _it != itEnd; ++_it)
       {
-        if (it->vertex () == _v)
+        if (_it->vertex () == _v)
         {
-          _ptr_edge = &(it->edge ());
+          _ptr_edge = &(_it->edge ());
           break;
         }
       }
@@ -109,6 +128,21 @@ namespace cgt
     {
       _Base::insert (_Adjacency (_e, _n));
     }
+
+  template<typename _TpVertex, typename _TpEdge>
+    void _GraphAdjList<_TpVertex, _TpEdge>::_remove_adj_by_node (const _Node& _n)
+    {
+      _Iterator itEnd = _Base::end ();
+
+      for (_Iterator _it = _Base::begin (); _it != itEnd; ++_it)
+      {
+        if (_it->node ().vertex () == _n.vertex ())
+        {
+          _Base::remove (*_it);
+          break;
+        }
+      }
+    }
 }
 
-#endif // __CGTL__CGT_GRAPH_ADJLIST_H_
+#endif // __CGTL__CGT__GRAPH_ADJLIST_H_

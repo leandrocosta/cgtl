@@ -59,23 +59,33 @@ namespace cgt
           typedef cgt::base::list<_TSNode>  _Base;
 
         private:
-          typedef typename _Base::iterator        _Iterator;
-          typedef typename _Base::const_iterator  _CIterator;
+          typedef typename _Base::iterator  _Iterator;
 
         public:
+          _Iterator _find_safe ()
+          {
+            _Iterator _it     = _Base::begin ();
+            _Iterator _itEnd  = _Base::end ();
+
+            while (_it != _itEnd)
+            {
+              if (_it->iadjlist ().empty ())
+                break;
+
+              ++_it;
+            }
+
+            return _it;
+          }
+
           void remove (const _TSNode& _ts_node)
           {
             _Base::remove (_ts_node);
 
-            _Iterator _it = _Base::begin ();
             _Iterator _itEnd = _Base::end ();
 
-            while (_it != _itEnd)
-            {
-              std::cout << "node: " << _it->node ().vertex ().value () << ", remove edges from " << _ts_node.node ().vertex ().value () << std::endl;
-              _it->_removeEdgesFrom (_ts_node);
-              ++_it;
-            }
+            for (_Iterator _it = _Base::begin (); _it != _itEnd; ++_it)
+              _it->_remove_in_edge (_ts_node);
           }
       };
   }

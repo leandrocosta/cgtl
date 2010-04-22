@@ -65,10 +65,10 @@ namespace cgt
           typedef _GraphEdge<_TpVertex, _TpEdge>    _Edge;
 
         public:
-          void insert (const _SCCNode& _n);
+          _GraphSCCComponent (const _SCCNode& _n) { _Base::insert (_n); }
 
         public:
-          _GraphSCCComponent (const _SCCNode& _n) { _Base::insert (_n); }
+          void insert (const _SCCNode& _n);
       };
 
 
@@ -97,10 +97,10 @@ namespace cgt
         {
           _Node& _n2 = _it->node ();
 
-          if ((_ptr_edge = _n1._get_edge (_n2.vertex ())))
+          if ((_ptr_edge = _n1.get_edge (_n2.vertex ())))
             _ptr_node->_insert (*_ptr_edge, _n2);
 
-          if ((_ptr_edge = _n2._get_edge (_n1.vertex ())))
+          if ((_ptr_edge = _n2.get_edge (_n1.vertex ())))
             _it->_insert (*_ptr_edge, _n1);
         }
       }

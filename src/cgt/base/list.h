@@ -30,8 +30,8 @@
  * $Revision$
  */
 
-#ifndef __CGTL__CGT_BASE_LIST_H_
-#define __CGTL__CGT_BASE_LIST_H_
+#ifndef __CGTL__CGT_BASE__LIST_H_
+#define __CGTL__CGT_BASE__LIST_H_
 
 #include "cgt/base/list_item.h"
 #include "cgt/base/list_iterator.h"
@@ -85,7 +85,7 @@ namespace cgt
         private:
           typedef typename _Alloc::template rebind<_Item>::other allocator_type;
 
-        public:
+        protected:
           _List () : _head (NULL), _tail (NULL), _size (0) { }
           _List (const _List& _l) : _head (NULL), _tail (NULL), _size (0) { *this = _l; }
           virtual ~_List () { _remove_all (); }
@@ -384,26 +384,27 @@ namespace cgt
 
       public:
         list () : _Base () { }
-        list (const list& _l) : _Base (_l) { }
+        explicit list (const list& _l) : _Base (_l) { }
+        virtual ~list () { }
 
       public:
-        _TpItem& insert (const _TpItem& _item) { return _Base::_push_back (_item); }
-        _TpItem& push_front (const _TpItem& _item) { return _Base::_push_front (_item); }
-        _TpItem& push_back (const _TpItem& _item) { return _Base::_push_back (_item); }
-        _TpItem* pop_front () { return _pop (_Base::_head); }
-        _TpItem* pop_back () {return _pop (_Base::_tail); }
-        _TpItem* front () { return _get (_Base::_head); }
-        const _TpItem* const front () const { return _get (_Base::_head); }
-        _TpItem* back () {return _get (_Base::_tail); }
-        const _TpItem* const back () const { return _get (_Base::_tail); }
-        void remove (const _TpItem& _item) { _Base::_remove (_Base::_find (_item)); }
-        void clear () { _Base::_remove_all (); }
-        const size_t size () const { return _Base::_size; }
-        const bool empty () const { return (! _Base::_size); }
-        typename _Base::iterator find (const _TpItem& _item) { return typename _Base::iterator (_Base::_find (_item)); }
-        typename _Base::const_iterator find (const _TpItem& _item) const { return typename _Base::const_iterator (_Base::_find (_item)); }
+        inline _TpItem& insert (const _TpItem& _item) { return _Base::_push_back (_item); }
+        inline _TpItem& push_front (const _TpItem& _item) { return _Base::_push_front (_item); }
+        inline _TpItem& push_back (const _TpItem& _item) { return _Base::_push_back (_item); }
+        inline _TpItem* pop_front () { return _pop (_Base::_head); }
+        inline _TpItem* pop_back () {return _pop (_Base::_tail); }
+        inline _TpItem* front () { return _get (_Base::_head); }
+        inline const _TpItem* const front () const { return _get (_Base::_head); }
+        inline _TpItem* back () {return _get (_Base::_tail); }
+        inline const _TpItem* const back () const { return _get (_Base::_tail); }
+        inline void remove (const _TpItem& _item) { _Base::_remove (_Base::_find (_item)); }
+        inline void clear () { _Base::_remove_all (); }
+        inline const size_t size () const { return _Base::_size; }
+        inline const bool empty () const { return (! _Base::_size); }
+        inline typename _Base::iterator find (const _TpItem& _item) { return typename _Base::iterator (_Base::_find (_item)); }
+        inline typename _Base::const_iterator find (const _TpItem& _item) const { return typename _Base::const_iterator (_Base::_find (_item)); }
     };
   }
 }
 
-#endif // __CGTL__CGT_BASE_LIST_H_
+#endif // __CGTL__CGT_BASE__LIST_H_

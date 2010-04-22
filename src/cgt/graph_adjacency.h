@@ -67,32 +67,30 @@ namespace cgt
     class _GraphAdjacency
     {
       private:
-        typedef _GraphNode<_TpVertex, _TpEdge> _Node;
-        typedef _GraphEdge<_TpVertex, _TpEdge> _Edge;
-        typedef _GraphVertex<_TpVertex>        _Vertex;
-
-      private:
+        typedef _GraphNode<_TpVertex, _TpEdge>      _Node;
+        typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
+        typedef _GraphVertex<_TpVertex>             _Vertex;
         typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
 
       public:
         _GraphAdjacency (_Edge& _e, _Node& _n) : _edge (_e), _node (_n)  { }
 
       public:
-        const bool operator==(const _Adjacency& _adj) const
+        inline const bool operator==(const _Adjacency& _adj) const
         {
           return (_edge == _adj.edge () && _node.vertex () == _adj.node ().vertex ());
         }
 
-        const bool operator!=(const _Adjacency& _adj) const
+        inline const bool operator!=(const _Adjacency& _adj) const
         {
-          return !(*this == _adj);
+          return ! (*this == _adj);
         }
 
       public:
-        _Edge&  edge () const;
-        const _Vertex& vertex () const;
-        _Node& node () const;
-        const _TpEdge& value () const { return _edge.value (); }
+        inline _Edge&  edge () const { return _edge; }
+        inline _Node& node () const { return _node; }
+        inline const _Vertex& vertex () const { return _node.vertex (); }
+        inline const _TpEdge& value () const { return _edge.value (); }
 
       private:
         // Reference to the edge object (stored in _GraphAdjMatrix._edgeList)
@@ -101,24 +99,6 @@ namespace cgt
         // Reference to the node at the right
         _Node& _node;
     };
-
-  template<typename _TpVertex, typename _TpEdge>
-    _GraphEdge<_TpVertex, _TpEdge>& _GraphAdjacency<_TpVertex, _TpEdge>::edge () const
-    {
-      return _edge;
-    }
-
-  template<typename _TpVertex, typename _TpEdge>
-    const _GraphVertex<_TpVertex>& _GraphAdjacency<_TpVertex, _TpEdge>::vertex () const
-    {
-      return _node.vertex ();
-    }
-
-  template<typename _TpVertex, typename _TpEdge>
-    _GraphNode<_TpVertex, _TpEdge>& _GraphAdjacency<_TpVertex, _TpEdge>::node () const
-    {
-      return _node;
-    }
 }
 
 #endif // __CGTL__CGT_GRAPH_ADJACENCY_H_

@@ -59,15 +59,18 @@ namespace cgt
         typedef _GraphNode<_TpVertex, _TpEdge>                _Node;
         typedef cgt::base::_ListIterator<_Node, _TpIterator>  _Base;
         typedef _GraphVertex<_TpVertex>                       _Vertex;
+
+        typedef typename _TpIterator<_Vertex>::pointer        pointer;
         typedef typename _TpIterator<_Vertex>::reference      reference;
 
       public:
         _VertexIterator () { }
-        _VertexIterator (const _Base &_iterator) : _Base (_iterator) { }
+        _VertexIterator (const _Base& _it) : _Base (_it) { }
         _VertexIterator (const _SelfCommon& _it) : _Base (_it) { }
 
       public:
         reference operator*() const;
+        pointer operator->() const;
     };
 
 
@@ -75,6 +78,12 @@ namespace cgt
     typename _TpIterator<_GraphVertex<_TpVertex> >::reference _VertexIterator<_TpVertex, _TpEdge, _TpIterator>::operator*() const
     {
       return _Base::operator*().vertex ();
+    }
+
+  template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+    typename _TpIterator<_GraphVertex<_TpVertex> >::pointer _VertexIterator<_TpVertex, _TpEdge, _TpIterator>::operator->() const
+    {
+      return &(operator*());
     }
 }
 

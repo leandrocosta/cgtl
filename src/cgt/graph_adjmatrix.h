@@ -195,7 +195,7 @@ namespace cgt
         {
           _Vertex& _vertex2 = _ptr_n2->vertex ();
 
-          if (! _ptr_n1->_get_edge (_vertex2))
+          if (! _ptr_n1->get_edge (_vertex2))
           {
             _Vertex& _vertex1 = _ptr_n1->vertex ();
             _Edge &_edge = _edgeList.insert (_Edge (_e, _vertex1, _vertex2));
@@ -210,7 +210,7 @@ namespace cgt
     {
       _n1._insert (_e, _n2);
 
-      if (! _type._directed && ! _n2._get_edge (_v1))
+      if (! _type._directed && ! _n2.get_edge (_v1))
         _n2._insert (_e, _n1);
     }
 
@@ -221,11 +221,9 @@ namespace cgt
        * for each node, call _invert_edges ()
        */
 
-      typename _Base::iterator it;
-      typename _Base::iterator itEnd = _Base::end ();
-
-      for (it = _Base::begin (); it != itEnd; ++it)
-        it->_invert_edges ();
+      typename _Base::iterator _itEnd = _Base::end ();
+      for (typename _Base::iterator _it = _Base::begin (); _it != _itEnd; ++_it)
+        _it->_invert_edges ();
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>

@@ -21,15 +21,7 @@ int main ()
   mygraph g;
 
   cout << "=== creating graph ===" << endl << endl;
-  create_graph_1<std::string, int> (g);
-  add_edge<std::string, int> (g, 9, "B", "C");
-  add_edge<std::string, int> (g, 10, "C", "A");
-  add_edge<std::string, int> (g, 11, "H", "E");
-  add_edge<std::string, int> (g, 12, "H", "J");
-  add_edge<std::string, int> (g, 13, "J", "G");
-  add_edge<std::string, int> (g, 14, "G", "E");
-  add_edge<std::string, int> (g, 15, "I", "F");
-  add_edge<std::string, int> (g, 16, "F", "D");
+  create_graph_3<std::string, int> (g);
 
   mygraph::tsiterator it;
   mygraph::tsiterator itEnd = g.tsend ();
@@ -37,7 +29,6 @@ int main ()
   for (it = g.tsbegin (); it != itEnd; ++it)
   {
     cout << "node: " << it->vertex ().value () << endl;
-    sleep (1);
     /*
     mygraph::scc& s = *it;
 

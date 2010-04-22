@@ -248,6 +248,14 @@ namespace cgt
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
       void _SCCIterator<_TpVertex, _TpEdge, _TpIterator>::_run_reverse_dfs ()
       {
+          /*!
+           * TODO:
+           *
+           * \todo We need a better way to run DFS in an inverted graph.
+					 * It should not be necessary to modify the nodes, we need a
+					 * way to read the original nodes in an 'inverted way'.
+					 */
+
         for (_NodeIterator _it = _it_node_begin; _it != _it_node_end; ++_it)
           _it->_invert_edges ();
 
