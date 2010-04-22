@@ -35,9 +35,20 @@
 
 #include "cgt/graph_vertex.h"
 #include "cgt/graph_adjlist.h"
+#include "cgt/graph_type.h"
+#include "cgt/base/iterator/iterator_type.h"
 
 namespace cgt
 {
+  namespace stconncomp
+  {
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      class _SCCIterator;
+  }
+
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+    class _GraphAdjMatrix;
+
   /*!
    * \class _GraphNode
    * \brief It contains the vertex, its adjacency list and an inverted ajacency list to ease graph's invertion.
@@ -60,30 +71,41 @@ namespace cgt
     class _GraphNode
     {
       private:
+        friend class _GraphAdjMatrix<_TpVertex, _TpEdge, cgt::_Directed>;
+        friend class _GraphAdjMatrix<_TpVertex, _TpEdge, cgt::_Undirected>;
+
+        friend  class cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>;
+        friend  class cgt::stconncomp::_SCCIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>;
+
+      private:
         typedef _GraphNode<_TpVertex, _TpEdge>    _Self;
         typedef _GraphVertex<_TpVertex>           _Vertex;
         typedef _GraphAdjList<_TpVertex, _TpEdge> _AdjList;
 
       public:
-        _GraphNode (const _TpVertex &_v) : _vertex (_v) { };
+        explicit _GraphNode (const _TpVertex &_v) : _vertex (_v) { };
+
+      private:
+        inline void _insert (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n)
+        {
+          _adjList._insert (_e, _n);
+          _n._insert_inverse (_e, *this);
+        }
+
+        inline void _insert_inverse (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n) { _invAdjList._insert (_e, _n); }
+        inline void _invert_edges () { _AdjList::swap (_adjList, _invAdjList); } /*!< time complexity: O(1) */
 
       public:
-        _Vertex& vertex ()  { return _vertex; }
-        const _Vertex& vertex () const  { return _vertex; }
-        _AdjList&  adjlist () { return _adjList; }
-        const _AdjList&  adjlist () const { return _adjList; }
-        _AdjList&  iadjlist () { return _invAdjList; }
-        const _AdjList&  iadjlist () const { return _invAdjList; }
-        _TpVertex& value () { return _vertex.value (); }
-        const _TpVertex& value () const { return _vertex.value (); }
+        inline _Vertex& vertex ()  { return _vertex; }
+        inline const _Vertex& vertex () const  { return _vertex; }
+        inline _AdjList&  adjlist () { return _adjList; }
+        inline const _AdjList&  adjlist () const { return _adjList; }
+        inline _AdjList&  iadjlist () { return _invAdjList; }
+        inline const _AdjList&  iadjlist () const { return _invAdjList; }
+        inline _TpVertex& value () { return _vertex.value (); }
+        inline const _TpVertex& value () const { return _vertex.value (); }
 
-      public:
-        _GraphEdge<_TpVertex, _TpEdge>* _get_edge (const _Vertex& _v) const;
-
-      public:
-        void _insert (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
-        void _insert_inverse (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n);
-        void _invert_edges (); /*!< time complexity: O(1) */
+        inline _GraphEdge<_TpVertex, _TpEdge>* get_edge (const _Vertex& _v) const { return _adjList.get_edge (_v); }
 
       private:
         _Vertex   _vertex;
@@ -98,34 +120,6 @@ namespace cgt
 
         _AdjList  _invAdjList;
     };
-
-  template<typename _TpVertex, typename _TpEdge>
-    _GraphEdge<_TpVertex, _TpEdge>* _GraphNode<_TpVertex, _TpEdge>::_get_edge (const _Vertex& _v) const
-    {
-      return _adjList._get_edge (_v);
-    }
-
-  template<typename _TpVertex, typename _TpEdge>
-    void _GraphNode<_TpVertex, _TpEdge>::_insert (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n)
-    {
-      _adjList._insert (_e, _n);
-      _n._insert_inverse (_e, *this);
-    }
-
-  template<typename _TpVertex, typename _TpEdge>
-    void _GraphNode<_TpVertex, _TpEdge>::_insert_inverse (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n)
-    {
-      _invAdjList._insert (_e, _n);
-    }
-
-  /*!
-   * time complexity: O(1)
-   */
-  template<typename _TpVertex, typename _TpEdge>
-    void _GraphNode<_TpVertex, _TpEdge>::_invert_edges ()
-    {
-      _AdjList::swap (_adjList, _invAdjList);
-    }
 }
 
 #endif // __CGTL__CGT__GRAPH_NODE_H_

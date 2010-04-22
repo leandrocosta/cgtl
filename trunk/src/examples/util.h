@@ -120,5 +120,39 @@ template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
   cout << endl;
 }
 
+  template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+  void create_graph_3 (graph<_TpVertex, _TpEdge, _TpGraphType> &_g)
+{
+  cout << "=== creating graph 3 ===" << endl << endl;
+
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "A");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "B");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "C");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "D");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "E");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "F");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "G");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "H");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "I");
+  add_vertex<_TpVertex, _TpEdge, _TpGraphType>(_g, "J");
+
+  cout << endl;
+
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 1, "C", "A");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 2, "C", "B");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 3, "B", "A");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 4, "A", "G");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 5, "A", "D");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 6, "B", "F");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 7, "B", "J");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 8, "E", "G");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 9, "D", "E");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 10, "F", "D");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 11, "F", "I");
+  add_edge<_TpVertex, _TpEdge, _TpGraphType>(_g, 12, "J", "H");
+
+  cout << endl;
+}
+
 
 #endif

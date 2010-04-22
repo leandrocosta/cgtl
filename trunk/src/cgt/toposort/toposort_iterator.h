@@ -33,6 +33,7 @@
 #ifndef __CGTL__CGT_TOPOSORT__TOPOSORT_ITERATOR_H_
 #define __CGTL__CGT_TOPOSORT__TOPOSORT_ITERATOR_H_
 
+#include "cgt/base/iterator/iterator_ptr.h"
 #include "cgt/toposort/graph_ts_graph.h"
 
 namespace cgt
@@ -55,7 +56,6 @@ namespace cgt
      * This iterator executes topological sort algorithm and returns nodes
      * in the order found by the algorithm.
      *
-     *
      * Algorithm (Kahn) [source: http://en.wikipedia.org/wiki/Topological_sorting]:
      *
      * L ← Empty list that will contain the sorted elements
@@ -74,14 +74,15 @@ namespace cgt
      */
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator = cgt::base::iterator::_TpCommon>
-      class _ToposortIterator
+      class _ToposortIterator : public cgt::base::iterator::_IteratorPtr<_GraphNode<_TpVertex, _TpEdge>, _TpIterator>
       {
         private:
           friend class _ToposortIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>;
 
         private:
-          typedef _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>  _Self;
-          typedef _ToposortIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>    _SelfCommon;
+          typedef cgt::base::iterator::_IteratorPtr<_GraphNode<_TpVertex, _TpEdge>, _TpIterator>  _Base;
+          typedef _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>                              _Self;
+          typedef _ToposortIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>           _SelfCommon;
 
           typedef _GraphNode<_TpVertex, _TpEdge>            _Node;
           typedef typename cgt::base::list<_Node>::iterator _NodeIterator;
@@ -97,132 +98,93 @@ namespace cgt
           typedef typename _TpIterator<_Node>::pointer    pointer;
           typedef typename _TpIterator<_Node>::reference  reference;
 
+        private:
+          using _Base::_ptr;
+
         public:
-          _ToposortIterator () : _ptr_node (NULL) { }
+          _ToposortIterator () : _Base () { }
 
           _ToposortIterator (const _NodeIterator& _it_begin, const _NodeIterator& _it_end)
-            : _ptr_node (NULL)
+            : _Base () 
           {
             _init (_it_begin, _it_end);
           }
 
-          _ToposortIterator (const _SelfCommon& _it)
-          { *this = _it; }
+          _ToposortIterator (const _SelfCommon& _it) { *this = _it; }
 
         public:
           const _Self& operator=(const _SelfCommon& _it)
           {
-            _ptr_node     = _it._ptr_node;
-            _auxGraph     = _it._auxGraph;
-            _auxGraphNoIn = _it._auxGraphNoIn;
-            _it_auxgraph  = _it._it_auxgraph;
+            _ptr      = _it._ptr;
+            _auxGraph = _it._auxGraph;
 
             return *this;
           }
 
         private:
           void _init (const _NodeIterator& _it_begin, const _NodeIterator& _it_end);
+          void _incr ();
 
         public:
-          reference operator*() const { return *_ptr_node; }
-          pointer operator->() const { return _ptr_node; }
-          const bool operator==(const _Self& _other) const { return _ptr_node == _other._ptr_node; }
-          const bool operator!=(const _Self& _other) const { return !(*this == _other); }
+          reference operator*() const { return *_ptr; }
+          pointer operator->() const { return _ptr; }
           _Self& operator++();
           const _Self operator++(int);
 
         private:
-          _Node*            _ptr_node;
-          _TSGraph          _auxGraph;      /*!< set of all nodes, initialized by _init () */
-          _TSGraph          _auxGraphNoIn;  /*!< set of all nodes with no incoming edges */
-          _TSGraphIterator  _it_auxgraph;
+          _TSGraph  _auxGraph;  /*!< initial set of nodes and edges, initialized by _init () */
       };
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
       void _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>::_init (const _NodeIterator& _it_begin, const _NodeIterator& _it_end)
       {
-        _NodeIterator _it = _it_begin;
-
         /*! insert all nodes into auxiliary graph */
-        while (_it != _it_end)
-        {
+        for (_NodeIterator _it = _it_begin; _it != _it_end; ++_it)
           _auxGraph.insert (_TSNode (*_it));
-          ++_it;
-        }
-
-        _TSGraphIterator _it1 = _auxGraph.begin ();
-        _TSGraphIterator _itEnd = _auxGraph.end ();
-        _Edge* _ptr_edge = NULL;
 
         /*! insert all edges into auxiliary graph */
-        while (_it1 != _itEnd)
+
+        _Edge* _ptr_edge = NULL;
+        _TSGraphIterator _itEnd = _auxGraph.end ();
+
+        for (_TSGraphIterator _it1 = _auxGraph.begin (); _it1 != _itEnd; ++_it1)
         {
           _TSNode& _tsn1 = *_it1;
-          _TSGraphIterator _it2 = _it1;
-          ++_it2;
 
-          while (_it2 != _itEnd)
+          for (_TSGraphIterator _it2 = _auxGraph.begin (); _it2 != _itEnd; ++_it2)
           {
-            _TSNode& _tsn2 = *_it2;
+            if (_it1 != _it2)
+            {
+              _TSNode& _tsn2 = *_it2;
 
-            /*! if there is an edge between _ts1 and _ts2, insert edge to auxiliary graph */
-            if ((_ptr_edge = _tsn1.node ()._get_edge (_tsn2.node ().vertex ())))
-              _tsn2._insert_inverse (*_ptr_edge, _tsn1.node ());
-
-            ++_it2;
+              /*! if there is an edge between _ts1 and _ts2, insert edge to auxiliary graph */
+              if ((_ptr_edge = _tsn1.node ().get_edge (_tsn2.node ().vertex ())))
+                _tsn2._insert_inverse (*_ptr_edge, _tsn1.node ());
+            }
           }
-
-          ++_it1;
         }
 
-        _TSGraphIterator _itAux = _auxGraph.begin ();
-        _TSGraphIterator _itAuxEnd = _auxGraph.end ();
+        _incr ();
+      }
 
-        while (_itAux != _itAuxEnd)
+    template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
+      void _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>::_incr ()
+      {
+        _TSGraphIterator _it = _auxGraph._find_safe ();
+
+        if (_it != _auxGraph.end ())
         {
-          _TSNode& _ts_node = *_itAux;
-
-          /*! if there's no edge arriving into _ts_node, insert _ts_node into _auxGraphNoIn */
-          if (_ts_node.iadjlist ().empty ())
-          {
-            std::cout << "insert into _auxGraphNoIn: " << _ts_node.node ().vertex ().value () << std::endl;
-            _auxGraphNoIn.insert (_ts_node);
-          }
-
-          ++_itAux;
+          _ptr = &(_it->node ());
+          _auxGraph.remove (*_it);
         }
-
-        _itAux = _auxGraphNoIn.begin ();
-        _itAuxEnd = _auxGraphNoIn.end ();
-
-        while (_itAux != _itAuxEnd)
-        {
-          /*! remove these nodes from _auxGraph */
-            std::cout << "remove from _auxGraph: " << _itAux->node ().vertex ().value () << std::endl;
-          _auxGraph.remove (*_itAux);
-          ++_itAux;
-        }
+        else
+          _ptr = NULL;
       }
 
     template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
       _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>& _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>::operator++ ()
       {
-        std::cout << "operator++ () - begin" << std::endl;
-
-        if (_it_auxgraph != _auxGraph.end ())
-        {
-          _ptr_node = &(_it_auxgraph->node ());
-          ++_it_auxgraph;
-          std::cout << "operator++ () - node: " << _ptr_node->vertex ().value () << std::endl;
-          if (_it_auxgraph != _auxGraph.end ())
-            std::cout << "operator () - next: " << _it_auxgraph->node ().vertex ().value () << std::endl;
-        }
-        else
-        {
-          std::cout << "operator++ () - _it_auxgraph == _auxGraph.end ()" << std::endl;
-          _ptr_node = NULL;
-        }
-
+        _incr ();
         return *this;
       }
 
@@ -230,10 +192,9 @@ namespace cgt
       const _ToposortIterator<_TpVertex, _TpEdge, _TpIterator> _ToposortIterator<_TpVertex, _TpEdge, _TpIterator>::operator++(int)
       {
         _Self _it = *this;
-        operator++();
+        _incr ();
         return _it;
       }
-
   }
 }
 

@@ -61,6 +61,9 @@ namespace cgt
           typedef _GraphAdjList<_TpVertex, _TpEdge> _AdjList;
           typedef _GraphTSNode<_TpVertex, _TpEdge>  _TSNode;
 
+          typedef typename _AdjList::iterator       _AdjIterator;
+          typedef typename _AdjList::const_iterator _AdjCIterator;
+
         public:
           explicit _GraphTSNode (_Node& _n) : _node (_n) { }
 
@@ -72,30 +75,12 @@ namespace cgt
 
           const bool operator!=(const _TSNode& _ts_node)
           {
-            return ! (*this == _ts_node);
+            return !(*this == _ts_node);
           }
 
         public:
           void _insert_inverse (_Edge& _e, _Node& _n) { _invAdjList._insert (_e, _n); }
-          void _removeEdgesFrom (const _TSNode& _ts_node)
-          {
-            typename _AdjList::iterator _it     = _invAdjList.begin ();
-            typename _AdjList::iterator _itEnd  = _invAdjList.end ();
-
-            while (_it != _itEnd)
-            {
-              _GraphAdjacency<_TpVertex, _TpEdge> _adj = *_it;
-
-              if (_adj.node ().vertex () == _ts_node.node ().vertex ())
-              {
-                std::cout << "removing..." << std::endl;
-                _invAdjList.remove (_adj);
-                break;
-              }
-
-              ++_it;
-            }
-          }
+          void _remove_in_edge (const _TSNode& _ts_node) { _invAdjList._remove_adj_by_node (_ts_node.node ()); }
 
         public:
           _Node& node () const { return _node; }
