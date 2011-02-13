@@ -55,16 +55,16 @@ int main ()
 
     cout << "vertex: " << v.value () << endl;
 
-    graph<string, int>::adjlist &adjList = n.get_adj_list ();
+    graph<string, int>::adjlist &adjList = n.adjlist ();
 
     graph<string, int>::adjlist::iterator itadj;
     graph<string, int>::adjlist::iterator itadjEnd = adjList.end ();
 
     for (itadj = adjList.begin (); itadj != itadjEnd; ++itadj)
     {
-      const graph<string, int>::vertex&  v = itadj->get_vertex ();
+      const graph<string, int>::vertex&  v = itadj->vertex ();
 
-      const graph<string, int>::edge&     e   = itadj->get_edge ();
+      const graph<string, int>::edge&     e   = itadj->edge ();
       const graph<string, int>::vertex&  v1  = e.v1 ();
       const graph<string, int>::vertex&  v2  = e.v2 ();
 

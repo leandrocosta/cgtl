@@ -67,7 +67,10 @@ namespace cgt
           _SearchInfo (_Node& _n, const _color_t& _c, const unsigned long& _d) : _node (_n), _color (_c), _ptr_parent (NULL), _discovery (_d), _finish (0) { }
           _SearchInfo (const _Self& _s) : _node (_s._node), _color (_s._color), _ptr_parent (_s._ptr_parent), _discovery (_s._discovery), _finish (_s._finish) { }
 
-        public:
+		public:
+		  _Self& operator=(const _Self& _s);
+
+		public:
           void set_parent (const _Node* const _ptr) { _ptr_parent = _ptr; }
           void set_color (const _color_t& _c) { _color = _c; }
           void set_discovery (const unsigned long& _d) { _discovery = _d; }
@@ -86,6 +89,18 @@ namespace cgt
           unsigned long _discovery;
           unsigned long _finish;
       };
+
+    template<typename _TpVertex, typename _TpEdge>
+      _SearchInfo<_TpVertex, _TpEdge>& _SearchInfo<_TpVertex, _TpEdge>::operator=(const _SearchInfo<_TpVertex, _TpEdge>& _s)
+	  {
+		  _node = _s._node;
+		  _color = _s._color;
+		  _ptr_parent = _s._ptr_parent;
+		  _discovery = _s._discovery;
+		  _finish = _s._finish;
+
+		  return *this;
+	  }
   }
 }
 

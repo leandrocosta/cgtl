@@ -35,7 +35,11 @@
 
 #include "cgt/graph_adjacency.h"
 #include "cgt/graph_vertex.h"
+#ifdef CGTL_DO_NOT_USE_STL
 #include "cgt/base/list.h"
+#else
+#include <list>
+#endif
 
 
 namespace cgt
@@ -81,7 +85,11 @@ namespace cgt
    */
 
   template<typename _TpVertex, typename _TpEdge>
+#ifdef CGTL_DO_NOT_USE_STL
     class _GraphAdjList : public cgt::base::list<_GraphAdjacency<_TpVertex, _TpEdge> >
+#else
+    class _GraphAdjList : public std::list<_GraphAdjacency<_TpVertex, _TpEdge> >
+#endif
   {
     private:
       friend class _GraphNode<_TpVertex, _TpEdge>;
@@ -93,7 +101,11 @@ namespace cgt
       typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
       typedef _GraphVertex<_TpVertex>             _Vertex;
       typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
+#ifdef CGTL_DO_NOT_USE_STL
       typedef cgt::base::list<_Adjacency>         _Base;
+#else
+	  typedef std::list<_Adjacency>         _Base;
+#endif
       typedef typename _Base::const_iterator      _Iterator;
 
     private:
@@ -126,7 +138,11 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     void _GraphAdjList<_TpVertex, _TpEdge>::_insert (_Edge& _e, _Node& _n)
     {
+#ifdef CGTL_DO_NOT_USE_STL
       _Base::insert (_Adjacency (_e, _n));
+#else
+      _Base::insert (_Base::end (), _Adjacency (_e, _n));
+#endif
     }
 
   template<typename _TpVertex, typename _TpEdge>

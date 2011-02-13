@@ -40,7 +40,12 @@
 #include "cgt/graph_node.h"
 #include "cgt/graph_adjlist.h"
 #include "cgt/graph_adjmatrix.h"
+
+#ifdef CGTL_DO_NOT_USE_STL
 #include "cgt/vertex_iterator.h"
+#else
+#include "cgt/vertex_stl_iterator.h"
+#endif
 
 #include "cgt/search/depth/depth_iterator.h"
 #include "cgt/search/breadth/breadth_iterator.h"
@@ -176,8 +181,13 @@ namespace cgt
       const_iterator end () const { return _Base::end (); }
 
       /** vertex iterator */
+#ifdef CGTL_DO_NOT_USE_STL
       typedef _VertexIterator<_TpVertex, _TpEdge>                                viterator;
       typedef _VertexIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst> const_viterator;
+#else
+      typedef _VertexSTLIterator<_TpVertex, _TpEdge>    	viterator;
+      typedef _VertexSTLConstIterator<_TpVertex, _TpEdge>	const_viterator;
+#endif
 
       viterator vbegin () { return viterator (_Base::begin ()); }
       viterator vend () { return viterator (_Base::end ()); }
@@ -185,8 +195,13 @@ namespace cgt
       const_viterator vend () const { return const_viterator (_Base::end ()); }
 
       /** edge iterator */
+#ifdef CGTL_DO_NOT_USE_STL
       typedef typename cgt::base::list<edge>::iterator       eiterator;
       typedef typename cgt::base::list<edge>::const_iterator const_eiterator;
+#else
+      typedef typename std::list<edge>::iterator       eiterator;
+      typedef typename std::list<edge>::const_iterator const_eiterator;
+#endif
 
       eiterator ebegin () { return eiterator (_Base::_edgeList.begin ()); }
       eiterator eend () { return eiterator (_Base::_edgeList.end ()); }
@@ -197,8 +212,13 @@ namespace cgt
       typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge>                                 diterator;
       typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_diterator;
       typedef typename diterator::_DepthInfo                                                         depth_info;
+#ifdef CGTL_DO_NOT_USE_STL
       typedef typename cgt::base::list<depth_info>::iterator                                         diiterator;
       typedef typename cgt::base::list<depth_info>::const_iterator                                   const_diiterator;
+#else
+      typedef typename std::list<depth_info>::iterator                                         diiterator;
+      typedef typename std::list<depth_info>::const_iterator                                   const_diiterator;
+#endif
 
       diterator dbegin () { return diterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       diterator dbegin (const iterator& _it) { return diterator (_it, _Base::begin (), _Base::end ()); }
@@ -216,8 +236,13 @@ namespace cgt
       typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge>                                 biterator;
       typedef cgt::search::breadth::_BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_biterator;
       typedef typename biterator::_BreadthInfo                                                           breadth_info;
+#ifdef CGTL_DO_NOT_USE_STL
       typedef typename cgt::base::list<breadth_info>::iterator                                           biiterator;
       typedef typename cgt::base::list<breadth_info>::const_iterator                                     const_biiterator;
+#else
+      typedef typename std::list<breadth_info>::iterator                                           biiterator;
+      typedef typename std::list<breadth_info>::const_iterator                                     const_biiterator;
+#endif
 
       biterator bbegin () { return biterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       biterator bbegin (const iterator& _it) { return biterator (_it, _Base::begin (), _Base::end ()); }
@@ -237,8 +262,13 @@ namespace cgt
       typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge>                                 djiterator;
       typedef cgt::shortpath::single::dijkstra::_DijkstraIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  const_djiterator;
       typedef typename djiterator::_Info                                                                              dijkstra_info;
+#ifdef CGTL_DO_NOT_USE_STL
       typedef typename cgt::base::list<dijkstra_info>::iterator                                                       djiiterator;
       typedef typename cgt::base::list<dijkstra_info>::const_iterator                                                 const_djiiterator;
+#else
+      typedef typename std::list<dijkstra_info>::iterator                                                       djiiterator;
+      typedef typename std::list<dijkstra_info>::const_iterator                                                 const_djiiterator;
+#endif
 
       djiterator djbegin () { return djiterator (_Base::begin (), _Base::begin (), _Base::end ()); }
       djiterator djbegin (const iterator& _it) { return djiterator (_it, _Base::begin (), _Base::end ()); }

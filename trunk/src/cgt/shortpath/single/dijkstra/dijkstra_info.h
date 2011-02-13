@@ -67,6 +67,9 @@ namespace cgt
               _DijkstraInfo (_Node& _n) : _node (_n), _ptr_previous (NULL) { }
               _DijkstraInfo (const _DijkstraInfo& _d) : _node (_d._node), _distance (_d._distance), _ptr_previous (_d._ptr_previous) { }
 
+			public:
+			  _Self& operator=(const _Self& _s);
+
             public:
               const bool operator==(const _DijkstraInfo& _d) const { return (_node.vertex () == _d._node.vertex ()); }
               const bool operator!=(const _DijkstraInfo& _d) const { return ! (*this == _d); }
@@ -86,6 +89,16 @@ namespace cgt
               _Distance     _distance;
               const _Node*  _ptr_previous;
           };
+
+		template<typename _TpVertex, typename _TpEdge>
+			_DijkstraInfo<_TpVertex, _TpEdge>& _DijkstraInfo<_TpVertex, _TpEdge>::operator=(const _DijkstraInfo<_TpVertex, _TpEdge>& _s)
+			{
+				_node = _s._node;
+				_distance = _s._distance;
+				_ptr_previous = _s._ptr_previous;
+
+				return *this;
+			}
       }
     }
   }

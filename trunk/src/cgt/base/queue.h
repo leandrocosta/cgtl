@@ -33,7 +33,11 @@
 #ifndef __CGTL__CGT_BASE_QUEUE_H_
 #define __CGTL__CGT_BASE_QUEUE_H_
 
+#ifdef CGTL_DO_NOT_USE_STL
 #include "cgt/base/list.h"
+#else
+#include <list>
+#endif
 
 
 namespace cgt
@@ -52,8 +56,13 @@ namespace cgt
      */
 
     template<typename _TpItem>
+#ifdef CGTL_DO_NOT_USE_STL
       class queue : private cgt::base::list<_TpItem>
+#else
+      class queue : public std::list<_TpItem>
+#endif
     {
+#ifdef CGTL_DO_NOT_USE_STL
       private:
         typedef cgt::base::list<_TpItem> _Base;
 
@@ -72,6 +81,17 @@ namespace cgt
         void enqueue (const _TpItem &_item) { _Base::_push_back (_item); }
         _TpItem* dequeue () { return _Base::_pop (_Base::_head); }
         _TpItem* first () { return _Base::_get (_Base::_head); }
+#else
+      private:
+        typedef std::list<_TpItem> _Base;
+
+	  public:
+        void insert (const _TpItem &_item) { _Base::push_back (_item); }
+        void enqueue (const _TpItem &_item) { _Base::push_back (_item); }
+        //_TpItem* dequeue () { _TpItem* p = &(_Base::front ()); _Base::pop_front (); return p; }
+        _TpItem* dequeue () { _TpItem* p = new _TpItem (_Base::front ()); _Base::pop_front (); return p; }
+        _TpItem* first () { return &(_Base::front ()); }
+#endif
     };
   }
 }

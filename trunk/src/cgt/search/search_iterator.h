@@ -73,13 +73,21 @@ namespace cgt
 
         private:
           typedef _SearchInfo<_TpVertex, _TpEdge>     _Info;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef cgt::base::list<_Info>              _InfoList;
+#else
+          typedef std::list<_Info>              _InfoList;
+#endif
           typedef typename _InfoList::iterator        _InfoIterator;
           typedef typename _InfoList::const_iterator  _InfoCIterator;
 
         protected:
           typedef _GraphNode<_TpVertex, _TpEdge>      _Node;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef typename cgt::base::list<_Node>     _NodeList;
+#else
+          typedef typename std::list<_Node>     _NodeList;
+#endif
           typedef typename _NodeList::iterator        _NodeIterator;
           typedef typename _NodeList::const_iterator  _NodeCIterator;
 
@@ -164,11 +172,19 @@ namespace cgt
         {
           if (&(*_it) == _ptr_node)
           {
+#ifdef CGTL_DO_NOT_USE_STL
             _infoList.insert (_Info (*_it, _Info::GRAY, ++_global_time));
+#else
+            _infoList.insert (_infoList.end (), _Info (*_it, _Info::GRAY, ++_global_time));
+#endif
             _stContainer.insert (_State (*_it));
           }
           else
+#ifdef CGTL_DO_NOT_USE_STL
             _infoList.insert (_Info (*_it));
+#else
+            _infoList.insert (_infoList.end (), _Info (*_it));
+#endif
         }
       }
 

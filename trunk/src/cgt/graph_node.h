@@ -93,7 +93,12 @@ namespace cgt
         }
 
         inline void _insert_inverse (_GraphEdge<_TpVertex, _TpEdge>& _e, _Self& _n) { _invAdjList._insert (_e, _n); }
+
+#ifdef CGTL_DO_NOT_USE_STL
         inline void _invert_edges () { _AdjList::swap (_adjList, _invAdjList); } /*!< time complexity: O(1) */
+#else
+        inline void _invert_edges () { _adjList.swap (_invAdjList); } /*!< time complexity: O(1) */
+#endif
 
       public:
         inline _Vertex& vertex ()  { return _vertex; }

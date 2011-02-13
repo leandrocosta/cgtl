@@ -61,13 +61,13 @@ class stack_cxx : public CxxTest::TestSuite
       TS_ASSERT_EQUALS (*(s.top ()), 1);
     }
 
-    void test_find ()
-    {
-      cgt::base::stack<int> s;
-      s.insert (1);
-      TS_ASSERT_DIFFERS (s.find (1), s.end ());
-      TS_ASSERT_EQUALS (*(s.find (1)), 1);
-    }
+//    void test_find ()
+//    {
+//      cgt::base::stack<int> s;
+//      s.insert (1);
+//      TS_ASSERT_DIFFERS (s.find (1), s.end ());
+//      TS_ASSERT_EQUALS (*(s.find (1)), 1);
+//    }
 
     void test_clear ()
     {

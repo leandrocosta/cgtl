@@ -66,6 +66,9 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge>
     class _GraphAdjacency
     {
+		private:
+			typedef _GraphAdjacency<_TpVertex, _TpEdge> _Self;
+
       private:
         typedef _GraphNode<_TpVertex, _TpEdge>      _Node;
         typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
@@ -74,6 +77,8 @@ namespace cgt
 
       public:
         _GraphAdjacency (_Edge& _e, _Node& _n) : _edge (_e), _node (_n)  { }
+
+		_Self& operator=(const _Self& _s);
 
       public:
         inline const bool operator==(const _Adjacency& _adj) const
@@ -99,6 +104,15 @@ namespace cgt
         // Reference to the node at the right
         _Node& _node;
     };
+
+  template<typename _TpVertex, typename _TpEdge>
+    _GraphAdjacency<_TpVertex, _TpEdge>& _GraphAdjacency<_TpVertex, _TpEdge>::operator=(const _GraphAdjacency<_TpVertex, _TpEdge>& _s)
+	{
+		_edge = _s._edge;
+		_node = _s._node;
+
+		return *this;
+	}
 }
 
 #endif // __CGTL__CGT_GRAPH_ADJACENCY_H_

@@ -92,11 +92,19 @@ namespace cgt
             typedef _GraphEdge<_TpVertex, _TpEdge>      _Edge;
 
             typedef _GraphNode<_TpVertex, _TpEdge>      _Node;
+#ifdef CGTL_DO_NOT_USE_STL
             typedef cgt::base::list<_Node>        _NodeList;
+#else
+            typedef std::list<_Node>        _NodeList;
+#endif
             typedef typename _NodeList::iterator        _NodeIterator;
 
             typedef _GraphAdjacency<_TpVertex, _TpEdge> _Adjacency;
+#ifdef CGTL_DO_NOT_USE_STL
             typedef cgt::base::list<_Adjacency>   _AdjacencyList;
+#else
+            typedef std::list<_Adjacency>   _AdjacencyList;
+#endif
             typedef typename _AdjacencyList::iterator   _AdjacencyIterator;
 
             typedef cgt::base::iterator::_IteratorPtr<_Adjacency, _TpIterator>    _Base;

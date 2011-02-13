@@ -35,7 +35,33 @@
 
 #include "cgt/graph_node.h"
 #include "cgt/shortpath/single/dijkstra/dijkstra_info.h"
+
+#ifdef CGTL_DO_NOT_USE_STL
 #include "cgt/base/list.h"
+#else
+#include <list>
+
+/*
+template<typename _TpItem, typename _Predicate, typename _Parm>
+std::list<_TpItem>::iterator find_if (std::list<_TpItem>::iterator _it, std::list<_TpItem>::iterator _end, _Predicate _pred, const _Parm& _parm)
+{
+	while (_it != _end && ! _pred (*_it, _parm))
+		++_it;
+
+	return _it;
+}
+*/
+
+template<typename _TpIter, typename _Predicate, typename _Parm>
+_TpIter find_if (_TpIter _it, _TpIter _end, _Predicate _pred, const _Parm& _parm)
+{
+	while (_it != _end && ! _pred (*_it, _parm))
+		++_it;
+
+	return _it;
+}
+
+#endif
 
 
 namespace cgt
@@ -58,12 +84,20 @@ namespace cgt
          */
 
         template<typename _TpVertex, typename _TpEdge>
+#ifdef CGTL_DO_NOT_USE_STL
           class _DijkstraInfoList : public cgt::base::list<_DijkstraInfo<_TpVertex, _TpEdge> >
+#else
+          class _DijkstraInfoList : public std::list<_DijkstraInfo<_TpVertex, _TpEdge> >
+#endif
         {
           private:
             typedef _DijkstraInfo<_TpVertex, _TpEdge>     _Info;
             typedef _DijkstraInfoList<_TpVertex, _TpEdge> _Self;
+#ifdef CGTL_DO_NOT_USE_STL
             typedef cgt::base::list<_Info>                           _Base;
+#else
+            typedef std::list<_Info>                           _Base;
+#endif
 
           private:
             typedef _GraphNode<_TpVertex, _TpEdge>    _Node;

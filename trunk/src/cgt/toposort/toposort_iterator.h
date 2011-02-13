@@ -85,7 +85,11 @@ namespace cgt
           typedef _ToposortIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>           _SelfCommon;
 
           typedef _GraphNode<_TpVertex, _TpEdge>            _Node;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef typename cgt::base::list<_Node>::iterator _NodeIterator;
+#else
+          typedef typename std::list<_Node>::iterator _NodeIterator;
+#endif
           typedef _GraphEdge<_TpVertex, _TpEdge>            _Edge;
 
           typedef _GraphTSNode<_TpVertex, _TpEdge>    _TSNode;
