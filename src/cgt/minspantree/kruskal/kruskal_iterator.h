@@ -40,8 +40,13 @@
 
 namespace cgt
 {
+#ifdef CGTL_DO_NOT_USE_STL
   template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
     class _VertexIterator;
+#else
+  template<typename _TpVertex, typename _TpEdge>
+    class _VertexSTLIterator;
+#endif
 
   /*!
    * \namespace cgt::minspantree
@@ -87,10 +92,16 @@ namespace cgt
             typedef _GraphVertex<_TpVertex>             _Vertex;
             typedef cgt::base::iterator::_IteratorPtr<_Edge, _TpIterator>    _Base;
 
+#ifdef CGTL_DO_NOT_USE_STL
             typedef _VertexIterator<_TpVertex, _TpEdge>       _viterator;
             typedef typename cgt::base::list<_Edge>::iterator _eiterator;
-
             typedef cgt::base::list<_Node>        _NodeList;
+#else
+            typedef _VertexSTLIterator<_TpVertex, _TpEdge>       _viterator;
+            typedef typename std::list<_Edge>::iterator _eiterator;
+            typedef std::list<_Node>        _NodeList;
+#endif
+
             typedef typename _NodeList::iterator  _NodeIterator;
 
           private:

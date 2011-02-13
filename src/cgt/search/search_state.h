@@ -35,7 +35,9 @@
 
 #include "cgt/graph_node.h"
 #include "cgt/graph_adjacency.h"
+#ifdef CGTL_DO_NOT_USE_STL
 #include "cgt/base/list_iterator.h"
+#endif
 
 
 namespace cgt
@@ -55,13 +57,22 @@ namespace cgt
     template<typename _TpVertex, typename _TpEdge>
       class _SearchState
       {
+		  private:
+			  typedef _SearchState<_TpVertex, _TpEdge> _Self;
+
         private:
           typedef _GraphNode<_TpVertex, _TpEdge>             _Node;
           typedef _GraphAdjacency<_TpVertex, _TpEdge>        _Adjacency;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef typename cgt::base::list<_Adjacency>::const_iterator _AdjIterator;
+#else
+          typedef typename std::list<_Adjacency>::const_iterator _AdjIterator;
+#endif
 
         public:
-          _SearchState (const _Node& _n) : _node (_n), _it_adj (_node.adjlist ().begin ()), _it_adj_end (_node.adjlist ().end ()) { };
+          _SearchState (_Node& _n) : _node (_n), _it_adj (_node.adjlist ().begin ()), _it_adj_end (_node.adjlist ().end ()) { };
+
+		_Self& operator=(const _Self& _s);
 
         public:
           const _Node& node () { return _node; }
@@ -71,10 +82,20 @@ namespace cgt
           const _TpVertex& value () const { return _node.vertex ().value (); }
 
         private:
-          const _Node&       _node;
+          _Node&       _node;
           _AdjIterator       _it_adj;
-          const _AdjIterator _it_adj_end;
+          _AdjIterator _it_adj_end;
       };
+
+	template<typename _TpVertex, typename _TpEdge>
+		_SearchState<_TpVertex, _TpEdge>& _SearchState<_TpVertex, _TpEdge>::operator=(const _SearchState<_TpVertex, _TpEdge>& _s)
+		{
+			_node = _s._node;
+			_it_adj = _s._it_adj;
+			_it_adj_end = _s._it_adj_end;
+
+			return *this;
+		}
   }
 }
 

@@ -1,4 +1,5 @@
 * Implement topological sort;
+	- OK.
 
 * Implement bellmanford (single-source shortest path);
 

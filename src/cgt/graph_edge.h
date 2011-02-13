@@ -70,6 +70,9 @@ namespace cgt
       public:
         _GraphEdge (const _TpEdge& _e, _Vertex& _v1, _Vertex& _v2) : _value (_e), _vertex1 (_v1), _vertex2 (_v2) { }
 
+	  public:
+		_GraphEdge& operator=(const _GraphEdge& _e);
+
       public:
         inline const bool operator==(const _Edge& _edge) const
         {
@@ -91,6 +94,16 @@ namespace cgt
         _Vertex&  _vertex1;
         _Vertex&  _vertex2;
     };
+
+  template<typename _TpVertex, typename _TpEdge>
+    _GraphEdge<_TpVertex, _TpEdge>& _GraphEdge<_TpVertex, _TpEdge>::operator=(const _GraphEdge<_TpVertex, _TpEdge>& _s)
+	{
+		_value = _s._value;
+		_vertex1 = _s._vertex1;
+		_vertex2 = _s._vertex2;
+
+		return *this;
+	}
 }
 
 #endif // __CGTL__CGT_GRAPH_EDGE_H_

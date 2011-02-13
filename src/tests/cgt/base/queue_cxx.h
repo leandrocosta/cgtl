@@ -61,13 +61,13 @@ class queue_cxx : public CxxTest::TestSuite
       TS_ASSERT_EQUALS (*(q.first ()), 1);
     }
 
-    void test_find ()
-    {
-      cgt::base::queue<int> q;
-      q.insert (1);
-      TS_ASSERT_DIFFERS (q.find (1), q.end ());
-      TS_ASSERT_EQUALS (*(q.find (1)), 1);
-    }
+//    void test_find ()
+//    {
+//      cgt::base::queue<int> q;
+//      q.insert (1);
+//      TS_ASSERT_DIFFERS (q.find (1), q.end ());
+//      TS_ASSERT_EQUALS (*(q.find (1)), 1);
+//    }
 
     void test_clear ()
     {

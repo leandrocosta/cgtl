@@ -81,11 +81,19 @@ namespace cgt
 
         private:
           typedef _GraphNode<_TpVertex, _TpEdge>          _Node;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef typename cgt::base::list<_Node>         _NodeList;
+#else
+          typedef typename std::list<_Node>         _NodeList;
+#endif
           typedef typename _NodeList::iterator            _NodeIterator;
 
           typedef _GraphSCCComponent<_TpVertex, _TpEdge>  _Component;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef cgt::base::list<_Component>             _ComponentList;
+#else
+          typedef std::list<_Component>             _ComponentList;
+#endif
           typedef typename _ComponentList::const_iterator _ComponentIterator;
 
           typedef _GraphSCCNode<_TpVertex, _TpEdge>       _SCCNode;
@@ -93,7 +101,11 @@ namespace cgt
           typedef cgt::search::depth::_DepthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpConst>  _DFSIterator;
 
           typedef typename _DFSIterator::_DepthInfo     _DFSInfo;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef cgt::base::list<_DFSInfo>             _DFSInfoList;
+#else
+          typedef std::list<_DFSInfo>             _DFSInfoList;
+#endif
           typedef typename _DFSInfoList::iterator       _DFSInfoIterator;
           typedef typename _DFSInfoList::const_iterator _DFSInfoCIterator;
           typedef typename _DFSInfo::_color_t           _DFSColor;
@@ -168,7 +180,11 @@ namespace cgt
            */
 
           if (_s._ptr_component)
+#ifdef CGTL_DO_NOT_USE_STL
             _ptr_component  = _component_list.back ();
+#else
+            _ptr_component  = &(_component_list.back ());
+#endif
 
           return *this;
         }
@@ -224,7 +240,11 @@ namespace cgt
 
         _SCC_DFSInfoHeapIterator _itEnd = _rdfs_heap.end ();
         for (_SCC_DFSInfoHeapIterator _it = _rdfs_heap.begin (); _it != _itEnd; ++_it)
+#ifdef CGTL_DO_NOT_USE_STL
           _dfs_list.insert (_DFSInfo (_it->node ()));
+#else
+          _dfs_list.insert (_dfs_list.end (), _DFSInfo (_it->node ()));
+#endif
 
         /*
          * Get the node with greater finish time
@@ -361,10 +381,18 @@ namespace cgt
         _discover_node (_node);
 
          // Add _node to the SCC
+#ifdef CGTL_DO_NOT_USE_STL
         _component_list.insert (_Component (_SCCNode (_node)));
+#else
+        _component_list.insert (_component_list.end (), _Component (_SCCNode (_node)));
+#endif
 
         // Add _node to the new SCC
+#ifdef CGTL_DO_NOT_USE_STL
         _ptr_component = _component_list.back ();
+#else
+        _ptr_component = &(_component_list.back ());
+#endif
 
         /*
          * Execute DFS until _node is poped from the stack.

@@ -92,7 +92,11 @@ namespace cgt
           typedef _BreadthIterator<_TpVertex, _TpEdge, _TpIterator>                     _Self;
           typedef _BreadthIterator<_TpVertex, _TpEdge, cgt::base::iterator::_TpCommon>  _SelfCommon;
           typedef _GraphNode<_TpVertex, _TpEdge>                                        _Node;
+#ifdef CGTL_DO_NOT_USE_STL
           typedef typename cgt::base::list<_Node>::iterator                             _NodeIterator;
+#else
+          typedef typename std::list<_Node>::iterator                             _NodeIterator;
+#endif
           typedef _SearchState<_TpVertex, _TpEdge>                                      _BreadthState;
 
         private:
@@ -117,8 +121,13 @@ namespace cgt
           const _BreadthInfo* const info (const _Node* const _ptr_node) { return _get_depth_info_by_node (*_ptr_node); }
           const _BreadthInfo* const info (const _Node& _node) { return _get_depth_info_by_node (_node); }
 
+#ifdef CGTL_DO_NOT_USE_STL
           typename cgt::base::list<_BreadthInfo>::iterator info_begin () { return _infoList.begin (); }
           typename cgt::base::list<_BreadthInfo>::iterator info_end () { return _infoList.end (); }
+#else
+          typename std::list<_BreadthInfo>::iterator info_begin () { return _infoList.begin (); }
+          typename std::list<_BreadthInfo>::iterator info_end () { return _infoList.end (); }
+#endif
       };
 
       template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>

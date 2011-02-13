@@ -32,7 +32,13 @@
 #include "cgt/graph_type.h"
 #include "cgt/graph_node.h"
 #include "cgt/graph_vertex.h"
+
+#ifdef CGTL_DO_NOT_USE_STL
 #include "cgt/base/list.h"
+#else
+#include <list>
+#endif
+
 #include "cgt/misc/debug.h"
 
 
@@ -81,7 +87,11 @@ namespace cgt
    */
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+#ifdef CGTL_DO_NOT_USE_STL
     class _GraphAdjMatrix : protected cgt::base::list<_GraphNode<_TpVertex, _TpEdge> >
+#else
+    class _GraphAdjMatrix : protected std::list<_GraphNode<_TpVertex, _TpEdge> >
+#endif
   {
     private:
       typedef _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType> _Self;
@@ -90,8 +100,13 @@ namespace cgt
       typedef _GraphNode<_TpVertex, _TpEdge>  _Node;
       typedef _GraphEdge<_TpVertex, _TpEdge>  _Edge;
       typedef _GraphVertex<_TpVertex>         _Vertex;
+#ifdef CGTL_DO_NOT_USE_STL
       typedef cgt::base::list<_Node>          _Base;
       typedef cgt::base::list<_Edge>          _EdgeList;
+#else
+      typedef std::list<_Node>          _Base;
+      typedef std::list<_Edge>          _EdgeList;
+#endif
 
     protected:
       /**
@@ -154,7 +169,11 @@ namespace cgt
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
+#ifdef CGTL_DO_NOT_USE_STL
     typename cgt::base::list<_GraphNode<_TpVertex, _TpEdge> >::iterator _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_find (const _TpVertex &_vertex)
+#else
+    typename std::list<_GraphNode<_TpVertex, _TpEdge> >::iterator _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_find (const _TpVertex &_vertex)
+#endif
     {
       typename _Base::iterator it    = _Base::begin ();
       typename _Base::iterator itEnd = _Base::end ();
@@ -168,7 +187,11 @@ namespace cgt
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
     void _GraphAdjMatrix<_TpVertex, _TpEdge, _TpGraphType>::_insert_node (const _TpVertex &_vertex)
     {
+#ifdef CGTL_DO_NOT_USE_STL
       insert (_GraphNode<_TpVertex, _TpEdge> (_vertex));
+#else
+      insert (_Base::end (), _GraphNode<_TpVertex, _TpEdge> (_vertex));
+#endif
     }
 
   template<typename _TpVertex, typename _TpEdge, typename _TpGraphType>
@@ -198,7 +221,11 @@ namespace cgt
           if (! _ptr_n1->get_edge (_vertex2))
           {
             _Vertex& _vertex1 = _ptr_n1->vertex ();
+#ifdef CGTL_DO_NOT_USE_STL
             _Edge &_edge = _edgeList.insert (_Edge (_e, _vertex1, _vertex2));
+#else
+            _Edge &_edge = *(_edgeList.insert (_edgeList.end (), _Edge (_e, _vertex1, _vertex2)));
+#endif
             _insert_edge (*_ptr_n1, *_ptr_n2, _vertex1, _vertex2, _edge);
           }
         }

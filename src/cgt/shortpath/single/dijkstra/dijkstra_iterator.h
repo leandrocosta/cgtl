@@ -94,8 +94,13 @@ namespace cgt
               typedef _DijkstraInfoHeap<_TpVertex, _TpEdge> _InfoHeap;
               typedef _GraphNode<_TpVertex, _TpEdge>        _Node;
               typedef _GraphAdjList<_TpVertex, _TpEdge>     _AdjList;
+#ifdef CGTL_DO_NOT_USE_STL
               typedef typename cgt::base::list<_Node>::iterator        _NodeIterator;
               typedef typename cgt::base::list<_Info>::iterator        _InfoIterator;
+#else
+              typedef typename std::list<_Node>::iterator        _NodeIterator;
+              typedef typename std::list<_Info>::iterator        _InfoIterator;
+#endif
               typedef typename _AdjList::const_iterator     _AdjListIterator;
 
             public:
@@ -154,7 +159,11 @@ namespace cgt
             for (_NodeIterator it = _it_node; it != _it_node_end; ++it)
             {
               if (&(*it) == _ptr_node)
+#ifdef CGTL_DO_NOT_USE_STL
                 _infoList.insert (_Info (*it));
+#else
+                _infoList.insert (_infoList.end (), _Info (*it));
+#endif
               else
                 _notVisitedInfoHeap.push (_Info (*it));
             }
@@ -164,7 +173,11 @@ namespace cgt
             _AdjListIterator itAEnd = adjList.end ();
 
             for (itA = adjList.begin (); itA != itAEnd; ++itA)
+#ifdef CGTL_DO_NOT_USE_STL
               _notVisitedInfoHeap.relax (&(itA->node ()), _TpEdge (), itA->edge (), &(_infoList.back ()->node ()));
+#else
+              _notVisitedInfoHeap.relax (&(itA->node ()), _TpEdge (), itA->edge (), &(_infoList.back ().node ()));
+#endif
           }
 
         template<typename _TpVertex, typename _TpEdge, template<typename> class _TpIterator>
@@ -214,14 +227,22 @@ namespace cgt
               _Info* _ptr = _notVisitedInfoHeap.pop ();
 
               _ptr_node = &(_ptr->node ());
+#ifdef CGTL_DO_NOT_USE_STL
               _infoList.insert (*_ptr);
+#else
+              _infoList.insert (_infoList.end (), *_ptr);
+#endif
 
               const _AdjList &adjList = _ptr_node->adjlist ();
               _AdjListIterator itA = adjList.begin ();
               _AdjListIterator itAEnd = adjList.end ();
 
               for (itA = adjList.begin (); itA != itAEnd; ++itA)
+#ifdef CGTL_DO_NOT_USE_STL
                 _notVisitedInfoHeap.relax (&(itA->node ()), _ptr->distance (), itA->edge(), &(_infoList.back ()->node ()));
+#else
+                _notVisitedInfoHeap.relax (&(itA->node ()), _ptr->distance (), itA->edge(), &(_infoList.back ().node ()));
+#endif
             }
 
             return *this;
